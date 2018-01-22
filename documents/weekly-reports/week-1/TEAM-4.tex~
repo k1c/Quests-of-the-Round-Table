@@ -1,0 +1,158 @@
+\documentclass[a4paper,11pt]{article}
+\usepackage[T1]{fontenc}
+\usepackage[utf8]{inputenc}
+\usepackage{lmodern}
+\usepackage{listings}
+
+\begin{document}
+
+\title{Weekly Report 1}
+\maketitle
+
+\section{Team Meetings - all members present}
+\begin{enumerate}
+\item January 18th from 6:00 pm - 9:30 pm (3 1/2 hours)
+\item January 21st from noon to ?
+\end{enumerate}
+
+\section{Hours spent since last report}
+\begin{itemize}
+\item Akhil:
+\item Alexa:
+\item Carolyne: 
+\item Chris:
+\end{itemize}
+
+\section{Deliverables achieved}
+Please see our Trello Board (yellow label): https://trello.com/b/N82Gxjr9
+
+\section{Deliverables due next Tuesday}
+Please see our Trello Board (red label): https://trello.com/b/N82Gxjr9
+
+\section{Scenarios}
+
+\subsection{Basic Quest}
+meta-data:\\
+Number of Players : 2\\
+Number of cards Dealt: 12\\
+Initial frequency : 4 weapons, 5 foes, 1 armor, 1 ally, 1 test\\
+\begin{enumerate}
+	\item P1 draws Vanguerth Quest (3 stages)
+	\item P1 sponsors (stage 1 : thieves +5; stage 2 : test of Valor; stage 3: Boar + 5, horse +10)
+	\item P2 participates in quest (13 cards)
+	\item P2 plays Sir Galahad to make hand equal to 12
+	\item P2 turn : plays dagger; total BP =  5 rank + 15 Ally + 5 weapon = 25
+	\item P2 Passes stage 25 > 5
+	\item P2 draws card (12 cards in hand)
+	\item Test of Valor Revealed 
+	\item P2 bids 3 cards from hand (9 total in hand)
+	\item P2 passes stage 2 : Test and draws 1 ( 10 total in hand)
+	\item P2 turn : plays horse, and amour; total BP = 10 + 10 + 15 + 5 = 50 > 15
+	\item P2 passes stage 3
+	\item P2 awarded 3 shields
+	\item P1 draws 7 cards and discards accordingly to  maximum of 12 rule
+	\item P2 draws from story deck
+\end{enumerate}
+
+\subsection{Event : Court Call to Camelot}
+meta-data:\\
+P1 : shields = 0, cards in play: Sir Galahad\\
+P2 : shields = 3\\
+2 players\\
+\begin{enumerate}
+	\item P2 draws an event : Court Call to Camelot
+	\item P1 does nothing
+	\item P2 discards Sir Galahad
+\end{enumerate}
+
+\subsection{Event : Pox}
+meta-data:\\
+P1 : shields = 0, cards in play: Sir Galahad\\
+P2 : shields = 3\\
+2 players\\
+\begin{enumerate}
+	\item P2 draws an event : Pox
+	\item P1 losses 1 shield, but no shields are lost since shields are 0
+	\item P2 does nothing
+\end{enumerate}
+
+
+\subsection{Event : Pox}
+meta-data:\\
+P1 : shields = 0, cards in play: Sir Galahad\\
+P2 : shields = 3\\
+2 players\\
+\begin{enumerate}
+	\item P1 draws an event : Pox
+	\item P2 losses 1 shield (total shields : 2)
+	\item P1 does nothing
+\end{enumerate}
+
+
+\subsection{Event : Plague}
+meta-data:\\
+P1 : shields = 0, cards in play: Sir Galahad\\
+P2 : shields = 3\\
+2 players\\
+\begin{enumerate}
+	\item P2 draws an event : Plague 
+	\item P1 does nothing
+	\item P2 losses 2 shields (total shields : 1)
+\end{enumerate}
+
+
+\subsection{Event : Chivalrous Deed}
+meta-data:\\
+P1 : shields = 0, cards in play: Sir Galahad, rank : squire\\
+P2 : shields = 3, rank : squire \\
+2 players\\
+\begin{enumerate}
+	\item P2 draws an event : Chivalrous Deed
+	\item P1 receives 3 shields total (total shields : 3)
+	\item P2 does nothing
+\end{enumerate}
+
+
+\subsection{Event : Chivalrous Deed}
+meta-data:\\
+P1 : shields = 0, cards in play: Sir Galahad, rank : squire\\
+P2 : shields = 3, rank : squire\\
+P3 : shields = 0, rank : squire\\
+2 players\\
+\begin{enumerate}
+	\item P2 draws an event : Chivalrous Deed
+	\item P1 receives 3 shields total (total shields : 3)
+	\item P3 receives 3 shields total (total shields : 3)
+	\item P2 does nothing
+\end{enumerate}
+
+
+\subsection{Event : Prosperity}
+meta-data:\\
+P1 : shields = 0, cards in play: Sir Galahad\\
+P2 : shields = 3\\
+2 players\\
+\begin{enumerate}
+	\item P2 draws an event : Prosperity 
+	\item P1 draws 2 cards
+	\item P2 draws 2 cards
+	\item discard is handled accordingly 
+\end{enumerate}
+
+\subsection{Event : Kings Call to Arms}
+meta-data:\\
+P1 : shields = 0, cards in play: Sir Galahad, rank : squire\\
+P2 : shields = 3, rank : knight\\
+2 players\\
+\begin{enumerate}
+	\item P2 draws an event : Kings Call to arms 
+	\item P1 does nothing
+	\item P2 discards a weapon 
+\end{enumerate}
+
+
+\section{Final Statement:}
+\paragraph{}
+This week our team has NO issues to report in terms of participation, contributions, distribution of work
+\paragraph{}
+\end{document}
