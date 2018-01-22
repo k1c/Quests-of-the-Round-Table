@@ -1,0 +1,304 @@
+\documentclass[a4paper,11pt]{article}
+\usepackage[T1]{fontenc}
+\usepackage[utf8]{inputenc}
+\usepackage{lmodern}
+\usepackage{listings}
+
+\begin{document}
+
+\title{Weekly Report 1}
+\maketitle
+
+\section{Team Meetings - all members present}
+\begin{enumerate}
+\item January 18th from 6:00 pm - 9:30 pm (3 1/2 hours)
+\item January 21st from noon to ?
+\end{enumerate}
+
+\section{Hours spent since last report}
+\begin{itemize}
+\item Akhil:
+\item Alexa:
+\item Carolyne: 
+\item Chris:
+\end{itemize}
+
+\section{Deliverables achieved}
+Please see our Trello Board (yellow label): https://trello.com/b/N82Gxjr9
+
+\section{Deliverables due next Tuesday}
+Please see our Trello Board (red label): https://trello.com/b/N82Gxjr9
+
+\section{Scenarios}
+
+\subsection{Basic Quest}
+meta-data:\\
+Number of Players : 2\\
+Number of cards Dealt: 12\\
+Initial frequency : 4 weapons, 5 foes, 1 armor, 1 ally, 1 test\\
+\begin{enumerate}
+	\item P1 draws Vanguerth Quest (3 stages)
+	\item P1 sponsors (stage 1 : thieves +5; stage 2 : test of Valor; stage 3: Boar + 5, horse +10)
+	\item P2 participates in quest (13 cards)
+	\item P2 plays Sir Galahad to make hand equal to 12
+	\item P2 turn : plays dagger; total BP =  5 rank + 15 Ally + 5 weapon = 25
+	\item P2 Passes stage 25 > 5
+	\item P2 draws card (12 cards in hand)
+	\item Test of Valor Revealed 
+	\item P2 bids 3 cards from hand (9 total in hand)
+	\item P2 passes stage 2 : Test and draws 1 ( 10 total in hand)
+	\item P2 turn : plays horse, and amour; total BP = 10 + 10 + 15 + 5 = 50 > 15
+	\item P2 passes stage 3
+	\item P2 awarded 3 shields
+	\item P1 draws 7 cards and discards accordingly to  maximum of 12 rule
+	\item P2 draws from story deck
+\end{enumerate}
+
+\subsection{Event : Court Call to Camelot}
+meta-data:\\
+P1 : shields = 0, cards in play: Sir Galahad\\
+P2 : shields = 3\\
+2 players\\
+\begin{enumerate}
+	\item P2 draws an event : Court Call to Camelot
+	\item P1 does nothing
+	\item P2 discards Sir Galahad
+\end{enumerate}
+
+\subsection{Event : Pox}
+meta-data:\\
+P1 : shields = 0, cards in play: Sir Galahad\\
+P2 : shields = 3\\
+2 players\\
+\begin{enumerate}
+	\item P2 draws an event : Pox
+	\item P1 losses 1 shield, but no shields are lost since shields are 0
+	\item P2 does nothing
+\end{enumerate}
+
+
+\subsection{Event : Pox}
+meta-data:\\
+P1 : shields = 0, cards in play: Sir Galahad\\
+P2 : shields = 3\\
+2 players\\
+\begin{enumerate}
+	\item P1 draws an event : Pox
+	\item P2 losses 1 shield (total shields : 2)
+	\item P1 does nothing
+\end{enumerate}
+
+
+\subsection{Event : Plague}
+meta-data:\\
+P1 : shields = 0, cards in play: Sir Galahad\\
+P2 : shields = 3\\
+2 players\\
+\begin{enumerate}
+	\item P2 draws an event : Plague 
+	\item P1 does nothing
+	\item P2 losses 2 shields (total shields : 1)
+\end{enumerate}
+
+
+\subsection{Event : Chivalrous Deed}
+meta-data:\\
+P1 : shields = 0, cards in play: Sir Galahad, rank : squire\\
+P2 : shields = 3, rank : squire \\
+2 players\\
+\begin{enumerate}
+	\item P2 draws an event : Chivalrous Deed
+	\item P1 receives 3 shields total (total shields : 3)
+	\item P2 does nothing
+\end{enumerate}
+
+
+\subsection{Event : Chivalrous Deed}
+meta-data:\\
+P1 : shields = 0, cards in play: Sir Galahad, rank : squire\\
+P2 : shields = 3, rank : squire\\
+P3 : shields = 0, rank : squire\\
+2 players\\
+\begin{enumerate}
+	\item P2 draws an event : Chivalrous Deed
+	\item P1 receives 3 shields total (total shields : 3)
+	\item P3 receives 3 shields total (total shields : 3)
+	\item P2 does nothing
+\end{enumerate}
+
+
+\subsection{Event : Prosperity}
+meta-data:\\
+P1 : shields = 0, cards in play: Sir Galahad\\
+P2 : shields = 3\\
+2 players\\
+\begin{enumerate}
+	\item P2 draws an event : Prosperity 
+	\item P1 draws 2 cards
+	\item P2 draws 2 cards
+	\item discard is handled accordingly 
+\end{enumerate}
+
+\subsection{Event : Kings Call to Arms}
+meta-data:\\
+P1 : shields = 0, cards in play: Sir Galahad, rank : squire\\
+P2 : shields = 3, rank : knight\\
+2 players\\
+\begin{enumerate}
+	\item P2 draws an event : Kings Call to arms 
+	\item P1 does nothing
+	\item P2 discards a weapon 
+\end{enumerate}
+
+\begin{enumerate}
+\item Flip a card from a deck: 
+\item P1 draw : Event Kings Recognition 
+\item P2 draw : Quest Vanquish Kings Arthur's Enemies (3 stages)
+\item P2 declines to sponsorship
+\item P3 Sponsors 
+\item P1 Participates in Quest
+\item P2 Participates In Quest
+\item P1 receives card
+\item Assume that both cards in play affect each other in stage 1 and subsequent turns
+\item P1 plays ally Queen Iseult 
+\item P2 receives card
+\item P2 plays ally Sir Tristan (+10 becomes +20)
+\item P3 announces that stage 1 is a foe
+\item P1 Places three cards face down (1 amour, 1 dagger, 1 horse) 
+\item P2 Places one card face down (1 weapon - battleaxe + 15)
+\item P3 turns over stage 1 cards (1 theives, 1 horse)
+\item P1 passes stage 1 with BP 30 > 15
+\item P2 passes stage 1 with BP 40 > 15
+\item P1, P2 discard weapons in play
+\item P1 receives card
+\item P2 receives card
+\item P3 announces Stage 2 is a test: Test of Temptation
+\item P1 bids Thieves +Thieves + Dagger + (1 from amour) + (4 from Queen Iseult) = 8
+\item P2 drops out of Quest
+\item P1 discards 2 Thieves and 1 Dagger
+\item P1 receives a card
+\item P3 announces Stage 3 is a foe
+\item P1 places three cards face down ( Excalibur, Dagger, Lance)
+\item P3 turns over stage 3 cards (Giant + Lance = 60 BP)
+\item P1 passes stage 3 with 70 > 60
+\item P1 discards weapons and amour
+\item P1 receives 3 shields + 2 bonus shields from King’s Recognition
+\item P1 ranks up to knight 
+\item P3’s 5 sponsor cards are discarded
+\item P3 draws 5 + 3 = 8 cards
+\item P3 has 15 cards; plays King Pellinore and discards 2 cards (1 weapon, 1 test)
+\item P3 draws a Tournament at Tintagel card ( Bonus +1 shield)
+\item P3 accepts
+\item P1 declines
+\item P2 accepts
+\item P2 and P3 draw a card
+\item P3 has too many cards, discards 1 card 
+\item P2 has too many cards, discards 1 card 
+\item P3 plays 35 (horse, battle-ax, sword) + 10 (amour) + 10 (Pellinore) + 5 (rank) = 60
+\item p2 plays 35 (dagger, lance, sword)  + 20 (sir tristan) + 5 (rank) = 60
+\item tournament ties P2 and P3
+\item P2 and P3 discard weapons, amour remains in play
+\item tournament round 2
+\item P2 plays 30 (lance, sword) + 10 ( armor) + 20 ( sir tristan) + 5 ( squire) = 65 
+\item P3 plays 10 (sword) + 10 (amour) + 10 (King Pellinore) + 5 (squire) = 35
+\item P2 wins tournament
+\item P2 gets 2 shields + 1 bonus shield
+\item P2 and P3 discard weapons and amour
+\item P1 draws : Test of the Green Knight
+\item P1 Sponsors Quest ( Saxon Knight + 15, Evil Knight + 15, Black Knight + 25, Green Knight + 40) 
+\item P2 and P3 are participation 
+\item P2 and P3 receive cards
+\item P1 announces that stage 1 will be a foe
+\item P2 plays 10 (sword) face down
+\item P3 plays 10 (amour) face down
+\item P2  pass stage 1 
+\item P3  pass stage 1
+\item P2 discard weapons
+\item P1 announces that stage 2 is a foe
+\item P2 and P3 receive 1 card
+\item P2 plays nothing and crys
+\item P3 plays 10 (sword) faced down
+\item Stage 2 commences 
+\item P2 and P3 pass stage 2
+\item P3 discards weapon
+\item P2 and P3 receive 1 card
+\item P1 announces that stage 3 will be a foe
+\item P2 plays horse face down
+\item P3 plays 10 (sword) face down 
+\item P2 and P3 pass stage 3
+\item P2 and P3 discard weapons
+\item P2 and P3 receive 1 card
+\item P1 announces that there is a foe
+\item P2 plays nothing
+\item P3 plays sword face down 
+\item Stage 4 commences 
+\item P2 and P3 fail the quest
+\item P1 receives 8 cards from quest 
+\item P3 discards weapon and armor
+\item quest is discarded
+\item P2 draws Search for the Questing Beast
+\item P2 sponsors quest (Boar +5,  Thieves +5 Dagger +5,  Test,  Saxon Knight +15)
+\item P3 and P1 participate
+\item P3 and P1 draw a card
+\item P2 announces stage 1 is a foe
+\item P3 plays 10 (amour) faced down
+\item P1 plays 5 ( sir Percival) + 10 ( Sir Gawain) + (Queen Guinevere) + 10 (amour) faced down
+\item P1 passes with + 15 ( allis) + 10 (rank) + 10 (armor) = 35 > 5
+\item P3 passes with +10 (amour) +10 (ally) + 5 (rank) = 25 > 5
+\item P1 and P3 receive a card
+\item P2 announces stage 2 is a foe
+\item P3 plays nothing
+\item P1 plays nothing
+\item P1 passes with + 15 ( allis) + 10 (rank) + 10 (armor) = 35 > 10
+\item P2 passes with +10 (amour) +10 (ally) + 5 (rank) = 25 > 10
+\item P1 and P3 receive a card
+\item P2 announces stage 3 is a Test of Temptations
+\item P3 bids 5 (+4 Pelinore, +1 amour)
+\item P1 bids 9 ( +4 Queen Iseult, + 3 Queen Guinevere, +1 amour) 
+\item P3 drops out of quest
+\item P1 passes the test
+\item P1 receives a card
+\item P2 announces stage 4 of the quest is a foe\item 
+\item P1 plays horse and sword faced down
+\item P1 passes with + 15 ( allis) + 10 (rank) + 10 (armor) + 20 (weapons) = 55 > 15
+\item P1 receives 4 shields = total 4 shields
+\item P2 receives 9 cards
+\item armour weapons, foes , quest cards are discarded 
+\item P3 draws a story card: Defend the Queen’s Honour (4 stages, Foe: All)
+\item P3 sponsors the quest (Saxon Knight 25, Black Knight 35, 
+\item P1 and P2 participate
+\item P1 and P2 draw a card
+\item P2 plays Merlin and looks at Stage 4 of the quest
+\item P3 announces Stage 1 is a foe
+\item P2 plays Sir Galahad and Lancelot face down
+\item P1 plays king arthur faced down
+\item Stage 1 is Saxon Knight (+25 since Defend the Queen’s Honour is Foe: All)
+\item P1 passes with + 25 ( allies) + 10 (rank) = 35 > 25
+\item P2 passes with +60 (allies) + 5 (rank) = 65 > 25
+\item P1 and P2 receive a card
+\item P3 announces stage 2 is a foe 
+\item P1 plays nothing
+\item P2 plays nothing
+\item Stage 2 is Black Knight (+35)
+\item P1 passes with + 25 ( allies) + 10 (rank) = 35 >= 35
+\item P2 passes with +60 (allies) + 5 (rank) = 65 >= 35
+\item P1 and P2 receive a card
+\item P3 announces stage 3 is a Test of Valor
+\item P1 uses Mordred to instakill P2’s Lancelot, they are discarded
+\item P1 bids 11 (9 from allies, willing to discard 2 cards)
+\item P2 bids 12 (his entire hand LOL)
+\item P1 drops out of the quest
+\item P2 passes the test
+\item P2 draws a card
+\item P2 knows he cannot win because he used Merlin to look at the last stage, drops out
+\item No shields are awarded
+\item P3’s sponsor cards are discarded
+\item P3 draws 9 adventure cards
+\end{enumerate}
+
+
+\section{Final Statement:}
+\paragraph{}
+This week our team has NO issues to report in terms of participation, contributions, distribution of work
+\paragraph{}
+\end{document}
