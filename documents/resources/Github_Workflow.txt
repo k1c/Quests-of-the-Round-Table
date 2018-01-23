@@ -1,0 +1,22 @@
+// Switch to master branch and make sure it's up to date (i.e. pulling everyone else's changes)
+git checkout master
+git pull --rebase
+
+//Create a new branch and push to the remote repository (name branch according to your issue)
+git checkout -b branch_name_example
+git push -u origin branch_name_example
+
+//Once you're done making your changes in IntelliJ:
+View -> Tool Windows -> Version Control
+Right click on the files you want to commit in the "Local Changes" tab of the "Version Control" pane and select "Commit...".
+Write a commit message that describes the changes
+Click "Commit and Push"
+Then click "Push"
+
+//Create a Pull Request (PR)
+Login to Github
+Find your branch and create a PR (green button to the right of your branch)
+fill in title and description
+Under "Assignees", add at least one Assignee to review your code
+Once approved, "Squash and Merge"
+Delete your branch
