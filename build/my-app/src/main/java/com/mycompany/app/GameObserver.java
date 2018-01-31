@@ -4,6 +4,6 @@
 
 package com.mycompany.app;
 
-public abstract class Observer{
+public abstract class GameObserver{
 	public abstract void update();
 }

@@ -1,32 +1,28 @@
-
 package com.mycompany.app;
 
-import com.mycompany.app.Observer;
-import java.util.Iterator;
-import java.util.ArrayList;
-import java.util.Collection;
+import com.mycompany.app.GameObserver;
+import java.util.*;
 
 
 public class GameModel{
 
-	private ArrayList<Observer> observers;
+	private ArrayList<GameObserver> observers;
 
 	public GameModel(){
-		observers = new ArrayList<Observer>();
+		observers = new ArrayList<GameObserver>();
 	}
 
-	public void registerObserver(Observer o){
-		this.observer = o;
+	public void registerObserver(GameObserver o){
+		this.observers.add(o);
 	}
 
-	public void deregisterObserver(){
-		this.observer = null;
+	public void deregisterObserver(GameObserver o){
+		this.observers.remove(o);
 	}
 
-	public void notify(){
-		for(Iterator<Observer> i = observers.Iterator(); .hasNext();){
-			Observer item = item.next();
-			item.notify()
+	public void updateObservers(){
+		for(Iterator<GameObserver> i = this.observers.iterator(); i.hasNext();){
+			i.next().update();
 		}
 	}
 }
