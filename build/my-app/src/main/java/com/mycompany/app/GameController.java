@@ -12,7 +12,7 @@ public class GameController extends GameObserver{
 	public GameController(GameModel model){
 		this.model = model;
 		this.model.registerObserver(this);
-		this.view = new ViewModel(model,this);
+		this.view = new ViewModel(this);
 	}
 
 	public void update(){

@@ -1,19 +1,15 @@
 package com.mycompany.app;
 
-import com.mycompany.app.GameModel;
 import com.mycompany.app.GameController;
+import com.mycompany.app.GameModel;
+import com.mycompany.app.ViewModel;
 
 
 
-public class ViewModel extends GameObserver{
-	private final GameModel model;
+public class ViewModel{
 	private final GameController contoller;
-	public ViewModel(GameModel model, GameController contoller){
-		this.model = model;
+	public ViewModel(GameController contoller){
 		this.contoller = contoller;
-
-		model.registerObserver(this);
-		
 	}
 	public void update(){
 
