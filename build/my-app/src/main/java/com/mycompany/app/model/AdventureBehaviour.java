@@ -20,7 +20,7 @@ public class DefaultBehaviour extends AdventureBehaviour {
     protected int BP;
     protected int bids;
 
-    defaultBehaviour(int BP, int bids) {
+    public DefaultBehaviour(int BP, int bids) {
 
         this.BP = BP;
         this.bids = bids;
@@ -39,7 +39,7 @@ public class SpecifiedBehaviour extends AdventureBehaviour {
     ArrayList<int> specifiers;
 
 
-    specifiedBehaviour(int specifiedBP, int specifiedBids, ) {
+    public SpecifiedBehaviour(int specifiedBP, int specifiedBids) {
 
         this.BP = BP;
         this.bids = bids;

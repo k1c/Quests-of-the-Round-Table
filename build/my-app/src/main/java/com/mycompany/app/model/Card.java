@@ -3,7 +3,7 @@ package com.mycompany.app.model;
 
 public abstract class Card{
 	public static enum Types {FOE,ALLY,WEAPON,AMOUR,TEST};
-	public final type;
+	public final Types type;
 	public final int id;
 	public final String res;
 	public final String name;

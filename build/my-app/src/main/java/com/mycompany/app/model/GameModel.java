@@ -10,6 +10,7 @@ public class GameModel{
 
 	public GameModel(){
 		observers = new ArrayList<GameObserver>();
+		AdventureBehaviour b = new DefaultBehaviour(10,2);	
 	}
 
 	public void registerObserver(GameObserver o){
