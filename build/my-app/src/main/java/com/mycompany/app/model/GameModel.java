@@ -1,26 +1,22 @@
 package com.mycompany.app.model;
 
+
 import com.mycompany.app.GameObserver;
+import com.mycompany.app.model.*;
+import com.mycompany.app.model.GameStates;
 import java.util.*;
 
 
 public class GameModel{
 
 	private ArrayList<GameObserver> observers;
+	private GameStates state;
+	private int numberOfPlayers;
+	private int currentPlayer;
+	private int turn;
 
 	public GameModel(){
 		observers = new ArrayList<GameObserver>();
-
-		AdventureCard KA = new AllyCard(1, "ally1.png", new DefaultBehaviour(10, 2), "King Arthur");
-		//System.out.println(c.getBattlePoints());
-		//System.out.println(c.type);
-
-		AdventureCard c = AdventureCardFactory.defaultAlly(1, "ally1.png", "King Arthur", 10, 2);
-		System.out.println(c.getBattlePoints());
-		System.out.println(c.type);
-
-
-		AdventureBehaviour b = new DefaultBehaviour(10,2);	
 	}
 
 	public void registerObserver(GameObserver o){
@@ -36,5 +32,32 @@ public class GameModel{
 			i.next().update();
 		}
 	}
+
+
+	public void nextTurn(){
+		if (this.state != GameStates.BEGIN_TURN)
+			return;
+
+		this.currentPlayer = (this.currentPlayer + 1) % numberOfPlayers;
+
+		/*
+		 * Action: Draw from Story Deck
+		 */
+
+		
+		if (Card.Types.EVENT == Card.Types.EVENT){
+			this.state = GameStates.DRAW_EVENT;
+		}
+		else if (Card.Types.QUEST == Card.Types.QUEST){
+			this.state = GameStates.DRAW_QUEST;
+		}
+		else if (Card.Types.TOURNAMENT == Card.Types.TOURNAMENT){
+			this.state = GameStates.DRAW_TOURNAMENT;
+		}
+
+		this.updateObservers();
+
+	}
+
 }
 
