@@ -1,4 +1,4 @@
-package com.mycompany.app;
+package com.mycompany.app.model;
 
 import com.mycompany.app.GameObserver;
 import java.util.*;
