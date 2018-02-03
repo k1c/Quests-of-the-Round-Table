@@ -6,8 +6,8 @@ public abstract class AdventureCards extends Card{
 
 	protected AdventureBehavior behavior;
 
-	public AdventureCards(int id,String res, AdventureCards behavior){
-		this.super(id,res);
+	public AdventureCards(int id,String res,AdventureBehaviour behavior,String name){
+		this.super(id,res,name);
 		this.behavior = behavior;
 		
 	}
