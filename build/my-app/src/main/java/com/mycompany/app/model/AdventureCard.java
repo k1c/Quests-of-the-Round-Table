@@ -20,4 +20,8 @@ public abstract class AdventureCard extends Card{
 		return behaviour.getBids();
 	}
 
+	public boolean freeBid(){
+		return behaviour.isFreeBid();
+	}
+
 }
