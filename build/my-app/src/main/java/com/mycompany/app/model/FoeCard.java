@@ -1,9 +1,11 @@
 package com.mycompany.app.model;
 
+import com.mycompany.app.model.AdventureCards;
+
 public class FoeCard extends AdventureCards{
 
 	public FoeCard(int id, String res, AdventureBehaviour behaviour, String name){
-		this.super(id,res,behaviour,name,Types.FOE);
+		super(id,res,behaviour,name,Types.FOE);
 	}
 }
 

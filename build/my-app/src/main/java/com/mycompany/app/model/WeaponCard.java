@@ -1,9 +1,9 @@
 package com.mycompany.app.model;
-
+import com.mycompany.app.model.AdventureCards;
 public class WeaponCard extends AdventureCards{
 
     public WeaponCard(int id, String res, AdventureBehaviour behaviour, String name){
-        this.super(id, res, behaviour, name, Types.WEAPON);
+        super(id, res, behaviour, name, Types.WEAPON);
 
     }
 
