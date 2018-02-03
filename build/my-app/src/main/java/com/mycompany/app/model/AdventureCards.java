@@ -4,11 +4,11 @@ import com.mycompany.app.model.*;
 
 public abstract class AdventureCards extends Card{
 
-	protected AdventureBehavior behavior;
+	protected AdventureBehaviour behaviour;
 
-	public AdventureCards(int id,String res,AdventureBehaviour behavior,String name){
+	public AdventureCards(int id,String res,AdventureBehaviour behaviour,String name){
 		this.super(id,res,name);
-		this.behavior = behavior;
+		this.behaviour = behaviour;
 		
 	}
 }
