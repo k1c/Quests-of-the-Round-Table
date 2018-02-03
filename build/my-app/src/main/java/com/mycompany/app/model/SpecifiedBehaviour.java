@@ -13,9 +13,12 @@ public class SpecifiedBehaviour extends AdventureBehaviour {
 
 
     public SpecifiedBehaviour(int specifiedBP, int specifiedBids) {
+	
+	super();
 
         this.BP = BP;
         this.bids = bids;
+	this.freeBid = false;
 
     }
 
@@ -25,6 +28,10 @@ public class SpecifiedBehaviour extends AdventureBehaviour {
 
     public int getBids(){
         return this.bids;
+    }
+
+    public Boolean isFreeBid(){
+	return this.freeBid;
     }
 
 }
