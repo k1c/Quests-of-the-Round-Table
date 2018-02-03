@@ -11,11 +11,11 @@ public class GameModel{
 	public GameModel(){
 		observers = new ArrayList<GameObserver>();
 
-		AdventureCards KA = new AllyCard(1, "ally1.png", new DefaultBehaviour(10, 2), "King Arthur");
+		AdventureCard KA = new AllyCard(1, "ally1.png", new DefaultBehaviour(10, 2), "King Arthur");
 		//System.out.println(c.getBattlePoints());
 		//System.out.println(c.type);
 
-		AdventureCards c = AdventureCardFactory.defaultAlly(1, "ally1.png", "King Arthur", 10, 2);
+		AdventureCard c = AdventureCardFactory.defaultAlly(1, "ally1.png", "King Arthur", 10, 2);
 		System.out.println(c.getBattlePoints());
 		System.out.println(c.type);
 
