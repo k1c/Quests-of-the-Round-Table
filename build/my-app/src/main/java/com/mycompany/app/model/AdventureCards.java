@@ -11,4 +11,13 @@ public abstract class AdventureCards extends Card{
 		this.behaviour = behaviour;
 		
 	}
+
+	public int getBattlePoints(){
+		return behaviour.getBP();
+	}
+
+	public int getBids(){
+		return behaviour.getBids();
+	}
+
 }
