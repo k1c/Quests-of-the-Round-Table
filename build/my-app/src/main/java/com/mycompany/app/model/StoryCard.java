@@ -1,4 +1,4 @@
-/*package com.mycompany.app.model;
+package com.mycompany.app.model;
 
 import com.mycompany.app.model.Card;
 
@@ -13,4 +13,4 @@ public abstract class StoryCard extends Card{
     }
 
 
-}*/
+}
