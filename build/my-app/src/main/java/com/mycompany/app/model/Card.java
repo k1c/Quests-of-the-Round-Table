@@ -9,7 +9,6 @@ public abstract class Card{
 	public final String name;
 
 	public Card(int id,String res,String name){
-		
 		this.name = name;
 		this.res = res;
 		this.id = id;
