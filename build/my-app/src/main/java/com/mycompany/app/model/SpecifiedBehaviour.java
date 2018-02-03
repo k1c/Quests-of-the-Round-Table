@@ -7,15 +7,13 @@ public class SpecifiedBehaviour extends AdventureBehaviour {
     protected int BP;
     protected int bids;
 
-    protected int specifiedBP;
-    protected int specifiedBids;
     protected ArrayList<Integer> specifiers;
 
 
-    public SpecifiedBehaviour(int specifiedBP, int specifiedBids) {
+    public SpecifiedBehaviour(int specifiedBP, int specifiedBids /* , array of specifiers */) {
 
-        this.BP = BP;
-        this.bids = bids;
+        this.BP = specifiedBP;
+        this.bids = specifiedBids;
 
     }
 

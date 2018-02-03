@@ -11,11 +11,3 @@ public abstract class AdventureBehaviour {
 
 }
 
-
-
-
-
-       // minBids(int minBid) {
-       //     }
-
-        //mordredBehaviour(int BP, ) {}
