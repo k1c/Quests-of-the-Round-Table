@@ -12,4 +12,12 @@ public class DefaultBehaviour extends AdventureBehaviour {
 
     }
 
+    public int getBP(){
+        return this.BP;
+    }
+
+    public int getBids(){
+        return this.bids;
+    }
+
 }
