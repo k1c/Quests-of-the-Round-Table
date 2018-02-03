@@ -8,11 +8,11 @@ public class AdventureCardFactory{
     }
 
     public static AdventureCard defaultFoe(int id, String res, String name, int BP){
-        return new FoeCard(id, res, new DefaultBehaviour(BP, 0), name);
+        return new FoeCard(id, res, new DefaultBehaviour(BP, 1), name);
     }
 
     public static AdventureCard defaultWeapon(int id, String res, String name, int BP){
-        return new WeaponCard(id, res, new DefaultBehaviour(BP, 0), name);
+        return new WeaponCard(id, res, new DefaultBehaviour(BP, 1), name);
     }
 
     public static AdventureCard defaultAmour(int id, String res, String name){
