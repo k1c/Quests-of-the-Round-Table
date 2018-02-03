@@ -10,6 +10,16 @@ public class GameModel{
 
 	public GameModel(){
 		observers = new ArrayList<GameObserver>();
+
+		AdventureCard KA = new AllyCard(1, "ally1.png", new DefaultBehaviour(10, 2), "King Arthur");
+		//System.out.println(c.getBattlePoints());
+		//System.out.println(c.type);
+
+		AdventureCard c = AdventureCardFactory.defaultAlly(1, "ally1.png", "King Arthur", 10, 2);
+		System.out.println(c.getBattlePoints());
+		System.out.println(c.type);
+
+
 		AdventureBehaviour b = new DefaultBehaviour(10,2);	
 	}
 
@@ -27,3 +37,4 @@ public class GameModel{
 		}
 	}
 }
+
