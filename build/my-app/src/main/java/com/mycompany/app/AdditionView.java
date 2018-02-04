@@ -1,3 +1,5 @@
+package com.mycompany.app;
+
 import javafx.geometry.HPos;
 import javafx.geometry.Pos;
 import javafx.scene.Parent;

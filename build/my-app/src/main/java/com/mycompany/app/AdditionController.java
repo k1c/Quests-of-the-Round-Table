@@ -1,3 +1,5 @@
+package com.mycompany.app;
+
 public class AdditionController {
 
     private final AdditionModel model ;
