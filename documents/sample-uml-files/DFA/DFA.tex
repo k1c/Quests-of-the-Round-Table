@@ -1,0 +1,74 @@
+\documentclass{article}
+
+\usepackage{pgf}
+\usepackage{tikz}
+\usetikzlibrary{arrows,automata}
+\usepackage[latin1]{inputenc}
+\begin{document}
+\begin{tikzpicture}[->,>=stealth',shorten >=1pt,auto,node distance=2.8cm,
+                    semithick]
+  \tikzstyle{every state}=[fill=black,draw=none,text=white]
+  
+  \node[initial,state] (A)                    {$a$};
+  \node[state]         (B) [right of=A] 			{$b$};
+  \node[state]         (C) [right of=B] 			{$c$};
+  \node[state]         (D) [below right of=A] {$d$};
+  \node[state]         (E) [below right of=D] {$e$};
+  \node[state]         (F) [below of=E] 			{$f$};
+  \node[state]         (G) [right of=E] 			{$g$};
+  \node[state]         (H) [above right of=A] {$h$};
+
+  \path (A) edge	[bend left] node {} (B);
+  \path (A) edge 	node {} (D);
+  \path (A) edge	node {} (H);
+  \path (B) edge [loop above]	node {} (B);
+  \path (B) edge	[bend left] node {} (A);
+  \path (B) edge	node {} (C);
+  \path (C) edge [bend left] node {} (A);
+  \path (D) edge	[loop below] node {} (D);
+  \path (D) edge [bend left]	node {} (A);
+  \path (D) edge	node {} (E);
+  \path (E) edge	node {} (F);
+  \path (F) edge [loop below]	node {} (F);
+  \path (F) edge [bend left] node {} (A);
+  \path (F) edge [bend right]	node {} (G);
+  \path (G) edge	node {} (A);
+  \path (H) edge [bend right]	node {} (A);
+\end{tikzpicture}
+
+\paragraph{States : }
+\begin{itemize}
+	\item A : Begin Turn
+	\item B : Participate Tournament 
+	\item C : Tournament Handler
+	\item D : Sponsor Quest
+	\item E : Sponsor Submit
+	\item F : Participate Quest
+	\item G : Quest Handler
+	\item H : Event Logic
+\end{itemize}
+
+\paragraph{Methods :}
+\begin{itemize}
+\item A-B : nextTurn
+\item A-D : nextTurn
+\item A-H : nextTurn
+\item B-B : participateTournament
+\item B-A : participateTournamentEnd
+\item B-C : participateTournamentEnd
+\item C-A : beginTournament
+\item D-D : sponsor\_quest
+\item D-A : no\_sponsor
+\item D-E : sponsor\_quest
+\item E-F : submit\_quest
+\item F-F : participateQuest
+\item F-A : participateQuestEnd
+\item F-G : participateQuestEnd
+\item G-A : beginQuest
+\item H-A : applyEventLogic
+\end{itemize}
+
+  
+
+
+\end{document}
