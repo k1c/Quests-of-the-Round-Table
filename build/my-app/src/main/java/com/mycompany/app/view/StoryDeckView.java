@@ -15,11 +15,11 @@ public class StoryDeckView extends HBox{
     public StoryDeckView() {
         // Manually get card images for now
         // Hook up model interface when that's implemented.
-        String filepath = "C:\\Developer\\Project3004\\Quests-of-the-Round-Table\\documents\\resources\\CroppedCards\\S Back.jpg";
+        String filepath = "/S Back.jpg";
 
         Button storyDeck = new Button();
         storyDeck.setStyle(BUTTON_STYLE);
-        Image storyDeckBack = new Image("File:"+filepath);
+        Image storyDeckBack = new Image(filepath);
         ImageView backView = new ImageView(storyDeckBack);
         backView.setPreserveRatio(true);
         backView.setFitHeight(180);
