@@ -2,6 +2,9 @@ package com.mycompany.app.model;
 
 
 
+import javax.swing.Action;
+
+import com.mycompany.app.GameController;
 import com.mycompany.app.GameObserver;
 import com.mycompany.app.model.*;
 import com.mycompany.app.model.GameStates;
@@ -53,7 +56,7 @@ public class GameModel{
 
 		
 		if (Card.Types.EVENT == Card.Types.EVENT){
-			this.state = GameStates.DRAW_EVENT;
+			this.state = GameStates.EVENT_LOGIC;
 		}
 		else if (Card.Types.QUEST == Card.Types.QUEST){
 			this.state = GameStates.SPONSOR_QUEST;
@@ -69,6 +72,8 @@ public class GameModel{
 		this.updateObservers();
 	}
 
+
+
 	/*
 	 * NEEDS : change player parameter to a Player Object
 	 */
@@ -79,8 +84,15 @@ public class GameModel{
 		/*
 		 * Verify that they can sponsor with current cards
 		 */
-		
-		this.state = GameStates.SPONSOR_SUBMIT;
+		if(true)	
+			this.state = GameStates.SPONSOR_SUBMIT;
+
+	}
+
+	public void no_sponsor(){
+		if(this.state != GameStates.SPONSOR_QUEST)
+			return;
+		this.state = GameStates.BEGIN_TURN;
 	}
 
 	/*
@@ -104,7 +116,7 @@ public class GameModel{
 		if(this.state != GameStates.PARTICIPATE_QUEST)			
 			return;
 		/*
-		 * add player to quest
+		 * ACTION : add player to quest
 		 */
 	}
 
@@ -122,7 +134,19 @@ public class GameModel{
 		else
 			state = GameStates.QUEST_HANDlER;
 	}
+	
 
+	public void beginQuest(){
+		if(this.state != GameStates.QUEST_HANDlER)
+			return ;
+
+		/*
+		 * some kind of quest logic here
+		 */
+
+		this.state = GameController.BEGIN_TURN;
+
+	}
 
 
 	/*
@@ -132,7 +156,7 @@ public class GameModel{
 		if(this.state != GameStates.PARTICIPATE_TOURNAMENT)
 			return;
 		/*
-		 * add player to tournament
+		 * Action add player to tournament
 		 */
 					
 	}
@@ -147,12 +171,39 @@ public class GameModel{
 
 		int numberOfParticipants = 0;
 
+		/*
+		 * Action : get number of participants
+		 */
+
+
 		if(numberOfParticipants==0)
 			state = GameStates.BEGIN_TURN;
 		else
 			state = GameStates.TOURNAMENT_HANDlER;
 	}
 
+	public void beginTournament(){
+		if(this.state != GameStates.TOURNAMENT_HANDlER)
+			return;
+
+		/*
+		 * handle tournament logic with another state
+		 */
+		
+		this.state = GameStates.BEGIN_TURN;
+
+	}
+
+	public void applyEventLogic(){
+		if(this.state != GameStates.EVENT_LOGIC)
+			return;
+
+		/*
+		 * ACTION : Apply events logic to players
+		 */
+
+		this.state = GameStates.BEGIN_TURN;
+	}
 
 }
 

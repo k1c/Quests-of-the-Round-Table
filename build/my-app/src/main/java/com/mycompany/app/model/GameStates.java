@@ -6,7 +6,7 @@ public enum GameStates{
     BEGIN_TURN, 
     DRAW_TOURNAMENT, 
     DRAW_QUEST, 
-    DRAW_EVENT,
+    EVENT_LOGIC,
     PARTICIPATE_TOURNAMENT,
     SPONSOR_QUEST,
     SETUP_QUEST,
