@@ -1,6 +1,7 @@
 package com.mycompany.app.model;
 
 
+
 import com.mycompany.app.GameObserver;
 import com.mycompany.app.model.*;
 import com.mycompany.app.model.GameStates;
@@ -40,6 +41,12 @@ public class GameModel{
 
 		this.currentPlayer = (this.currentPlayer + 1) % numberOfPlayers;
 
+
+		/*
+		 * Action : Check if any players have won
+		 */
+
+
 		/*
 		 * Action: Draw from Story Deck
 		 */
@@ -49,15 +56,103 @@ public class GameModel{
 			this.state = GameStates.DRAW_EVENT;
 		}
 		else if (Card.Types.QUEST == Card.Types.QUEST){
-			this.state = GameStates.DRAW_QUEST;
+			this.state = GameStates.SPONSOR_QUEST;
 		}
 		else if (Card.Types.TOURNAMENT == Card.Types.TOURNAMENT){
-			this.state = GameStates.DRAW_TOURNAMENT;
+			this.state = GameStates.PARTICIPATE_TOURNAMENT;
 		}
 
-		this.updateObservers();
+		/*
+		 * Need : Need to specify what kind of action to update observers
+		 */
 
+		this.updateObservers();
 	}
+
+	/*
+	 * NEEDS : change player parameter to a Player Object
+	 */
+	public void sponsor_quest(int player){
+		if(this.state != GameStates.SPONSOR_QUEST)
+			return;
+
+		/*
+		 * Verify that they can sponsor with current cards
+		 */
+		
+		this.state = GameStates.SPONSOR_SUBMIT;
+	}
+
+	/*
+	 * NEEDS : change player parameter to a Player Object
+	 * NEEDS : some kind of quest object to submit
+	 */
+	public void submit_quest(int player){
+		if(this.state != GameStates.SPONSOR_SUBMIT)
+			return;
+		/*
+		 * verify that it is a valid quest
+		 */
+
+		this.state = GameStates.PARTICIPATE_QUEST;
+	}
+
+	/*
+	 * NEEDS : change player parameter to a Player Object
+	 */
+	public void participateQuest(int player){
+		if(this.state != GameStates.PARTICIPATE_QUEST)			
+			return;
+		/*
+		 * add player to quest
+		 */
+	}
+
+	public void participateQuestEnd(){
+		if(this.state != GameStates.PARTICIPATE_QUEST)
+			return;
+
+		/*
+		 * Action : check number of players participating in quest 
+		 */
+		int numberOfParticipants = 0;
+
+		if(numberOfParticipants == 0)
+			state = GameStates.BEGIN_TURN;
+		else
+			state = GameStates.QUEST_HANDlER;
+	}
+
+
+
+	/*
+	 * NEEDS : change player parameter to a Player Object
+	 */
+	public void participateTournament(int player){
+		if(this.state != GameStates.PARTICIPATE_TOURNAMENT)
+			return;
+		/*
+		 * add player to tournament
+		 */
+					
+	}
+
+
+	/*
+	 * NEEDS : change player parameter to a Player Object
+	 */
+	public void participateTournamentEnd(int player){
+		if(this.state != GameStates.PARTICIPATE_TOURNAMENT)
+			return;
+
+		int numberOfParticipants = 0;
+
+		if(numberOfParticipants==0)
+			state = GameStates.BEGIN_TURN;
+		else
+			state = GameStates.TOURNAMENT_HANDlER;
+	}
+
 
 }
 
