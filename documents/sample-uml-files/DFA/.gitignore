@@ -1,6 +1,6 @@
-.aux 
-.auz 
-.fdb 
-.log 
-.pdf
+*.aux 
+*.auz 
+*.fdb 
+*.log 
+*.pdf
 
