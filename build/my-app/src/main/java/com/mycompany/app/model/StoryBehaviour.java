@@ -1,6 +1,6 @@
 package com.mycompany.app.model;
 
-import java.util.ArrayList;
+/*import java.util.ArrayList;
 
 public class StoryBehaviour {
 
@@ -15,5 +15,5 @@ public class StoryBehaviour {
         return this.numShields;
     }
 
-}
+}*/
 

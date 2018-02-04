@@ -4,11 +4,11 @@ import com.mycompany.app.model.Card;
 
 public abstract class StoryCard extends Card{
 
-    protected StoryBehaviour behaviour;
+    //protected StoryBehaviour behaviour;
 
-    public StoryCard(int id, String res, StoryBehaviour behaviour, String name, Types type){
-        super(id,res,name,type);
-        this.behaviour = behaviour;
+    public StoryCard(int id, String res, String name, Types type, int numStages, int numBonusShields){
+        super(id,res,name,type,numStages,numBonusShields);
+        //this.behaviour = behaviour;
 
     }
 
