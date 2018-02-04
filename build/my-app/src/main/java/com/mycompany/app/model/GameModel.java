@@ -1,10 +1,6 @@
 package com.mycompany.app.model;
 
 
-
-import javax.swing.Action;
-
-import com.mycompany.app.GameController;
 import com.mycompany.app.GameObserver;
 import com.mycompany.app.model.*;
 import com.mycompany.app.model.GameStates;
@@ -144,8 +140,7 @@ public class GameModel{
 		 * some kind of quest logic here
 		 */
 
-		this.state = GameController.BEGIN_TURN;
-
+		this.state = GameStates.BEGIN_TURN;
 	}
 
 
