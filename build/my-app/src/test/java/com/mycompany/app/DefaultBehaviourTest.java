@@ -9,7 +9,7 @@ public class DefaultBehaviourTest extends TestCase{
         super(name);
     }
 
-    public void testDefaultBehaviourT() throws Exception{
+    public void testDefaultBehaviour3Param() throws Exception{
         AdventureBehaviour Temp = new DefaultBehaviour(10, 2, true);
         assertEquals(10, Temp.getBP());
         assertEquals(2, Temp.getBids());
@@ -17,7 +17,7 @@ public class DefaultBehaviourTest extends TestCase{
 
     }
 
-    public void testDefaultBehaviourF() throws Exception{
+    public void testDefaultBehaviour2Param() throws Exception{
         AdventureBehaviour Temp = new DefaultBehaviour(30, 0);
         assertEquals(30, Temp.getBP());
         assertEquals(0, Temp.getBids());

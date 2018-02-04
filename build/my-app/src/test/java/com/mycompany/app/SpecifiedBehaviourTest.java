@@ -1,4 +1,4 @@
-package com.mycompany.app.model;
+/*package com.mycompany.app.model;
 
 import com.mycompany.app.model.SpecifiedBehaviourTest;
 import junit.framework.TestCase;
@@ -23,4 +23,4 @@ public class SpecifiedBehaviourTest extends TestCase {
         assertEquals(false, Temp.isFreeBid());
 
     }
-}
+}*/
