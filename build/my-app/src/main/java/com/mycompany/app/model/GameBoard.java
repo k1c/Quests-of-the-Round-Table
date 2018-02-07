@@ -33,6 +33,7 @@ public class GameBoard{
 	public void init_Game(){
 		init_Game(MAX_PLAYERS);
 	}
+
 	public void init_Game(int num){
 		num = Math.min(Math.max(MAX_PLAYERS,num),MIN_PLAYERS);
 
