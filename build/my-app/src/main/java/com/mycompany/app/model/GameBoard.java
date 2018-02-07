@@ -9,6 +9,7 @@ import com.mycompany.app.model.Card;
 import com.mycompany.app.model.GameBoard;
 import com.mycompany.app.model.Player;
 import com.mycompany.app.model.StoryCard;
+import java.lang.*;
 import java.util.*;
 
 public class GameBoard{
@@ -21,7 +22,7 @@ public class GameBoard{
 	protected List<StoryCard> 	storyDeckDiscard;
 	protected List<Player>		players;
 
-	public void init_Game(int num, ArrayList<AdventureCard> ad, ArrayList<StoryCard> sd){
+	public void initGame(int num, ArrayList<AdventureCard> ad, ArrayList<StoryCard> sd){
 
 		num = Math.min(Math.max(MAX_PLAYERS,num),MIN_PLAYERS);
 
@@ -37,6 +38,28 @@ public class GameBoard{
 
 		for(int i = 0; i < num; i++)
 			this.players.add(new Player());
+
+		for(int i = 0; i < 12; i++)
+			for(Player p : players)
+				drawFromAdventureDeck(p);
+	}
+
+	public void loadGame(){
+
+	}
+
+	protected void drawFromAdventureDeck(Player p){
+		if(adventureDeck.size() <= 0){
+			Collections.shuffle(adventureDeckDiscard);
+			List<AdventureCard> temp = adventureDeck;
+			adventureDeck = adventureDeckDiscard;
+			adventureDeckDiscard = temp;
+		}
+		if(adventureDeck.size() <= 0)
+			return;
+
+		p.hand.add(adventureDeck.remove(adventureDeck.size()-1));
+
 	}
 
 	public List<Integer> getPlayerIds(){

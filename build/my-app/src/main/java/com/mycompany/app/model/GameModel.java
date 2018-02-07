@@ -19,7 +19,7 @@ public class GameModel{
 	public GameModel(){
 		observers = new ArrayList<GameObserver>();
 		board = new GameBoard();
-		board.init_Game(4,CardLoader.loadAdventureCards(),new ArrayList<StoryCard>());
+		board.initGame(4,CardLoader.loadAdventureCards(),new ArrayList<StoryCard>());
 	}
 
 	public void registerObserver(GameObserver o){
