@@ -17,7 +17,7 @@ public class Card {
 		this.type = type;
 	}
 
-	public Card(Card original){
+	private Card(Card original){
 		this(original.id, original.res, original.name, original.type);
 	}
 
