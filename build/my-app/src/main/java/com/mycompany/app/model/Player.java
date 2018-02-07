@@ -21,4 +21,8 @@ public class Player{
 		this.idCount++;
 	}
 
+	public int id(){
+		return this.id;
+	}
+
 }
