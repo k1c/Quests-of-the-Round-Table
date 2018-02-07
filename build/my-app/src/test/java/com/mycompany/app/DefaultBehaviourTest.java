@@ -13,7 +13,7 @@ public class DefaultBehaviourTest extends TestCase{
         AdventureBehaviour Temp = new DefaultBehaviour(10, 2, true);
         assertEquals(10, Temp.getBP());
         assertEquals(2, Temp.getBids());
-        assertEquals(true, Temp.isFreeBid());
+        assertTrue(Temp.isFreeBid());
 
     }
 
@@ -21,7 +21,7 @@ public class DefaultBehaviourTest extends TestCase{
         AdventureBehaviour Temp = new DefaultBehaviour(30, 0);
         assertEquals(30, Temp.getBP());
         assertEquals(0, Temp.getBids());
-        assertEquals(false, Temp.isFreeBid());
+        assertFalse(Temp.isFreeBid());
 
     }
 

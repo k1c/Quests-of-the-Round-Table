@@ -10,12 +10,12 @@ public class DefaultBehaviour extends AdventureBehaviour {
     public DefaultBehaviour(int BP, int bids) {
 	this(BP,bids,false);
     }
-    public DefaultBehaviour(int BP, int bids, boolean freeBid) {
-	    super();
+    public DefaultBehaviour(int BP, int bids,boolean freeBid) {
+	super();
 
         this.BP = BP;
         this.bids = bids;
-	    this.freeBid = freeBid;
+	this.freeBid = freeBid;
     }
 
 
@@ -27,7 +27,7 @@ public class DefaultBehaviour extends AdventureBehaviour {
         return this.bids;
     }
 
-    public boolean isFreeBid(){
+    public  Boolean isFreeBid(){
         return this.freeBid;
     }
 

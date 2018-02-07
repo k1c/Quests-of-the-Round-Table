@@ -2,7 +2,7 @@ package com.mycompany.app.model;
 
 public abstract class AdventureBehaviour {
 
-    protected boolean freeBid;
+    protected Boolean freeBid;
 
     public AdventureBehaviour(){
    	this.freeBid = false; 
@@ -12,7 +12,7 @@ public abstract class AdventureBehaviour {
 
     public abstract int getBids();
 
-    public abstract boolean isFreeBid();
+    public abstract Boolean isFreeBid();
 
 }
 
