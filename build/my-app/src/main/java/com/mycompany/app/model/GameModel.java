@@ -14,9 +14,12 @@ public class GameModel{
 	private int numberOfPlayers;
 	private int currentPlayer;
 	private int turn;
+	private GameBoard board;
 
 	public GameModel(){
 		observers = new ArrayList<GameObserver>();
+		board = new GameBoard();
+		board.init_Game(4,CardLoader.loadAdventureCards(),new ArrayList<StoryCard>());
 	}
 
 	public void registerObserver(GameObserver o){

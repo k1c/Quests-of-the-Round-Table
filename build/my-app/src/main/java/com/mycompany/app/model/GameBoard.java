@@ -3,47 +3,37 @@ package com.mycompany.app.model;
 import java.lang.Math;
 import java.util.ArrayList;
 import java.util.Iterator;
-import java.util.List;
 
 import com.mycompany.app.model.AdventureCard;
+import com.mycompany.app.model.Card;
 import com.mycompany.app.model.GameBoard;
 import com.mycompany.app.model.Player;
 import com.mycompany.app.model.StoryCard;
+import java.util.*;
 
 public class GameBoard{
 	private final int MIN_PLAYERS = 2;
 	private final int MAX_PLAYERS = 4;
 
-	private static GameBoard board = null;
+	protected List<AdventureCard> 	adventureDeck;
+	protected List<AdventureCard> 	adventureDeckDiscard;
+	protected List<StoryCard> 	storyDeck;
+	protected List<StoryCard> 	storyDeckDiscard;
+	protected List<Player>		players;
 
-	protected ArrayList<AdventureCard> 	adventureDeck;
-	protected ArrayList<AdventureCard> 	adventureDeckDiscard;
-	protected ArrayList<StoryCard> 		storyDeck;
-	protected ArrayList<StoryCard> 		storyDeckDiscard;
-	protected ArrayList<Player>		players;
+	public void init_Game(int num, ArrayList<AdventureCard> ad, ArrayList<StoryCard> sd){
 
-	private GameBoard(){
-		init_Game();					
-	}
-
-	public static GameBoard getInstance(){
-		if(board == null)
-			board = new GameBoard();
-		return board;
-	}
-
-	public void init_Game(){
-		init_Game(MAX_PLAYERS);
-	}
-
-	public void init_Game(int num){
 		num = Math.min(Math.max(MAX_PLAYERS,num),MIN_PLAYERS);
 
-		this.adventureDeck 	  = new ArrayList<AdventureCard>();	
+		//assume that the model will not modify the loaded data
+		this.adventureDeck 	  = ad;
+		this.storyDeck		  = sd;
 		this.adventureDeckDiscard = new ArrayList<AdventureCard>();	
-		this.storyDeck		  = new ArrayList<StoryCard>();	
 		this.storyDeckDiscard 	  = new ArrayList<StoryCard>();
 		this.players 		  = new ArrayList<Player>();
+
+		Collections.shuffle(adventureDeck);
+		Collections.shuffle(storyDeck);
 
 		for(int i = 0; i < num; i++)
 			this.players.add(new Player());
@@ -83,7 +73,6 @@ public class GameBoard{
 			cards.add(card.instance());
 		return cards;
 	}
-
 
 	protected Player findPlayer(int id){
 		for(Player p : players)
