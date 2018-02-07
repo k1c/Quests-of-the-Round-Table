@@ -7,7 +7,7 @@ public class AdventureCardFactory{
         return new AllyCard(id, res, new DefaultBehaviour(BP, bids, true), name);
     }
 
-    public static AdventureCard defaultFoe(int id, String res, String name, int BP){
+    public static AdventureCard defaultFoe(int id, String res, String name,int BP){
         return new FoeCard(id, res, new DefaultBehaviour(BP, 1), name);
     }
 
