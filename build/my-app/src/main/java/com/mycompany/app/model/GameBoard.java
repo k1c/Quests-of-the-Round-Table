@@ -1,7 +1,8 @@
 package com.mycompany.app.model;
 
-import java.util.ArrayList;
 import java.lang.Math;
+import java.util.ArrayList;
+import java.util.Iterator;
 
 import com.mycompany.app.model.AdventureCard;
 import com.mycompany.app.model.GameBoard;
@@ -21,7 +22,7 @@ public class GameBoard{
 	protected ArrayList<Player>		players;
 
 	private GameBoard(){
-			
+		init_Game();					
 	}
 
 	public static GameBoard getInstance(){
@@ -46,6 +47,14 @@ public class GameBoard{
 		for(int i = 0; i < num; i++)
 			this.players.add(new Player());
 	}
+
+	public ArrayList<Integer> getPlayerIds(){
+		ArrayList<Integer> ids = new ArrayList<Integer>();
+		for(Player player : this.players)
+			ids.add(player.id());
+		return ids;
+	}
+
 
 	
 
