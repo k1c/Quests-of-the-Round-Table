@@ -12,7 +12,7 @@ public class StoryCardFactory{
     }
 
     public static StoryCard defaultEvent(int id, String res, String name, int numShields) {
-        return new EventCard(id, res, new StoryBehaviour(0), name);
+        return new EventCard(id, res, new StoryBehaviour(numShields), name);
     }
 
 
