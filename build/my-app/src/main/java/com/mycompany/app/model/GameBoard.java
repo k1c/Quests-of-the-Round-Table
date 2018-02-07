@@ -3,9 +3,9 @@ package com.mycompany.app.model;
 import java.lang.Math;
 import java.util.ArrayList;
 import java.util.Iterator;
+import java.util.List;
 
 import com.mycompany.app.model.AdventureCard;
-import com.mycompany.app.model.Card;
 import com.mycompany.app.model.GameBoard;
 import com.mycompany.app.model.Player;
 import com.mycompany.app.model.StoryCard;
@@ -49,28 +49,43 @@ public class GameBoard{
 			this.players.add(new Player());
 	}
 
-	public ArrayList<Integer> getPlayerIds(){
-		ArrayList<Integer> ids = new ArrayList<Integer>();
+	public List<Integer> getPlayerIds(){
+		List<Integer> ids = new ArrayList<Integer>();
 		for(Player player : this.players)
 			ids.add(player.id());
 		return ids;
 	}
 
-	public ArrayList<Card> getPlayerHand(int id){
-		ArrayList<Card> cards = new ArrayList<Card>();
-	
-		Player p = findPlayerIndex(id);	
-
+	public List<Card> getPlayerHand(int id){
+		Player p = findPlayer(id);	
 		if (p == null)
-			return cards;
+			return new ArrayList<Card>();
+		return copyAdventureCards(p.hand);
+	}
 
-		for(Card card : p.hand)
+	public List<Card> getPlayerToBePlayed(int id){
+		Player p = findPlayer(id);	
+		if (p == null)
+			return new ArrayList<Card>();
+		return copyAdventureCards(p.toBePlayed);
+	}
+
+	public List<Card> getPlayerInPlay(int id){
+		Player p = findPlayer(id);	
+		if (p == null)
+			return new ArrayList<Card>();
+		return copyAdventureCards(p.inPlay);
+	}
+
+	protected List<Card> copyAdventureCards(List<AdventureCard> hand){
+		List<Card> cards = new ArrayList<Card>();
+		for(Card card : hand)
 			cards.add(card.instance());
-
 		return cards;
 	}
 
-	protected Player findPlayerIndex(int id){
+
+	protected Player findPlayer(int id){
 		for(Player p : players)
 			if (p.id() == id)
 				return p;
