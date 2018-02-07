@@ -24,7 +24,8 @@ public class GameBoard{
 
 	public void initGame(int num, ArrayList<AdventureCard> ad, ArrayList<StoryCard> sd){
 
-		num = Math.min(Math.max(MAX_PLAYERS,num),MIN_PLAYERS);
+		if( num > MAX_PLAYERS || num < MIN_PLAYERS)
+			num = MIN_PLAYERS;
 
 		//assume that the model will not modify the loaded data
 		this.adventureDeck 	  = ad;
