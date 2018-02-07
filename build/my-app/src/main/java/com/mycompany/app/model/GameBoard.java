@@ -5,6 +5,7 @@ import java.util.ArrayList;
 import java.util.Iterator;
 
 import com.mycompany.app.model.AdventureCard;
+import com.mycompany.app.model.Card;
 import com.mycompany.app.model.GameBoard;
 import com.mycompany.app.model.Player;
 import com.mycompany.app.model.StoryCard;
@@ -53,6 +54,27 @@ public class GameBoard{
 		for(Player player : this.players)
 			ids.add(player.id());
 		return ids;
+	}
+
+	public ArrayList<Card> getPlayerHand(int id){
+		ArrayList<Card> cards = new ArrayList<Card>();
+	
+		Player p = findPlayerIndex(id);	
+
+		if (p == null)
+			return cards;
+
+		for(Card card : p.hand)
+			cards.add(card.instance());
+
+		return cards;
+	}
+
+	protected Player findPlayerIndex(int id){
+		for(Player p : players)
+			if (p.id() == id)
+				return p;
+		return null;
 	}
 
 
