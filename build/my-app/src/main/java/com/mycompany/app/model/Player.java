@@ -22,6 +22,16 @@ public class Player{
 		idCount++;
 	}
 
+	private Player(int id){
+		this.id = id;
+		// something with the arrays
+	}
+
+	public Player instance(){
+		return new Player(id);
+	}
+
+
 	public int id(){
 		return this.id;
 	}
