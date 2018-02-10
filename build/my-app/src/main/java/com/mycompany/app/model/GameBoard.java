@@ -12,10 +12,7 @@ import com.mycompany.app.model.StoryCard;
 import java.lang.*;
 import java.util.*;
 
-public class GameBoard{
-	private final int MIN_PLAYERS = 2;
-	private final int MAX_PLAYERS = 4;
-
+public class GameBoard extends AbstractGameBoard{
 	protected List<AdventureCard> 	adventureDeck;
 	protected List<AdventureCard> 	adventureDeckDiscard;
 	protected List<StoryCard> 	storyDeck;
@@ -104,8 +101,4 @@ public class GameBoard{
 				return p;
 		return null;
 	}
-
-
-	
-
 }
