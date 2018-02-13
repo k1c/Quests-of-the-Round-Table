@@ -2,28 +2,37 @@ package com.mycompany.app.model;
 
 import com.mycompany.app.model.AdventureCard;
 import com.mycompany.app.model.Player;
+import com.mycompany.app.model.GenericPlayer;
 import java.util.*;
 
-public class Player{
-
-	private static int idCount = 0;
-	protected int id;
+public class Player extends AbstractPlayer{
 
 	public ArrayList<AdventureCard> hand;
 	public ArrayList<AdventureCard> toBePlayed;
 	public ArrayList<AdventureCard> inPlay;
+	//public SpecifiedRank rank;
 
 	public Player(){
+		super();
+
 		this.hand = new ArrayList<AdventureCard>();
 		this.toBePlayed = new ArrayList<AdventureCard>();
 		this.inPlay = new ArrayList<AdventureCard>();
-
-		this.id = idCount;
-		idCount++;
 	}
 
-	public int id(){
-		return this.id;
+	public GenericPlayer genericPlayer(){
+		GenericPlayer temp = new GenericPlayer(this.id);	
+		for(Card card:hand){
+			temp.hand.add(card.instance());	
+		}
+		for(Card card:toBePlayed){
+			temp.toBePlayed.add(card.instance());	
+		}
+		for(Card card:inPlay){
+			temp.inPlay.add(card.instance());	
+		}
+		return temp;
+
 	}
 
 }

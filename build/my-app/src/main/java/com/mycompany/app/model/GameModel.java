@@ -36,6 +36,9 @@ public class GameModel{
 		}
 	}
 
+	public ViewGameBoard getGameBoard(){
+		return board.getViewCopy();
+	}
 
 	public void nextTurn(){
 		if (this.state != GameStates.BEGIN_TURN)
@@ -76,7 +79,7 @@ public class GameModel{
 	/*
 	 * NEEDS : change player parameter to a Player Object
 	 */
-	public void sponsor_quest(int player){
+	public void sponsorQuest(int player){
 		if(this.state != GameStates.SPONSOR_QUEST)
 			return;
 
@@ -88,7 +91,7 @@ public class GameModel{
 
 	}
 
-	public void no_sponsor(){
+	public void noSponsor(){
 		if(this.state != GameStates.SPONSOR_QUEST)
 			return;
 		this.state = GameStates.BEGIN_TURN;
@@ -98,7 +101,7 @@ public class GameModel{
 	 * NEEDS : change player parameter to a Player Object
 	 * NEEDS : some kind of quest object to submit
 	 */
-	public void submit_quest(int player){
+	public void submitQuest(int player){
 		if(this.state != GameStates.SPONSOR_SUBMIT)
 			return;
 		/*
