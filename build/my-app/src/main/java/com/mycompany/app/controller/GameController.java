@@ -1,10 +1,10 @@
 package com.mycompany.app.controller;
 
 import com.mycompany.app.model.GameModel;
-import com.mycompany.app.GameObserver;
+import com.mycompany.app.model.GameObserver;
 import com.mycompany.app.view.GameView;
 
-public class GameController extends GameObserver{
+public class GameController implements GameObserver{
 
 	private final GameModel model;
 	private final GameView view;

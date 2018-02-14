@@ -1,8 +1,7 @@
 package com.mycompany.app;
 
-import com.mycompany.app.view.AdventureDeckView;
-import com.mycompany.app.view.StoryDeckView;
-
+import com.mycompany.app.view.CurrentPlayerView;
+import com.mycompany.app.model.GameModel;
 import javafx.application.Application;
 import javafx.geometry.Pos;
 import javafx.scene.Scene;
@@ -25,26 +24,25 @@ public class Quests extends Application {
     private static final int MARGIN_OUTER = 5;
     private static final String TITLE = "Quests of the Round Table";
 
-    private AdventureDeckView adventureDeckView = new AdventureDeckView();
-    private StoryDeckView storyDeckView = new StoryDeckView();
-
+    private GameModel model = new GameModel();
+    private CurrentPlayerView currentPlayer = new CurrentPlayerView(model);
     @Override
     public void start(Stage primaryStage) {
         primaryStage.setTitle(TITLE);
 
         GridPane root = new GridPane();
-        root.setAlignment(Pos.TOP_RIGHT);
+        root.setAlignment(Pos.BOTTOM_RIGHT);
         root.setStyle("-fx-background-color: d3d3d3;");
         root.setHgap(MARGIN_OUTER);
         root.setVgap(MARGIN_OUTER);
         root.setPadding(new Insets(MARGIN_OUTER));
 
-        root.add(adventureDeckView,0,0);
-        root.add(storyDeckView, 1, 0);
         root.setGridLinesVisible(true); //used for debugging
 
-        primaryStage.setResizable(false);
+        root.add(currentPlayer, 0, 0);
+        //sprimaryStage.setResizable(false);
         primaryStage.setScene(new Scene(root, WIDTH, HEIGHT));
+        primaryStage.setMaximized(true);
         primaryStage.show();
 
     }
