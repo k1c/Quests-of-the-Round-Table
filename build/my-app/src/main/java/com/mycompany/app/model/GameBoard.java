@@ -38,7 +38,7 @@ public class GameBoard extends AbstractGameBoard{
 		for(int i = 0; i < num; i++)
 			this.players.add(new Player());
 
-		for(int i = 0; i < 12; i++)
+		for(int i = 0; i < 5; i++)
 			for(Player p : players) {
                 drawFromAdventureDeck(p);
                 if (i < 3)

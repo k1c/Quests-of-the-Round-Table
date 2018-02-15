@@ -10,80 +10,154 @@ package com.mycompany.app.view;
 import com.mycompany.app.model.*;
 import javafx.collections.ObservableList;
 import javafx.event.EventHandler;
-import javafx.geometry.Insets;
-import javafx.geometry.Pos;
+import javafx.geometry.*;
 import javafx.scene.Node;
+import javafx.scene.control.Label;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
-import javafx.scene.layout.GridPane;
-import javafx.scene.layout.HBox;
-import javafx.scene.layout.StackPane;
+import javafx.scene.layout.*;
 
 import java.util.*;
 
 import javafx.scene.input.MouseEvent;
 
 /**
+ * # of cols needed: perCol = WIDTH/OFFSET, numCol = numCards/perCol + 1 floor
+ * total = 1 (rank) + ^ (hand) + ^ (inplay)
  * Potential issue:
  * 1) Currently passing in the game model object
  * - Any way to avoid this or make it better?
  */
-    public class CurrentPlayerView extends HBox implements GameObserver {
+    public class CurrentPlayerView extends GridPane implements GameObserver {
 
     private GameModel model;
     private ViewGameBoard currentGameState;
 
-    private static final int PADDING = 5;
-    private static final int X_OFFSET = -75;
+    private static final int PADDING = 0;
+    private static final int X_OFFSET = 73;
+    private static final int WIDTH = 146;
+    private static final int HEIGHT = 200;
 
     public CurrentPlayerView(GameModel gameModel) {
         this.model = gameModel;
         this.model.registerObserver(this);
         this.currentGameState = model.getGameBoard();
 
+        // gridpane properties
         setPadding(new Insets(PADDING));
-        setAlignment(Pos.BOTTOM_CENTER);
-        setSpacing(25);
+        setAlignment(Pos.BOTTOM_RIGHT);
+        setNodeOrientation(NodeOrientation.RIGHT_TO_LEFT);
+        setPrefHeight(HEIGHT);
+
         buildLayout();
     }
 
     private void buildLayout() {
+
+        // Clear section
         getChildren().clear();
 
-        // rank
-        buildRank();
+        // Get current player info
+        GenericPlayer current = currentGameState.players.get(0);
+        ArrayList<Card> hand = current.hand;
+        ArrayList<Card> inplay = current.inPlay;
+        int numInHand = hand.size();
+        int numInPlay = inplay.size();
 
-        // in hand
-        buildHand();
+        // Create grid
+        // get # of cols needed
 
-        // in play
-        buildInPlay();
+        // how many columns needed to cover stacked cards
+        int cardsPerCol = WIDTH/X_OFFSET;
+        int handSpan = (int) Math.floor(numInHand/cardsPerCol + 1);
+        int inplaySpan = (int) Math.floor(numInPlay/cardsPerCol + 1);
+
+        // Total number of columns: 2 extra for spacing, 1 for rank,
+        int numCol = 2 + 1 + handSpan + inplaySpan;
+
+        // Set gridpane width
+        setPrefWidth(numCol * WIDTH);
+
+        // generate and add columns
+        for (int i = 0; i < numCol; i++) {
+            ColumnConstraints col = new ColumnConstraints();
+            col.setHgrow(javafx.scene.layout.Priority.SOMETIMES);
+            col.setMinWidth(WIDTH);
+            col.setPrefWidth(WIDTH);
+            getColumnConstraints().add(col);
+        }
+
+        // add row
+        RowConstraints row = new RowConstraints();
+        row.setMaxHeight(HEIGHT);
+        row.setMinHeight(HEIGHT);
+        row.setPrefHeight(HEIGHT);
+        row.setVgrow(javafx.scene.layout.Priority.SOMETIMES);
+        getRowConstraints().add(row);
+
+        // add rank
+        String rank = "R Squire.jpg";
+        buildRank(rank);
+
+        // add in hand
+        buildHand(hand, handSpan);
+
+        // add in play
+        buildInPlay(inplay, handSpan+3);
     }
 
-    private void buildRank() {
+    private void buildRank(String rank) {
+        // Create player rank
+        StackPane playerRank = new StackPane();
+        GridPane.setColumnIndex(playerRank, 0);
 
+        ImageView rankCard = new ImageView(new Image(rank));
+        rankCard.setFitWidth(WIDTH);
+        rankCard.setFitHeight(HEIGHT);
+
+        playerRank.getChildren().add(rankCard);
+
+        getChildren().add(playerRank);
     }
 
-    private void buildHand(){
+    private void buildHand(ArrayList<Card> hand, int handSpan){
 
+        // Create player hand
         StackPane playerHand = new StackPane();
-        playerHand.setPadding(new Insets(PADDING));
-        playerHand.setAlignment(Pos.BOTTOM_CENTER);
+
+        GridPane.setColumnIndex(playerHand, 2);
+        GridPane.setColumnSpan(playerHand, handSpan);
+
+        createStack(hand, playerHand);
+
+        getChildren().add(playerHand);
+    }
+
+    private void buildInPlay(ArrayList<Card> inPlay, int index) {
+
+        // Create player in play
+        StackPane playerInplay = new StackPane();
+
+        GridPane.setColumnIndex(playerInplay, index);
+        GridPane.setColumnSpan(playerInplay, REMAINING);
+
+        createStack(inPlay, playerInplay);
+
+        getChildren().add(playerInplay);
+    }
+
+    private void createStack(ArrayList<Card> cards, StackPane s) {
         int offset = 0;
 
-        // get current player
-        GenericPlayer current = currentGameState.players.get(0);
-
-        // get current player hand
-        ArrayList<Card> hand = current.hand;
-
-        // For each card, add it to stackpane and attach eventhandlers
-        for (Card card : hand) {
+        for (Card card : cards) {
             final ImageView image = new ImageView(new Image(card.res));
 
+            // Set alignment
+            StackPane.setAlignment(image, Pos.BOTTOM_LEFT);
+
             // Scale image
-            image.setFitHeight(200);
-            image.setFitWidth(146);
+            image.setFitHeight(HEIGHT);
+            image.setFitWidth(WIDTH);
 
             // Move to left for 'stack' effect
             image.setTranslateX(X_OFFSET * offset);
@@ -101,12 +175,11 @@ import javafx.scene.input.MouseEvent;
             offset++;
 
             // Add to StackPane
-            //add(image, 1 ,0);
-            playerHand.getChildren().add(image);
+            s.getChildren().add(image);
 
             // Hover on card -
             // Brings it to front, rearranges other cards for easy access.
-            image.addEventHandler(MouseEvent.MOUSE_ENTERED, focusCard(image, playerHand));
+            image.addEventHandler(MouseEvent.MOUSE_ENTERED, focusCard(image, s));
 
             // Reset border color when mouse is no longer hovering on card
             image.addEventHandler(MouseEvent.MOUSE_EXITED, new EventHandler<MouseEvent>() {
@@ -115,62 +188,8 @@ import javafx.scene.input.MouseEvent;
                 }
             });
         }
-        ArrayList<Card> hand2 = current.inPlay;
-        StackPane playerHand3 = new StackPane();
-        offset -= 1;
-        // For each card, add it to stackpane and attach eventhandlers
-        for (Card card : hand2) {
-            final ImageView image = new ImageView(new Image(card.res));
-
-            // Scale image
-            image.setFitHeight(200);
-            image.setFitWidth(146);
-
-            // Move to left for 'stack' effect
-            image.setTranslateX(X_OFFSET * offset);
-
-            // Add 'correct' position of the card in the stackpane
-            // correct means visual index instead of calculated z-index which changes
-            image.setId(offset + "");
-
-            // Add border with same color as card
-            image.getProperties().put("color", getColor(card));
-
-            image.setStyle((String) image.getProperties().get("color"));
-
-            // Offset/Position for next card
-            offset++;
-
-            // Add to StackPane
-            //add(image, 1 ,0);
-            playerHand3.getChildren().add(image);
-
-            // Hover on card -
-            // Brings it to front, rearranges other cards for easy access.
-            image.addEventHandler(MouseEvent.MOUSE_ENTERED, focusCard(image, playerHand3));
-
-            // Reset border color when mouse is no longer hovering on card
-            image.addEventHandler(MouseEvent.MOUSE_EXITED, new EventHandler<MouseEvent>() {
-                public void handle(MouseEvent event) {
-                    image.setStyle((String) image.getProperties().get("color"));
-                }
-            });
-        }
-
-        getChildren().add(playerHand3);
-        getChildren().add(playerHand);
-
-        StackPane playerHand2 = new StackPane();
-        ImageView image = new ImageView(new Image("R Squire.jpg"));
-        image.setFitHeight(200);
-        image.setFitWidth(146);
-        playerHand2.getChildren().add(image);
-        getChildren().add(playerHand2);
     }
 
-    private void buildInPlay() {
-
-    }
 
     private EventHandler<MouseEvent> focusCard(final ImageView image, final StackPane p) {
         return new EventHandler<MouseEvent>() {
@@ -181,7 +200,6 @@ import javafx.scene.input.MouseEvent;
 
                 // Get all current cards on display
                 List<Node> children = new ArrayList<Node>(p.getChildren());
-
                 // Sort by actual index instead of z-index
                 Collections.sort(children, new Comparator<Node>() {
                     public int compare(Node o1, Node o2) {
@@ -240,7 +258,6 @@ import javafx.scene.input.MouseEvent;
     }
 
     public void update() {
-        // UPDATE CURRENT PLAYER STUFF
         this.currentGameState = model.getGameBoard();
         buildLayout();
     }

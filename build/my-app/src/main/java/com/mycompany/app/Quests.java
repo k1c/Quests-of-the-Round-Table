@@ -5,7 +5,6 @@ import com.mycompany.app.model.GameModel;
 import javafx.application.Application;
 import javafx.geometry.Pos;
 import javafx.scene.Scene;
-import javafx.scene.layout.Border;
 import javafx.scene.layout.BorderPane;
 import javafx.stage.Stage;
 import javafx.scene.layout.GridPane;
@@ -21,27 +20,32 @@ import javafx.geometry.Insets;
 
 public class Quests extends Application {
 
-    private static final int WIDTH = 1280;
-    private static final int HEIGHT = 720;
+    private static final int WIDTH = 1920;
+    private static final int HEIGHT = 1080;
     private static final int MARGIN_OUTER = 5;
     private static final String TITLE = "Quests of the Round Table";
 
     private GameModel model = new GameModel();
-    private CurrentPlayerView currentPlayer = new CurrentPlayerView(model);
+    private CurrentPlayerView currentPlayerView = new CurrentPlayerView(model);
+
     @Override
     public void start(Stage primaryStage) {
         primaryStage.setTitle(TITLE);
 
-        GridPane root = new GridPane();
+        BorderPane root = new BorderPane();
 
-        root.setStyle("-fx-background-color: d3d3d3;");
-        root.setPadding(new Insets(MARGIN_OUTER));
-        root.setAlignment(Pos.BOTTOM_RIGHT);
+        GridPane currentPlayer = new GridPane();
 
-        root.add(currentPlayer, 0, 0);
-        primaryStage.setScene(new Scene(root));
+        currentPlayer.setPadding(new Insets(MARGIN_OUTER));
+        currentPlayer.setAlignment(Pos.BOTTOM_RIGHT);
+
+        currentPlayer.add(currentPlayerView, 0, 0);
+
+        root.setBottom(currentPlayer);
+
+        primaryStage.setScene(new Scene(root, WIDTH, HEIGHT));
         primaryStage.setMaximized(true);
-        primaryStage.setResizable(false);
+        primaryStage.setResizable(true);
         primaryStage.show();
 
     }
