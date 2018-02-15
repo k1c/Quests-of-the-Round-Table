@@ -7,8 +7,8 @@ import java.util.*;
 
 
 public class CardLoader{
-	static public ArrayList<AdventureCard> loadAdventureCards (){
-		ArrayList<AdventureCard> cards = new ArrayList<AdventureCard>();
+	static public List<AdventureCard> loadAdventureCards (){
+		List<AdventureCard> cards = new ArrayList<AdventureCard>();
 		AdventureCardFactory F = new AdventureCardFactory();
 
 

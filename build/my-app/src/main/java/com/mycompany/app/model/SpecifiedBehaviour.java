@@ -2,19 +2,16 @@ package com.mycompany.app.model;
 
 import java.util.*;
 
-public class SpecifiedBehaviour extends AdventureBehaviour {
-
-    protected int BP;
-    protected int bids;
+public class SpecifiedBehaviour extends DefaultBehaviour{
 
     protected int specifiedBP;
     protected int specifiedBids;
-    protected ArrayList<Integer> specifiers;
+    protected List<Integer> specifiers;
 
 
-    public SpecifiedBehaviour(int specifiedBP, int specifiedBids) {
+    public SpecifiedBehaviour(int defaultBP, int defaultBids,int specifiedBP, int specifiedBids,boolean freeBid) {
 	
-	super();
+	super(defaultBP,defaultBids,freeBid);
 
         this.BP = BP;
         this.bids = bids;

@@ -6,9 +6,9 @@ import java.util.*;
 
 public class GenericPlayer extends AbstractPlayer{
 
-	public ArrayList<Card> hand;
-	public ArrayList<Card> toBePlayed;
-	public ArrayList<Card> inPlay;
+	public List<Card> hand;
+	public List<Card> toBePlayed;
+	public List<Card> inPlay;
 	//public GenericRank rank;
 
 	public GenericPlayer(int id){

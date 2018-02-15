@@ -7,9 +7,9 @@ import java.util.*;
 
 public class Player extends AbstractPlayer{
 
-	public ArrayList<AdventureCard> hand;
-	public ArrayList<AdventureCard> toBePlayed;
-	public ArrayList<AdventureCard> inPlay;
+	public List<AdventureCard> hand;
+	public List<AdventureCard> toBePlayed;
+	public List<AdventureCard> inPlay;
 	//public SpecifiedRank rank;
 
 	public Player(){
