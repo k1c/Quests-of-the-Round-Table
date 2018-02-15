@@ -15,6 +15,8 @@ import javafx.geometry.Pos;
 import javafx.scene.Node;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
+import javafx.scene.layout.GridPane;
+import javafx.scene.layout.HBox;
 import javafx.scene.layout.StackPane;
 
 import java.util.*;
@@ -26,7 +28,7 @@ import javafx.scene.input.MouseEvent;
  * 1) Currently passing in the game model object
  * - Any way to avoid this or make it better?
  */
-public class CurrentPlayerView extends StackPane implements GameObserver {
+    public class CurrentPlayerView extends HBox implements GameObserver {
 
     private GameModel model;
     private ViewGameBoard currentGameState;
@@ -41,7 +43,7 @@ public class CurrentPlayerView extends StackPane implements GameObserver {
 
         setPadding(new Insets(PADDING));
         setAlignment(Pos.BOTTOM_CENTER);
-
+        setSpacing(25);
         buildLayout();
     }
 
@@ -63,6 +65,10 @@ public class CurrentPlayerView extends StackPane implements GameObserver {
     }
 
     private void buildHand(){
+
+        StackPane playerHand = new StackPane();
+        playerHand.setPadding(new Insets(PADDING));
+        playerHand.setAlignment(Pos.BOTTOM_CENTER);
         int offset = 0;
 
         // get current player
@@ -95,11 +101,12 @@ public class CurrentPlayerView extends StackPane implements GameObserver {
             offset++;
 
             // Add to StackPane
-            getChildren().add(image);
+            //add(image, 1 ,0);
+            playerHand.getChildren().add(image);
 
             // Hover on card -
             // Brings it to front, rearranges other cards for easy access.
-            image.addEventHandler(MouseEvent.MOUSE_ENTERED, focusCard(image));
+            image.addEventHandler(MouseEvent.MOUSE_ENTERED, focusCard(image, playerHand));
 
             // Reset border color when mouse is no longer hovering on card
             image.addEventHandler(MouseEvent.MOUSE_EXITED, new EventHandler<MouseEvent>() {
@@ -108,13 +115,64 @@ public class CurrentPlayerView extends StackPane implements GameObserver {
                 }
             });
         }
+        ArrayList<Card> hand2 = current.inPlay;
+        StackPane playerHand3 = new StackPane();
+        offset -= 1;
+        // For each card, add it to stackpane and attach eventhandlers
+        for (Card card : hand2) {
+            final ImageView image = new ImageView(new Image(card.res));
+
+            // Scale image
+            image.setFitHeight(200);
+            image.setFitWidth(146);
+
+            // Move to left for 'stack' effect
+            image.setTranslateX(X_OFFSET * offset);
+
+            // Add 'correct' position of the card in the stackpane
+            // correct means visual index instead of calculated z-index which changes
+            image.setId(offset + "");
+
+            // Add border with same color as card
+            image.getProperties().put("color", getColor(card));
+
+            image.setStyle((String) image.getProperties().get("color"));
+
+            // Offset/Position for next card
+            offset++;
+
+            // Add to StackPane
+            //add(image, 1 ,0);
+            playerHand3.getChildren().add(image);
+
+            // Hover on card -
+            // Brings it to front, rearranges other cards for easy access.
+            image.addEventHandler(MouseEvent.MOUSE_ENTERED, focusCard(image, playerHand3));
+
+            // Reset border color when mouse is no longer hovering on card
+            image.addEventHandler(MouseEvent.MOUSE_EXITED, new EventHandler<MouseEvent>() {
+                public void handle(MouseEvent event) {
+                    image.setStyle((String) image.getProperties().get("color"));
+                }
+            });
+        }
+
+        getChildren().add(playerHand3);
+        getChildren().add(playerHand);
+
+        StackPane playerHand2 = new StackPane();
+        ImageView image = new ImageView(new Image("R Squire.jpg"));
+        image.setFitHeight(200);
+        image.setFitWidth(146);
+        playerHand2.getChildren().add(image);
+        getChildren().add(playerHand2);
     }
 
     private void buildInPlay() {
 
     }
 
-    private EventHandler<MouseEvent> focusCard(final ImageView image) {
+    private EventHandler<MouseEvent> focusCard(final ImageView image, final StackPane p) {
         return new EventHandler<MouseEvent>() {
             public void handle(MouseEvent event) {
 
@@ -122,7 +180,7 @@ public class CurrentPlayerView extends StackPane implements GameObserver {
                 image.setStyle("-fx-effect: dropshadow(gaussian, #ff7c14, 5, 1, 0, 0)");
 
                 // Get all current cards on display
-                List<Node> children = new ArrayList<Node>(getChildren());
+                List<Node> children = new ArrayList<Node>(p.getChildren());
 
                 // Sort by actual index instead of z-index
                 Collections.sort(children, new Comparator<Node>() {

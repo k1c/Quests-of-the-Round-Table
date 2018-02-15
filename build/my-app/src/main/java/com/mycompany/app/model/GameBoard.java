@@ -39,8 +39,11 @@ public class GameBoard extends AbstractGameBoard{
 			this.players.add(new Player());
 
 		for(int i = 0; i < 12; i++)
-			for(Player p : players)
-				drawFromAdventureDeck(p);
+			for(Player p : players) {
+                drawFromAdventureDeck(p);
+                if (i < 3)
+                    p.inPlay.add(adventureDeck.remove(adventureDeck.size() - 1));
+            }
 	}
 
 	public void loadGame(){
@@ -58,7 +61,6 @@ public class GameBoard extends AbstractGameBoard{
 			return;
 
 		p.hand.add(adventureDeck.remove(adventureDeck.size()-1));
-
 	}
 
 	public List<Integer> getPlayerIds(){

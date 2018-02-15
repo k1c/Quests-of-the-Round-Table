@@ -5,6 +5,8 @@ import com.mycompany.app.model.GameModel;
 import javafx.application.Application;
 import javafx.geometry.Pos;
 import javafx.scene.Scene;
+import javafx.scene.layout.Border;
+import javafx.scene.layout.BorderPane;
 import javafx.stage.Stage;
 import javafx.scene.layout.GridPane;
 import javafx.geometry.Insets;
@@ -31,18 +33,15 @@ public class Quests extends Application {
         primaryStage.setTitle(TITLE);
 
         GridPane root = new GridPane();
-        root.setAlignment(Pos.BOTTOM_RIGHT);
-        root.setStyle("-fx-background-color: d3d3d3;");
-        root.setHgap(MARGIN_OUTER);
-        root.setVgap(MARGIN_OUTER);
-        root.setPadding(new Insets(MARGIN_OUTER));
 
-        root.setGridLinesVisible(true); //used for debugging
+        root.setStyle("-fx-background-color: d3d3d3;");
+        root.setPadding(new Insets(MARGIN_OUTER));
+        root.setAlignment(Pos.BOTTOM_RIGHT);
 
         root.add(currentPlayer, 0, 0);
-        //sprimaryStage.setResizable(false);
-        primaryStage.setScene(new Scene(root, WIDTH, HEIGHT));
+        primaryStage.setScene(new Scene(root));
         primaryStage.setMaximized(true);
+        primaryStage.setResizable(false);
         primaryStage.show();
 
     }
