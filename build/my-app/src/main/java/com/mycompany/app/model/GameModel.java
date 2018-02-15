@@ -9,7 +9,7 @@ import java.util.*;
 
 public class GameModel{
 
-	private ArrayList<GameObserver> observers;
+	private List<GameObserver> observers;
 	private GameStates state;
 	private int numberOfPlayers;
 	private int currentPlayer;
@@ -31,8 +31,8 @@ public class GameModel{
 	}
 
 	public void updateObservers(){
-		for(Iterator<GameObserver> i = this.observers.iterator(); i.hasNext();){
-			i.next().update();
+		for(GameObserver observer : observers){
+			observer.update();
 		}
 	}
 
