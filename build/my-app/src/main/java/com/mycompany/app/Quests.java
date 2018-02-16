@@ -1,6 +1,6 @@
 package com.mycompany.app;
 
-import com.mycompany.app.view.CurrentPlayerView;
+import com.mycompany.app.view.*;
 import com.mycompany.app.model.GameModel;
 import javafx.application.Application;
 import javafx.geometry.Pos;
@@ -27,6 +27,7 @@ public class Quests extends Application {
 
     private GameModel model = new GameModel();
     private CurrentPlayerView currentPlayerView = new CurrentPlayerView(model);
+    private WaitingPlayersView waitingPlayersView = new WaitingPlayersView(model);
 
     @Override
     public void start(Stage primaryStage) {
@@ -42,6 +43,15 @@ public class Quests extends Application {
         currentPlayer.add(currentPlayerView, 0, 0);
 
         root.setBottom(currentPlayer);
+
+        GridPane waitingPlayers = new GridPane();
+
+        waitingPlayers.setPadding(new Insets(MARGIN_OUTER));
+        waitingPlayers.setAlignment(Pos.CENTER_RIGHT);
+
+        waitingPlayers.add(waitingPlayersView, 0, 0);
+
+        root.setRight(waitingPlayers);
 
         primaryStage.setScene(new Scene(root, WIDTH, HEIGHT));
         primaryStage.setMaximized(true);
