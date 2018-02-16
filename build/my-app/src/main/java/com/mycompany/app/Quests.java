@@ -1,11 +1,11 @@
 package com.mycompany.app;
 
-import com.mycompany.app.view.AdventureDeckView;
-import com.mycompany.app.view.StoryDeckView;
-
+import com.mycompany.app.view.CurrentPlayerView;
+import com.mycompany.app.model.GameModel;
 import javafx.application.Application;
 import javafx.geometry.Pos;
 import javafx.scene.Scene;
+import javafx.scene.layout.BorderPane;
 import javafx.stage.Stage;
 import javafx.scene.layout.GridPane;
 import javafx.geometry.Insets;
@@ -20,31 +20,32 @@ import javafx.geometry.Insets;
 
 public class Quests extends Application {
 
-    private static final int WIDTH = 1280;
-    private static final int HEIGHT = 720;
+    private static final int WIDTH = 1920;
+    private static final int HEIGHT = 1080;
     private static final int MARGIN_OUTER = 5;
     private static final String TITLE = "Quests of the Round Table";
 
-    private AdventureDeckView adventureDeckView = new AdventureDeckView();
-    private StoryDeckView storyDeckView = new StoryDeckView();
+    private GameModel model = new GameModel();
+    private CurrentPlayerView currentPlayerView = new CurrentPlayerView(model);
 
     @Override
     public void start(Stage primaryStage) {
         primaryStage.setTitle(TITLE);
 
-        GridPane root = new GridPane();
-        root.setAlignment(Pos.TOP_RIGHT);
-        root.setStyle("-fx-background-color: d3d3d3;");
-        root.setHgap(MARGIN_OUTER);
-        root.setVgap(MARGIN_OUTER);
-        root.setPadding(new Insets(MARGIN_OUTER));
+        BorderPane root = new BorderPane();
 
-        root.add(adventureDeckView,0,0);
-        root.add(storyDeckView, 1, 0);
-        root.setGridLinesVisible(true); //used for debugging
+        GridPane currentPlayer = new GridPane();
 
-        primaryStage.setResizable(false);
+        currentPlayer.setPadding(new Insets(MARGIN_OUTER));
+        currentPlayer.setAlignment(Pos.BOTTOM_RIGHT);
+
+        currentPlayer.add(currentPlayerView, 0, 0);
+
+        root.setBottom(currentPlayer);
+
         primaryStage.setScene(new Scene(root, WIDTH, HEIGHT));
+        primaryStage.setMaximized(true);
+        primaryStage.setResizable(true);
         primaryStage.show();
 
     }
