@@ -8,8 +8,10 @@ public class SpecifiedBehaviour extends DefaultBehaviour{
     protected int specifiedBids;
     protected List<Integer> specifiers;
 
-
-    public SpecifiedBehaviour(int defaultBP, int defaultBids,int specifiedBP, int specifiedBids,boolean freeBid) {
+    public SpecifiedBehaviour(int defaultBP, int defaultBids, int specifiedBP, int specifiedBids) {
+        this(defaultBP, defaultBids, specifiedBP, specifiedBids,false);
+    }
+    public SpecifiedBehaviour(int defaultBP, int defaultBids,int specifiedBP, int specifiedBids, boolean freeBid) {
 	
 	super(defaultBP,defaultBids,freeBid);
 
