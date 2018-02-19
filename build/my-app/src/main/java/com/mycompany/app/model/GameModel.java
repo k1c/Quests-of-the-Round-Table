@@ -10,9 +10,11 @@ public class GameModel{
 	private GameStates state;
 
 	private int numberOfPlayers;
+	//Active Story Player
 	private int currentPlayer;
 	private List<Integer> players;
 
+	//Turn Number
 	private int turn;
 	private GameBoard board;
 
@@ -108,6 +110,8 @@ public class GameModel{
 		 */
 		if(board.playerCanSponsor(player))	
 			this.state = GameStates.SPONSOR_SUBMIT;
+
+		this.updateObservers();
 
 	}
 

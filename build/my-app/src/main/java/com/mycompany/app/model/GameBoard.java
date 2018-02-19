@@ -21,7 +21,8 @@ public class GameBoard extends AbstractGameBoard{
 	protected List<StoryCard> 	storyDeckDiscard;
 
 	protected List<Player>		players;
-	protected List<Player> 	participants;
+	protected List<Player> 		participants;
+	protected Player		sponsor; 
 
 
 	protected StoryCard currentStory;
