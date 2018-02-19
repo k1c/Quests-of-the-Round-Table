@@ -10,11 +10,21 @@ public class GameModel{
 	private GameStates state;
 
 	private int numberOfPlayers;
+
+	//Active Story Player
 	private int currentPlayer;
+	
+	//all Players In Game
 	private List<Integer> players;
 
+	//Turn Number
 	private int turn;
 	private GameBoard board;
+
+
+	//For decision problems
+	private Set<Players> temp;
+	private int nextPlayer;
 
 	public GameModel(){
 		observers = new ArrayList<GameObserver>();
@@ -25,10 +35,14 @@ public class GameModel{
 
 		turn = 0;
 
+		temp = new TreeSet<Player>();
+		nextPlayer = currentPlayer;
+
 		board.initGame(numberOfPlayers,CardLoader.loadAdventureCards(),new ArrayList<StoryCard>());
 		players = board.getPlayerIds();		
 
 	}
+
 
 	public void registerObserver(GameObserver o){
 		this.observers.add(o);
@@ -99,7 +113,7 @@ public class GameModel{
 	/*
 	 * NEEDS : change player parameter to a Player Object
 	 */
-	public void sponsorQuest(int player){
+	public void sponsorQuest(int player,boolean sponsor){
 		if(this.state != GameStates.SPONSOR_QUEST)
 			return;
 		
@@ -108,6 +122,8 @@ public class GameModel{
 		 */
 		if(board.playerCanSponsor(player))	
 			this.state = GameStates.SPONSOR_SUBMIT;
+
+		this.updateObservers();
 
 	}
 
