@@ -8,15 +8,26 @@ public class GameModel{
 
 	private List<GameObserver> observers;
 	private GameStates state;
+
 	private int numberOfPlayers;
 	private int currentPlayer;
+	private List<Integer> players;
+
 	private int turn;
 	private GameBoard board;
 
 	public GameModel(){
 		observers = new ArrayList<GameObserver>();
 		board = new GameBoard();
-		board.initGame(4,CardLoader.loadAdventureCards(),new ArrayList<StoryCard>());
+		
+		numberOfPlayers = 4;
+		currentPlayer = 0;
+
+		turn = 0;
+
+		board.initGame(numberOfPlayers,CardLoader.loadAdventureCards(),new ArrayList<StoryCard>());
+		players = board.getPlayerIds();		
+
 	}
 
 	public void registerObserver(GameObserver o){
@@ -41,8 +52,9 @@ public class GameModel{
 		if (this.state != GameStates.BEGIN_TURN)
 			return;
 
-		this.currentPlayer = (this.currentPlayer + 1) % numberOfPlayers;
-
+		this.turn++;
+		this.currentPlayer = (this.turn) % this.numberOfPlayers;
+		
 
 		/*
 		 * Action : Check if any players have won
@@ -52,15 +64,19 @@ public class GameModel{
 		/*
 		 * Action: Draw from Story Deck
 		 */
+		
+		board.drawFromStoryDeck(players.get(currentPlayer));
+		Card card = board.getCurrentStoryCard();
+		
 
 		
-		if (Card.Types.EVENT == Card.Types.EVENT){
+		if (Card.Types.EVENT == card.type){
 			this.state = GameStates.EVENT_LOGIC;
 		}
-		else if (Card.Types.QUEST == Card.Types.QUEST){
+		else if (Card.Types.QUEST == card.type){
 			this.state = GameStates.SPONSOR_QUEST;
 		}
-		else if (Card.Types.TOURNAMENT == Card.Types.TOURNAMENT){
+		else if (Card.Types.TOURNAMENT == card.type){
 			this.state = GameStates.PARTICIPATE_TOURNAMENT;
 		}
 
@@ -79,11 +95,11 @@ public class GameModel{
 	public void sponsorQuest(int player){
 		if(this.state != GameStates.SPONSOR_QUEST)
 			return;
-
+		
 		/*
 		 * Verify that they can sponsor with current cards
 		 */
-		if(true)	
+		if(board.playerCanSponsor(player))	
 			this.state = GameStates.SPONSOR_SUBMIT;
 
 	}

@@ -1,5 +1,6 @@
 build:
 	mvn compile
+b: pack run
 
 test:
 	mvn test
