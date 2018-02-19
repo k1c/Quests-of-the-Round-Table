@@ -20,7 +20,7 @@ public class GameBoard extends AbstractGameBoard{
 	protected List<StoryCard> 	storyDeckDiscard;
 	protected List<Player>		players;
 
-	public void initGame(int num, ArrayList<AdventureCard> ad, ArrayList<StoryCard> sd){
+	public void initGame(int num, List<AdventureCard> ad, List<StoryCard> sd){
 
 		if( num > MAX_PLAYERS || num < MIN_PLAYERS)
 			num = MIN_PLAYERS;
