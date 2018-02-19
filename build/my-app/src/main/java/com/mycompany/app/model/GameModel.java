@@ -1,9 +1,6 @@
 package com.mycompany.app.model;
 
 
-import com.mycompany.app.GameObserver;
-import com.mycompany.app.model.*;
-import com.mycompany.app.model.GameStates;
 import java.util.*;
 
 
