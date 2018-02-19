@@ -59,7 +59,11 @@ public class GameModel{
 		/*
 		 * Action : Check if any players have won
 		 */
-
+		List<GenericPlayer> winners = board.winningPlayers();	
+		if(winners.size() > 0){
+			this.state = GameStates.WINNERS;
+			return;
+		}
 
 		/*
 		 * Action: Draw from Story Deck
@@ -72,12 +76,15 @@ public class GameModel{
 		
 		if (Card.Types.EVENT == card.type){
 			this.state = GameStates.EVENT_LOGIC;
+			return;
 		}
-		else if (Card.Types.QUEST == card.type){
+		if (Card.Types.QUEST == card.type){
 			this.state = GameStates.SPONSOR_QUEST;
+			return;
 		}
-		else if (Card.Types.TOURNAMENT == card.type){
+		if (Card.Types.TOURNAMENT == card.type){
 			this.state = GameStates.PARTICIPATE_TOURNAMENT;
+			return;
 		}
 
 		/*

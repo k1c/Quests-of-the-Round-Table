@@ -50,12 +50,11 @@ public class GameBoard extends AbstractGameBoard{
 		for(int i = 0; i < num; i++)
 			this.players.add(new Player());
 
-		for(int i = 0; i < INITIAL_CARDS; i++)
+		for(int i = 0; i < INITIAL_CARDS; i++){
 			for(Player p : players) {
 				drawFromAdventureDeck(p);
-				if (i < 3)
-					drawFromAdventureDeck(p);
 			}
+		}
 	}
 
 	public void rigGame(){
@@ -63,6 +62,15 @@ public class GameBoard extends AbstractGameBoard{
 	}
 	public void loadGame(){
 
+	}
+
+	public List<GenericPlayer> winningPlayers(){
+		List<GenericPlayer> temp = new ArrayList();
+		for(Player p : players){
+			if(p.rank.getRank() == Rank.RankType.KNIGHT_OF_THE_ROUND_TABLE)
+				temp.add(p.genericPlayer());
+		}
+		return temp;
 	}
 
 	protected void drawFromAdventureDeck(Player p){
