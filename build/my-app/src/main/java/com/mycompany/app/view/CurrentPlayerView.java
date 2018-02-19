@@ -59,8 +59,8 @@ import javafx.scene.input.MouseEvent;
 
         // Get current player info
         GenericPlayer current = currentGameState.players.get(0);
-        ArrayList<Card> hand = current.hand;
-        ArrayList<Card> inplay = current.inPlay;
+        List<Card> hand = current.hand;
+        List<Card> inplay = current.inPlay;
         int numInHand = hand.size();
         int numInPlay = inplay.size();
 
@@ -120,7 +120,7 @@ import javafx.scene.input.MouseEvent;
         getChildren().add(playerRank);
     }
 
-    private void buildHand(ArrayList<Card> hand, int handSpan){
+    private void buildHand(List<Card> hand, int handSpan){
 
         // Create player hand
         StackPane playerHand = new StackPane();
@@ -133,7 +133,7 @@ import javafx.scene.input.MouseEvent;
         getChildren().add(playerHand);
     }
 
-    private void buildInPlay(ArrayList<Card> inPlay, int index) {
+    private void buildInPlay(List<Card> inPlay, int index) {
 
         // Create player in play
         StackPane playerInplay = new StackPane();
@@ -146,7 +146,7 @@ import javafx.scene.input.MouseEvent;
         getChildren().add(playerInplay);
     }
 
-    private void createStack(ArrayList<Card> cards, StackPane s) {
+    private void createStack(List<Card> cards, StackPane s) {
         int offset = 0;
 
         for (Card card : cards) {

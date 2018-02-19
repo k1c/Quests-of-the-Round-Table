@@ -49,8 +49,8 @@ public class WaitingPlayersView extends GridPane implements GameObserver {
         waiting.add(currentGameState.players.get(2));
         waiting.add(currentGameState.players.get(3));
 
-        ArrayList<Card> hand = waiting.get(1).hand;
-        ArrayList<Card> inplay = waiting.get(1).inPlay;
+        List<Card> hand = waiting.get(1).hand;
+        List<Card> inplay = waiting.get(1).inPlay;
         int numInHand = hand.size();
         int numInPlay = inplay.size();
 
@@ -152,7 +152,7 @@ public class WaitingPlayersView extends GridPane implements GameObserver {
         }
     }
 
-    private void createStack(ArrayList<Card> cards, StackPane s, final boolean flag) {
+    private void createStack(List<Card> cards, StackPane s, final boolean flag) {
         int offset = 0;
 
         for (Card card : cards) {
