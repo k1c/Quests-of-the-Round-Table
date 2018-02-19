@@ -3,7 +3,7 @@ import com.mycompany.app.model.*;
 
 public class Rank {
 
-    public static enum RankType {SQUIRE, KNIGHT, CHAMPION_KNIGHT};
+    public static enum RankType {SQUIRE, KNIGHT, CHAMPION_KNIGHT, KNIGHT_OF_THE_ROUND_TABLE};
 
     protected static int MAX_SHIELDS_SQUIRE = 5;
     protected static int MAX_SHIELDS_KNIGHT = 7;

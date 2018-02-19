@@ -56,95 +56,40 @@ public class CardLoader{
 
 		return L;
 	}
-/*
-		//WEAPONS
-
-		for(int i = 0; i < 2; i++)
-			advCards.add(F.defaultWeapon(1,"W Excalibur.jpg","Excalibur",30));
-
-		for(int i = 0; i < 6; i++)
-			advCards.add(F.defaultWeapon(2,"W Lance.jpg","Lance",20));
-
-		for(int i = 0; i < 8; i++)
-			advCards.add(F.defaultWeapon(3,"W Battle-Ax.jpg","Battle-ax",15));
-
-		for(int i = 0; i < 16; i++)
-			advCards.add(F.defaultWeapon(4,"W Sword.jpg","Sword",10));
-
-		for(int i = 0; i < 11; i++)
-			advCards.add(F.defaultWeapon(5,"W Horse.jpg","Horse",10));
-
-		for(int i = 0; i < 6; i++)
-			advCards.add(F.defaultWeapon(6,"W Dagger.jpg","Dagger",5));
-
-		//FOES
-
-		advCards.add(F.specifiedFoe(7, "F Dragon.jpg", "Dragon", 50, 70));
-
-		for(int i = 0; i < 2; i++)
-			advCards.add(F.defaultFoe(8,"F Giant.jpg","Giant",40));
-
-		//MORDRED HERE (id = 9)
-
-		for(int i = 0; i < 2, i++)
-			advCards.add(F.specifiedFoe(10, "F Green Knight.jpg", "Green Knight", 25, 40));
-
-		for(int i = 0; i < 3, i++)
-			advCards.add(F.specifiedFoe(11, "F Black Knight.jpg", "Black Knight", 25, 35));
-
-		for(int i = 0; i < 6, i++)
-			advCards.add(F.specifiedFoe(12, "F Evil Knight.jpg", "Evil Knight", 20, 30));
-
-		for(int i = 0; i < 8, i++)
-			advCards.add(F.specifiedFoe(13, "F Saxon Knight.jpg", "Saxon Knight", 15, 25));
-
-		for(int i = 0; i < 7; i++)
-			advCards.add(F.defaultFoe(14,"F Robber Knight.jpg","Robber Knight",15));
-
-		for(int i = 0; i < 5, i++)
-			advCards.add(F.specifiedFoe(15, "F Saxons.jpg", "Saxons", 10, 20));
-
-		for(int i = 0; i < 4, i++)
-			advCards.add(F.specifiedFoe(16, "F Boar.jpg", "Boar", 5, 15));
-
-		for(int i = 0; i < 8; i++)
-			advCards.add(F.defaultFoe(17,"F Thieves.jpg","Thieves",5));
 
 
-		//ALLIES
-
-		advCards.add(F.defaultAlly(18,"A Sir Galahad.jpg","Sir Galahad",15,1));
-
-		public static AdventureCard specifiedAlly(int id, String res, String name, int defaultBP, int defaultbids, int specifiedBP, int specifiedBids, boolean freeBid){
-			return new AllyCard(id, res, new (defaultBP, defaultBids, specifiedBP, specifiedBids, freeBid), name);
-		}
-
-		advCards.add(F.specifiedAlly(19, "A Sir Lancelot.jpg","Sir Lancelot",15,25,1,1));
-
-
-		advCards.add(F.defaultAlly(20,"A King Arthur.jpg","King Arthur",10,2,true));
-
-		advCards.add(F.specifiedAlly(21, "A Sir Tristan.jpg","Sir Tristan",15,25,1,1));
-
-		advCards.add(F.defaultAlly(2,"A Queen Guinevere.jpg","Queen Guinevere",0,3,true));
-
-
-		for(int i = 0; i < 8; i++)
-			advCards.add(F.defaultAmour(99,"Amour.jpg","Amour"));
-		
-		return advCards;
-	} */
-
-
-	/*static public List<StoryCard> loadStoryCards () {
+	static public List<StoryCard> loadStoryCards () {
 		List<StoryCard> storyCards = new ArrayList<StoryCard>();
 		StoryCardFactory F = new StoryCardFactory();
 
-		//QUESTS
+		List<StoryCard> L = new ArrayList<StoryCard>();
 
+		L.addAll(F.createCardList(StoryCardFactory.Types.SEARCH_FOR_THE_HOLY_GRAIL, 1));
+		L.addAll(F.createCardList(StoryCardFactory.Types.TEST_OF_THE_GREEN_KNIGHT, 1));
+		L.addAll(F.createCardList(StoryCardFactory.Types.SEARCH_FOR_THE_QUESTING_BEAST, 1));
+		L.addAll(F.createCardList(StoryCardFactory.Types.DEFEND_THE_QUEENS_HONOR, 1));
+		L.addAll(F.createCardList(StoryCardFactory.Types.RESCUE_THE_FAIR_MAIDEN, 1));
+		L.addAll(F.createCardList(StoryCardFactory.Types.JOURNEY_THROUGH_THE_ENCHANTED_FOREST, 1));
+		L.addAll(F.createCardList(StoryCardFactory.Types.VANQUISH_KING_ARTHURS_ENEMIES, 2));
+		L.addAll(F.createCardList(StoryCardFactory.Types.SLAY_THE_DRAGON, 1));
+		L.addAll(F.createCardList(StoryCardFactory.Types.BOAR_HUNT, 2));
+		L.addAll(F.createCardList(StoryCardFactory.Types.REPEL_THE_SAXON_RAIDERS, 2));
+		L.addAll(F.createCardList(StoryCardFactory.Types.TOURNAMENT_AT_CAMELOT, 1));
+		L.addAll(F.createCardList(StoryCardFactory.Types.TOURNAMENT_AT_ORKNEY, 1));
+		L.addAll(F.createCardList(StoryCardFactory.Types.TOURNAMENT_AT_TINTAGEL, 1));
+		L.addAll(F.createCardList(StoryCardFactory.Types.TOURNAMENT_AT_YORK, 1));
+		L.addAll(F.createCardList(StoryCardFactory.Types.KINGS_RECOGNITION, 2));
+		L.addAll(F.createCardList(StoryCardFactory.Types.QUEENS_FAVOR, 2));
+		L.addAll(F.createCardList(StoryCardFactory.Types.COURT_CALLED_TO_CAMELOT, 2));
+		L.addAll(F.createCardList(StoryCardFactory.Types.POX, 1));
+		L.addAll(F.createCardList(StoryCardFactory.Types.PLAGUE, 1));
+		L.addAll(F.createCardList(StoryCardFactory.Types.CHIVALROUS_DEED, 1));
+		L.addAll(F.createCardList(StoryCardFactory.Types.PROSPERITY_THROUGHOUT_THE_REALM, 1));
+		L.addAll(F.createCardList(StoryCardFactory.Types.KINGS_CALL_TO_ARMS, 1));
 
+		return L;
 
-	}*/
+	}
 
 
 }

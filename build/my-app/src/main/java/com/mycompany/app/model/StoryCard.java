@@ -12,5 +12,10 @@ public class StoryCard extends Card{
 
     }
 
+    public int getNumStages(){
+        return behaviour.getNumShields();
+    }
+
 
 }
+
