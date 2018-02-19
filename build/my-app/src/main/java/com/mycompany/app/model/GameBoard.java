@@ -21,7 +21,7 @@ public class GameBoard extends AbstractGameBoard{
 	protected List<StoryCard> 	storyDeckDiscard;
 
 	protected List<Player>		players;
-	protected List<Player> 	participants;
+	protected List<Player> 		participants;
 
 
 	protected StoryCard currentStory;
@@ -84,6 +84,8 @@ public class GameBoard extends AbstractGameBoard{
 			return;
 
 		p.hand.add(adventureDeck.remove(adventureDeck.size()-1));
+
+		//if (p.hand.size > 12) discardAdventureCards()
 	}
 
 	protected void drawFromStoryDeck(Player p){

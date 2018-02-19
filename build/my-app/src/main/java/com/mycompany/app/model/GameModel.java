@@ -159,7 +159,7 @@ public class GameModel{
 	
 
 	public void beginQuest(){
-		if(this.state != GameStates.QUEST_HANDlER)
+		if(this.state != GameStates.QUEST_HANDLER)
 			return ;
 
 		/*
@@ -217,6 +217,7 @@ public class GameModel{
 
 	public void applyEventLogic(){
 		if(this.state != GameStates.EVENT_LOGIC)
+
 			return;
 
 		/*

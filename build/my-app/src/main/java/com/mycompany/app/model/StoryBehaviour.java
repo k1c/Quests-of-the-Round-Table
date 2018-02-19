@@ -2,7 +2,7 @@ package com.mycompany.app.model;
 
 import java.util.ArrayList;
 
-public class StoryBehaviour {
+public abstract class StoryBehaviour {
 
     protected int numShields; //On a Quest = number of stages, On a Tournament = number of bonus shields
     protected ArrayList<Integer> specified;
@@ -15,5 +15,9 @@ public class StoryBehaviour {
         return this.numShields;
     }
 
+    public abstract void applyBehaviour(GameBoard b, int player);
+
 }
+
+
 
