@@ -8,21 +8,19 @@ import com.mycompany.app.model.AdventureCard;
 import com.mycompany.app.model.Card;
 import com.mycompany.app.model.GameBoard;
 import com.mycompany.app.model.Player;
+import com.mycompany.app.model.GenericPlayer;
 import com.mycompany.app.model.StoryCard;
 import java.lang.*;
 import java.util.*;
 
-public class GameBoard{
-	private final int MIN_PLAYERS = 2;
-	private final int MAX_PLAYERS = 4;
-
+public class GameBoard extends AbstractGameBoard{
 	protected List<AdventureCard> 	adventureDeck;
 	protected List<AdventureCard> 	adventureDeckDiscard;
 	protected List<StoryCard> 	storyDeck;
 	protected List<StoryCard> 	storyDeckDiscard;
 	protected List<Player>		players;
 
-	public void initGame(int num, ArrayList<AdventureCard> ad, ArrayList<StoryCard> sd){
+	public void initGame(int num, List<AdventureCard> ad, List<StoryCard> sd){
 
 		if( num > MAX_PLAYERS || num < MIN_PLAYERS)
 			num = MIN_PLAYERS;
@@ -40,9 +38,12 @@ public class GameBoard{
 		for(int i = 0; i < num; i++)
 			this.players.add(new Player());
 
-		for(int i = 0; i < 12; i++)
-			for(Player p : players)
-				drawFromAdventureDeck(p);
+		for(int i = 0; i < 5; i++)
+			for(Player p : players) {
+                drawFromAdventureDeck(p);
+                if (i < 3)
+                    p.inPlay.add(adventureDeck.remove(adventureDeck.size() - 1));
+            }
 	}
 
 	public void loadGame(){
@@ -60,7 +61,6 @@ public class GameBoard{
 			return;
 
 		p.hand.add(adventureDeck.remove(adventureDeck.size()-1));
-
 	}
 
 	public List<Integer> getPlayerIds(){
@@ -91,6 +91,23 @@ public class GameBoard{
 		return copyAdventureCards(p.inPlay);
 	}
 
+	public ViewGameBoard getViewCopy(){
+		ViewGameBoard temp = new ViewGameBoard();	
+
+		for(Player player:this.players){
+			temp.players.add(player.genericPlayer());
+		}
+
+		temp.numCardsAdventure = this.adventureDeck.size();
+		temp.numCardsAdventureDiscard = this.adventureDeckDiscard.size();
+
+		temp.numCardsStory = this.storyDeck.size();
+		temp.numCardsStoryDiscard = this.storyDeckDiscard.size();
+
+		return temp;
+
+	}
+
 	protected List<Card> copyAdventureCards(List<AdventureCard> hand){
 		List<Card> cards = new ArrayList<Card>();
 		for(Card card : hand)
@@ -104,8 +121,4 @@ public class GameBoard{
 				return p;
 		return null;
 	}
-
-
-	
-
 }
