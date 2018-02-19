@@ -15,20 +15,20 @@ public class Rank {
     protected String path;
     protected RankType rank;
 
-    protected Rank setSquire(){
-        rank = SQUIRE;
+    protected void setSquire(){
+        rank = RankType.SQUIRE;
         BP = 5;
         path = "/R Squire.jpg";
     }
 
-    protected Rank setKnight(){
-        rank = KNIGHT;
+    protected void setKnight(){
+        rank = RankType.KNIGHT;
         BP = 10;
         path = "/R Knight.jpg";
     }
 
-    protected Rank setChampionKnight(){
-        rank = CHAMPION_KNIGHT;
+    protected void setChampionKnight(){
+        rank = RankType.CHAMPION_KNIGHT;
         BP = 20;
         path = "/R Champion Knight.jpg";
     }
@@ -45,19 +45,19 @@ public class Rank {
         shields += numShields;
         shields = Math.max(shields, 0);
         rankUp();
-
+        return shields;
     }
 
     protected void rankUp(){
-        if (rank == SQUIRE && shields >= MAX_SHIELDS_SQUIRE) {
+        if (rank == RankType.SQUIRE && shields >= MAX_SHIELDS_SQUIRE) {
             shields -= MAX_SHIELDS_SQUIRE;
             setKnight();
         }
-        if (rank == KNIGHT && shields >= MAX_SHIELDS_KNIGHT) {
+        if (rank == RankType.KNIGHT && shields >= MAX_SHIELDS_KNIGHT) {
             shields -= MAX_SHIELDS_KNIGHT;
             setChampionKnight();
         }
-        if (rank == CHAMPION_KNIGHT && shields >= MAX_SHIELDS_CHAMPION_KNIGHT){
+        if (rank == RankType.CHAMPION_KNIGHT && shields >= MAX_SHIELDS_CHAMPION_KNIGHT){
             //WINNER WINNER CHICKEN DINNER
             //setKnightOfTheRoundTable();
         }

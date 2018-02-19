@@ -10,7 +10,7 @@ public class AdventureCardFactoryTest extends TestCase{
 	}
 
 	public void testdefaultAllyCard() throws Exception{
-		AdventureCard Temp = AdventureCardFactory.defaultAlly(1,"king.png","King Arthur",10,2);
+		AdventureCard Temp = AdventureCardFactory.defaultAlly(1,"king.png","King Arthur",10,2, true);
 		assertEquals(1,Temp.id);
 		assertEquals("king.png",Temp.res);
 		assertEquals("King Arthur",Temp.name);
