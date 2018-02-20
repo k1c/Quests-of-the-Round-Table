@@ -8,6 +8,7 @@ import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
+import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.GridPane;
 import javafx.stage.Stage;
@@ -26,12 +27,11 @@ public class GameController{
 		this.model = model;
 	}
 
-	public void startGame(Button btn) {
+	public void startGame(Stage primaryStage) {
         /*
         if (model.startGame(userOptions) == true) this.changeScene
         else view.showError()
          */
-		Stage primaryStage = (Stage) btn.getScene().getWindow();
 
 		currentPlayerView = new CurrentPlayerView(model);
 		waitingPlayersView = new WaitingPlayersView(model);
@@ -56,7 +56,7 @@ public class GameController{
 
 		root.setRight(waitingPlayers);
 
-		Scene gameScene = new Scene(root, btn.getScene().getWidth(), btn.getScene().getHeight());
+		Scene gameScene = new Scene(root, primaryStage.getScene().getWidth(), primaryStage.getScene().getHeight());
 
 		primaryStage.setScene(gameScene);
 	}
