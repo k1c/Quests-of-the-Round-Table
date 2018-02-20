@@ -30,14 +30,16 @@ public class GameModel{
 		observers = new ArrayList<GameObserver>();
 		board = new GameBoard();
 		
+		}
+
+	public void initGame(int NumHumans,int numAI){
 		turn = 0;
 
-		numberOfPlayers = 4;
+		numberOfPlayers = numberOfPlayers;
 
 		board.initGame(numberOfPlayers,CardLoader.loadAdventureCards(),new ArrayList<StoryCard>());
 		players = board.getPlayerIds();		
 		storyTurn = new Cycle<Integer>(players,0);
-
 	}
 
 	public void registerObserver(GameObserver o){
