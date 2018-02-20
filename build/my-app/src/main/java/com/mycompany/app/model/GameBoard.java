@@ -25,7 +25,7 @@ public class GameBoard extends AbstractGameBoard{
 
 	protected Player		sponsor;
 
-
+	protected StoryCard eventKingsRecognition;
 	protected StoryCard currentStory;
 
 	public void initGame(int num, List<AdventureCard> ad, List<StoryCard> sd){
