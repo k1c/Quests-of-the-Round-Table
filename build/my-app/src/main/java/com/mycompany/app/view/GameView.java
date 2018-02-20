@@ -6,6 +6,7 @@ import javafx.event.EventHandler;
 import javafx.scene.control.Button;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.GridPane;
+import javafx.stage.Stage;
 
 
 public class GameView extends GridPane{
@@ -24,7 +25,7 @@ public class GameView extends GridPane{
         start.addEventHandler(MouseEvent.MOUSE_CLICKED, new EventHandler<MouseEvent>() {
             @Override
             public void handle(MouseEvent event) {
-                controller.startGame(start);
+                controller.startGame((Stage) start.getScene().getWindow());
             }
         });
 

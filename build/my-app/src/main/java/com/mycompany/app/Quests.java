@@ -40,7 +40,6 @@ public class Quests extends Application{
         Scene start = new Scene(root, WIDTH, HEIGHT);
 
         primaryStage.setScene(start);
-        primaryStage.setMaximized(true);
         primaryStage.setResizable(true);
         primaryStage.show();
     }
