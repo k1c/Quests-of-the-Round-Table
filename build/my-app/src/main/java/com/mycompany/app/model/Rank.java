@@ -15,6 +15,15 @@ public class Rank {
     protected String path;
     protected RankType rank;
 
+    public Rank(){
+	setSquire();
+    }
+    public Rank(Rank r){
+	this.BP = r.BP;
+	this.path = r.path;
+	this.rank = r.rank;
+    }
+
     protected void setSquire(){
         rank = RankType.SQUIRE;
         BP = 5;
