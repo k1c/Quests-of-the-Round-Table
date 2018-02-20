@@ -30,8 +30,8 @@ import javafx.scene.input.MouseEvent;
  */
     public class CurrentPlayerView extends GridPane implements GameObserver {
 
-    private GameModel model;
-    private ViewGameBoard currentGameState;
+    private GameModel gameModel;
+    private GenericPlayer current;
 
     private static final int PADDING = 0;
     private static final int X_OFFSET = 73;
@@ -39,9 +39,9 @@ import javafx.scene.input.MouseEvent;
     private static final int HEIGHT = 200;
 
     public CurrentPlayerView(GameModel gameModel) {
-        this.model = gameModel;
-        this.model.registerObserver(this);
-        this.currentGameState = model.getGameBoard();
+        this.gameModel = gameModel;
+        this.gameModel.registerObserver(this);
+        this.current = gameModel.getCurrentPlayer();
 
         // gridpane properties
         setPadding(new Insets(PADDING));
@@ -58,9 +58,9 @@ import javafx.scene.input.MouseEvent;
         getChildren().clear();
 
         // Get current player info
-        GenericPlayer current = currentGameState.players.get(0);
         List<Card> hand = current.hand;
         List<Card> inplay = current.inPlay;
+
         int numInHand = hand.size();
         int numInPlay = inplay.size();
 
@@ -95,7 +95,7 @@ import javafx.scene.input.MouseEvent;
         row.setVgrow(javafx.scene.layout.Priority.SOMETIMES);
         getRowConstraints().add(row);
 
-        // add rank
+        // add rank - TBD
         String rank = "R Squire.jpg";
         buildRank(rank);
 
@@ -258,7 +258,7 @@ import javafx.scene.input.MouseEvent;
     }
 
     public void update() {
-        this.currentGameState = model.getGameBoard();
+        this.current = gameModel.getCurrentPlayer();
         buildLayout();
     }
 }
