@@ -10,6 +10,10 @@ public class Cycle<T>{
         currentIndex = index;
     }
     
+    public Cycle(Cycle<T> c){
+	this(c.list,c.currentIndex);
+    }
+
     protected int getIndex(){
         currentIndex = currentIndex % list.size();  
         return currentIndex;

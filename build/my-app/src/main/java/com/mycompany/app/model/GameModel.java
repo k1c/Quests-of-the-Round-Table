@@ -58,6 +58,14 @@ public class GameModel{
 		return board.getViewCopy();
 	}
 
+	public List<GenericPlayer> getCurrentPlayer(){
+		return new ArrayList<GenericPlayer>();
+	}
+
+	public List<GenericPlayer> getWaitingPlayers(){
+		return new ArrayList<GenericPlayer>();
+	}
+
 	
 
 	public void nextTurn(){
