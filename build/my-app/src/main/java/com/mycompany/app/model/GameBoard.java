@@ -207,6 +207,12 @@ public class GameBoard extends AbstractGameBoard{
 
 	}
 
+
+	public GenericPlayer getGenericPlayer(int id){
+		Player p = findPlayer(id);
+		return p.genericPlayer();
+	}
+
 	protected List<Card> copyAdventureCards(List<AdventureCard> hand){
 		List<Card> cards = new ArrayList<Card>();
 		for(Card card : hand)

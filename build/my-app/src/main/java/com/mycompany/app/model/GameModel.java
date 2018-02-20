@@ -58,12 +58,22 @@ public class GameModel{
 		return board.getViewCopy();
 	}
 
-	public List<GenericPlayer> getCurrentPlayer(){
-		return new ArrayList<GenericPlayer>();
+	public GenericPlayer getCurrentPlayer(){
+		int p = storyTurn.current();
+		return board.getGenericPlayer(p);
 	}
 
 	public List<GenericPlayer> getWaitingPlayers(){
-		return new ArrayList<GenericPlayer>();
+		Cycle<Integer> waitingPlayersCycle = (new Cycle(storyTurn));
+		waitingPlayersCycle.removeCurrent();
+		List<Integer>  waitingPlayers = waitingPlayersCycle.items();
+
+		List<GenericPlayer> temp = new ArrayList();
+
+		for(Integer id: waitingPlayers)
+			temp.add(board.getGenericPlayer(id));	
+
+		return temp;
 	}
 
 	
