@@ -21,17 +21,18 @@ public class GameModel{
 	private int turn;
 	private GameBoard board;
 
+	//current player
+	private Cycle<Integer> storyTurn;
+
 	public GameModel(){
 		observers = new ArrayList<GameObserver>();
 		board = new GameBoard();
 		
-		numberOfPlayers = 4;
-		currentPlayer = 0;
-
 		turn = 0;
 
 		board.initGame(numberOfPlayers,CardLoader.loadAdventureCards(),new ArrayList<StoryCard>());
 		players = board.getPlayerIds();		
+		storyTurn = new Cycle<Integer>(players,0);
 
 	}
 
@@ -59,7 +60,7 @@ public class GameModel{
 			return;
 
 		this.turn++;
-		this.currentPlayer = (this.turn) % this.numberOfPlayers;
+		this.currentPlayer = storyTurn.next();
 		
 
 		/*
