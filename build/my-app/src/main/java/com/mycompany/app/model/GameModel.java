@@ -225,7 +225,6 @@ public class GameModel{
 
 	public void applyEventLogic(){
 		if(this.state != GameStates.EVENT_LOGIC)
-
 			return;
 
 		/*
