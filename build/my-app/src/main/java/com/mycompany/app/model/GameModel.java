@@ -23,12 +23,15 @@ public class GameModel{
 
 	//current player
 	private Cycle<Integer> storyTurn;
+	private Cycle<Integer> questSponsor;
 
 	public GameModel(){
 		observers = new ArrayList<GameObserver>();
 		board = new GameBoard();
 		
 		turn = 0;
+
+		numberOfPlayers = 4;
 
 		board.initGame(numberOfPlayers,CardLoader.loadAdventureCards(),new ArrayList<StoryCard>());
 		players = board.getPlayerIds();		
@@ -87,6 +90,8 @@ public class GameModel{
 		}
 		if (Card.Types.QUEST == card.type){
 			this.state = GameStates.SPONSOR_QUEST;
+			// start a cycle  with the sponsor as current player
+			questSponsor = new Cycle<Integer>(players,players.indexOf(storyTurn.current()));
 			return;
 		}
 		if (Card.Types.TOURNAMENT == card.type){
@@ -109,13 +114,27 @@ public class GameModel{
 	public void sponsorQuest(int player,boolean sponsor){
 		if(this.state != GameStates.SPONSOR_QUEST)
 			return;
-		
 		/*
 		 * Verify that they can sponsor with current cards
 		 */
-		if(board.playerCanSponsor(player))	
+		if(player == questSponsor.current() && sponsor && board.playerCanSponsor(player)){
 			this.state = GameStates.SPONSOR_SUBMIT;
+		}
+		else if(player == questSponsor.current() && !sponsor){
+			questSponsor.removeCurrent();
+		}
+		else if(player == questSponsor.current() && !board.playerCanSponsor(player)){
+			questSponsor.removeCurrent();	
+		}
 
+
+		/*
+		 * Check if there are any more items
+		 */
+		if(questSponsor.size() <= 0){
+			this.state = GameStates.BEGIN_TURN;
+		}
+		
 		this.updateObservers();
 
 	}
@@ -124,6 +143,7 @@ public class GameModel{
 		if(this.state != GameStates.SPONSOR_QUEST)
 			return;
 		this.state = GameStates.BEGIN_TURN;
+		this.updateObservers();
 	}
 
 	/*

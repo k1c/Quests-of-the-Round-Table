@@ -37,5 +37,7 @@ public class Cycle<T>{
         nextIndex();
         return list.get(currentIndex);
     }
-    
+    public int size(){
+	    return list.size();
+    }
 }
