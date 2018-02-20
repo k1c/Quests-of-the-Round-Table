@@ -58,6 +58,8 @@ public class GameModel{
 		return board.getViewCopy();
 	}
 
+	
+
 	public void nextTurn(){
 		if (this.state != GameStates.BEGIN_TURN)
 			return;

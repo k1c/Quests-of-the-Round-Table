@@ -20,7 +20,11 @@ public class Cycle<T>{
     }
     
     public List<T> items(){
-        return new ArrayList<T>(list);
+        List<T> temp = new ArrayList<T>();
+	for(int i = currentIndex; i < currentIndex + list.size();i++){
+		temp.add(list.get(i%list.size()));
+	}
+	return temp;
     }
     
     public T removeCurrent(){
