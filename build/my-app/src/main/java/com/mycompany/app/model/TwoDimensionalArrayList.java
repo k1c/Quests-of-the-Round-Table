@@ -6,7 +6,7 @@ import java.util.*;
  * Source: https://stackoverflow.com/questions/4401850/how-to-create-a-multidimensional-arraylist-in-java
  */
 
-class TwoDimentionalArrayList<T> extends ArrayList<ArrayList<T>> {
+public class TwoDimensionalArrayList<T> extends ArrayList<ArrayList<T>> {
     
     public void addToInnerArray(int index, T element){
         while (index >= this.size()) {

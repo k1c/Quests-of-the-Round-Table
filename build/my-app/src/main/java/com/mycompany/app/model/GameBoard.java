@@ -28,6 +28,8 @@ public class GameBoard extends AbstractGameBoard{
 	protected StoryCard eventKingsRecognition;
 	protected StoryCard currentStory;
 
+	protected TwoDimensionalArrayList<AdventureCard> quest;
+
 	public void initGame(int num, List<AdventureCard> ad, List<StoryCard> sd){
 
 		if( num > MAX_PLAYERS || num < MIN_PLAYERS)
@@ -156,6 +158,19 @@ public class GameBoard extends AbstractGameBoard{
 		 * Replace the '2' with the current Story stages
 		 */
 		return bp.size() + numberOfTests >= 2;
+	}
+
+	public void resetQuest(){
+		quest = new TwoDimensionalArrayList();		
+		/* work in progress*/
+	}
+
+	public boolean SubmitStage(TwoDimensionalArrayList<Card> quest,int player){
+		Player p = findPlayer(player);	
+		List<AdventureCard> currentStage= new ArrayList();
+		/* work in progress*/
+		return false;
+
 	}
 
 	public Card getCurrentStoryCard(){

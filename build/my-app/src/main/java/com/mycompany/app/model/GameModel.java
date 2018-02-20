@@ -171,7 +171,7 @@ public class GameModel{
 	 * NEEDS : change player parameter to a Player Object
 	 * NEEDS : some kind of quest object to submit
 	 */
-	public void submitQuest(int player,List<Card> stage){
+	public void submitQuest(int player,TwoDimensionalArrayList<Card> quest){
 		if(this.state != GameStates.SPONSOR_SUBMIT)
 			return;
 		/*
