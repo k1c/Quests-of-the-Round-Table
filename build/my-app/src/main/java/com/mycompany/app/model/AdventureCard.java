@@ -12,16 +12,16 @@ public class AdventureCard extends Card{
 		
 	}
 
-	public int getBattlePoints(){
-		return behaviour.getBP();
+	public int getBattlePoints(GameBoard board){
+		return behaviour.getBP(board);
 	}
 
-	public int getBids(){
-		return behaviour.getBids();
+	public int getBids(GameBoard board){
+		return behaviour.getBids(board);
 	}
 
-	public boolean freeBid(){
-		return behaviour.isFreeBid();
+	public boolean freeBid(GameBoard board){
+		return behaviour.isFreeBid(board);
 	}
 
 }

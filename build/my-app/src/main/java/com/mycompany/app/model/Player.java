@@ -20,7 +20,7 @@ public class Player extends AbstractPlayer{
 		this.inPlay = new ArrayList<AdventureCard>();
 	}
 
-	public GenericPlayer genericPlayer(){
+	public GenericPlayer genericPlayer(GameBoard board){
 		GenericPlayer temp = new GenericPlayer(this.id);	
 
 		temp.rank = new Rank(this.rank);
@@ -37,6 +37,14 @@ public class Player extends AbstractPlayer{
 
 		return temp;
 
+	}
+
+	public int getInPlayBp(GameBoard board){
+		int BP = 0;
+		for(AdventureCard card : this.inPlay){
+			BP += card.getBattlePoints(board);	
+		}
+		return BP;
 	}
 
 }

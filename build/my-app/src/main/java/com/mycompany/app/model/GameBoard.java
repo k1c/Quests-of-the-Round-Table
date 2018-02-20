@@ -72,7 +72,7 @@ public class GameBoard extends AbstractGameBoard{
 		List<GenericPlayer> temp = new ArrayList();
 		for(Player p : players){
 			if(p.rank.getRank() == Rank.RankType.KNIGHT_OF_THE_ROUND_TABLE)
-				temp.add(p.genericPlayer());
+				temp.add(p.genericPlayer(this));
 		}
 		return temp;
 	}
@@ -147,7 +147,7 @@ public class GameBoard extends AbstractGameBoard{
 
 		for(AdventureCard c : p.hand){
 			if(c.type == Card.Types.FOE)
-				bp.add(c.getBattlePoints());
+				bp.add(c.getBattlePoints(this));
 			if(c.type == Card.Types.TEST)
 				numberOfTests++;
 
@@ -209,7 +209,7 @@ public class GameBoard extends AbstractGameBoard{
 		ViewGameBoard temp = new ViewGameBoard();	
 
 		for(Player player:this.players){
-			temp.players.add(player.genericPlayer());
+			temp.players.add(player.genericPlayer(this));
 		}
 
 		temp.numCardsAdventure = this.adventureDeck.size();
@@ -225,7 +225,7 @@ public class GameBoard extends AbstractGameBoard{
 
 	public GenericPlayer getGenericPlayer(int id){
 		Player p = findPlayer(id);
-		return p.genericPlayer();
+		return p.genericPlayer(this);
 	}
 
 	protected List<Card> copyAdventureCards(List<AdventureCard> hand){
