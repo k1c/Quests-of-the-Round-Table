@@ -1,16 +1,12 @@
 package com.mycompany.app;
 
-import com.mycompany.app.controller.GameController;
-import com.mycompany.app.model.GameObserver;
-import com.mycompany.app.view.*;
+import com.mycompany.app.view.GameView;
 import com.mycompany.app.model.GameModel;
 import javafx.application.Application;
 import javafx.geometry.Pos;
 import javafx.scene.Scene;
 import javafx.scene.layout.BorderPane;
 import javafx.stage.Stage;
-import javafx.scene.layout.GridPane;
-import javafx.geometry.Insets;
 
 /**
  * Quests class brings together major UI components and launches the application.
@@ -26,16 +22,16 @@ public class Quests extends Application{
     private static final int HEIGHT = 1080;
     private static final String TITLE = "Quests of the Round Table";
 
-    private GameModel model = new GameModel();
-    private GameView view = new GameView(model);
+    private GameModel gameModel = new GameModel();
+    private GameView gameView = new GameView(gameModel);
 
     @Override
     public void start(Stage primaryStage) {
         primaryStage.setTitle(TITLE);
 
         BorderPane root = new BorderPane();
-
-        root.setCenter(view);
+        gameView.setAlignment(Pos.CENTER_LEFT);
+        root.setCenter(gameView);
 
         Scene start = new Scene(root, WIDTH, HEIGHT);
 
