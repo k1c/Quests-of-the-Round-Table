@@ -2,7 +2,7 @@ package com.mycompany.app.model;
 import java.util.Comparator;
 import java.util.Collections;
 
-public class PlagueEvent {
+public class PlagueEvent extends StoryBehaviour{
 
     public PlagueEvent(int numShields) {
         super(numShields);

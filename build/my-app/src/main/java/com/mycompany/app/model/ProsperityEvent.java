@@ -2,7 +2,7 @@ package com.mycompany.app.model;
 import java.util.Comparator;
 import java.util.Collections;
 
-public class ProsperityEvent {
+public class ProsperityEvent extends StoryBehaviour{
 
     public ProsperityEvent(int numShields) {
         super(numShields);

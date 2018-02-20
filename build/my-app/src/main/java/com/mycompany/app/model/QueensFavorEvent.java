@@ -2,7 +2,7 @@ package com.mycompany.app.model;
 import java.util.Comparator;
 import java.util.Collections;
 
-public class QueensFavor{
+public class QueensFavorEvent extends StoryBehaviour{
 
     public QueensFavorEvent(int numShields){
         super(numShields);
@@ -14,7 +14,7 @@ public class QueensFavor{
         int minBP = Integer.MAX_VALUE;
 
         for(Player p : b.players){
-            minBP = Math.min(minBP, b.player.rank.getBP());
+            minBP = Math.min(minBP, p.rank.getBP());
         }
         for(Player p : b.players){
             if(p.rank.getBP() == minBP){

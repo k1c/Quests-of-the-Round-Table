@@ -1,6 +1,6 @@
 package com.mycompany.app.model;
 
-public class KingsRecognitionEvent{
+public class KingsRecognitionEvent extends StoryBehaviour{
 
     public KingsRecognitionEvent(int numShields){
         super(numShields);

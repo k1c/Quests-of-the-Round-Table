@@ -21,11 +21,6 @@ public class GameModel{
 	private int turn;
 	private GameBoard board;
 
-
-	//For decision problems
-	private Set<Players> temp;
-	private int nextPlayer;
-
 	public GameModel(){
 		observers = new ArrayList<GameObserver>();
 		board = new GameBoard();
@@ -34,9 +29,6 @@ public class GameModel{
 		currentPlayer = 0;
 
 		turn = 0;
-
-		temp = new TreeSet<Player>();
-		nextPlayer = currentPlayer;
 
 		board.initGame(numberOfPlayers,CardLoader.loadAdventureCards(),new ArrayList<StoryCard>());
 		players = board.getPlayerIds();		
@@ -170,7 +162,7 @@ public class GameModel{
 		if(numberOfParticipants == 0)
 			state = GameStates.BEGIN_TURN;
 		else
-			state = GameStates.QUEST_HANDlER;
+			state = GameStates.QUEST_HANDLER;
 	}
 	
 

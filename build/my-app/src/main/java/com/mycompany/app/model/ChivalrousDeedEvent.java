@@ -2,7 +2,7 @@ package com.mycompany.app.model;
 import java.util.Comparator;
 import java.util.Collections;
 
-public class ChivalrousDeedEvent {
+public class ChivalrousDeedEvent extends StoryBehaviour{
 
     public ChivalrousDeedEvent(int numShields) {
         super(numShields);
@@ -15,7 +15,7 @@ public class ChivalrousDeedEvent {
         int minShields = Integer.MAX_VALUE;
 
         for(Player p : b.players){
-            minBP = Math.min(minBP, b.player.rank.getBP());
+            minBP = Math.min(minBP, p.rank.getBP());
         }
 
         for(Player p: b.players){
