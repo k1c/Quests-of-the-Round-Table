@@ -7,8 +7,6 @@ import com.mycompany.app.view.WaitingPlayersView;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.scene.Scene;
-import javafx.scene.control.Button;
-import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.GridPane;
 import javafx.stage.Stage;
@@ -19,22 +17,19 @@ public class GameController{
 	private CurrentPlayerView currentPlayerView;
 	private WaitingPlayersView waitingPlayersView;
 
-	private final GameModel model;
-	private final GameView view;
+	private final GameModel gameModel;
+	private final GameView gameView;
 
-	public GameController(GameModel model, GameView view){
-		this.view = view;
-		this.model = model;
+	public GameController(GameModel gameModel, GameView gameView){
+		this.gameView = gameView;
+		this.gameModel = gameModel;
 	}
 
-	public void startGame(Stage primaryStage) {
-        /*
-        if (model.startGame(userOptions) == true) this.changeScene
-        else view.showError()
-         */
+	public void startGame(Stage primaryStage, int numHumans, int numAI) {
+		gameModel.initGame(numHumans, numAI);
 
-		currentPlayerView = new CurrentPlayerView(model);
-		waitingPlayersView = new WaitingPlayersView(model);
+		currentPlayerView = new CurrentPlayerView(gameModel);
+		waitingPlayersView = new WaitingPlayersView(gameModel);
 
 		BorderPane root = new BorderPane();
 
