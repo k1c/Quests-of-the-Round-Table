@@ -9,7 +9,6 @@ public class GenericPlayer extends AbstractPlayer{
 	public List<Card> hand;
 	public List<Card> toBePlayed;
 	public List<Card> inPlay;
-	//public GenericRank rank;
 
 	public GenericPlayer(int id){
 		this.id = id;
