@@ -40,7 +40,6 @@ public class GameModel{
 
 	}
 
-
 	public void registerObserver(GameObserver o){
 		this.observers.add(o);
 	}
@@ -135,6 +134,7 @@ public class GameModel{
 	public void sponsorQuest(int player,boolean sponsor){
 		if(this.state != GameStates.SPONSOR_QUEST)
 			return;
+
 		/*
 		 * Verify that they can sponsor with current cards
 		 */

@@ -6,7 +6,6 @@ package com.mycompany.app.view;
 import com.mycompany.app.model.*;
 import javafx.event.EventHandler;
 import javafx.geometry.*;
-import javafx.scene.Node;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.*;
@@ -46,11 +45,11 @@ public class WaitingPlayersView extends GridPane implements GameObserver {
         // Get waiting players info (assume 1, 2, 3 and not 0)
         List<GenericPlayer> waiting = new ArrayList<GenericPlayer>();
         waiting.add(currentGameState.players.get(1));
-        waiting.add(currentGameState.players.get(2));
-        waiting.add(currentGameState.players.get(3));
+        //waiting.add(currentGameState.players.get(2));
+        //waiting.add(currentGameState.players.get(3));
 
-        List<Card> hand = waiting.get(1).hand;
-        List<Card> inplay = waiting.get(1).inPlay;
+        List<Card> hand = waiting.get(0).hand;
+        List<Card> inplay = waiting.get(0).inPlay;
         int numInHand = hand.size();
         int numInPlay = inplay.size();
 
