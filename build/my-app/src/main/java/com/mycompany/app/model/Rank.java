@@ -41,6 +41,10 @@ public class Rank {
         return BP;
     }
 
+    public int getShields(){
+	return shields;
+    }
+
     public int addRemoveShields(int numShields){
         shields += numShields;
         shields = Math.max(shields, 0);
