@@ -12,9 +12,10 @@ public enum GameStates{
     SETUP_QUEST,
     PARTICIPATE_QUEST,
     TOURNAMENT_HANDlER,
-    QUEST_HANDlER,
+    QUEST_HANDLER,
     APPLY_EVENT,
-    SPONSOR_SUBMIT
+    SPONSOR_SUBMIT,
+    WINNERS
    }
 
 /*

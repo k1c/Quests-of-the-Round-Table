@@ -33,12 +33,16 @@ public class Rank {
         path = "/R Champion Knight.jpg";
     }
 
-    protected RankType getRank(){
+    public RankType getRank(){
         return rank;
     }
 
-    protected int getBP(){
+    public int getBP(){
         return BP;
+    }
+
+    public int getShields(){
+	return shields;
     }
 
     public int addRemoveShields(int numShields){

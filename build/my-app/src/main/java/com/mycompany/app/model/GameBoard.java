@@ -16,14 +16,29 @@ import java.util.*;
 public class GameBoard extends AbstractGameBoard{
 	protected List<AdventureCard> 	adventureDeck;
 	protected List<AdventureCard> 	adventureDeckDiscard;
+
 	protected List<StoryCard> 	storyDeck;
 	protected List<StoryCard> 	storyDeckDiscard;
+
 	protected List<Player>		players;
+	protected List<Player> 		participants;
+
+	protected Player		sponsor;
+
+	protected StoryCard eventKingsRecognition;
+	protected StoryCard currentStory;
+
+	protected TwoDimensionalArrayList<AdventureCard> quest;
 
 	public void initGame(int num, List<AdventureCard> ad, List<StoryCard> sd){
 
 		if( num > MAX_PLAYERS || num < MIN_PLAYERS)
 			num = MIN_PLAYERS;
+
+
+		this.currentStory = null;
+
+
 
 		//assume that the model will not modify the loaded data
 		this.adventureDeck 	  = ad;
@@ -31,6 +46,7 @@ public class GameBoard extends AbstractGameBoard{
 		this.adventureDeckDiscard = new ArrayList<AdventureCard>();	
 		this.storyDeckDiscard 	  = new ArrayList<StoryCard>();
 		this.players 		  = new ArrayList<Player>();
+		this.participants 	  = new ArrayList<Player>();
 
 		Collections.shuffle(adventureDeck);
 		Collections.shuffle(storyDeck);
@@ -38,16 +54,27 @@ public class GameBoard extends AbstractGameBoard{
 		for(int i = 0; i < num; i++)
 			this.players.add(new Player());
 
-		for(int i = 0; i < 5; i++)
+		for(int i = 0; i < INITIAL_CARDS; i++){
 			for(Player p : players) {
-                drawFromAdventureDeck(p);
-                if (i < 3)
-                    p.inPlay.add(adventureDeck.remove(adventureDeck.size() - 1));
-            }
+				drawFromAdventureDeck(p);
+			}
+		}
 	}
 
+	public void rigGame(){
+
+	}
 	public void loadGame(){
 
+	}
+
+	public List<GenericPlayer> winningPlayers(){
+		List<GenericPlayer> temp = new ArrayList();
+		for(Player p : players){
+			if(p.rank.getRank() == Rank.RankType.KNIGHT_OF_THE_ROUND_TABLE)
+				temp.add(p.genericPlayer());
+		}
+		return temp;
 	}
 
 	protected void drawFromAdventureDeck(Player p){
@@ -61,6 +88,93 @@ public class GameBoard extends AbstractGameBoard{
 			return;
 
 		p.hand.add(adventureDeck.remove(adventureDeck.size()-1));
+
+		//if (p.hand.size > 12) discardAdventureCards()
+	}
+
+	protected void drawFromStoryDeck(Player p){
+		if(storyDeck.size() <= 0){
+			Collections.shuffle(storyDeckDiscard);
+			List<StoryCard> temp = storyDeck;
+			storyDeck = storyDeckDiscard;
+			storyDeckDiscard = temp;
+		}
+		if(storyDeck.size() <= 0)
+			return;
+
+		softResetGameBoard();	
+		
+		currentStory = storyDeck.remove(storyDeck.size()-1);
+	}
+	
+	public void drawFromStoryDeck(int id){
+		Player p = findPlayer(id);
+
+		if(p == null)
+			return;
+
+		drawFromStoryDeck(p);
+
+	}
+
+	protected void resetInPlay(){
+		for(Player p : players){
+			adventureDeckDiscard.addAll(p.inPlay);
+			p.inPlay.clear();
+		}
+	}
+
+	protected void resetToBePlayed(){
+		for(Player p : players){
+			adventureDeck.addAll(p.toBePlayed);
+			p.toBePlayed.clear();
+		}
+	}
+
+	protected void softResetGameBoard(){
+		//add more things to reset later		
+		if(currentStory != null){
+			storyDeckDiscard.add(currentStory);	
+			currentStory = null;
+		}
+		
+	}
+
+	public boolean playerCanSponsor(int id){
+		Player p = findPlayer(id);	
+		Set<Integer>	bp = new TreeSet<Integer>();
+		int numberOfTests = 0;
+
+		for(AdventureCard c : p.hand){
+			if(c.type == Card.Types.FOE)
+				bp.add(c.getBattlePoints());
+			if(c.type == Card.Types.TEST)
+				numberOfTests++;
+
+		}
+		if (numberOfTests > 0)
+			numberOfTests = 1;
+		/*
+		 * Replace the '2' with the current Story stages
+		 */
+		return bp.size() + numberOfTests >= 2;
+	}
+
+	public void resetQuest(){
+		quest = new TwoDimensionalArrayList();		
+		/* work in progress*/
+	}
+
+	public boolean SubmitStage(TwoDimensionalArrayList<Card> quest,int player){
+		Player p = findPlayer(player);	
+		List<AdventureCard> currentStage= new ArrayList();
+		/* work in progress*/
+		return false;
+
+	}
+
+	public Card getCurrentStoryCard(){
+		return ((Card)currentStory).instance();
 	}
 
 	public List<Integer> getPlayerIds(){
@@ -106,6 +220,12 @@ public class GameBoard extends AbstractGameBoard{
 
 		return temp;
 
+	}
+
+
+	public GenericPlayer getGenericPlayer(int id){
+		Player p = findPlayer(id);
+		return p.genericPlayer();
 	}
 
 	protected List<Card> copyAdventureCards(List<AdventureCard> hand){

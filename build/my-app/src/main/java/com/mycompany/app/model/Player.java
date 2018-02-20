@@ -3,6 +3,7 @@ package com.mycompany.app.model;
 import com.mycompany.app.model.AdventureCard;
 import com.mycompany.app.model.Player;
 import com.mycompany.app.model.GenericPlayer;
+import com.mycompany.app.model.Rank;
 import java.util.*;
 
 public class Player extends AbstractPlayer{
@@ -10,7 +11,7 @@ public class Player extends AbstractPlayer{
 	public List<AdventureCard> hand;
 	public List<AdventureCard> toBePlayed;
 	public List<AdventureCard> inPlay;
-	//public SpecifiedRank rank;
+	public Rank rank;
 
 	public Player(){
 		super();

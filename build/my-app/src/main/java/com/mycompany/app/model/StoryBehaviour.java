@@ -15,5 +15,9 @@ public class StoryBehaviour {
         return this.numShields;
     }
 
+    public void applyBehaviour(GameBoard b, int player){};
+
 }
+
+
 
