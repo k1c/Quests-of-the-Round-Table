@@ -2,6 +2,7 @@ package com.mycompany.app.model;
 
 
 import java.util.*;
+import com.mycompany.app.model.Card;
 
 
 public class GameModel{
@@ -170,14 +171,18 @@ public class GameModel{
 	 * NEEDS : change player parameter to a Player Object
 	 * NEEDS : some kind of quest object to submit
 	 */
-	public void submitQuest(int player){
+	public void submitQuest(int player,List<Card> stage){
 		if(this.state != GameStates.SPONSOR_SUBMIT)
 			return;
 		/*
 		 * verify that it is a valid quest
 		 */
 
-		this.state = GameStates.PARTICIPATE_QUEST;
+		/*
+		 * verify that is is last stage submitted
+		 */
+		if(true)
+			this.state = GameStates.PARTICIPATE_QUEST;
 	}
 
 	/*
