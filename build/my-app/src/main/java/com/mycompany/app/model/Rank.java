@@ -54,6 +54,10 @@ public class Rank {
 	return shields;
     }
 
+    public String getPath(){
+	return path;
+    }
+
     public int addRemoveShields(int numShields){
         shields += numShields;
         shields = Math.max(shields, 0);
