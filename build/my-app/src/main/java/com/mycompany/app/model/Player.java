@@ -11,7 +11,6 @@ public class Player extends AbstractPlayer{
 	public List<AdventureCard> hand;
 	public List<AdventureCard> toBePlayed;
 	public List<AdventureCard> inPlay;
-	public Rank rank;
 
 	public Player(){
 		super();
@@ -23,6 +22,9 @@ public class Player extends AbstractPlayer{
 
 	public GenericPlayer genericPlayer(){
 		GenericPlayer temp = new GenericPlayer(this.id);	
+
+		temp.rank = new Rank(this.rank);
+
 		for(Card card:hand){
 			temp.hand.add(card.instance());	
 		}
@@ -32,6 +34,7 @@ public class Player extends AbstractPlayer{
 		for(Card card:inPlay){
 			temp.inPlay.add(card.instance());	
 		}
+
 		return temp;
 
 	}
