@@ -185,7 +185,6 @@ public class GameModel{
 		if(questSponsor.current() == player && board.submitQuest(quest,player)){
 			this.participants = new Cycle(players,players.indexOf(questSponsor.current()));
 			this.participants.removeCurrent();
-			this.participationCounter = this.participants.size();
 
 			this.state = GameStates.PARTICIPATE_QUEST;
 		}
@@ -201,31 +200,28 @@ public class GameModel{
 		/*
 		 * ACTION : add player to quest
 		 */
+
 		if(player == participants.current() && participate){
-			this.participants.next();
-			this.participationCounter--;
+			this.board.addParticipant(this.participants.removeCurrent());
 		}
 		if(player == this.participants.current() && !participate){
-			this.participants.removeCurrent();
-			this.participationCounter--;
+			this.board.addParticipant(this.participants.removeCurrent());
 		}
-		if(this.participationCounter <= 0){
-			board.addParticipants(this.participants.items());
-			this.participants.next();
-
+		if(this.participants.size() <= 0){
 			this.state = GameStates.QUEST_HANDLER;
 		}
-
 	}
 	
 
-	public void stage(){
+	public void stage(int player, List<Card> list){
 		if(this.state != GameStates.QUEST_HANDLER)
 			return ;
-
 		/*
 		 * some kind of quest logic here
 		 */
+		if(player == participants.current()){
+
+		}
 		
 
 

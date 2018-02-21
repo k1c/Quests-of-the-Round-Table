@@ -38,7 +38,7 @@ public class GameBoard extends AbstractGameBoard{
 
 
 		this.currentStory = null;
-		this.currentQuestIndex = null;
+		this.currentQuestIndex = 0;
 
 
 
@@ -174,7 +174,8 @@ public class GameBoard extends AbstractGameBoard{
 		adventureDeckDiscard.addAll(this.quest.toList());
 		this.quest = new TwoDimensionalArrayList();		
 		this.sponsor = null;
-		this.currentQuestIndex = null;
+		this.currentQuestIndex = 0;
+		this.participants = new ArrayList();
 	}
 
 	public boolean submitQuest(TwoDimensionalArrayList<Card> playerQuest,int player){
@@ -240,6 +241,7 @@ public class GameBoard extends AbstractGameBoard{
 
 		//submit final changes
 		resetQuest();
+
 		p.hand = tempPlayerHand;	
 		this.quest = quest;
 		this.sponsor = p;
@@ -312,6 +314,7 @@ public class GameBoard extends AbstractGameBoard{
 		return null;
 	}
 
+	/*
 	public void addParticipants(List<Integer> players){
 		List<Player> temp = new ArrayList();
 		for(Integer p : players){
@@ -319,7 +322,12 @@ public class GameBoard extends AbstractGameBoard{
 		}
 		this.participants = temp;
 	}
+	*/
 
+
+	public void addParticipant(Integer player){
+		this.participants.add(findPlayer(player));
+	}
 	public Card getCurrentStoryCard(){
 		return ((Card)currentStory).instance();
 	}
