@@ -58,6 +58,13 @@ public class Rank {
 	return path;
     }
 
+    public int getMaxShields(){
+        if (rank == RankType.SQUIRE) {return MAX_SHIELDS_SQUIRE;}
+        else if (rank == RankType.KNIGHT) {return MAX_SHIELDS_KNIGHT;}
+        else if (rank == RankType.CHAMPION_KNIGHT) {return MAX_SHIELDS_CHAMPION_KNIGHT;}
+        else {return 0;}
+    }
+
     public int addRemoveShields(int numShields){
         shields += numShields;
         shields = Math.max(shields, 0);
