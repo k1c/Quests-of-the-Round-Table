@@ -10,6 +10,8 @@ public class GenericPlayer extends AbstractPlayer{
 	public List<Card> toBePlayed;
 	public List<Card> inPlay;
 
+	public int totalBattlePoints;
+
 	public GenericPlayer(int id){
 		this.id = id;
 

@@ -8,11 +8,11 @@ public abstract class AdventureBehaviour {
    	this.freeBid = false; 
     };
 
-    public abstract int getBP();
+    public abstract int getBP(GameBoard board);
 
-    public abstract int getBids();
+    public abstract int getBids(GameBoard board);
 
-    public abstract Boolean isFreeBid();
+    public abstract Boolean isFreeBid(GameBoard board);
 
 }
 

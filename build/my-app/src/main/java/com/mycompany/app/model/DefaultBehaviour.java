@@ -19,15 +19,15 @@ public class DefaultBehaviour extends AdventureBehaviour {
     }
 
 
-    public int getBP(){
+    public int getBP(GameBoard board){
         return this.BP;
     }
 
-    public int getBids(){
+    public int getBids(GameBoard board){
         return this.bids;
     }
 
-    public  Boolean isFreeBid(){
+    public  Boolean isFreeBid(GameBoard board){
         return this.freeBid;
     }
 
