@@ -278,6 +278,7 @@ public class GameModel{
 		board.applyStoryCardLogic(questSponsor.current());
 
 		this.state = GameStates.BEGIN_TURN;
+		this.updateObservers();
 	}
 
 }
