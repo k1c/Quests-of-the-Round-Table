@@ -8,6 +8,7 @@ public class Cycle<T>{
     public Cycle(List<T> list,int index){
         this.list = new ArrayList<T>(list);
         currentIndex = index;
+	getIndex();
     }
     
     public Cycle(Cycle<T> c){

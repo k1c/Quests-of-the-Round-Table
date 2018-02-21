@@ -25,6 +25,8 @@ public class GameModel{
 	//current player
 	private Cycle<Integer> storyTurn;
 	private Cycle<Integer> questSponsor;
+	private Cycle<Integer> participants;
+	private participationCounter;
 
 	public GameModel(){
 		observers = new ArrayList<GameObserver>();
@@ -180,28 +182,38 @@ public class GameModel{
 		/*
 		 * verify that it is a valid quest
 		 */
-		if(questSponsor.current() == player && board.submitQuest(quest,player))
+		if(questSponsor.current() == player && board.submitQuest(quest,player)){
+			this.participants = new Cycle(players,players.indexOf(questSponsor.current()));
+			this.participants.removeCurrent();
+			this.participationCounter = this.participants.size();
+
 			this.state = GameStates.PARTICIPATE_QUEST;
+		}
+
 	}
 
 	/*
 	 * NEEDS : change player parameter to a Player Object
 	 */
-	public void participateQuest(int player){
+	public void participateQuest(int player,boolean participate){
 		if(this.state != GameStates.PARTICIPATE_QUEST)			
 			return;
 		/*
 		 * ACTION : add player to quest
 		 */
+	
+		if(this.participationCounter <= 0){
+			this.state = GameStates.QUEST_HANDLER;
+		}
+
 	}
 
+	/*
 	public void participateQuestEnd(){
 		if(this.state != GameStates.PARTICIPATE_QUEST)
 			return;
 
-		/*
-		 * Action : check number of players participating in quest 
-		 */
+		//Action : check number of players participating in quest 
 		int numberOfParticipants = 0;
 
 		if(numberOfParticipants == 0)
@@ -209,6 +221,7 @@ public class GameModel{
 		else
 			state = GameStates.QUEST_HANDLER;
 	}
+	*/
 	
 
 	public void beginQuest(){
