@@ -304,6 +304,14 @@ public class GameBoard extends AbstractGameBoard{
 		return null;
 	}
 
+	public void addParticipants(List<Integer> players){
+		List<Player> temp = new ArrayList();
+		for(Integer p : players){
+			temp.add(findPlayer(p));	
+		}
+		this.participants = temp;
+	}
+
 	public Card getCurrentStoryCard(){
 		return ((Card)currentStory).instance();
 	}

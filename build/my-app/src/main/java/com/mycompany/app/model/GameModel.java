@@ -26,7 +26,7 @@ public class GameModel{
 	private Cycle<Integer> storyTurn;
 	private Cycle<Integer> questSponsor;
 	private Cycle<Integer> participants;
-	private participationCounter;
+	private int participationCounter;
 
 	public GameModel(){
 		observers = new ArrayList<GameObserver>();
@@ -210,6 +210,8 @@ public class GameModel{
 			this.participationCounter--;
 		}
 		if(this.participationCounter <= 0){
+			board.addParticipants(this.participants.items());
+
 			this.state = GameStates.QUEST_HANDLER;
 		}
 
@@ -231,7 +233,7 @@ public class GameModel{
 	*/
 	
 
-	public void beginQuest(){
+	public void beginStage(){
 		if(this.state != GameStates.QUEST_HANDLER)
 			return ;
 
