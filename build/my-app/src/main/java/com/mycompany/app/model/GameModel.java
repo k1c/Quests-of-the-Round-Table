@@ -224,7 +224,49 @@ public class GameModel{
 			this.state = GameStates.STAGE_FOE;
 		if(board.stageType(Card.Types.TEST))
 			this.state = GameStates.STAGE_TEST;
+	}
 
+	public boolean stageFoe(int playerID, List<Card> list){
+		if(this.state != GameStates.STAGE_FOE)
+			return false;
+
+		if(playerID != this.participants.current())	
+			return false;
+
+		boolean validSubmit = board.submitHand(playerID,list);
+
+		if(validSubmit){
+			this.participants.removeCurrent();
+		}
+		if(!validSubmit){
+			return false;
+		}
+
+		if(this.participants.size() <= 0 ){
+			this.state = GameStates.STAGE_END;
+		}
+
+		return true;
+
+	}
+
+	public void stageEnd(){
+		if(this.state != GameStates.STAGE_END)
+			return;
+
+		if(board.stageType(Card.Types.FOE)){
+
+		//move tobepalyed to in play
+		//check to pass
+		}
+		if(board.stageType(Card.Types.TEST)){}
+
+		//
+		//distribute cards
+		if(!this.board.nextStage())
+			this.state = GameStates.QUEST_END;
+		else
+			this.state = GameStates.QUEST_HANDLER;
 	}
 
 

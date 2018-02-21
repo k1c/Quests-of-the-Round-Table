@@ -146,8 +146,11 @@ public class GameBoard extends AbstractGameBoard{
 		
 	}
 
-	public void nextStage(){
-		this.currentQuestIndex = Math.max(this.currentQuestIndex,this.quest.size()-1);
+	public boolean nextStage(){
+		if(this.quest.size()-1 < this.currentQuestIndex)
+			return false;
+		this.currentQuestIndex = this.currentQuestIndex+1;
+		return true;
 	}
 
 
@@ -177,6 +180,53 @@ public class GameBoard extends AbstractGameBoard{
 		this.sponsor = null;
 		this.currentQuestIndex = 0;
 		this.participants = new ArrayList();
+	}
+
+
+	public boolean submitHand(int player, List<Card> hand){
+
+		Player p = findPlayer(player);	
+
+		boolean validHand   = true;
+		boolean duplicates  = true;
+		boolean correctType = true;
+
+		List<AdventureCard> tempPlayerHand = new ArrayList(p.hand);
+		List<AdventureCard> submittedCards  = new ArrayList();
+		Set<AdventureCard>  set = new TreeSet();
+
+		for(Card item: hand){
+			AdventureCard temp = findCard(p.hand,item);
+			if(temp == null)
+				return false;
+			submittedCards.add(temp);
+		}
+
+		//the player has all quest cards selected
+		for(AdventureCard card : submittedCards){
+			validHand = validHand && tempPlayerHand.remove(card);
+		}
+				
+		correctType = !(cardListHas(submittedCards,Card.Types.ALLY)&&
+		   	      cardListHas(submittedCards,Card.Types.AMOUR)&&
+	 	   	      cardListHas(submittedCards,Card.Types.WEAPON));
+
+		set.addAll(submittedCards);
+		set.addAll(p.inPlay);
+
+		 duplicates = (set.size() == (submittedCards.size() + p.inPlay.size()));
+
+		 if(!validHand)
+			return false;
+		 if(!correctType)
+			 return false;
+		 if(!duplicates)
+			 return false;
+		
+		p.toBePlayed = submittedCards;		
+		p.hand = tempPlayerHand;
+
+		return true;
 	}
 
 	public boolean submitQuest(TwoDimensionalArrayList<Card> playerQuest,int player){
@@ -217,11 +267,11 @@ public class GameBoard extends AbstractGameBoard{
 			int currentBP = calculateBP(stageList);
 			validStage = validateStage(stageList) && validStage;
 
-			if(stageHas(stageList,Card.Types.TEST)){
+			if(cardListHas(stageList,Card.Types.TEST)){
 				testNumber++;
 			}
 
-			if(stageHas(stageList,Card.Types.FOE) && currentBP >= lastBP){
+			if(cardListHas(stageList,Card.Types.FOE) && currentBP >= lastBP){
 				validBP = false;
 			}
 		}
@@ -263,10 +313,10 @@ public class GameBoard extends AbstractGameBoard{
 
 
 	public boolean stageType(Card.Types type){
-		return stageHas(quest.get(this.currentQuestIndex),type);
+		return cardListHas(quest.get(this.currentQuestIndex),type);
 	}
 
-	protected boolean stageHas(List<AdventureCard> stage,Card.Types type){
+	protected boolean cardListHas(List<AdventureCard> stage,Card.Types type){
 		for(AdventureCard item : stage){
 			if(item.type == type)
 				return true;
