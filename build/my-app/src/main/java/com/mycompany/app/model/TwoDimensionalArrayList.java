@@ -27,4 +27,13 @@ public class TwoDimensionalArrayList<T> extends ArrayList<ArrayList<T>> {
 
         inner.set(index2, element);
     }
+    public List<T> toList(){
+	List<T> list = new ArrayList<T>();
+
+	for(ArrayList<T> items:this){
+		list.addAll(items);
+	}
+
+	return list;
+    }
 }
