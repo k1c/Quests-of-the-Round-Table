@@ -44,8 +44,8 @@ public class GameController{
 
 		GridPane waitingPlayers = new GridPane();
 
-		waitingPlayers.setPadding(new Insets(MARGIN_OUTER));
-		waitingPlayers.setAlignment(Pos.CENTER_RIGHT);
+		waitingPlayers.setPadding(new Insets(MARGIN_OUTER, MARGIN_OUTER, MARGIN_OUTER*10, MARGIN_OUTER));
+		waitingPlayers.setAlignment(Pos.BOTTOM_RIGHT);
 
 		waitingPlayers.add(waitingPlayersView, 0, 0);
 

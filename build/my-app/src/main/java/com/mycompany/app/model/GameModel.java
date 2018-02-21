@@ -32,10 +32,10 @@ public class GameModel{
 		
 		}
 
-	public void initGame(int NumHumans,int numAI){
+	public void initGame(int numHumans,int numAI){
 		turn = 0;
 
-		numberOfPlayers = numberOfPlayers;
+		numberOfPlayers = numHumans + numAI;
 
 		board.initGame(numberOfPlayers,CardLoader.loadAdventureCards(),new ArrayList<StoryCard>());
 		players = board.getPlayerIds();		

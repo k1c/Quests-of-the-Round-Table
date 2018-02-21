@@ -12,6 +12,7 @@ import javafx.collections.ObservableList;
 import javafx.event.EventHandler;
 import javafx.geometry.*;
 import javafx.scene.Node;
+import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
@@ -20,6 +21,8 @@ import javafx.scene.layout.*;
 import java.util.*;
 
 import javafx.scene.input.MouseEvent;
+import javafx.scene.paint.Paint;
+import javafx.scene.text.Font;
 
 /**
  * # of cols needed: perCol = WIDTH/OFFSET, numCol = numCards/perCol + 1 floor
@@ -30,18 +33,18 @@ import javafx.scene.input.MouseEvent;
  */
     public class CurrentPlayerView extends GridPane implements GameObserver {
 
-    private GameModel model;
-    private ViewGameBoard currentGameState;
+    private GameModel gameModel;
+    private GenericPlayer current;
 
     private static final int PADDING = 0;
-    private static final int X_OFFSET = 73;
     private static final int WIDTH = 146;
     private static final int HEIGHT = 200;
+    private static final int X_OFFSET = WIDTH/3;
 
     public CurrentPlayerView(GameModel gameModel) {
-        this.model = gameModel;
-        this.model.registerObserver(this);
-        this.currentGameState = model.getGameBoard();
+        this.gameModel = gameModel;
+        this.gameModel.registerObserver(this);
+        this.current = gameModel.getCurrentPlayer();
 
         // gridpane properties
         setPadding(new Insets(PADDING));
@@ -58,9 +61,9 @@ import javafx.scene.input.MouseEvent;
         getChildren().clear();
 
         // Get current player info
-        GenericPlayer current = currentGameState.players.get(0);
         List<Card> hand = current.hand;
         List<Card> inplay = current.inPlay;
+
         int numInHand = hand.size();
         int numInPlay = inplay.size();
 
@@ -96,8 +99,12 @@ import javafx.scene.input.MouseEvent;
         getRowConstraints().add(row);
 
         // add rank
-        String rank = "R Squire.jpg";
+        String rank = current.rank.getPath();
         buildRank(rank);
+
+        // add shield + mordred button
+        //String shield = current.shieldPath;
+        buildShield();
 
         // add in hand
         buildHand(hand, handSpan);
@@ -118,6 +125,33 @@ import javafx.scene.input.MouseEvent;
         playerRank.getChildren().add(rankCard);
 
         getChildren().add(playerRank);
+    }
+
+    private void buildShield() {
+        VBox box = new VBox(10);
+        box.setAlignment(Pos.CENTER);
+
+        StackPane image = new StackPane();
+        // add shield image
+        ImageView shield= new ImageView(new Image("Shield Blue.png"));
+        shield.setPreserveRatio(true);
+        shield.setFitWidth(WIDTH/1.2);
+
+        Label currShields = new Label("2/5");
+        currShields.setFont(new Font("Cambria", 40));
+        currShields.setStyle("-fx-font-weight: bold; -fx-text-fill: white;");
+
+        image.getChildren().add(shield);
+        image.getChildren().add(currShields);
+        StackPane.setAlignment(currShields, Pos.CENTER);
+
+        // add button
+        Button mordred = new Button("Play Mordred");
+
+        box.getChildren().addAll(image, mordred);
+        GridPane.setColumnIndex(box, 1);
+
+        getChildren().add(box);
     }
 
     private void buildHand(List<Card> hand, int handSpan){
@@ -231,6 +265,7 @@ import javafx.scene.input.MouseEvent;
             }
         };
     }
+
     private String getColor(Card card) {
         String css = "-fx-effect: innershadow(gaussian, ";
 
@@ -258,7 +293,7 @@ import javafx.scene.input.MouseEvent;
     }
 
     public void update() {
-        this.currentGameState = model.getGameBoard();
+        this.current = gameModel.getCurrentPlayer();
         buildLayout();
     }
 }
