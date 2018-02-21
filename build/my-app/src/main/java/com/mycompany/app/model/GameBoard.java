@@ -38,6 +38,7 @@ public class GameBoard extends AbstractGameBoard{
 
 
 		this.currentStory = null;
+		this.currentQuestIndex = null;
 
 
 
@@ -145,6 +146,10 @@ public class GameBoard extends AbstractGameBoard{
 		
 	}
 
+	public void nextStage(){
+		this.currentQuestIndex = Math.max(this.currentQuestIndex,this.quest.size()-1);
+	}
+
 	public boolean playerCanSponsor(int id){
 		Player p = findPlayer(id);	
 		Set<Integer>	bp = new TreeSet<Integer>();
@@ -169,6 +174,7 @@ public class GameBoard extends AbstractGameBoard{
 		adventureDeckDiscard.addAll(this.quest.toList());
 		this.quest = new TwoDimensionalArrayList();		
 		this.sponsor = null;
+		this.currentQuestIndex = null;
 	}
 
 	public boolean submitQuest(TwoDimensionalArrayList<Card> playerQuest,int player){
@@ -237,6 +243,7 @@ public class GameBoard extends AbstractGameBoard{
 		p.hand = tempPlayerHand;	
 		this.quest = quest;
 		this.sponsor = p;
+		this.currentQuestIndex = 0;
 
 		return true;
 	}
