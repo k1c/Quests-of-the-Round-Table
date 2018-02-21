@@ -9,7 +9,9 @@ import javafx.geometry.Pos;
 import javafx.scene.Scene;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.GridPane;
+import javafx.scene.layout.StackPane;
 import javafx.stage.Stage;
+import com.mycompany.app.view.ConsoleView;
 
 public class GameController{
 
@@ -31,7 +33,15 @@ public class GameController{
 		currentPlayerView = new CurrentPlayerView(gameModel);
 		waitingPlayersView = new WaitingPlayersView(gameModel);
 
+		ConsoleView consoleView = new ConsoleView();
 		BorderPane root = new BorderPane();
+
+		StackPane stackPane = new StackPane();
+		stackPane.getChildren().add(consoleView);
+		stackPane.setAlignment(Pos.CENTER_RIGHT);
+		stackPane.setPadding(new Insets(MARGIN_OUTER*2));
+		root.setTop(stackPane);
+
 
 		GridPane currentPlayer = new GridPane();
 
@@ -44,7 +54,7 @@ public class GameController{
 
 		GridPane waitingPlayers = new GridPane();
 
-		waitingPlayers.setPadding(new Insets(MARGIN_OUTER, MARGIN_OUTER, MARGIN_OUTER*10, MARGIN_OUTER));
+		waitingPlayers.setPadding(new Insets(0, MARGIN_OUTER, MARGIN_OUTER*10, MARGIN_OUTER));
 		waitingPlayers.setAlignment(Pos.BOTTOM_RIGHT);
 
 		waitingPlayers.add(waitingPlayersView, 0, 0);
