@@ -6,26 +6,30 @@ package com.mycompany.app.view;
 import com.mycompany.app.model.*;
 import javafx.event.EventHandler;
 import javafx.geometry.*;
+import javafx.scene.Node;
+import javafx.scene.control.Button;
+import javafx.scene.control.Label;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.*;
 import java.util.*;
 import javafx.scene.input.MouseEvent;
+import javafx.scene.text.Font;
 
 public class WaitingPlayersView extends GridPane implements GameObserver {
 
-    private GameModel model;
-    private ViewGameBoard currentGameState;
+    private GameModel gameModel;
+    private List<GenericPlayer> waiting;
 
     private static final int PADDING = 0;
     private static final int WIDTH = 108;
     private static final int HEIGHT = 150;
-    private static final int X_OFFSET = WIDTH/2;
+    private static final int X_OFFSET = WIDTH/3;
 
     public WaitingPlayersView(GameModel gameModel) {
-        this.model = gameModel;
-        this.model.registerObserver(this);
-        this.currentGameState = model.getGameBoard();
+        this.gameModel = gameModel;
+        this.gameModel.registerObserver(this);
+        this.waiting = gameModel.getWaitingPlayers();
 
         // gridpane properties
         setPadding(new Insets(PADDING));
@@ -42,14 +46,33 @@ public class WaitingPlayersView extends GridPane implements GameObserver {
         // Clear section
         getChildren().clear();
 
-        // Get waiting players info (assume 1, 2, 3 and not 0)
-        List<GenericPlayer> waiting = new ArrayList<GenericPlayer>();
-        waiting.add(currentGameState.players.get(1));
-        //waiting.add(currentGameState.players.get(2));
-        //waiting.add(currentGameState.players.get(3));
+        // Get waiting players info
 
-        List<Card> hand = waiting.get(0).hand;
-        List<Card> inplay = waiting.get(0).inPlay;
+        // Find highest hand and inplay, get ranks
+        int handIndex = 0;
+        int inplayIndex = 0;
+        int hHand = 0;
+        int hInplay = 0;
+        int c = 0;
+
+        String[] ranks = new String[waiting.size()];
+        for (GenericPlayer p : waiting) {
+            if (p.hand.size() >= hHand) {
+                hHand = p.hand.size();
+                handIndex = waiting.indexOf(p);
+            }
+
+            if (p.inPlay.size() >= hInplay) {
+                hInplay = p.inPlay.size();
+                inplayIndex = waiting.indexOf(p);
+            }
+
+            ranks[c] = p.rank.getPath();
+            c++;
+        }
+
+        List<Card> hand = waiting.get(handIndex).hand;
+        List<Card> inplay = waiting.get(inplayIndex).inPlay;
         int numInHand = hand.size();
         int numInPlay = inplay.size();
 
@@ -77,7 +100,7 @@ public class WaitingPlayersView extends GridPane implements GameObserver {
         }
 
         // get number of rows
-        int numRows = 3;
+        int numRows = waiting.size();
 
         for (int i = 0; i < numRows; i++) {
             RowConstraints row = new RowConstraints();
@@ -88,9 +111,11 @@ public class WaitingPlayersView extends GridPane implements GameObserver {
             getRowConstraints().add(row);
         }
 
-        // add rank
-        String[] ranks = {"R Squire.jpg", "R Knight.jpg", "R Champion Knight.jpg"};
+        // add ranks
         buildRank(ranks);
+
+        // add shields and mordred button
+        buildShield();
 
         // add in hand
         buildHand(waiting, handSpan);
@@ -115,6 +140,40 @@ public class WaitingPlayersView extends GridPane implements GameObserver {
             playerRank.getChildren().add(rankCard);
 
             getChildren().add(playerRank);
+        }
+    }
+
+    private void buildShield() {
+        String[] s = {"Shield Purple.png", "Shield Red.png" , "Shield Green.png"};
+        int i = 0;
+        for (GenericPlayer p : waiting) {
+            VBox box = new VBox(10);
+            box.setAlignment(Pos.CENTER);
+
+            StackPane image = new StackPane();
+            // add shield image
+            ImageView shield= new ImageView(new Image(s[i]));
+            shield.setPreserveRatio(true);
+            shield.setFitWidth(WIDTH/1.2);
+
+            Label currShields = new Label("2/5");
+            currShields.setFont(new Font("Cambria", 30));
+            currShields.setStyle("-fx-font-weight: bold; -fx-text-fill: white;");
+
+            image.getChildren().add(shield);
+            image.getChildren().add(currShields);
+            StackPane.setAlignment(currShields, Pos.CENTER);
+
+            // add button
+            Button mordred = new Button("Play Mordred");
+
+            box.getChildren().addAll(image, mordred);
+            GridPane.setColumnIndex(box, 1);
+            GridPane.setRowIndex(box, i);
+
+            i++;
+
+            getChildren().add(box);
         }
     }
 
@@ -163,6 +222,9 @@ public class WaitingPlayersView extends GridPane implements GameObserver {
                 image = new ImageView(new Image(card.res));
                 // Add border with same color as card
                 image.getProperties().put("color", getColor(card));
+
+                // Add focus event handler
+                image.addEventHandler(MouseEvent.MOUSE_ENTERED, focusCard(image, s));
             }
 
 
@@ -198,6 +260,48 @@ public class WaitingPlayersView extends GridPane implements GameObserver {
         }
     }
 
+
+    private EventHandler<MouseEvent> focusCard(final ImageView image, final StackPane p) {
+        return new EventHandler<MouseEvent>() {
+            public void handle(MouseEvent event) {
+
+                // Selection color
+                image.setStyle("-fx-effect: dropshadow(gaussian, #ff7c14, 5, 1, 0, 0)");
+
+                // Get all current cards on display
+                List<Node> children = new ArrayList<Node>(p.getChildren());
+                // Sort by actual index instead of z-index
+                Collections.sort(children, new Comparator<Node>() {
+                    public int compare(Node o1, Node o2) {
+                        return Integer.parseInt(o1.getId()) - Integer.parseInt(o2.getId());
+                    }
+                });
+
+                // Get position of card user is hovering over
+                int index = children.indexOf(image);
+
+                // Start to re-arrange cards from both ends till they meet
+                int right = 0;
+                int left = children.size() - 1;
+
+                while (right != left) {
+                    if (!children.get(right).equals(image)) {
+                        children.get(right).toFront();
+                        right++;
+                    }
+
+                    if (!children.get(left).equals(image)) {
+                        children.get(left).toFront();
+                        left--;
+                    }
+                }
+
+                // Bring target card in front
+                children.get(index).toFront();
+            }
+        };
+    }
+
     private String getColor(Card card) {
         String css = "-fx-effect: innershadow(gaussian, ";
 
@@ -225,7 +329,7 @@ public class WaitingPlayersView extends GridPane implements GameObserver {
     }
 
     public void update() {
-        this.currentGameState = model.getGameBoard();
+        this.waiting = gameModel.getWaitingPlayers();
         buildLayout();
     }
 }

@@ -12,6 +12,7 @@ import javafx.collections.ObservableList;
 import javafx.event.EventHandler;
 import javafx.geometry.*;
 import javafx.scene.Node;
+import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
@@ -20,6 +21,8 @@ import javafx.scene.layout.*;
 import java.util.*;
 
 import javafx.scene.input.MouseEvent;
+import javafx.scene.paint.Paint;
+import javafx.scene.text.Font;
 
 /**
  * # of cols needed: perCol = WIDTH/OFFSET, numCol = numCards/perCol + 1 floor
@@ -34,9 +37,9 @@ import javafx.scene.input.MouseEvent;
     private GenericPlayer current;
 
     private static final int PADDING = 0;
-    private static final int X_OFFSET = 73;
     private static final int WIDTH = 146;
     private static final int HEIGHT = 200;
+    private static final int X_OFFSET = WIDTH/3;
 
     public CurrentPlayerView(GameModel gameModel) {
         this.gameModel = gameModel;
@@ -95,9 +98,13 @@ import javafx.scene.input.MouseEvent;
         row.setVgrow(javafx.scene.layout.Priority.SOMETIMES);
         getRowConstraints().add(row);
 
-        // add rank - TBD
-        String rank = "R Squire.jpg";
+        // add rank
+        String rank = current.rank.getPath();
         buildRank(rank);
+
+        // add shield + mordred button
+        //String shield = current.shieldPath;
+        buildShield();
 
         // add in hand
         buildHand(hand, handSpan);
@@ -118,6 +125,33 @@ import javafx.scene.input.MouseEvent;
         playerRank.getChildren().add(rankCard);
 
         getChildren().add(playerRank);
+    }
+
+    private void buildShield() {
+        VBox box = new VBox(10);
+        box.setAlignment(Pos.CENTER);
+
+        StackPane image = new StackPane();
+        // add shield image
+        ImageView shield= new ImageView(new Image("Shield Blue.png"));
+        shield.setPreserveRatio(true);
+        shield.setFitWidth(WIDTH/1.2);
+
+        Label currShields = new Label("2/5");
+        currShields.setFont(new Font("Cambria", 40));
+        currShields.setStyle("-fx-font-weight: bold; -fx-text-fill: white;");
+
+        image.getChildren().add(shield);
+        image.getChildren().add(currShields);
+        StackPane.setAlignment(currShields, Pos.CENTER);
+
+        // add button
+        Button mordred = new Button("Play Mordred");
+
+        box.getChildren().addAll(image, mordred);
+        GridPane.setColumnIndex(box, 1);
+
+        getChildren().add(box);
     }
 
     private void buildHand(List<Card> hand, int handSpan){
@@ -231,6 +265,7 @@ import javafx.scene.input.MouseEvent;
             }
         };
     }
+
     private String getColor(Card card) {
         String css = "-fx-effect: innershadow(gaussian, ";
 
