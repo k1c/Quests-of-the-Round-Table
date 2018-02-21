@@ -102,9 +102,13 @@ public class GameBoard extends AbstractGameBoard{
 		if(storyDeck.size() <= 0)
 			return;
 
-		softResetGameBoard();	
-		
+		resetStory();
+
 		currentStory = storyDeck.remove(storyDeck.size()-1);
+	}
+
+	public void applyStoryCardLogic(int player){
+		currentStory.apply(this,player);		
 	}
 	
 	public void drawFromStoryDeck(int id){
@@ -131,7 +135,7 @@ public class GameBoard extends AbstractGameBoard{
 		}
 	}
 
-	protected void softResetGameBoard(){
+	protected void resetStory(){
 		//add more things to reset later		
 		if(currentStory != null){
 			storyDeckDiscard.add(currentStory);	

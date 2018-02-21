@@ -275,8 +275,10 @@ public class GameModel{
 		/*
 		 * ACTION : Apply events logic to players
 		 */
+		board.applyStoryCardLogic(questSponsor.current());
 
 		this.state = GameStates.BEGIN_TURN;
+		this.updateObservers();
 	}
 
 }

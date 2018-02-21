@@ -16,6 +16,10 @@ public class StoryCard extends Card{
         return behaviour.getNumShields();
     }
 
+    public void apply(GameBoard board, int player){
+	this.behaviour.applyBehaviour(board,player);
+    }
+
 
 }
 
