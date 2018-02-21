@@ -27,6 +27,7 @@ public class GameBoard extends AbstractGameBoard{
 
 	protected StoryCard eventKingsRecognition;
 	protected StoryCard currentStory;
+	protected int currentQuestIndex;
 
 	protected TwoDimensionalArrayList<AdventureCard> quest;
 

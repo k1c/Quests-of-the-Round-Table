@@ -211,6 +211,7 @@ public class GameModel{
 		}
 		if(this.participationCounter <= 0){
 			board.addParticipants(this.participants.items());
+			this.participants.next();
 
 			this.state = GameStates.QUEST_HANDLER;
 		}
@@ -218,15 +219,17 @@ public class GameModel{
 	}
 	
 
-	public void beginStage(){
+	public void stage(){
 		if(this.state != GameStates.QUEST_HANDLER)
 			return ;
 
 		/*
 		 * some kind of quest logic here
 		 */
+		
 
-		this.state = GameStates.BEGIN_TURN;
+
+		this.state = GameStates.STAGE_FOE;
 	}
 
 

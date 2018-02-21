@@ -15,6 +15,10 @@ public enum GameStates{
     QUEST_HANDLER,
     APPLY_EVENT,
     SPONSOR_SUBMIT,
+    STAGE_FOE,
+    STAGE_TEST,
+    STAGE_END,
+    QUEST_END,
     WINNERS
    }
 
