@@ -200,7 +200,6 @@ public class GameModel{
 		/*
 		 * ACTION : add player to quest
 		 */
-
 		if(player == participants.current() && participate){
 			this.board.addParticipant(this.participants.removeCurrent());
 		}
@@ -213,19 +212,19 @@ public class GameModel{
 	}
 	
 
-	public void stage(int player, List<Card> list){
+	public void stage(){
 		if(this.state != GameStates.QUEST_HANDLER)
 			return ;
 		/*
 		 * some kind of quest logic here
 		 */
-		if(player == participants.current()){
+		this.participants = new Cycle<Integer>(this.board.getParticipants(),0);
 
-		}
-		
+		if(board.stageType(Card.Types.FOE))
+			this.state = GameStates.STAGE_FOE;
+		if(board.stageType(Card.Types.TEST))
+			this.state = GameStates.STAGE_TEST;
 
-
-		this.state = GameStates.STAGE_FOE;
 	}
 
 
@@ -259,11 +258,11 @@ public class GameModel{
 		if(numberOfParticipants==0)
 			state = GameStates.BEGIN_TURN;
 		else
-			state = GameStates.TOURNAMENT_HANDlER;
+			state = GameStates.TOURNAMENT_HANDLER;
 	}
 
 	public void beginTournament(){
-		if(this.state != GameStates.TOURNAMENT_HANDlER)
+		if(this.state != GameStates.TOURNAMENT_HANDLER)
 			return;
 
 		/*

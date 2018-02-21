@@ -150,6 +150,7 @@ public class GameBoard extends AbstractGameBoard{
 		this.currentQuestIndex = Math.max(this.currentQuestIndex,this.quest.size()-1);
 	}
 
+
 	public boolean playerCanSponsor(int id){
 		Player p = findPlayer(id);	
 		Set<Integer>	bp = new TreeSet<Integer>();
@@ -260,6 +261,11 @@ public class GameBoard extends AbstractGameBoard{
 		return BP;
 	}
 
+
+	public boolean stageType(Card.Types type){
+		return stageHas(quest.get(this.currentQuestIndex),type);
+	}
+
 	protected boolean stageHas(List<AdventureCard> stage,Card.Types type){
 		for(AdventureCard item : stage){
 			if(item.type == type)
@@ -314,19 +320,16 @@ public class GameBoard extends AbstractGameBoard{
 		return null;
 	}
 
-	/*
-	public void addParticipants(List<Integer> players){
-		List<Player> temp = new ArrayList();
-		for(Integer p : players){
-			temp.add(findPlayer(p));	
-		}
-		this.participants = temp;
-	}
-	*/
-
-
 	public void addParticipant(Integer player){
 		this.participants.add(findPlayer(player));
+	}
+
+	public List<Integer> getParticipants(){
+		List<Integer> temp = new ArrayList();
+		for(Player p : this.participants){
+			temp.add(p.id());			
+		}
+		return temp;
 	}
 	public Card getCurrentStoryCard(){
 		return ((Card)currentStory).instance();
