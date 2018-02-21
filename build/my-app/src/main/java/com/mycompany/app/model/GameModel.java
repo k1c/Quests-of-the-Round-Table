@@ -176,14 +176,11 @@ public class GameModel{
 	public void submitQuest(int player,TwoDimensionalArrayList<Card> quest){
 		if(this.state != GameStates.SPONSOR_SUBMIT)
 			return;
+
 		/*
 		 * verify that it is a valid quest
 		 */
-
-		/*
-		 * verify that is is last stage submitted
-		 */
-		if(true)
+		if(questSponsor.current() == player && board.submitQuest(quest,player))
 			this.state = GameStates.PARTICIPATE_QUEST;
 	}
 
