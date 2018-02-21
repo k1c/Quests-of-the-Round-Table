@@ -201,7 +201,14 @@ public class GameModel{
 		/*
 		 * ACTION : add player to quest
 		 */
-	
+		if(player == participants.current() && participate){
+			this.participants.next();
+			this.participationCounter--;
+		}
+		if(player == this.participants.current() && !participate){
+			this.participants.removeCurrent();
+			this.participationCounter--;
+		}
 		if(this.participationCounter <= 0){
 			this.state = GameStates.QUEST_HANDLER;
 		}
