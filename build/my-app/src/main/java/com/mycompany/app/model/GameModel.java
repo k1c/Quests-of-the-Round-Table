@@ -216,21 +216,6 @@ public class GameModel{
 		}
 
 	}
-
-	/*
-	public void participateQuestEnd(){
-		if(this.state != GameStates.PARTICIPATE_QUEST)
-			return;
-
-		//Action : check number of players participating in quest 
-		int numberOfParticipants = 0;
-
-		if(numberOfParticipants == 0)
-			state = GameStates.BEGIN_TURN;
-		else
-			state = GameStates.QUEST_HANDLER;
-	}
-	*/
 	
 
 	public void beginStage(){
