@@ -23,7 +23,7 @@ public class DeckView extends HBox{
 
         setSpacing(15.0);
         setAlignment(Pos.BOTTOM_LEFT);
-        setPadding(new Insets(10));
+        //setPadding(new Insets(10));
 
         String aFilepath = "A Back.jpg";
         String sFilepath = "S Back.jpg";

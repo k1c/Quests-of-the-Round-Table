@@ -51,8 +51,8 @@ import javafx.scene.text.Font;
         setAlignment(Pos.BOTTOM_RIGHT);
         setNodeOrientation(NodeOrientation.RIGHT_TO_LEFT);
         setPrefHeight(HEIGHT);
-
         buildLayout();
+        setHgap(10);
     }
 
     private void buildLayout() {
@@ -124,6 +124,17 @@ import javafx.scene.text.Font;
 
         playerRank.getChildren().add(rankCard);
 
+        playerRank.setPadding(new Insets(10, 0, 0,0));
+        playerRank.setStyle("-fx-border-style: solid inside;"
+                + "-fx-border-width: 10;" + "-fx-border-color: #006bb6;");
+
+        Label title = new Label(" Carolyne ");
+        title.setStyle("-fx-background-color: #f4f4f4; -fx-font-weight: bold;");
+        title.setTranslateY(-HEIGHT/2 - 20);
+        title.setTranslateX(-2);
+        title.setFont(new Font("Cambria", 26));
+        playerRank.getChildren().add(title);
+
         getChildren().add(playerRank);
     }
 
@@ -131,6 +142,7 @@ import javafx.scene.text.Font;
         VBox box = new VBox(10);
         box.setAlignment(Pos.CENTER);
 
+        box.setPadding(new Insets(0, 0,0,20));
         StackPane image = new StackPane();
         // add shield image
         ImageView shield= new ImageView(new Image("Shield Blue.png"));
@@ -150,7 +162,6 @@ import javafx.scene.text.Font;
 
         box.getChildren().addAll(image, mordred);
         GridPane.setColumnIndex(box, 1);
-
         getChildren().add(box);
     }
 
@@ -159,12 +170,26 @@ import javafx.scene.text.Font;
         // Create player hand
         StackPane playerHand = new StackPane();
 
-        GridPane.setColumnIndex(playerHand, 2);
-        GridPane.setColumnSpan(playerHand, handSpan);
-
         createStack(hand, playerHand);
 
-        getChildren().add(playerHand);
+        HBox test = new HBox();
+        test.getChildren().add(playerHand);
+
+        GridPane.setColumnIndex(test, 2);
+        GridPane.setColumnSpan(test, handSpan);
+        test.setMaxWidth(handSpan*WIDTH - X_OFFSET + 12);
+        test.setPadding(new Insets(10, 0, 0,0));
+        test.setStyle("-fx-border-style: solid inside;"
+                + "-fx-border-width: 10;" + "-fx-border-color: #006bb6;");
+
+        Label title = new Label(" In Hand ");
+        title.setStyle("-fx-background-color: #f4f4f4; -fx-font-weight: bold;");
+        title.setTranslateY(-40);
+        title.setTranslateX((handSpan*WIDTH - X_OFFSET + 15)/5.5);
+
+        test.getChildren().add(title);
+        title.setFont(new Font("Cambria", 26));
+        getChildren().add(test);
     }
 
     private void buildInPlay(List<Card> inPlay, int index) {
