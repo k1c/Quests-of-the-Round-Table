@@ -255,9 +255,7 @@ public class GameModel{
 			return;
 
 		if(board.stageType(Card.Types.FOE)){
-
-		//move tobepalyed to in play
-		//check to pass
+			board.completeFoeQuest();
 		}
 		if(board.stageType(Card.Types.TEST)){}
 

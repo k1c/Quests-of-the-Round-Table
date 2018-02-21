@@ -301,6 +301,58 @@ public class GameBoard extends AbstractGameBoard{
 		return true;
 	}
 
+
+	public void completeFoeQuest(){
+		List<AdventureCard> quest = this.quest.get(currentQuestIndex);
+		List<Player> tempParticipants = new ArrayList();
+		List<Player> droppedPlayers = new ArrayList();
+		int questBP = 0;
+
+		// get total BP
+		for(AdventureCard card : quest){
+			questBP += card.getBattlePoints(this);
+		}
+
+		// play all cards to be played
+		for(Player participant : this.participants){
+			participant.inPlay.addAll(participant.toBePlayed);
+			participant.toBePlayed.clear();
+		}
+		
+		// simulate the battle
+		for(Player participant : this.participants){
+			if(participant.getTotalBP(this) >= questBP){
+				tempParticipants.add(participant);
+			}
+			else{
+				droppedPlayers.add(participant);
+			}
+		}
+
+		// clean up the cards
+		for(Player participant : tempParticipants){
+			resetTypeInPlay(participant,Card.Types.WEAPON);	
+		}
+
+		for(Player participant : droppedPlayers){
+			resetTypeInPlay(participant,Card.Types.WEAPON);	
+			resetTypeInPlay(participant,Card.Types.AMOUR);	
+		}
+		
+
+		this.participants = tempParticipants;
+
+	}
+
+	public void resetTypeInPlay(Player p,Card.Types type){
+		for(AdventureCard card : p.inPlay){
+			if(card.type == type){
+				adventureDeckDiscard.add(card);
+				p.inPlay.remove(card);
+			}
+		}
+	}
+
 	protected int calculateBP(List<AdventureCard> list){
 		int BP = 0;
 
