@@ -24,6 +24,7 @@ public class Player extends AbstractPlayer{
 		GenericPlayer temp = new GenericPlayer(this.id);	
 
 		temp.rank = new Rank(this.rank);
+		temp.totalBattlePoints = getTotalBP(board);
 
 		for(Card card:hand){
 			temp.hand.add(card.instance());	
@@ -45,6 +46,10 @@ public class Player extends AbstractPlayer{
 			BP += card.getBattlePoints(board);	
 		}
 		return BP;
+	}
+
+	public int getTotalBP(GameBoard board){
+		return getInPlayBp(board) + rank.getBP();
 	}
 
 }
