@@ -1,9 +1,7 @@
 package com.mycompany.app.controller;
 
 import com.mycompany.app.model.GameModel;
-import com.mycompany.app.view.CurrentPlayerView;
-import com.mycompany.app.view.GameView;
-import com.mycompany.app.view.WaitingPlayersView;
+import com.mycompany.app.view.*;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.scene.Scene;
@@ -11,7 +9,6 @@ import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.StackPane;
 import javafx.stage.Stage;
-import com.mycompany.app.view.ConsoleView;
 
 public class GameController{
 
@@ -33,6 +30,7 @@ public class GameController{
 		currentPlayerView = new CurrentPlayerView(gameModel);
 		waitingPlayersView = new WaitingPlayersView(gameModel);
 
+        DeckView decks = new DeckView();
 		ConsoleView consoleView = new ConsoleView();
 		BorderPane root = new BorderPane();
 
@@ -42,6 +40,7 @@ public class GameController{
 		stackPane.setPadding(new Insets(MARGIN_OUTER*2));
 		root.setTop(stackPane);
 
+        root.setLeft(decks);
 
 		GridPane currentPlayer = new GridPane();
 
