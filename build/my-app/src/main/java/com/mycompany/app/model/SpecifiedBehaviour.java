@@ -22,49 +22,43 @@ public class SpecifiedBehaviour extends DefaultBehaviour{
     }
 
     public int getBP(GameBoard board){
-
-        for (Integer specID : this.specifiers){
-            if (specID == board.currentStory.id) {
-                return this.specifiedBP;
-            }
-        }
-
-        for (Player p : board.players) {
-            for (Card c : p.inPlay) {
-                for (Integer specID : this.specifiers) {
-                    if (specID == c.id) {
-                        return this.specifiedBP;
-                    }
-                }
-            }
-        }
-
+	if(isSpecified(board)){
+		return this.specifiedBP;
+	}
         return this.BP;
     }
 
     public int getBids(GameBoard board){
 
-        for (Integer specID : this.specifiers){
-            if (specID == board.currentStory.id) {
-                return this.specifiedBids;
-            }
-        }
-
-        for (Player p : board.players) {
-            for (Card c : p.inPlay) {
-                for (Integer specID : specifiers) {
-                    if (specID == c.id) {
-                        return this.specifiedBids;
-                    }
-                }
-            }
-        }
-
-        return this.bids;
+	    if (isSpecified(board))
+		    return this.specifiedBids;
+            return this.bids;
     }
 
     public Boolean isFreeBid(GameBoard board){
+	    /* 
+	     * Change Later : some allies are conditionally a free bit
+	     */
 	return this.freeBid;
+    }
+
+    protected boolean isSpecified(GameBoard board){
+	    for (Integer specID : this.specifiers){
+		    if (specID == board.currentStory.id) {
+			    return true;
+		    }
+	    }
+
+	    for (Player p : board.players) {
+		    for (Card c : p.inPlay) {
+			    for (Integer specID : specifiers) {
+				    if (specID == c.id) {
+					    return true;
+				    }
+			    }
+		    }
+	    }
+	    return false;
     }
 
 }
