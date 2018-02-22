@@ -220,6 +220,10 @@ public class GameModel{
 		 */
 		this.participants = new Cycle<Integer>(this.board.getParticipants(),0);
 
+
+		//draw card
+		board.beginEncounter();
+
 		if(board.stageType(Card.Types.FOE))
 			this.state = GameStates.STAGE_FOE;
 		if(board.stageType(Card.Types.TEST))
@@ -255,7 +259,7 @@ public class GameModel{
 			return;
 
 		if(board.stageType(Card.Types.FOE)){
-			board.completeFoeQuest();
+			board.completeFoeStage();
 		}
 		if(board.stageType(Card.Types.TEST)){}
 

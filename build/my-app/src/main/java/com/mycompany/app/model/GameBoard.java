@@ -301,8 +301,14 @@ public class GameBoard extends AbstractGameBoard{
 		return true;
 	}
 
+	public void beginEncounter(){
+		for(Player p : participants){
+			drawFromAdventureDeck(p);
+			drawFromAdventureDeck(p);
+		}
+	}
 
-	public void completeFoeQuest(){
+	public void completeFoeStage(){
 		List<AdventureCard> quest = this.quest.get(currentQuestIndex);
 		List<Player> tempParticipants = new ArrayList();
 		List<Player> droppedPlayers = new ArrayList();
