@@ -2,10 +2,10 @@ package com.mycompany.app.model;
 
 public abstract class AdventureBehaviour {
 
-    protected Boolean freeBid;
+    protected Boolean defaultFreeBid;
 
     public AdventureBehaviour(){
-   	this.freeBid = false; 
+   	this.defaultFreeBid = false;
     };
 
     public abstract int getBP(GameBoard board);

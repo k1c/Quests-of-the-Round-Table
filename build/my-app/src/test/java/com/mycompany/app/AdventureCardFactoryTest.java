@@ -31,14 +31,13 @@ public class AdventureCardFactoryTest extends TestCase{
 
 		board.currentStory = StoryCardFactory.createCard(StoryCardFactory.Types.SLAY_THE_DRAGON);
 
-
 		AdventureCard Temp = AdventureCardFactory.createCard(AdventureCardFactory.Types.SIR_LANCELOT);
 		assertEquals(23,Temp.id);
 		assertEquals("/A Sir Lancelot.jpg",Temp.res);
 		assertEquals("Sir Lancelot",Temp.name);
 		assertEquals(15,Temp.getBattlePoints(board));
 		assertEquals(1,Temp.getBids(board));
-		assertEquals(true,Temp.freeBid(board));
+		assertEquals(false,Temp.freeBid(board));
 
 	}
 
@@ -146,8 +145,31 @@ public class AdventureCardFactoryTest extends TestCase{
 		assertEquals("Sir Percival",Temp3.name);
 		assertEquals(20,Temp3.getBattlePoints(board));
 		assertEquals(1,Temp3.getBids(board));
-		assertEquals(true,Temp3.freeBid(board));
+		assertEquals(false,Temp3.freeBid(board));
 
+		AdventureCard Temp4 = AdventureCardFactory.createCard(AdventureCardFactory.Types.KING_PELLINORE);
+		assertEquals(26,Temp4.id);
+		assertEquals("/A King Pellinore.jpg",Temp4.res);
+		assertEquals("King Pellinore",Temp4.name);
+		assertEquals(10,Temp4.getBattlePoints(board));
+		assertEquals(1,Temp4.getBids(board));
+		assertEquals(false,Temp4.freeBid(board));
+
+	}
+
+	public void testSpecifiedPellinore() throws Exception {
+		GameBoard board = new GameBoard();
+		board.initGame(4, new ArrayList<AdventureCard>(), new ArrayList<StoryCard>());
+
+		board.currentStory = StoryCardFactory.createCard(StoryCardFactory.Types.SEARCH_FOR_THE_QUESTING_BEAST);
+
+		AdventureCard Temp4 = AdventureCardFactory.createCard(AdventureCardFactory.Types.KING_PELLINORE);
+		assertEquals(26, Temp4.id);
+		assertEquals("/A King Pellinore.jpg", Temp4.res);
+		assertEquals("King Pellinore", Temp4.name);
+		assertEquals(10, Temp4.getBattlePoints(board));
+		assertEquals(4, Temp4.getBids(board));
+		assertEquals(true, Temp4.freeBid(board));
 	}
 
 }
