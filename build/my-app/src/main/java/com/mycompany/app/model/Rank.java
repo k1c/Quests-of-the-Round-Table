@@ -19,9 +19,9 @@ public class Rank {
 	setSquire();
     }
     public Rank(Rank r){
-	this.BP = r.BP;
-	this.path = r.path;
-	this.rank = r.rank;
+	    this.BP = r.BP;
+	    this.path = r.path;
+	    this.rank = r.rank;
     }
 
     protected void setSquire(){

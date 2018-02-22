@@ -15,21 +15,50 @@ public class SpecifiedBehaviour extends DefaultBehaviour{
 	
 	super(defaultBP,defaultBids,freeBid);
 
-        this.BP = BP;
-        this.bids = bids;
-	    this.freeBid = false;
-	    this.specifiers = null;
+        this.specifiedBP = specifiedBP;
+        this.specifiedBids = specifiedBids;
+	    this.specifiers = specifiers;
 
     }
 
     public int getBP(GameBoard board){
 
+        for (Integer specID : this.specifiers){
+            if (specID == board.currentStory.id) {
+                return this.specifiedBP;
+            }
+        }
+
+        for (Player p : board.players) {
+            for (Card c : p.inPlay) {
+                for (Integer specID : this.specifiers) {
+                    if (specID == c.id) {
+                        return this.specifiedBP;
+                    }
+                }
+            }
+        }
 
         return this.BP;
     }
 
     public int getBids(GameBoard board){
 
+        for (Integer specID : this.specifiers){
+            if (specID == board.currentStory.id) {
+                return this.specifiedBids;
+            }
+        }
+
+        for (Player p : board.players) {
+            for (Card c : p.inPlay) {
+                for (Integer specID : specifiers) {
+                    if (specID == c.id) {
+                        return this.specifiedBids;
+                    }
+                }
+            }
+        }
 
         return this.bids;
     }
