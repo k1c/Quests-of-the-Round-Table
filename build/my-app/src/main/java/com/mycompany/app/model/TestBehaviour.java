@@ -22,6 +22,8 @@ public class TestBehaviour extends SpecifiedBehaviour{
 
         int bids = super.getBids(board);
 
+        System.out.println(bids);
+
         if(board.players.size() <= 2){
             return Math.max(bids, 3);
         }

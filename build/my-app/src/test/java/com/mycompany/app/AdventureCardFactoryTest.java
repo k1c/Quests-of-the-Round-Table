@@ -163,13 +163,69 @@ public class AdventureCardFactoryTest extends TestCase{
 
 		board.currentStory = StoryCardFactory.createCard(StoryCardFactory.Types.SEARCH_FOR_THE_QUESTING_BEAST);
 
-		AdventureCard Temp4 = AdventureCardFactory.createCard(AdventureCardFactory.Types.KING_PELLINORE);
-		assertEquals(26, Temp4.id);
-		assertEquals("/A King Pellinore.jpg", Temp4.res);
-		assertEquals("King Pellinore", Temp4.name);
-		assertEquals(10, Temp4.getBattlePoints(board));
-		assertEquals(4, Temp4.getBids(board));
-		assertEquals(true, Temp4.freeBid(board));
+		AdventureCard Temp = AdventureCardFactory.createCard(AdventureCardFactory.Types.KING_PELLINORE);
+		assertEquals(26, Temp.id);
+		assertEquals("/A King Pellinore.jpg", Temp.res);
+		assertEquals("King Pellinore", Temp.name);
+		assertEquals(10, Temp.getBattlePoints(board));
+		assertEquals(4, Temp.getBids(board));
+		assertEquals(true, Temp.freeBid(board));
+	}
+
+	public void testDefaultTest4Player() throws Exception {
+		GameBoard board = new GameBoard();
+		board.initGame(4, new ArrayList<AdventureCard>(), new ArrayList<StoryCard>());
+
+		board.currentStory = StoryCardFactory.createCard(StoryCardFactory.Types.SEARCH_FOR_THE_QUESTING_BEAST);
+
+		board.players = new ArrayList<Player>();
+
+		for (int i = 0; i < 4; i++)
+			board.players.add(new Player());
+
+		AdventureCard Temp = AdventureCardFactory.createCard(AdventureCardFactory.Types.TEST_OF_VALOR);
+		assertEquals(18, Temp.id);
+		assertEquals("/T Test of Valor.jpg", Temp.res);
+		assertEquals("Test of Valor", Temp.name);
+		assertEquals(1, Temp.getBids(board));
+	}
+
+	public void testDefaultTest2Player() throws Exception {
+		GameBoard board = new GameBoard();
+		board.initGame(4, new ArrayList<AdventureCard>(), new ArrayList<StoryCard>());
+
+		board.currentStory = StoryCardFactory.createCard(StoryCardFactory.Types.SEARCH_FOR_THE_QUESTING_BEAST);
+
+		board.players = new ArrayList<Player>();
+
+		for (int i = 0; i < 2; i++)
+			board.players.add(new Player());
+
+		AdventureCard Temp = AdventureCardFactory.createCard(AdventureCardFactory.Types.TEST_OF_VALOR);
+		assertEquals(18, Temp.id);
+		assertEquals("/T Test of Valor.jpg", Temp.res);
+		assertEquals("Test of Valor", Temp.name);
+		assertEquals(3, Temp.getBids(board));
+	}
+
+
+	public void testSpecifiedQuestingBeast() throws Exception {
+		GameBoard board = new GameBoard();
+		board.initGame(4, new ArrayList<AdventureCard>(), new ArrayList<StoryCard>());
+
+		board.currentStory = StoryCardFactory.createCard(StoryCardFactory.Types.SEARCH_FOR_THE_QUESTING_BEAST);
+
+		board.players = new ArrayList<Player>();
+
+		for (int i = 0; i < 4; i++)
+			board.players.add(new Player());
+
+
+		AdventureCard Temp = AdventureCardFactory.createCard(AdventureCardFactory.Types.TEST_OF_THE_QUESTING_BEAST);
+		assertEquals(21, Temp.id);
+		assertEquals("/T Test of the Questing Beast.jpg", Temp.res);
+		assertEquals("Test of the Questing Beast", Temp.name);
+		assertEquals(4, Temp.getBids(board));
 	}
 
 }
