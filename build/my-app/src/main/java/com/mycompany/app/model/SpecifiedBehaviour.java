@@ -15,27 +15,50 @@ public class SpecifiedBehaviour extends DefaultBehaviour{
 	
 	super(defaultBP,defaultBids,freeBid);
 
-        this.BP = BP;
-        this.bids = bids;
-	    this.freeBid = false;
-	    this.specifiers = null;
+        this.specifiedBP = specifiedBP;
+        this.specifiedBids = specifiedBids;
+	    this.specifiers = specifiers;
 
     }
 
     public int getBP(GameBoard board){
-
-
+	if(isSpecified(board)){
+		return this.specifiedBP;
+	}
         return this.BP;
     }
 
     public int getBids(GameBoard board){
 
-
-        return this.bids;
+	    if (isSpecified(board))
+		    return this.specifiedBids;
+            return this.bids;
     }
 
     public Boolean isFreeBid(GameBoard board){
+	    /* 
+	     * Change Later : some allies are conditionally a free bit
+	     */
 	return this.freeBid;
+    }
+
+    protected boolean isSpecified(GameBoard board){
+	    for (Integer specID : this.specifiers){
+		    if (specID == board.currentStory.id) {
+			    return true;
+		    }
+	    }
+
+	    for (Player p : board.players) {
+		    for (Card c : p.inPlay) {
+			    for (Integer specID : specifiers) {
+				    if (specID == c.id) {
+					    return true;
+				    }
+			    }
+		    }
+	    }
+	    return false;
     }
 
 }

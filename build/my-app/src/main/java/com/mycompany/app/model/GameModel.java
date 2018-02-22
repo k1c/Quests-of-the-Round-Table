@@ -25,6 +25,8 @@ public class GameModel{
 	//current player
 	private Cycle<Integer> storyTurn;
 	private Cycle<Integer> questSponsor;
+	private Cycle<Integer> participants;
+	private int participationCounter;
 
 	public GameModel(){
 		observers = new ArrayList<GameObserver>();
@@ -180,46 +182,98 @@ public class GameModel{
 		/*
 		 * verify that it is a valid quest
 		 */
-		if(questSponsor.current() == player && board.submitQuest(quest,player))
+		if(questSponsor.current() == player && board.submitQuest(quest,player)){
+			this.participants = new Cycle(players,players.indexOf(questSponsor.current()));
+			this.participants.removeCurrent();
+
 			this.state = GameStates.PARTICIPATE_QUEST;
+		}
+
 	}
 
 	/*
 	 * NEEDS : change player parameter to a Player Object
 	 */
-	public void participateQuest(int player){
+	public void participateQuest(int player,boolean participate){
 		if(this.state != GameStates.PARTICIPATE_QUEST)			
 			return;
 		/*
 		 * ACTION : add player to quest
 		 */
-	}
-
-	public void participateQuestEnd(){
-		if(this.state != GameStates.PARTICIPATE_QUEST)
-			return;
-
-		/*
-		 * Action : check number of players participating in quest 
-		 */
-		int numberOfParticipants = 0;
-
-		if(numberOfParticipants == 0)
-			state = GameStates.BEGIN_TURN;
-		else
-			state = GameStates.QUEST_HANDLER;
+		if(player == participants.current() && participate){
+			this.board.addParticipant(this.participants.removeCurrent());
+		}
+		if(player == this.participants.current() && !participate){
+			this.board.addParticipant(this.participants.removeCurrent());
+		}
+		if(this.participants.size() <= 0){
+			this.state = GameStates.QUEST_HANDLER;
+		}
 	}
 	
 
-	public void beginQuest(){
+	public void stage(){
 		if(this.state != GameStates.QUEST_HANDLER)
 			return ;
-
 		/*
 		 * some kind of quest logic here
 		 */
+		this.participants = new Cycle<Integer>(this.board.getParticipants(),0);
 
-		this.state = GameStates.BEGIN_TURN;
+
+		//draw card
+		board.beginEncounter();
+
+		if(board.stageType(Card.Types.FOE))
+			this.state = GameStates.STAGE_FOE;
+		if(board.stageType(Card.Types.TEST))
+			this.state = GameStates.STAGE_TEST;
+
+		this.updateObservers();
+	}
+
+	public boolean stageFoe(int playerID, List<Card> list){
+		if(this.state != GameStates.STAGE_FOE)
+			return false;
+
+		if(playerID != this.participants.current())	
+			return false;
+
+		boolean validSubmit = board.submitHand(playerID,list);
+
+		if(validSubmit){
+			this.participants.removeCurrent();
+		}
+		if(!validSubmit){
+			return false;
+		}
+
+		if(this.participants.size() <= 0 ){
+			this.state = GameStates.STAGE_END;
+		}
+
+		this.updateObservers();
+
+		return true;
+
+	}
+
+	public void stageEnd(){
+		if(this.state != GameStates.STAGE_END)
+			return;
+
+		if(board.stageType(Card.Types.FOE)){
+			board.completeFoeStage();
+		}
+		if(board.stageType(Card.Types.TEST)){}
+
+		//
+		//distribute cards
+		if(!this.board.nextStage())
+			this.state = GameStates.QUEST_END;
+		else
+			this.state = GameStates.QUEST_HANDLER;
+		this.updateObservers();
 	}
 
 
@@ -253,11 +307,11 @@ public class GameModel{
 		if(numberOfParticipants==0)
 			state = GameStates.BEGIN_TURN;
 		else
-			state = GameStates.TOURNAMENT_HANDlER;
+			state = GameStates.TOURNAMENT_HANDLER;
 	}
 
 	public void beginTournament(){
-		if(this.state != GameStates.TOURNAMENT_HANDlER)
+		if(this.state != GameStates.TOURNAMENT_HANDLER)
 			return;
 
 		/*

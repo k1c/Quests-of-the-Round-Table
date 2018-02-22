@@ -27,6 +27,7 @@ public class GameBoard extends AbstractGameBoard{
 
 	protected StoryCard eventKingsRecognition;
 	protected StoryCard currentStory;
+	protected int currentQuestIndex;
 
 	protected TwoDimensionalArrayList<AdventureCard> quest;
 
@@ -37,6 +38,7 @@ public class GameBoard extends AbstractGameBoard{
 
 
 		this.currentStory = null;
+		this.currentQuestIndex = 0;
 
 
 
@@ -144,6 +146,14 @@ public class GameBoard extends AbstractGameBoard{
 		
 	}
 
+	public boolean nextStage(){
+		if(this.quest.size()-1 < this.currentQuestIndex)
+			return false;
+		this.currentQuestIndex = this.currentQuestIndex+1;
+		return true;
+	}
+
+
 	public boolean playerCanSponsor(int id){
 		Player p = findPlayer(id);	
 		Set<Integer>	bp = new TreeSet<Integer>();
@@ -168,6 +178,55 @@ public class GameBoard extends AbstractGameBoard{
 		adventureDeckDiscard.addAll(this.quest.toList());
 		this.quest = new TwoDimensionalArrayList();		
 		this.sponsor = null;
+		this.currentQuestIndex = 0;
+		this.participants = new ArrayList();
+	}
+
+
+	public boolean submitHand(int player, List<Card> hand){
+
+		Player p = findPlayer(player);	
+
+		boolean validHand   = true;
+		boolean duplicates  = true;
+		boolean correctType = true;
+
+		List<AdventureCard> tempPlayerHand = new ArrayList(p.hand);
+		List<AdventureCard> submittedCards  = new ArrayList();
+		Set<AdventureCard>  set = new TreeSet();
+
+		for(Card item: hand){
+			AdventureCard temp = findCard(p.hand,item);
+			if(temp == null)
+				return false;
+			submittedCards.add(temp);
+		}
+
+		//the player has all quest cards selected
+		for(AdventureCard card : submittedCards){
+			validHand = validHand && tempPlayerHand.remove(card);
+		}
+				
+		correctType = !(cardListHas(submittedCards,Card.Types.ALLY)&&
+		   	      cardListHas(submittedCards,Card.Types.AMOUR)&&
+	 	   	      cardListHas(submittedCards,Card.Types.WEAPON));
+
+		set.addAll(submittedCards);
+		set.addAll(p.inPlay);
+
+		 duplicates = (set.size() == (submittedCards.size() + p.inPlay.size()));
+
+		 if(!validHand)
+			return false;
+		 if(!correctType)
+			 return false;
+		 if(!duplicates)
+			 return false;
+		
+		p.toBePlayed = submittedCards;		
+		p.hand = tempPlayerHand;
+
+		return true;
 	}
 
 	public boolean submitQuest(TwoDimensionalArrayList<Card> playerQuest,int player){
@@ -208,11 +267,11 @@ public class GameBoard extends AbstractGameBoard{
 			int currentBP = calculateBP(stageList);
 			validStage = validateStage(stageList) && validStage;
 
-			if(stageHas(stageList,Card.Types.TEST)){
+			if(cardListHas(stageList,Card.Types.TEST)){
 				testNumber++;
 			}
 
-			if(stageHas(stageList,Card.Types.FOE) && currentBP >= lastBP){
+			if(cardListHas(stageList,Card.Types.FOE) && currentBP >= lastBP){
 				validBP = false;
 			}
 		}
@@ -233,11 +292,84 @@ public class GameBoard extends AbstractGameBoard{
 
 		//submit final changes
 		resetQuest();
+
 		p.hand = tempPlayerHand;	
 		this.quest = quest;
 		this.sponsor = p;
+		this.currentQuestIndex = 0;
 
 		return true;
+	}
+
+	public void beginEncounter(){
+		for(Player p : participants){
+			drawFromAdventureDeck(p);
+			drawFromAdventureDeck(p);
+		}
+	}
+
+	public void endQuest(){
+		// remove cards weapons and amours from allies
+		for(Player participant : this.participants){
+			resetTypeInPlay(participant,Card.Types.WEAPON);	
+			resetTypeInPlay(participant,Card.Types.AMOUR);	
+		}
+		
+		this.currentStory.apply(this,this.sponsor.id());		
+
+		//remove any quest information
+		resetQuest();
+	}
+
+	public void completeFoeStage(){
+		List<AdventureCard> quest = this.quest.get(currentQuestIndex);
+		List<Player> tempParticipants = new ArrayList();
+		List<Player> droppedPlayers = new ArrayList();
+		int questBP = 0;
+
+		// get total BP
+		for(AdventureCard card : quest){
+			questBP += card.getBattlePoints(this);
+		}
+
+		// play all cards to be played
+		for(Player participant : this.participants){
+			participant.inPlay.addAll(participant.toBePlayed);
+			participant.toBePlayed.clear();
+		}
+		
+		// simulate the battle
+		for(Player participant : this.participants){
+			if(participant.getTotalBP(this) >= questBP){
+				tempParticipants.add(participant);
+			}
+			else{
+				droppedPlayers.add(participant);
+			}
+		}
+
+		// clean up the cards
+		for(Player participant : tempParticipants){
+			resetTypeInPlay(participant,Card.Types.WEAPON);	
+		}
+
+		for(Player participant : droppedPlayers){
+			resetTypeInPlay(participant,Card.Types.WEAPON);	
+			resetTypeInPlay(participant,Card.Types.AMOUR);	
+		}
+		
+
+		this.participants = tempParticipants;
+
+	}
+
+	public void resetTypeInPlay(Player p,Card.Types type){
+		for(AdventureCard card : p.inPlay){
+			if(card.type == type){
+				adventureDeckDiscard.add(card);
+				p.inPlay.remove(card);
+			}
+		}
 	}
 
 	protected int calculateBP(List<AdventureCard> list){
@@ -250,7 +382,12 @@ public class GameBoard extends AbstractGameBoard{
 		return BP;
 	}
 
-	protected boolean stageHas(List<AdventureCard> stage,Card.Types type){
+
+	public boolean stageType(Card.Types type){
+		return cardListHas(quest.get(this.currentQuestIndex),type);
+	}
+
+	protected boolean cardListHas(List<AdventureCard> stage,Card.Types type){
 		for(AdventureCard item : stage){
 			if(item.type == type)
 				return true;
@@ -304,6 +441,17 @@ public class GameBoard extends AbstractGameBoard{
 		return null;
 	}
 
+	public void addParticipant(Integer player){
+		this.participants.add(findPlayer(player));
+	}
+
+	public List<Integer> getParticipants(){
+		List<Integer> temp = new ArrayList();
+		for(Player p : this.participants){
+			temp.add(p.id());			
+		}
+		return temp;
+	}
 	public Card getCurrentStoryCard(){
 		return ((Card)currentStory).instance();
 	}

@@ -60,24 +60,24 @@ public class AdventureCardFactory{
             //case TEST_OF_THE_QUESTING_BEAST:
             //ALLIES
             case SIR_GALAHAD:
-                return defaultAlly(22, "/A Sir Galahad.jpg", "Sir Galahad", 15, 1, false);
+                return defaultAlly(22, "/A Sir Galahad.jpg", "Sir Galahad", 15, 1, true);
             case SIR_LANCELOT: {
                 List<Integer> specifiers = new ArrayList<Integer>(Arrays.asList(36));
-                return specifiedAlly(23, "/A Sir Lancelot.jpg", "Sir Lancelot", 15, 1, 25, 1, false, specifiers); }
+                return specifiedAlly(23, "/A Sir Lancelot.jpg", "Sir Lancelot", 15, 1, 25, 1, true, specifiers); }
             case KING_ARTHUR:
                 return defaultAlly(24, "/A King Arthur.jpg", "King Arthur", 10, 2, true);
             case SIR_TRISTAN: {
                 List<Integer> specifiers = new ArrayList<Integer>(Arrays.asList(30));
-                return specifiedAlly(25, "/A Sir Tristan.jpg", "Sir Tristan", 10, 1, 20, 1, false, specifiers); }
+                return specifiedAlly(25, "/A Sir Tristan.jpg", "Sir Tristan", 10, 1, 20, 1, true, specifiers); }
             case KING_PELLINORE: {
                 List<Integer> specifiers = new ArrayList<Integer>(Arrays.asList(35));
                 return specifiedAlly(26, "/A King Pellinore.jpg", "King Pellinore", 10, 0, 10, 4, true, specifiers); }
             case SIR_GAWAIN: {
                 List<Integer> specifiers = new ArrayList<Integer>(Arrays.asList(34));
-                return specifiedAlly(27, "/A Sir Gawain.jpg", "Sir Gawain", 10, 1, 20, 1, false, specifiers); }
+                return specifiedAlly(27, "/A Sir Gawain.jpg", "Sir Gawain", 10, 1, 20, 1, true, specifiers); }
             case SIR_PERCIVAL: {
                 List<Integer> specifiers = new ArrayList<Integer>(Arrays.asList(33));
-                return specifiedAlly(28, "/A Sir Percival.jpg", "Sir Percival", 5, 1, 20, 1, false, specifiers); }
+                return specifiedAlly(28, "/A Sir Percival.jpg", "Sir Percival", 5, 1, 20, 1, true, specifiers); }
             case QUEEN_GUINEVERE:
                 return defaultAlly(29, "/A Queen Guinevere.jpg", "Queen Guinevere", 0, 3, true);
             case QUEEN_ISEULT: {
