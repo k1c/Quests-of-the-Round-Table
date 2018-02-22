@@ -54,8 +54,9 @@ public class AdventureCardFactory{
             case THIEVES:
                 return defaultFoe(17, "/F Thieves.jpg", "Thieves", 5);
             //TESTS
-            //case TEST_OF_VALOR:
-            //case TEST_OF_TEMPTATION:
+            case TEST_OF_VALOR:
+
+            case TEST_OF_TEMPTATION:
             //case TEST_OF_MORGAN_LE_FAY:
             //case TEST_OF_THE_QUESTING_BEAST:
             //ALLIES
