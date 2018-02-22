@@ -18,5 +18,12 @@ Login to Github
 Find your branch and create a PR (green button to the right of your branch)
 fill in title and description
 Under "Assignees", add at least one Assignee to review your code
-Once approved, "Squash and Merge"
+Once approved, "Create a merge commit"
 Delete your branch
+
+//Merge master into your branch
+git checkout master
+git pull
+git checkout your_branch
+git merge master
+git push
