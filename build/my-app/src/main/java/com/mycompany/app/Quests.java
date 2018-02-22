@@ -37,7 +37,14 @@ public class Quests extends Application{
 
         primaryStage.setScene(start);
         primaryStage.setResizable(true);
+
+        if(isWindows()) primaryStage.setMaximized(true);
+
         primaryStage.show();
+    }
+    private boolean isWindows()
+    {
+        return System.getProperty("os.name").startsWith("Windows");
     }
 
     public static void main(String[] args) {
