@@ -228,6 +228,8 @@ public class GameModel{
 			this.state = GameStates.STAGE_FOE;
 		if(board.stageType(Card.Types.TEST))
 			this.state = GameStates.STAGE_TEST;
+
+		this.updateObservers();
 	}
 
 	public boolean stageFoe(int playerID, List<Card> list){
@@ -250,6 +252,8 @@ public class GameModel{
 			this.state = GameStates.STAGE_END;
 		}
 
+		this.updateObservers();
+
 		return true;
 
 	}
@@ -269,6 +273,7 @@ public class GameModel{
 			this.state = GameStates.QUEST_END;
 		else
 			this.state = GameStates.QUEST_HANDLER;
+		this.updateObservers();
 	}
 
 
