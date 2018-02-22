@@ -172,12 +172,12 @@ import javafx.scene.text.Font;
 
         createStack(hand, playerHand);
 
-        HBox test = new HBox();
+        /*HBox test = new HBox();
         test.getChildren().add(playerHand);
-
-        GridPane.setColumnIndex(test, 2);
-        GridPane.setColumnSpan(test, handSpan);
-        test.setMaxWidth(handSpan*WIDTH - X_OFFSET + 12);
+*/
+        GridPane.setColumnIndex(playerHand, 2);
+        GridPane.setColumnSpan(playerHand, handSpan);
+        /*test.setMaxWidth(handSpan*WIDTH - X_OFFSET + 12);
         test.setPadding(new Insets(10, 0, 0,0));
         test.setStyle("-fx-border-style: solid inside;"
                 + "-fx-border-width: 10;" + "-fx-border-color: #006bb6;");
@@ -188,8 +188,8 @@ import javafx.scene.text.Font;
         title.setTranslateX((handSpan*WIDTH - X_OFFSET + 15)/5.5);
 
         test.getChildren().add(title);
-        title.setFont(new Font("Cambria", 26));
-        getChildren().add(test);
+        title.setFont(new Font("Cambria", 26));*/
+        getChildren().add(playerHand);
     }
 
     private void buildInPlay(List<Card> inPlay, int index) {

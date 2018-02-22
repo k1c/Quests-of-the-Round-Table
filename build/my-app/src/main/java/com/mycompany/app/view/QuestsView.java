@@ -17,37 +17,57 @@ public class QuestsView extends GridPane implements GameObserver{
         //  - Q F1 F2
         // row 2
         //  -   St St
-        ColumnConstraints questC = new ColumnConstraints();
-        questC.setHgrow(Priority.SOMETIMES);
-        questC.setMinWidth(WIDTH);
-        questC.setPrefWidth(WIDTH);
-        getColumnConstraints().add(questC);
 
-        ColumnConstraints stage1C = new ColumnConstraints();
-        stage1C.setHgrow(Priority.SOMETIMES);
-        stage1C.setMinWidth(WIDTH);
-        stage1C.setPrefWidth(WIDTH);
-        getColumnConstraints().add(stage1C);
+        // Num cols and num rows
+        int numCols = 5;
+        int numRows = 2;
 
-        ColumnConstraints stage2C = new ColumnConstraints();
-        stage2C.setHgrow(Priority.SOMETIMES);
-        stage2C.setMinWidth(WIDTH);
-        stage2C.setPrefWidth(WIDTH);
-        getColumnConstraints().add(stage2C);
+        for (int i = 0; i < numCols+1; i++) {
+            ColumnConstraints questC = new ColumnConstraints();
+            questC.setHgrow(Priority.SOMETIMES);
+            questC.setMinWidth(WIDTH);
+            questC.setPrefWidth(WIDTH);
+            getColumnConstraints().add(questC);
+        }
 
-        RowConstraints row = new RowConstraints();
-        row.setMaxHeight(HEIGHT);
-        row.setMinHeight(HEIGHT);
-        row.setPrefHeight(HEIGHT);
-        row.setVgrow(javafx.scene.layout.Priority.SOMETIMES);
-        getRowConstraints().add(row);
+        for (int i = 0; i < numRows; i++) {
+            RowConstraints row = new RowConstraints();
+            row.setMaxHeight(HEIGHT);
+            row.setMinHeight(HEIGHT);
+            row.setPrefHeight(HEIGHT);
+            row.setVgrow(Priority.SOMETIMES);
+            getRowConstraints().add(row);
+        }
 
-        RowConstraints row2 = new RowConstraints();
-        row2.setMaxHeight(HEIGHT);
-        row2.setMinHeight(HEIGHT);
-        row2.setPrefHeight(HEIGHT);
-        row2.setVgrow(javafx.scene.layout.Priority.SOMETIMES);
-        getRowConstraints().add(row2);
+        for (int i = 1; i < numCols+1; i++) {
+            StackPane card = new StackPane();
+            GridPane.setColumnIndex(card, i);
+            GridPane.setRowIndex(card, 0);
+
+            ImageView img = new ImageView(new Image("F Thieves.jpg"));
+            img.setFitHeight(HEIGHT);
+            img.setFitWidth(WIDTH);
+
+            card.getChildren().add(img);
+            getChildren().add(card);
+        }
+
+        for (int i = 1; i < numCols+1; i++) {
+            StackPane card = new StackPane();
+            GridPane.setColumnIndex(card, i);
+            GridPane.setRowIndex(card, 1);
+
+            for (int j = 0; j < 6; j++) {
+                ImageView c = new ImageView(new Image("W Dagger.jpg"));
+                c.setFitWidth(WIDTH);
+                c.setFitHeight(HEIGHT);
+                c.setTranslateY((HEIGHT/6) * j);
+                card.getChildren().add(c);
+            }
+
+            getChildren().add(card);
+        }
+
 
         StackPane questCard = new StackPane();
         GridPane.setColumnIndex(questCard, 0);
@@ -61,64 +81,6 @@ public class QuestsView extends GridPane implements GameObserver{
         questCard.getChildren().add(card);
 
         getChildren().add(questCard);
-
-        StackPane foe1 = new StackPane();
-        GridPane.setColumnIndex(foe1, 1);
-
-        ImageView card2 = new ImageView(new Image("F Thieves.jpg"));
-
-        card2.setFitWidth(WIDTH);
-        card2.setFitHeight(HEIGHT);
-
-        foe1.getChildren().add(card2);
-
-        getChildren().add(foe1);
-
-        StackPane foe2 = new StackPane();
-        GridPane.setColumnIndex(foe2, 2);
-
-        ImageView card3 = new ImageView(new Image("F Boar.jpg"));
-
-        card3.setFitWidth(WIDTH);
-        card3.setFitHeight(HEIGHT);
-
-        foe2.getChildren().add(card3);
-
-        getChildren().add(foe2);
-
-        // WEAPONS
-        StackPane foe1weapons = new StackPane();
-        GridPane.setColumnIndex(foe1weapons, 1);
-        GridPane.setRowIndex(foe1weapons, 1);
-
-        String[] weapons1 = {"W Dagger.jpg", "W Horse.jpg", "W Sword.jpg"};
-        for (int i = 0; i < weapons1.length; i++) {
-            ImageView c = new ImageView(new Image(weapons1[i]));
-
-            c.setFitWidth(WIDTH);
-            c.setFitHeight(HEIGHT);
-            c.setTranslateY((HEIGHT/6) * i);
-            foe1weapons.getChildren().add(c);
-        }
-
-        getChildren().add(foe1weapons);
-
-        // WEAPONS
-        StackPane foe2weapons = new StackPane();
-        GridPane.setColumnIndex(foe2weapons, 2);
-        GridPane.setRowIndex(foe2weapons, 1);
-
-        String[] weapons2 = {"W Battle-ax.jpg", "W Lance.jpg", "W Excalibur.jpg"};
-        for (int i = 0; i < weapons2.length; i++) {
-            ImageView c = new ImageView(new Image(weapons2[i]));
-
-            c.setFitWidth(WIDTH);
-            c.setFitHeight(HEIGHT);
-            c.setTranslateY((HEIGHT/6) * i);
-            foe2weapons.getChildren().add(c);
-        }
-
-        getChildren().add(foe2weapons);
     }
 
     public void update() {

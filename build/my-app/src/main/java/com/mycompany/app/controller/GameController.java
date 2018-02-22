@@ -1,3 +1,11 @@
+/**
+ * Authors: Akhil Dalal & Carolyne Pelletier
+ * Team 4
+ *
+ * GameController.java - Controller for GameView
+ *                     - Transitions from start screen to game screen
+ */
+
 package com.mycompany.app.controller;
 
 import com.mycompany.app.model.GameModel;
@@ -8,14 +16,19 @@ import javafx.scene.Scene;
 import javafx.scene.layout.*;
 import javafx.stage.Stage;
 
-import javax.swing.undo.CannotUndoException;
-
+/**
+ * TODO:
+ * 1) Consistent margins and spacing
+ * 2) Consistent fonts and sizes
+ * 3) This can't be a God class - Strip down to minimal
+ */
 public class GameController{
 
 	private static final int MARGIN_OUTER = 10;
 	private final int WIDTH = 1920;
 	private final int HEIGHT = 1080;
 
+	// All components required for first screen
 	private CurrentPlayerView currentPlayerView;
 	private WaitingPlayersView waitingPlayersView;
 	private DeckView deckView;
@@ -41,30 +54,37 @@ public class GameController{
 
         AnchorPane root = new AnchorPane();
         root.setPadding(new Insets(MARGIN_OUTER*2));
-        root.setStyle("-fx-background-image: url(\"bgtest.gif\"); -fx-background-size: cover;");
-        //root.setPrefWidth(WIDTH);
-        //root.setPrefHeight(HEIGHT);
+
+        HBox cd = new HBox(20);
+
+        cd.setAlignment(Pos.CENTER);
+        cd.getChildren().addAll(consoleView, deckView);
 
 
-        root.getChildren().addAll(questsView, deckView, consoleView, waitingPlayersView, currentPlayerView);
+        root.getChildren().addAll(questsView, cd, waitingPlayersView, currentPlayerView);
 
 
         AnchorPane.setLeftAnchor(questsView, 0.0);
         AnchorPane.setTopAnchor(questsView, 0.0);
 
+        AnchorPane.setRightAnchor(cd, 0.0);
+        AnchorPane.setTopAnchor(cd, 0.0);
+/*
         AnchorPane.setLeftAnchor(deckView, 0.0);
         AnchorPane.setTopAnchor(deckView, primaryStage.getHeight()/2);
 
         AnchorPane.setRightAnchor(consoleView, 0.0);
-        AnchorPane.setTopAnchor(consoleView, 0.0);
+        AnchorPane.setTopAnchor(consoleView, 0.0);*/
 
         AnchorPane.setRightAnchor(waitingPlayersView, 0.0);
-        AnchorPane.setTopAnchor(waitingPlayersView, primaryStage.getHeight()/6);
+        AnchorPane.setTopAnchor(waitingPlayersView, primaryStage.getHeight()/4.5);
 
         AnchorPane.setRightAnchor(currentPlayerView, 0.0);
         AnchorPane.setBottomAnchor(currentPlayerView, 0.0);
 
        // currentPlayerView.setGridLinesVisible(true);
+
+        // ---------- OLD - BORDERPANE
        /* DeckView decks = new DeckView();
 		ConsoleView consoleView = new ConsoleView();
 		BorderPane root = new BorderPane();
