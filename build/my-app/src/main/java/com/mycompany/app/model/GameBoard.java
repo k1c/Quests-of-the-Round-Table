@@ -308,6 +308,19 @@ public class GameBoard extends AbstractGameBoard{
 		}
 	}
 
+	public void endQuest(){
+		// remove cards weapons and amours from allies
+		for(Player participant : this.participants){
+			resetTypeInPlay(participant,Card.Types.WEAPON);	
+			resetTypeInPlay(participant,Card.Types.AMOUR);	
+		}
+		
+		this.currentStory.apply(this,this.sponsor.id());		
+
+		//remove any quest information
+		resetQuest();
+	}
+
 	public void completeFoeStage(){
 		List<AdventureCard> quest = this.quest.get(currentQuestIndex);
 		List<Player> tempParticipants = new ArrayList();
