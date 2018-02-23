@@ -41,16 +41,16 @@ public class GameView extends HBox {
         title.setFont(new Font("Cambria",45));
 
         Label humanLabel = new Label("Humans");
-        humanLabel.setFont(new Font("Cambria",20));
+        humanLabel.setFont(new Font("Cambria",30));
 
-        humanLabel.setPadding(new Insets(100.0, 0.0, 0.0, 0.0));
+        humanLabel.setPadding(new Insets(90.0, 0.0, 0.0, 0.0));
         Slider humanSlider = makeSlider(1,4,1);
-        humanSlider.setPadding(new Insets(0.0, 0.0, 100.0, 0.0));
+        humanSlider.setPadding(new Insets(0.0, 0.0, 10.0, 0.0));
 
         Label aiLabel = new Label("AIs");
-        aiLabel.setFont(new Font("Cambria",20));
+        aiLabel.setFont(new Font("Cambria",30));
         Slider aiSlider = makeSlider(1,3,0);
-        aiSlider.setPadding(new Insets(0.0, 0.0, 100.0, 0.0));
+        aiSlider.setPadding(new Insets(0.0, 0.0, 10.0, 0.0));
 
         Label player1 = new Label("Player 1 Name:");
         TextField textField1 = new TextField();
@@ -88,6 +88,22 @@ public class GameView extends HBox {
         player4HB.getChildren().addAll(player4, textField4);
         player4HB.setSpacing(10);
 
+        player1.setFont(new Font("Cambria", 30));
+        player2.setFont(new Font("Cambria", 30));
+        player3.setFont(new Font("Cambria", 30));
+        player4.setFont(new Font("Cambria", 30));
+
+        player1HB.setAlignment(Pos.CENTER_LEFT);
+        player2HB.setAlignment(Pos.CENTER_LEFT);
+        player3HB.setAlignment(Pos.CENTER_LEFT);
+        player4HB.setAlignment(Pos.CENTER_LEFT);
+
+        player4HB.setPadding(new Insets(0, 0, 30.0, 0));
+
+        textField1.setMinHeight(30);
+        textField2.setMinHeight(30);
+        textField3.setMinHeight(30);
+        textField4.setMinHeight(30);
 
         humanSlider.valueProperty().addListener(
                 (observable, oldValue, newValue) -> {
@@ -150,9 +166,8 @@ public class GameView extends HBox {
                 } );
 
         final Button startGame = new Button();
-
         startGame.setText("Start Game");
-        startGame.setFont(new Font("Cambria",20));
+        startGame.setFont(new Font("Cambria",30));
 
         startGame.addEventHandler(MouseEvent.MOUSE_CLICKED, new EventHandler<MouseEvent>() {
             @Override
@@ -178,7 +193,7 @@ public class GameView extends HBox {
 
         addValidationListener(startGame, textField1, textField2, textField3, textField4);
 
-        VBox gameMenu = new VBox(10, title ,humanLabel, humanSlider, aiLabel, aiSlider, player1HB, player2HB, player3HB, player4HB, startGame);
+        VBox gameMenu = new VBox(20, title ,humanLabel, humanSlider, aiLabel, aiSlider, player1HB, player2HB, player3HB, player4HB, startGame);
         gameMenu.setPadding(new Insets(100.0, 0.0, 0.0,0.0));
         gameMenu.setAlignment(Pos.TOP_LEFT);
 
