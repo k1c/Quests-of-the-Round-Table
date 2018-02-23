@@ -24,7 +24,7 @@ public class CardLoader{
 
 		L.addAll(F.createCardList(AdventureCardFactory.Types.DRAGON, 1));
 		L.addAll(F.createCardList(AdventureCardFactory.Types.GIANT, 2));
-		//L.addAll(F.createCardList(AdventureCardFactory.Types.MORDRED, 4));
+		L.addAll(F.createCardList(AdventureCardFactory.Types.MORDRED, 4));
 		L.addAll(F.createCardList(AdventureCardFactory.Types.GREEN_KNIGHT, 2));
 		L.addAll(F.createCardList(AdventureCardFactory.Types.BLACK_KNIGHT, 3));
 		L.addAll(F.createCardList(AdventureCardFactory.Types.EVIL_KNIGHT, 6));
@@ -34,10 +34,10 @@ public class CardLoader{
 		L.addAll(F.createCardList(AdventureCardFactory.Types.BOAR, 4));
 		L.addAll(F.createCardList(AdventureCardFactory.Types.THIEVES, 8));
 
-		//L.addAll(F.createCardList(AdventureCardFactory.Types.TEST_OF_VALOR, 2));
-		//L.addAll(F.createCardList(AdventureCardFactory.Types.TEST_OF_TEMPTATION, 2));
-		//L.addAll(F.createCardList(AdventureCardFactory.Types.TEST_OF_MORGAN_LE_FAY, 2));
-		//L.addAll(F.createCardList(AdventureCardFactory.Types.TEST_OF_THE_QUESTING_BEAST, 2));
+		L.addAll(F.createCardList(AdventureCardFactory.Types.TEST_OF_VALOR, 2));
+		L.addAll(F.createCardList(AdventureCardFactory.Types.TEST_OF_TEMPTATION, 2));
+		L.addAll(F.createCardList(AdventureCardFactory.Types.TEST_OF_MORGAN_LE_FAY, 2));
+		L.addAll(F.createCardList(AdventureCardFactory.Types.TEST_OF_THE_QUESTING_BEAST, 2));
 
 		L.addAll(F.createCardList(AdventureCardFactory.Types.SIR_GALAHAD, 1));
 		L.addAll(F.createCardList(AdventureCardFactory.Types.SIR_LANCELOT, 1));
@@ -48,7 +48,7 @@ public class CardLoader{
 		L.addAll(F.createCardList(AdventureCardFactory.Types.SIR_PERCIVAL, 1));
 		L.addAll(F.createCardList(AdventureCardFactory.Types.QUEEN_GUINEVERE, 1));
 		L.addAll(F.createCardList(AdventureCardFactory.Types.QUEEN_ISEULT, 1));
-		//L.addAll(F.createCardList(AdventureCardFactory.Types.MERLIN, 1));
+		L.addAll(F.createCardList(AdventureCardFactory.Types.MERLIN, 1));
 
 		L.addAll(F.createCardList(AdventureCardFactory.Types.AMOUR, 8));
 
