@@ -304,7 +304,6 @@ public class GameBoard extends AbstractGameBoard{
 	public void beginEncounter(){
 		for(Player p : participants){
 			drawFromAdventureDeck(p);
-			drawFromAdventureDeck(p);
 		}
 	}
 
@@ -417,7 +416,7 @@ public class GameBoard extends AbstractGameBoard{
 		p.inPlay = tempInPlay;
 		p.hand = tempPlayerHand;
 
-		return maxBidder(p) && totalPlayerBids(p) > testBids;
+		return maxBidder(p) && totalPlayerBids(p) >= testBids;
 	}
 
 	protected int totalPlayerBids(Player p){
@@ -441,8 +440,36 @@ public class GameBoard extends AbstractGameBoard{
 	}
 
 
+	protected boolean checkTestWinner(){
+		int testBids = 0;
+		for(AdventureCard card : quest.get(currentQuestIndex)){
+			testBids += card.getBids(this);
+		}
+
+		if(participants.size() == 1) {
+			return totalPlayerBids(participants.get(0)) >= testBids;
+		}
+		return participants.size() <= 0;
+	}
+
+	protected void giveUp(Integer id){
+		Player p = findPlayer(id);
+
+		p.hand.addAll(p.toBePlayed);
+		p.toBePlayed.clear();
+		participants.remove(p);
+		resetTypeInPlay(p, Card.Types.AMOUR);
+	}
 
 
+	public void completeTestStage(){
+
+		for (Player p : participants){
+			this.adventureDeckDiscard.addAll(p.toBePlayed);
+			p.toBePlayed.clear();
+		}
+
+	}
 
 
 
