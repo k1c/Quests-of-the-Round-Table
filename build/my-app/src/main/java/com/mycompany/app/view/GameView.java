@@ -157,6 +157,7 @@ public class GameView extends HBox {
         startGame.addEventHandler(MouseEvent.MOUSE_CLICKED, new EventHandler<MouseEvent>() {
             @Override
             public void handle(MouseEvent event) {
+
                 String humanNames[] = new String[4];
                 if (textField1.isVisible()){
                     humanNames[0] = textField1.getText();
@@ -171,6 +172,7 @@ public class GameView extends HBox {
                     humanNames[3] = textField4.getText();
                 }
                 gameController.startGame((Stage) startGame.getScene().getWindow(), (int) humanSlider.getValue(), (int) aiSlider.getValue(), humanNames);
+
             }
         });
 

@@ -34,12 +34,14 @@ public class GameModel{
 		
 		}
 
+
 	public void initGame(int numHumans,int numAI,String[] humanNames){
+
 		turn = 0;
 
 		numberOfPlayers = numHumans + numAI;
 
-		board.initGame(numberOfPlayers,CardLoader.loadAdventureCards(),new ArrayList<StoryCard>());
+		board.initGame(numberOfPlayers, names, CardLoader.loadAdventureCards(), new ArrayList<StoryCard>());
 		players = board.getPlayerIds();		
 		storyTurn = new Cycle<Integer>(players,0);
 	}

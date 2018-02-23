@@ -103,8 +103,8 @@ import javafx.scene.text.Font;
         buildRank(rank);
 
         // add shield + mordred button
-        //String shield = current.shieldPath;
-        buildShield();
+        String shield = current.shieldImage;
+        buildShield(shield);
 
         // add in hand
         buildHand(hand, handSpan);
@@ -128,7 +128,7 @@ import javafx.scene.text.Font;
         playerRank.setStyle("-fx-border-style: solid inside;"
                 + "-fx-border-width: 10;" + "-fx-border-color: #006bb6;");
 
-        Label title = new Label(" Carolyne ");
+        Label title = new Label(current.name);
         title.setStyle("-fx-background-color: #f4f4f4; -fx-font-weight: bold;");
         title.setTranslateY(-HEIGHT/2 - 20);
         title.setTranslateX(-2);
@@ -138,22 +138,22 @@ import javafx.scene.text.Font;
         getChildren().add(playerRank);
     }
 
-    private void buildShield() {
+    private void buildShield(String shield) {
         VBox box = new VBox(10);
         box.setAlignment(Pos.CENTER);
 
         box.setPadding(new Insets(0, 0,0,20));
         StackPane image = new StackPane();
         // add shield image
-        ImageView shield= new ImageView(new Image("Shield Blue.png"));
-        shield.setPreserveRatio(true);
-        shield.setFitWidth(WIDTH/1.2);
+        ImageView shieldImage = new ImageView(new Image(shield));
+        shieldImage.setPreserveRatio(true);
+        shieldImage.setFitWidth(WIDTH/1.2);
 
-        Label currShields = new Label("2/5");
+        Label currShields = new Label(current.rank.getShields() + "/" + current.rank.getMaxShields());
         currShields.setFont(new Font("Cambria", 40));
         currShields.setStyle("-fx-font-weight: bold; -fx-text-fill: white;");
 
-        image.getChildren().add(shield);
+        image.getChildren().add(shieldImage);
         image.getChildren().add(currShields);
         StackPane.setAlignment(currShields, Pos.CENTER);
 

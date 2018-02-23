@@ -6,13 +6,16 @@ import java.util.*;
 
 
 public class DefaultBehaviourTest extends TestCase{
+
+    String[] dummyNames = {"a", "b", "c", "d"};
+
     public DefaultBehaviourTest(String name){
         super(name);
     }
 
     public void testDefaultBehaviour3Param() throws Exception{
 	GameBoard board = new GameBoard();
-	board.initGame(4,new ArrayList<AdventureCard>(),new ArrayList<StoryCard>());	
+	board.initGame(4, dummyNames, new ArrayList<AdventureCard>(),new ArrayList<StoryCard>());
 
         AdventureBehaviour Temp = new DefaultBehaviour(10, 2, true);
         assertEquals(10, Temp.getBP(board));
@@ -23,7 +26,7 @@ public class DefaultBehaviourTest extends TestCase{
 
     public void testDefaultBehaviour2Param() throws Exception{
 	GameBoard board = new GameBoard();
-	board.initGame(4,new ArrayList<AdventureCard>(),new ArrayList<StoryCard>());	
+	board.initGame(4,dummyNames, new ArrayList<AdventureCard>(),new ArrayList<StoryCard>());
 
         AdventureBehaviour Temp = new DefaultBehaviour(30, 0);
         assertEquals(30, Temp.getBP(board));
