@@ -24,13 +24,15 @@ public class AdventureCardFactory{
                 return defaultWeapon(5, "/W Horse.jpg", "Horse", 10);
             case DAGGER:
                 return defaultWeapon(6, "/W Dagger.jpg", "Dagger", 5);
+
             //FOES
             case DRAGON: {
                 List<Integer> specifiers = new ArrayList<Integer>(Arrays.asList(33, 36, 40));
                 return specifiedFoe(7, "/F Dragon.jpg", "Dragon", 50, 70, specifiers); }
             case GIANT:
                 return defaultFoe(8, "/F Giant.jpg", "Giant", 40);
-            //case MORDRED:
+            case MORDRED:
+                return defaultFoe(9, "/F Mordred.jpg", "Mordred", 30);
             case GREEN_KNIGHT: {
                 List<Integer> specifiers = new ArrayList<Integer>(Arrays.asList(33, 34, 36));
                 return specifiedFoe(10, "/F Green Knight.jpg", "Green Knight", 25, 40, specifiers); }
@@ -53,38 +55,47 @@ public class AdventureCardFactory{
                 return specifiedFoe(16, "/F Boar.jpg", "Boar", 5, 15, specifiers); }
             case THIEVES:
                 return defaultFoe(17, "/F Thieves.jpg", "Thieves", 5);
+
             //TESTS
-            //case TEST_OF_VALOR:
-            //case TEST_OF_TEMPTATION:
-            //case TEST_OF_MORGAN_LE_FAY:
-            //case TEST_OF_THE_QUESTING_BEAST:
+            case TEST_OF_VALOR:
+                return defaultTest(18, "/T Test of Valor.jpg", "Test of Valor", 1);
+            case TEST_OF_TEMPTATION:
+                return defaultTest(19, "/T Test of Temptation.jpg", "Test of Temptation", 1);
+            case TEST_OF_MORGAN_LE_FAY:
+                return defaultTest(20, "/T Test of Morgan Le Fey.jpg", "Test of Morgan Le Fey", 3);
+            case TEST_OF_THE_QUESTING_BEAST: {
+                List<Integer> specifiers = new ArrayList<Integer>(Arrays.asList(35));
+                return specifiedTest(21, "/T Test of the Questing Beast.jpg", "Test of the Questing Beast", 1, 4, specifiers); }
+
             //ALLIES
             case SIR_GALAHAD:
                 return defaultAlly(22, "/A Sir Galahad.jpg", "Sir Galahad", 15, 1, true);
             case SIR_LANCELOT: {
                 List<Integer> specifiers = new ArrayList<Integer>(Arrays.asList(36));
-                return specifiedAlly(23, "/A Sir Lancelot.jpg", "Sir Lancelot", 15, 1, 25, 1, true, specifiers); }
+                return specifiedAlly(23, "/A Sir Lancelot.jpg", "Sir Lancelot", 15, 1, 25, 1, false, false, specifiers); }
             case KING_ARTHUR:
                 return defaultAlly(24, "/A King Arthur.jpg", "King Arthur", 10, 2, true);
             case SIR_TRISTAN: {
                 List<Integer> specifiers = new ArrayList<Integer>(Arrays.asList(30));
-                return specifiedAlly(25, "/A Sir Tristan.jpg", "Sir Tristan", 10, 1, 20, 1, true, specifiers); }
+                return specifiedAlly(25, "/A Sir Tristan.jpg", "Sir Tristan", 10, 1, 20, 1, false, false, specifiers); }
             case KING_PELLINORE: {
                 List<Integer> specifiers = new ArrayList<Integer>(Arrays.asList(35));
-                return specifiedAlly(26, "/A King Pellinore.jpg", "King Pellinore", 10, 0, 10, 4, true, specifiers); }
+                return specifiedAlly(26, "/A King Pellinore.jpg", "King Pellinore", 10, 1, 10, 4, false, true, specifiers); }
             case SIR_GAWAIN: {
                 List<Integer> specifiers = new ArrayList<Integer>(Arrays.asList(34));
-                return specifiedAlly(27, "/A Sir Gawain.jpg", "Sir Gawain", 10, 1, 20, 1, true, specifiers); }
+                return specifiedAlly(27, "/A Sir Gawain.jpg", "Sir Gawain", 10, 1, 20, 1, false, false, specifiers); }
             case SIR_PERCIVAL: {
                 List<Integer> specifiers = new ArrayList<Integer>(Arrays.asList(33));
-                return specifiedAlly(28, "/A Sir Percival.jpg", "Sir Percival", 5, 1, 20, 1, true, specifiers); }
+                return specifiedAlly(28, "/A Sir Percival.jpg", "Sir Percival", 5, 1, 20, 1, false, false, specifiers); }
             case QUEEN_GUINEVERE:
                 return defaultAlly(29, "/A Queen Guinevere.jpg", "Queen Guinevere", 0, 3, true);
             case QUEEN_ISEULT: {
                 List<Integer> specifiers = new ArrayList<Integer>(Arrays.asList(25));
-                return specifiedAlly(30, "/A Queen Iseult.jpg", "Queen Iseult", 0, 2, 0, 4, true, specifiers); }
-            //case MERLIN:
+                return specifiedAlly(30, "/A Queen Iseult.jpg", "Queen Iseult", 0, 2, 0, 4, true, true, specifiers); }
+            case MERLIN:
+                return defaultAlly(31, "/A Merlin.jpg", "Merlin", 0, 1, false);
 
+            //AMOURS
             case AMOUR:
                 return defaultAmour(32, "/Amour.jpg", "Amour");
         }
@@ -109,8 +120,8 @@ public class AdventureCardFactory{
         return new AllyCard(id, res, new DefaultBehaviour(BP, bids, freeBids), name);
     }
 
-    public static AdventureCard specifiedAlly(int id, String res, String name, int defaultBP, int defaultBids, int specifiedBP, int specifiedBids, boolean freeBid, List<Integer> specifiers){
-        return new AllyCard(id, res, new SpecifiedBehaviour(defaultBP, defaultBids, specifiedBP, specifiedBids, freeBid, specifiers), name);
+    public static AdventureCard specifiedAlly(int id, String res, String name, int defaultBP, int defaultBids, int specifiedBP, int specifiedBids, boolean defaultFreeBid, boolean specifiedFreeBid, List<Integer> specifiers){
+        return new AllyCard(id, res, new SpecifiedBehaviour(defaultBP, defaultBids, specifiedBP, specifiedBids, defaultFreeBid, specifiedFreeBid, specifiers), name);
     }
 
     //FOES
@@ -120,7 +131,7 @@ public class AdventureCardFactory{
     }
 
     public static AdventureCard specifiedFoe(int id, String res, String name, int defaultBP, int specifiedBP, List<Integer> specifiers){
-        return new FoeCard(id, res, new SpecifiedBehaviour(defaultBP, 1, specifiedBP, 1, false, specifiers), name);
+        return new FoeCard(id, res, new SpecifiedBehaviour(defaultBP, 1, specifiedBP, 1, false, false, specifiers), name);
     }
 
     //WEAPONS
@@ -138,11 +149,11 @@ public class AdventureCardFactory{
     //TESTS
 
     public static AdventureCard defaultTest(int id, String res, String name, int bids){
-        return new TestCard(id, res, new DefaultBehaviour(0, bids), name);
+        return new TestCard(id, res, new TestBehaviour(bids), name);
     }
 
-    public static AdventureCard specifiedTest(int id, String res, String name, int defaultBP, int defaultBids, int specifiedBP, int specifiedBids, boolean freeBid, List<Integer> specifiers){
-        return new TestCard(id, res, new SpecifiedBehaviour(0, defaultBids, 0, specifiedBids, freeBid, specifiers), name);
+    public static AdventureCard specifiedTest(int id, String res, String name, int defaultBids, int specifiedBids, List<Integer> specifiers){
+        return new TestCard(id, res, new TestBehaviour(defaultBids, specifiedBids, specifiers), name);
     }
 
 }

@@ -256,6 +256,50 @@ public class GameModel{
 
 	}
 
+	public boolean stageTest(int playerID, List<Card> list){
+		if(this.state != GameStates.STAGE_TEST)
+			return false;
+
+		if(playerID != this.participants.current())
+			return false;
+
+		boolean validSubmit = board.submitBids(playerID,list);
+
+		if(!validSubmit) {
+			return false;
+		}
+
+		if(validSubmit && board.checkTestWinner()){
+			this.state = GameStates.STAGE_END;
+		}
+
+		if(validSubmit && !board.checkTestWinner()){
+			this.participants.next();
+		}
+
+		this.updateObservers();
+
+		return true;
+
+	}
+
+	public void testGiveUp(Integer id){
+		if(this.state != GameStates.STAGE_TEST)
+			return;
+
+		if(participants.current() != id){
+			return;
+		}
+
+		board.giveUp(id);
+
+		if(board.checkTestWinner()){
+			this.state = GameStates.STAGE_END;
+		}
+
+	}
+
+
 	public void stageEnd(){
 		if(this.state != GameStates.STAGE_END)
 			return;
@@ -263,9 +307,14 @@ public class GameModel{
 		if(board.stageType(Card.Types.FOE)){
 			board.completeFoeStage();
 		}
-		if(board.stageType(Card.Types.TEST)){}
+		if(board.stageType(Card.Types.TEST)){
 
-		//
+		}
+
+		if(board.getParticipants().size() == 0){
+			this.state = GameStates.QUEST_END;
+		}
+
 		//distribute cards
 		if(!this.board.nextStage())
 			this.state = GameStates.QUEST_END;
@@ -278,12 +327,18 @@ public class GameModel{
 	/*
 	 * NEEDS : change player parameter to a Player Object
 	 */
-	public void participateTournament(int player){
+	public void participateTournament(int player, boolean participate){
 		if(this.state != GameStates.PARTICIPATE_TOURNAMENT)
 			return;
-		/*
-		 * Action add player to tournament
-		 */
+		if(player == participants.current() && participate){
+			this.board.addParticipant(this.participants.removeCurrent());
+		}
+		if(player == this.participants.current() && !participate){
+			this.board.addParticipant(this.participants.removeCurrent());
+		}
+		if(this.participants.size() <= 0){
+			this.state = GameStates.TOURNAMENT_HANDLER;
+		}
 					
 	}
 
