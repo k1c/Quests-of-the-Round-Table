@@ -24,13 +24,15 @@ public class AdventureCardFactory{
                 return defaultWeapon(5, "/W Horse.jpg", "Horse", 10);
             case DAGGER:
                 return defaultWeapon(6, "/W Dagger.jpg", "Dagger", 5);
+
             //FOES
             case DRAGON: {
                 List<Integer> specifiers = new ArrayList<Integer>(Arrays.asList(33, 36, 40));
                 return specifiedFoe(7, "/F Dragon.jpg", "Dragon", 50, 70, specifiers); }
             case GIANT:
                 return defaultFoe(8, "/F Giant.jpg", "Giant", 40);
-            //case MORDRED:
+            case MORDRED:
+                return defaultFoe(9, "/F Mordred.jpg", "Mordred", 30);
             case GREEN_KNIGHT: {
                 List<Integer> specifiers = new ArrayList<Integer>(Arrays.asList(33, 34, 36));
                 return specifiedFoe(10, "/F Green Knight.jpg", "Green Knight", 25, 40, specifiers); }
@@ -53,6 +55,7 @@ public class AdventureCardFactory{
                 return specifiedFoe(16, "/F Boar.jpg", "Boar", 5, 15, specifiers); }
             case THIEVES:
                 return defaultFoe(17, "/F Thieves.jpg", "Thieves", 5);
+
             //TESTS
             case TEST_OF_VALOR:
                 return defaultTest(18, "/T Test of Valor.jpg", "Test of Valor", 1);
@@ -63,6 +66,7 @@ public class AdventureCardFactory{
             case TEST_OF_THE_QUESTING_BEAST: {
                 List<Integer> specifiers = new ArrayList<Integer>(Arrays.asList(35));
                 return specifiedTest(21, "/T Test of the Questing Beast.jpg", "Test of the Questing Beast", 1, 4, specifiers); }
+
             //ALLIES
             case SIR_GALAHAD:
                 return defaultAlly(22, "/A Sir Galahad.jpg", "Sir Galahad", 15, 1, true);
@@ -88,8 +92,10 @@ public class AdventureCardFactory{
             case QUEEN_ISEULT: {
                 List<Integer> specifiers = new ArrayList<Integer>(Arrays.asList(25));
                 return specifiedAlly(30, "/A Queen Iseult.jpg", "Queen Iseult", 0, 2, 0, 4, true, true, specifiers); }
-            //case MERLIN:
+            case MERLIN:
+                return defaultAlly(31, "/A Merlin.jpg", "Merlin", 0, 1, false);
 
+            //AMOURS
             case AMOUR:
                 return defaultAmour(32, "/Amour.jpg", "Amour");
         }

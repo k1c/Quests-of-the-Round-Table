@@ -258,6 +258,37 @@ public class GameModel{
 
 	}
 
+	public boolean stageTest(int playerID, List<Card> list){
+		if(this.state != GameStates.STAGE_TEST)
+			return false;
+
+		/*if(playerID != this.participants.current())
+			return false;
+
+		boolean validSubmit = board.submitHand(playerID,list);
+
+		if(validSubmit){
+			this.participants.removeCurrent();
+		}
+		if(!validSubmit){
+			return false;
+		}*/
+
+
+
+		if(this.participants.size() <= 0){
+			this.state = GameStates.STAGE_END;
+		}
+
+		this.updateObservers();
+
+		return true;
+
+	}
+
+
+
+
 	public void stageEnd(){
 		if(this.state != GameStates.STAGE_END)
 			return;

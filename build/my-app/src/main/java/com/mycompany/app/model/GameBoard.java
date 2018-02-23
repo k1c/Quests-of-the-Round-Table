@@ -363,6 +363,89 @@ public class GameBoard extends AbstractGameBoard{
 
 	}
 
+	public boolean submitBids(int player, List<Card> hand){
+
+		Player p = findPlayer(player);
+
+		boolean validHand   = true;
+		boolean amourInPlay = false;
+		int testBids = 0;
+
+		List<AdventureCard> tempPlayerHand = new ArrayList(p.hand);
+		List<AdventureCard> tempToBePlayed = new ArrayList(p.toBePlayed);
+		List<AdventureCard> tempInPlay = new ArrayList(p.inPlay);
+		List<AdventureCard> submittedCards  = new ArrayList();
+
+		amourInPlay = cardListHas(tempInPlay,Card.Types.AMOUR);
+
+		for(AdventureCard card : quest.get(currentQuestIndex)){
+			testBids += card.getBids(this);
+		}
+
+		for(Card item: hand){
+			AdventureCard temp = findCard(p.hand,item);
+			if(temp == null)
+				return false;
+			submittedCards.add(temp);
+		}
+
+		//the player has all bid cards selected
+		for(AdventureCard card : submittedCards){
+			validHand = validHand && tempPlayerHand.remove(card);
+		}
+
+		if(!validHand)
+			return false;
+
+		for(AdventureCard item : submittedCards){
+			if(item.type == Card.Types.AMOUR && amourInPlay){
+				tempToBePlayed.add(item);
+			}
+			if(item.type == Card.Types.AMOUR && !amourInPlay){
+				tempInPlay.add(item);
+			}
+			else if(item.type != Card.Types.AMOUR && (item.freeBid(this) || item.type == Card.Types.ALLY)){
+				tempInPlay.add(item);
+			}
+			else{
+				tempToBePlayed.add(item);
+			}
+
+		}
+
+		p.toBePlayed = tempToBePlayed;
+		p.inPlay = tempInPlay;
+		p.hand = tempPlayerHand;
+
+		return maxBidder(p) && totalPlayerBids(p) > testBids;
+	}
+
+	protected int totalPlayerBids(Player p){
+		int sum = p.toBePlayed.size();
+
+		for(AdventureCard card : p.inPlay) {
+			sum += card.getBids(this);
+		}
+		return sum;
+	}
+
+	protected boolean maxBidder(Player p){
+		int max = 0;
+		for(Player player : players){
+			if(player == p){
+				continue;
+			}
+			max = Math.max(totalPlayerBids(player), max);
+		}
+		return totalPlayerBids(p) > max;
+	}
+
+
+
+
+
+
+
 	public void resetTypeInPlay(Player p,Card.Types type){
 		for(AdventureCard card : p.inPlay){
 			if(card.type == type){
