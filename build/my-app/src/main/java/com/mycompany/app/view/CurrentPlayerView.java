@@ -3,7 +3,12 @@
  * As part of TEAM 4
  *
  * CurrentPlayerView - Renders and sets up view for current player
- *                   - TODO: Add eventhandler for playing the cards
+ *
+ * TODO:
+ * 1) Add eventhandler for playing the cards
+ * 2) Able to update correctly
+ * 3) Start face down
+ * 4) Able to go face up after clicking Start Turn button
  */
 package com.mycompany.app.view;
 
@@ -51,6 +56,7 @@ import javafx.scene.text.Font;
         setAlignment(Pos.BOTTOM_RIGHT);
         setNodeOrientation(NodeOrientation.RIGHT_TO_LEFT);
         setPrefHeight(HEIGHT);
+
         buildLayout();
         setHgap(10);
     }
@@ -59,6 +65,14 @@ import javafx.scene.text.Font;
 
         // Clear section
         getChildren().clear();
+
+        while (getRowConstraints().size() > 0) {
+            getRowConstraints().remove(0);
+        }
+
+        while (getColumnConstraints().size() > 0) {
+            getColumnConstraints().remove(0);
+        }
 
         // Get current player info
         List<Card> hand = current.hand;
@@ -103,8 +117,8 @@ import javafx.scene.text.Font;
         buildRank(rank);
 
         // add shield + mordred button
-        //String shield = current.shieldPath;
-        buildShield();
+        String shield = current.shieldImage;
+        buildShield(shield);
 
         // add in hand
         buildHand(hand, handSpan);
@@ -124,11 +138,24 @@ import javafx.scene.text.Font;
 
         playerRank.getChildren().add(rankCard);
 
+        // Border for player name
         playerRank.setPadding(new Insets(10, 0, 0,0));
         playerRank.setStyle("-fx-border-style: solid inside;"
-                + "-fx-border-width: 10;" + "-fx-border-color: #006bb6;");
+                + "-fx-border-width: 10;");
 
-        Label title = new Label(" Carolyne ");
+        // Get border color
+        String s = playerRank.getStyle();
+        if (current.shieldImage.contains("Blue")) {
+            playerRank.setStyle(s + "-fx-border-color: #006bb6;");
+        } else if (current.shieldImage.contains("Red")) {
+            playerRank.setStyle(s + "-fx-border-color: #aa0000;");
+        } else if (current.shieldImage.contains("Green")) {
+            playerRank.setStyle(s + "-fx-border-color: #29862a;");
+        } else {
+            playerRank.setStyle(s + "-fx-border-color: #8e0085;");
+        }
+
+        Label title = new Label(current.name);
         title.setStyle("-fx-background-color: #f4f4f4; -fx-font-weight: bold;");
         title.setTranslateY(-HEIGHT/2 - 20);
         title.setTranslateX(-2);
@@ -138,22 +165,22 @@ import javafx.scene.text.Font;
         getChildren().add(playerRank);
     }
 
-    private void buildShield() {
+    private void buildShield(String shield) {
         VBox box = new VBox(10);
         box.setAlignment(Pos.CENTER);
 
         box.setPadding(new Insets(0, 0,0,20));
         StackPane image = new StackPane();
         // add shield image
-        ImageView shield= new ImageView(new Image("Shield Blue.png"));
-        shield.setPreserveRatio(true);
-        shield.setFitWidth(WIDTH/1.2);
+        ImageView shieldImage = new ImageView(new Image(shield));
+        shieldImage.setPreserveRatio(true);
+        shieldImage.setFitWidth(WIDTH/1.2);
 
-        Label currShields = new Label("2/5");
+        Label currShields = new Label(current.rank.getShields() + "/" + current.rank.getMaxShields());
         currShields.setFont(new Font("Cambria", 40));
         currShields.setStyle("-fx-font-weight: bold; -fx-text-fill: white;");
 
-        image.getChildren().add(shield);
+        image.getChildren().add(shieldImage);
         image.getChildren().add(currShields);
         StackPane.setAlignment(currShields, Pos.CENTER);
 

@@ -43,13 +43,15 @@ public class GameController{
 		this.gameModel = gameModel;
 	}
 
-	public void startGame(Stage primaryStage, int numHumans, int numAI) {
-		gameModel.initGame(numHumans, numAI);
+
+	public void startGame(Stage primaryStage, int numHumans, int numAI, String[] humanNames) {
+		gameModel.initGame(numHumans, numAI, humanNames);
+
 
 		currentPlayerView = new CurrentPlayerView(gameModel);
 		waitingPlayersView = new WaitingPlayersView(gameModel);
         deckView = new DeckView();
-        consoleView = new ConsoleView();
+        consoleView = new ConsoleView(gameModel);
         questsView = new QuestsView();
 
         AnchorPane root = new AnchorPane();

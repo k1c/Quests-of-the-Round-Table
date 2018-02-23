@@ -1,5 +1,8 @@
 /**
  * Author: Carolyne Pelletier
+ *
+ * TODO:
+ * 1) Able to update correctly
  */
 package com.mycompany.app.view;
 
@@ -46,6 +49,14 @@ public class WaitingPlayersView extends GridPane implements GameObserver {
         // Clear section
         getChildren().clear();
 
+        while (getRowConstraints().size() > 0) {
+            getRowConstraints().remove(0);
+        }
+
+        while (getColumnConstraints().size() > 0) {
+            getColumnConstraints().remove(0);
+        }
+
         // Get waiting players info
 
         // Find highest hand and inplay, get ranks
@@ -53,9 +64,9 @@ public class WaitingPlayersView extends GridPane implements GameObserver {
         int inplayIndex = 0;
         int hHand = 0;
         int hInplay = 0;
-        int c = 0;
+        int c = waiting.size();
 
-        String[] ranks = new String[waiting.size()];
+        String[] ranks = new String[c];
         for (GenericPlayer p : waiting) {
             if (p.hand.size() >= hHand) {
                 hHand = p.hand.size();
@@ -67,8 +78,8 @@ public class WaitingPlayersView extends GridPane implements GameObserver {
                 inplayIndex = waiting.indexOf(p);
             }
 
-            ranks[c] = p.rank.getPath();
-            c++;
+            ranks[c-1] = p.rank.getPath();
+            c--;
         }
 
         List<Card> hand = waiting.get(handIndex).hand;
@@ -144,19 +155,18 @@ public class WaitingPlayersView extends GridPane implements GameObserver {
     }
 
     private void buildShield() {
-        String[] s = {"Shield Purple.png", "Shield Red.png" , "Shield Green.png"};
-        int i = 0;
+        int i = waiting.size();
         for (GenericPlayer p : waiting) {
             VBox box = new VBox(10);
             box.setAlignment(Pos.CENTER);
 
             StackPane image = new StackPane();
             // add shield image
-            ImageView shield= new ImageView(new Image(s[i]));
+            ImageView shield= new ImageView(new Image(p.shieldImage));
             shield.setPreserveRatio(true);
             shield.setFitWidth(WIDTH/1.2);
 
-            Label currShields = new Label("2/5");
+            Label currShields = new Label(p.rank.getShields() + "/" + p.rank.getMaxShields());
             currShields.setFont(new Font("Cambria", 30));
             currShields.setStyle("-fx-font-weight: bold; -fx-text-fill: white;");
 
@@ -169,9 +179,9 @@ public class WaitingPlayersView extends GridPane implements GameObserver {
 
             box.getChildren().addAll(image, mordred);
             GridPane.setColumnIndex(box, 1);
-            GridPane.setRowIndex(box, i);
+            GridPane.setRowIndex(box, i-1);
 
-            i++;
+            i--;
 
             getChildren().add(box);
         }
@@ -180,7 +190,7 @@ public class WaitingPlayersView extends GridPane implements GameObserver {
     private void buildHand(List<GenericPlayer> players, int handSpan){
 
         // For each player, create hand, ONLY BACK OF CARDS: hard coded for now
-        for (int i = 0; i < players.size(); i++) {
+        for (int i = players.size() - 1; i >= 0; i--) {
             StackPane playerHand = new StackPane();
 
             GridPane.setColumnIndex(playerHand, 2);
@@ -196,7 +206,7 @@ public class WaitingPlayersView extends GridPane implements GameObserver {
     private void buildInPlay(List<GenericPlayer> players, int index) {
 
         // For each player, create in play cards
-        for (int i = 0; i < players.size(); i++) {
+        for (int i = players.size() - 1; i >= 0; i--) {
             // Create player in play
             StackPane playerInplay = new StackPane();
 

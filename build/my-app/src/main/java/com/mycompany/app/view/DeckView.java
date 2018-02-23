@@ -13,6 +13,7 @@ import javafx.scene.layout.StackPane;
  *  Needs to observe Game Model for changes to Adventure Deck
  *      - Empty deck means reset and shuffle
  *      - Else distribute like normal?
+ *  Able to turn over story card after start turn button is clicked
  */
 public class DeckView extends HBox{
 
