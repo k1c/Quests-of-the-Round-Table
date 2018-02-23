@@ -397,7 +397,7 @@ public class GameModel{
 		this.turn++;
 		this.currentPlayer = storyTurn.next();
 
-		this.state = GameStates.END_TURN;
+		this.state = GameStates.BEGIN_TURN;
 	}
 
 }
