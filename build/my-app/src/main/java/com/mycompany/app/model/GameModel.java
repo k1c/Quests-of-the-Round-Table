@@ -68,6 +68,10 @@ public class GameModel{
 		return board.getGenericPlayer(p);
 	}
 
+	public Card getCurrentStory(){
+		return board.getCurrentStoryCard();	
+	}
+
 	public List<GenericPlayer> getWaitingPlayers(){
 		Cycle<Integer> waitingPlayersCycle = (new Cycle(storyTurn));
 		waitingPlayersCycle.removeCurrent();
