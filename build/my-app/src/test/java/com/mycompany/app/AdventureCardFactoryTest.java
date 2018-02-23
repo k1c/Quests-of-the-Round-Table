@@ -161,7 +161,7 @@ public class AdventureCardFactoryTest extends TestCase{
 
 	public void testSpecifiedPellinore() throws Exception {
 		GameBoard board = new GameBoard();
-		board.initGame(4, new ArrayList<AdventureCard>(), new ArrayList<StoryCard>());
+		board.initGame(4, 0, dummyNames, new ArrayList<AdventureCard>(),new ArrayList<StoryCard>());
 
 		board.currentStory = StoryCardFactory.createCard(StoryCardFactory.Types.SEARCH_FOR_THE_QUESTING_BEAST);
 
@@ -176,14 +176,14 @@ public class AdventureCardFactoryTest extends TestCase{
 
 	public void testDefaultTest4Player() throws Exception {
 		GameBoard board = new GameBoard();
-		board.initGame(4, new ArrayList<AdventureCard>(), new ArrayList<StoryCard>());
+		board.initGame(4, 0, dummyNames, new ArrayList<AdventureCard>(),new ArrayList<StoryCard>());
 
 		board.currentStory = StoryCardFactory.createCard(StoryCardFactory.Types.SEARCH_FOR_THE_QUESTING_BEAST);
 
 		board.players = new ArrayList<Player>();
 
 		for (int i = 0; i < 4; i++)
-			board.players.add(new Player());
+			board.players.add(new Player("",""));
 
 		AdventureCard Temp = AdventureCardFactory.createCard(AdventureCardFactory.Types.TEST_OF_VALOR);
 		assertEquals(18, Temp.id);
@@ -194,14 +194,14 @@ public class AdventureCardFactoryTest extends TestCase{
 
 	public void testDefaultTest2Player() throws Exception {
 		GameBoard board = new GameBoard();
-		board.initGame(4, new ArrayList<AdventureCard>(), new ArrayList<StoryCard>());
+		board.initGame(4, 0, dummyNames, new ArrayList<AdventureCard>(),new ArrayList<StoryCard>());
 
 		board.currentStory = StoryCardFactory.createCard(StoryCardFactory.Types.SEARCH_FOR_THE_QUESTING_BEAST);
 
 		board.players = new ArrayList<Player>();
 
 		for (int i = 0; i < 2; i++)
-			board.players.add(new Player());
+			board.players.add(new Player("",""));
 
 		AdventureCard Temp = AdventureCardFactory.createCard(AdventureCardFactory.Types.TEST_OF_VALOR);
 		assertEquals(18, Temp.id);
@@ -213,14 +213,14 @@ public class AdventureCardFactoryTest extends TestCase{
 
 	public void testSpecifiedQuestingBeast() throws Exception {
 		GameBoard board = new GameBoard();
-		board.initGame(4, new ArrayList<AdventureCard>(), new ArrayList<StoryCard>());
+		board.initGame(4, 0, dummyNames, new ArrayList<AdventureCard>(),new ArrayList<StoryCard>());
 
 		board.currentStory = StoryCardFactory.createCard(StoryCardFactory.Types.SEARCH_FOR_THE_QUESTING_BEAST);
 
 		board.players = new ArrayList<Player>();
 
 		for (int i = 0; i < 4; i++)
-			board.players.add(new Player());
+			board.players.add(new Player("",""));
 
 
 		AdventureCard Temp = AdventureCardFactory.createCard(AdventureCardFactory.Types.TEST_OF_THE_QUESTING_BEAST);
