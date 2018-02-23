@@ -144,7 +144,6 @@ public class WaitingPlayersView extends GridPane implements GameObserver {
     }
 
     private void buildShield() {
-        String[] s = {"Shield Purple.png", "Shield Red.png" , "Shield Green.png"};
         int i = 0;
         for (GenericPlayer p : waiting) {
             VBox box = new VBox(10);
@@ -152,11 +151,11 @@ public class WaitingPlayersView extends GridPane implements GameObserver {
 
             StackPane image = new StackPane();
             // add shield image
-            ImageView shield= new ImageView(new Image(s[i]));
+            ImageView shield= new ImageView(new Image(p.shieldImage));
             shield.setPreserveRatio(true);
             shield.setFitWidth(WIDTH/1.2);
 
-            Label currShields = new Label("2/5");
+            Label currShields = new Label(p.rank.getShields() + "/" + p.rank.getMaxShields());
             currShields.setFont(new Font("Cambria", 30));
             currShields.setStyle("-fx-font-weight: bold; -fx-text-fill: white;");
 

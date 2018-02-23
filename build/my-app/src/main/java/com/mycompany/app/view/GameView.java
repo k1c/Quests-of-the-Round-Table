@@ -74,7 +74,9 @@ public class GameView extends HBox {
         startGame.addEventHandler(MouseEvent.MOUSE_CLICKED, new EventHandler<MouseEvent>() {
             @Override
             public void handle(MouseEvent event) {
-                gameController.startGame((Stage) startGame.getScene().getWindow(), (int) humanSlider.getValue(), (int) aiSlider.getValue());
+                // Gather form info - names
+                String[] names = {"Carolyne", "Akhil", "Chris", "Alexa"};
+                gameController.startGame((Stage) startGame.getScene().getWindow(), (int) humanSlider.getValue(), (int) aiSlider.getValue(), names);
             }
         });
 
