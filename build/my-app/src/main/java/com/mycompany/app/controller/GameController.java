@@ -43,8 +43,10 @@ public class GameController{
 		this.gameModel = gameModel;
 	}
 
-	public void startGame(Stage primaryStage, int numHumans, int numAI, String[] names) {
-		gameModel.initGame(numHumans, numAI, names);
+
+	public void startGame(Stage primaryStage, int numHumans, int numAI, String[] humanNames) {
+		gameModel.initGame(numHumans, numAI, humanNames);
+
 
 		currentPlayerView = new CurrentPlayerView(gameModel);
 		waitingPlayersView = new WaitingPlayersView(gameModel);

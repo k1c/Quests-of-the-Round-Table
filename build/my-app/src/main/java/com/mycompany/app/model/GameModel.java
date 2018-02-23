@@ -34,7 +34,9 @@ public class GameModel{
 		
 		}
 
-	public void initGame(int numHumans, int numAI, String[] names){
+
+	public void initGame(int numHumans,int numAI,String[] humanNames){
+
 		turn = 0;
 
 		numberOfPlayers = numHumans + numAI;
