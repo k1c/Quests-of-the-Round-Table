@@ -51,7 +51,7 @@ public class GameController{
 		currentPlayerView = new CurrentPlayerView(gameModel);
 		waitingPlayersView = new WaitingPlayersView(gameModel);
         deckView = new DeckView();
-        consoleView = new ConsoleView();
+        consoleView = new ConsoleView(gameModel);
         questsView = new QuestsView();
 
         AnchorPane root = new AnchorPane();
