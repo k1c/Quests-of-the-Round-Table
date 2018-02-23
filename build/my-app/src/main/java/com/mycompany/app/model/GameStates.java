@@ -19,7 +19,8 @@ public enum GameStates{
     STAGE_TEST,
     STAGE_END,
     QUEST_END,
-    WINNERS
+    WINNERS,
+    END_TURN
    }
 
 /*
