@@ -31,7 +31,9 @@ public class GameBoard extends AbstractGameBoard{
 
 	protected TwoDimensionalArrayList<AdventureCard> quest;
 
-	public void initGame(int num, String[] names, List<AdventureCard> ad, List<StoryCard> sd){
+	public void initGame(int numHumans, int numAI, String[] names, List<AdventureCard> ad, List<StoryCard> sd){
+
+	    int num = numHumans+numAI;
 
 		if( num > MAX_PLAYERS || num < MIN_PLAYERS)
 			num = MIN_PLAYERS;
@@ -54,8 +56,11 @@ public class GameBoard extends AbstractGameBoard{
 		Collections.shuffle(storyDeck);
 
 		String[] shieldImages = {"Shield Blue.png", "Shield Red.png", "Shield Green.png", "Shield Purple.png"};
-		for(int i = 0; i < num; i++)
+		for(int i = 0; i < numHumans; i++)
 			this.players.add(new Player(names[i], shieldImages[i]));
+
+        for(int i = 0; i < numAI; i++)
+            this.players.add(new Player("AI " + (i+1), shieldImages[i+numHumans]));
 
 		for(int i = 0; i < INITIAL_CARDS; i++){
 			for(Player p : players) {
