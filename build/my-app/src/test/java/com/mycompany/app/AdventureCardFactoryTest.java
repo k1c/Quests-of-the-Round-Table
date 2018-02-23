@@ -14,7 +14,7 @@ public class AdventureCardFactoryTest extends TestCase{
 
 	public void testDefaultAllyCard() throws Exception{
 		GameBoard board = new GameBoard();
-		board.initGame(4,dummyNames, new ArrayList<AdventureCard>(),new ArrayList<StoryCard>());
+		board.initGame(4,0, dummyNames, new ArrayList<AdventureCard>(),new ArrayList<StoryCard>());
 
 
 		AdventureCard Temp = AdventureCardFactory.createCard(AdventureCardFactory.Types.KING_ARTHUR);
@@ -29,7 +29,7 @@ public class AdventureCardFactoryTest extends TestCase{
 
 	public void testSpecifiedAllyCard() throws Exception{
 		GameBoard board = new GameBoard();
-		board.initGame(4,dummyNames, new ArrayList<AdventureCard>(),new ArrayList<StoryCard>());
+		board.initGame(4,0, dummyNames, new ArrayList<AdventureCard>(),new ArrayList<StoryCard>());
 
 		board.currentStory = StoryCardFactory.createCard(StoryCardFactory.Types.SLAY_THE_DRAGON);
 
@@ -46,7 +46,7 @@ public class AdventureCardFactoryTest extends TestCase{
 
 	public void testDefaultAmourCard() throws Exception{
 		GameBoard board = new GameBoard();
-		board.initGame(4,dummyNames, new ArrayList<AdventureCard>(),new ArrayList<StoryCard>());
+		board.initGame(4,0, dummyNames, new ArrayList<AdventureCard>(),new ArrayList<StoryCard>());
 
 		AdventureCard Temp = AdventureCardFactory.createCard(AdventureCardFactory.Types.AMOUR);
 		assertEquals(32,Temp.id);
@@ -60,7 +60,7 @@ public class AdventureCardFactoryTest extends TestCase{
 
 	public void testDefaultWeaponCard() throws Exception{
 		GameBoard board = new GameBoard();
-		board.initGame(4,dummyNames, new ArrayList<AdventureCard>(),new ArrayList<StoryCard>());
+		board.initGame(4,0, dummyNames, new ArrayList<AdventureCard>(),new ArrayList<StoryCard>());
 
 
 		AdventureCard Temp = AdventureCardFactory.createCard(AdventureCardFactory.Types.EXCALIBUR);
@@ -75,7 +75,7 @@ public class AdventureCardFactoryTest extends TestCase{
 
 	public void testDefaultFoeCard() throws Exception{
 		GameBoard board = new GameBoard();
-		board.initGame(4,dummyNames, new ArrayList<AdventureCard>(),new ArrayList<StoryCard>());
+		board.initGame(4,0, dummyNames, new ArrayList<AdventureCard>(),new ArrayList<StoryCard>());
 
 
 		AdventureCard Temp = AdventureCardFactory.createCard(AdventureCardFactory.Types.GIANT);
@@ -90,7 +90,7 @@ public class AdventureCardFactoryTest extends TestCase{
 
 	public void testSpecifiedFoeCard() throws Exception{
 		GameBoard board = new GameBoard();
-		board.initGame(4,dummyNames, new ArrayList<AdventureCard>(),new ArrayList<StoryCard>());
+		board.initGame(4, 0, dummyNames, new ArrayList<AdventureCard>(),new ArrayList<StoryCard>());
 
 		board.currentStory = StoryCardFactory.createCard(StoryCardFactory.Types.BOAR_HUNT);
 
@@ -106,7 +106,7 @@ public class AdventureCardFactoryTest extends TestCase{
 
 	public void testSpecifiedFoeCardBoarHunt() throws Exception{
 		GameBoard board = new GameBoard();
-		board.initGame(4,dummyNames, new ArrayList<AdventureCard>(),new ArrayList<StoryCard>());
+		board.initGame(4, 0, dummyNames, new ArrayList<AdventureCard>(),new ArrayList<StoryCard>());
 
 		board.currentStory = StoryCardFactory.createCard(StoryCardFactory.Types.BOAR_HUNT);
 
@@ -122,7 +122,7 @@ public class AdventureCardFactoryTest extends TestCase{
 
 	public void testSpecifiedHolyGrail() throws Exception{
 		GameBoard board = new GameBoard();
-		board.initGame(4,dummyNames, new ArrayList<AdventureCard>(),new ArrayList<StoryCard>());
+		board.initGame(4, 0, dummyNames, new ArrayList<AdventureCard>(),new ArrayList<StoryCard>());
 
 		board.currentStory = StoryCardFactory.createCard(StoryCardFactory.Types.SEARCH_FOR_THE_HOLY_GRAIL);
 

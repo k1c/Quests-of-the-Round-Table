@@ -39,9 +39,7 @@ public class GameModel{
 
 		turn = 0;
 
-		numberOfPlayers = numHumans + numAI;
-
-		board.initGame(numberOfPlayers, names, CardLoader.loadAdventureCards(), new ArrayList<StoryCard>());
+		board.initGame(numHumans, numAI, humanNames, CardLoader.loadAdventureCards(), new ArrayList<StoryCard>());
 		players = board.getPlayerIds();		
 		storyTurn = new Cycle<Integer>(players,0);
 	}
