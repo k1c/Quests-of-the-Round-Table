@@ -104,10 +104,11 @@ public class GameModel{
 		 * Action: Draw from Story Deck
 		 */
 		// Currently breaks the cycle since nothing is checking for state change at the moment
-/*		board.drawFromStoryDeck(players.get(currentPlayer));
+		board.drawFromStoryDeck(players.get(currentPlayer));
 		Card card = board.getCurrentStoryCard();
 		
 
+		/*
 		
 		if (Card.Types.EVENT == card.type){
 			this.state = GameStates.EVENT_LOGIC;

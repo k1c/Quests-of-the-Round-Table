@@ -8,7 +8,7 @@ pack:
 	mvn package
 
 run:
-	java -cp target/my-app-1.0-SNAPSHOT.jar com.mycompany.app.Quests
+	java -cp target/my-app-1.0-SNAPSHOT.jar com.mycompany.app.Quests -Xmx1024M
 
 build-debug:
 	mvn -X compile
