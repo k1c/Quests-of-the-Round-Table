@@ -1,3 +1,9 @@
+/**
+ * REMINDER:
+ * 1) This class contains Lambda expressions. Change language level to 8 (1.8).
+ * TODO:
+ * 1) Aesthetics
+ */
 package com.mycompany.app.view;
 
 import com.mycompany.app.controller.GameController;

@@ -42,6 +42,7 @@ public class GameModel{
 		board.initGame(numHumans, numAI, humanNames, CardLoader.loadAdventureCards(), CardLoader.loadStoryCards());
 		players = board.getPlayerIds();		
 		storyTurn = new Cycle<Integer>(players,0);
+		this.state = GameStates.BEGIN_TURN;
 	}
 
 	public void registerObserver(GameObserver o){
@@ -75,7 +76,7 @@ public class GameModel{
 		List<GenericPlayer> temp = new ArrayList();
 
 		for(Integer id: waitingPlayers)
-			temp.add(board.getGenericPlayer(id));	
+			temp.add(board.getGenericPlayer(id));
 
 		return temp;
 	}
@@ -102,26 +103,23 @@ public class GameModel{
 		/*
 		 * Action: Draw from Story Deck
 		 */
-		
-		board.drawFromStoryDeck(players.get(currentPlayer));
+		// Currently breaks the cycle since nothing is checking for state change at the moment
+/*		board.drawFromStoryDeck(players.get(currentPlayer));
 		Card card = board.getCurrentStoryCard();
 		
 
 		
 		if (Card.Types.EVENT == card.type){
 			this.state = GameStates.EVENT_LOGIC;
-			return;
 		}
 		if (Card.Types.QUEST == card.type){
 			this.state = GameStates.SPONSOR_QUEST;
 			// start a cycle  with the sponsor as current player
 			questSponsor = new Cycle<Integer>(players,players.indexOf(storyTurn.current()));
-			return;
 		}
 		if (Card.Types.TOURNAMENT == card.type){
 			this.state = GameStates.PARTICIPATE_TOURNAMENT;
-			return;
-		}
+		}*/
 
 		/*
 		 * Need : Need to specify what kind of action to update observers

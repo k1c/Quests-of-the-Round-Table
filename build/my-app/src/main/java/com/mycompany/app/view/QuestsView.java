@@ -1,3 +1,11 @@
+/**
+ * TODO:
+ * 1) Able to query model for # of stages
+ * 2) Able to select each stage and build it
+ * 3) Able to submit proposed quest
+ * 4) If denied, able to correct
+ * 5) If accepted, able to run correctly (face down, face up per stage encounter)
+ */
 package com.mycompany.app.view;
 
 import com.mycompany.app.Quests;
@@ -12,11 +20,6 @@ public class QuestsView extends GridPane implements GameObserver{
 
     public QuestsView() {
         setHgap(10.0);
-        // two rows
-        // row 1
-        //  - Q F1 F2
-        // row 2
-        //  -   St St
 
         // Num cols and num rows
         int numCols = 5;
