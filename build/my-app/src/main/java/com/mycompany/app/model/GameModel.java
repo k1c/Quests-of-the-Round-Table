@@ -370,7 +370,7 @@ public class GameModel{
 		else if(this.participants.size() <= 0 && board.getParticipants.size() <= 0){
 			this.state = GameStates.END_TURN;
 		}
-					
+		this.updateObservers();
 	}
 
 
@@ -381,17 +381,24 @@ public class GameModel{
 		if(this.state != GameStates.PARTICIPATE_TOURNAMENT)
 			return;
 
-		int numberOfParticipants = 0;
+	}
 
-		/*
-		 * Action : get number of participants
-		 */
+	public void tournamentStageStart(){
+		if(this.state != TOURNAMENT_HANDLER)
+			return;
+	
+	}
 
+	public void tournamentStage(){
 
-		if(numberOfParticipants==0)
-			state = GameStates.BEGIN_TURN;
-		else
-			state = GameStates.TOURNAMENT_HANDLER;
+	}
+
+	public void tournamentStageEnd(){
+
+	}
+
+	public void tournamentEnd(){
+
 	}
 
 	public void beginTournament(){
@@ -405,6 +412,8 @@ public class GameModel{
 		this.state = GameStates.END_TURN;
 
 	}
+
+
 
 	public void applyEventLogic(){
 		if(this.state != GameStates.EVENT_LOGIC)
