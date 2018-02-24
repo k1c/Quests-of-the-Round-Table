@@ -133,6 +133,11 @@ public class WaitingPlayersView extends GridPane implements GameObserver {
 
         // add in play
         buildInPlay(waiting, handSpan+3);
+
+        // add battle points
+       // buildBattlePoints(waiting, )
+
+
     }
 
     private void buildRank(String[] ranks) {

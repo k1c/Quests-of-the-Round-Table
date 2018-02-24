@@ -64,6 +64,11 @@ public class GameBoard extends AbstractGameBoard{
 
 		for(int i = 0; i < INITIAL_CARDS; i++){
 			for(Player p : players) {
+				//placeholder
+				if (i<5){
+					p.inPlay.add(adventureDeck.remove(adventureDeck.size()-1));
+				}
+				//placeholder
 				drawFromAdventureDeck(p);
 			}
 		}
