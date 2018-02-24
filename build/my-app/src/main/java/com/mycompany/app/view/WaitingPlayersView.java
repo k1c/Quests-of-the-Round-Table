@@ -133,8 +133,7 @@ public class WaitingPlayersView extends GridPane implements GameObserver, CardSt
         buildInPlay(waiting, handSpan+2, inplaySpan);
 
         // add battle points
-       // buildBattlePoints(waiting, )
-
+        buildBattlePoints(waiting, numCol-1);
 
     }
 
@@ -234,6 +233,33 @@ public class WaitingPlayersView extends GridPane implements GameObserver, CardSt
             createStack(players.get(i).inPlay, playerInplay, false, false, HEIGHT, WIDTH, X_OFFSET);
 
             getChildren().add(playerInplay);
+        }
+    }
+
+    private void buildBattlePoints(List<GenericPlayer> players, int index) {
+
+        // For each player, create in play cards
+        for (int i = players.size() - 1; i >= 0; i--) {
+            // Create player in play
+            StackPane playerBP = new StackPane();
+
+            GridPane.setColumnIndex(playerBP, index);
+            GridPane.setRowIndex(playerBP, i);
+
+            ImageView bp = new ImageView(new Image("Battle_Points.png"));
+            bp.setFitWidth(WIDTH);
+            bp.setFitHeight(HEIGHT);
+            String pBP = Integer.toString(players.get(i).totalBattlePoints);
+
+            Label pBPLabel = new Label(pBP);
+            pBPLabel.setFont(new Font("Cambria", 30));
+            pBPLabel.setStyle("-fx-font-weight: bold; -fx-text-fill: white;");
+
+            playerBP.getChildren().add(bp);
+            playerBP.getChildren().add(pBPLabel);
+            StackPane.setAlignment(pBPLabel, Pos.CENTER);
+
+            getChildren().add(playerBP);
         }
     }
 
