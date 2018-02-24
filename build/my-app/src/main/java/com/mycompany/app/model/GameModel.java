@@ -367,6 +367,9 @@ public class GameModel{
 		if(this.participants.size() <= 0){
 			this.state = GameStates.TOURNAMENT_HANDLER;
 		}
+		else if(this.participants.size() <= 0 && board.getParticipants.size() <= 0){
+			this.state = GameStates.END_TURN;
+		}
 					
 	}
 
