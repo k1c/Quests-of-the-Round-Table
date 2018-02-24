@@ -1,6 +1,4 @@
 package com.mycompany.app.model;
-import java.util.Comparator;
-import java.util.Collections;
 
 public class ChivalrousDeedEvent extends StoryBehaviour{
 
@@ -10,7 +8,6 @@ public class ChivalrousDeedEvent extends StoryBehaviour{
     }
 
     public void applyBehaviour(GameBoard b, int player) {
-
         int minBP = Integer.MAX_VALUE;
         int minShields = Integer.MAX_VALUE;
 
@@ -26,7 +23,7 @@ public class ChivalrousDeedEvent extends StoryBehaviour{
 
         for(Player p : b.players){
             if(p.rank.getBP() == minBP && p.rank.getShields() == minShields){
-                p.rank.addRemoveShields(3);
+                p.rank.addRemoveShields(this.numShields);
             }
         }
     }

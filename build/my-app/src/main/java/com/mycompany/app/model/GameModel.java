@@ -63,9 +63,17 @@ public class GameModel{
 		return board.getViewCopy();
 	}
 
+	public GameStates getState() {
+	    return this.state;
+    }
+
 	public GenericPlayer getCurrentPlayer(){
 		int p = storyTurn.current();
 		return board.getGenericPlayer(p);
+	}
+
+	public Card getCurrentStory(){
+		return board.getCurrentStoryCard();	
 	}
 
 	public List<GenericPlayer> getWaitingPlayers(){
@@ -83,13 +91,10 @@ public class GameModel{
 
 	
 
-	public void nextTurn(){
+	public void drawStoryCard(){
 		if (this.state != GameStates.BEGIN_TURN)
 			return;
-
-		this.turn++;
-		this.currentPlayer = storyTurn.next();
-		
+	
 
 		/*
 		 * Action : Check if any players have won
@@ -106,21 +111,23 @@ public class GameModel{
 		// Currently breaks the cycle since nothing is checking for state change at the moment
 		board.drawFromStoryDeck(players.get(currentPlayer));
 		Card card = board.getCurrentStoryCard();
-		
+
 
 		/*
 		
 		if (Card.Types.EVENT == card.type){
 			this.state = GameStates.EVENT_LOGIC;
 		}
+
 		if (Card.Types.QUEST == card.type){
 			this.state = GameStates.SPONSOR_QUEST;
 			// start a cycle  with the sponsor as current player
 			questSponsor = new Cycle<Integer>(players,players.indexOf(storyTurn.current()));
 		}
+
 		if (Card.Types.TOURNAMENT == card.type){
 			this.state = GameStates.PARTICIPATE_TOURNAMENT;
-		}*/
+		}
 
 		/*
 		 * Need : Need to specify what kind of action to update observers
@@ -209,7 +216,14 @@ public class GameModel{
 			this.state = GameStates.QUEST_HANDLER;
 		}
 	}
-	
+
+	public void endQuest() {
+	    if(this.state != GameStates.QUEST_END) {
+	        return;
+        }
+
+        this.state = GameStates.END_TURN;
+    }
 
 	public void stage(){
 		if(this.state != GameStates.QUEST_HANDLER)
@@ -372,7 +386,7 @@ public class GameModel{
 		 * handle tournament logic with another state
 		 */
 		
-		this.state = GameStates.BEGIN_TURN;
+		this.state = GameStates.END_TURN;
 
 	}
 
@@ -383,7 +397,19 @@ public class GameModel{
 		/*
 		 * ACTION : Apply events logic to players
 		 */
-		board.applyStoryCardLogic(questSponsor.current());
+		board.applyStoryCardLogic(storyTurn.current());
+
+		this.state = GameStates.END_TURN;
+		this.updateObservers();
+	}
+
+
+	public void endTurn(){
+		if(this.state != GameStates.END_TURN)
+			return;
+		
+		this.turn++;
+		this.currentPlayer = storyTurn.next();
 
 		this.state = GameStates.BEGIN_TURN;
 		this.updateObservers();

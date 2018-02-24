@@ -220,12 +220,12 @@ public class WaitingPlayersView extends GridPane implements GameObserver {
         }
     }
 
-    private void createStack(List<Card> cards, StackPane s, final boolean flag) {
+    private void createStack(List<Card> cards, StackPane s, final boolean faceDown) {
         int offset = 0;
 
         for (Card card : cards) {
             final ImageView image;
-            if (flag) {
+            if (faceDown) {
                 image = new ImageView(new Image("A Back.jpg"));
             }
             else {
@@ -263,7 +263,7 @@ public class WaitingPlayersView extends GridPane implements GameObserver {
             // Reset border color when mouse is no longer hovering on card
             image.addEventHandler(MouseEvent.MOUSE_EXITED, new EventHandler<MouseEvent>() {
                 public void handle(MouseEvent event) {
-                    if (!flag)
+                    if (!faceDown)
                         image.setStyle((String) image.getProperties().get("color"));
                 }
             });

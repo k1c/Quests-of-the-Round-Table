@@ -186,7 +186,6 @@ import javafx.scene.text.Font;
 
         // add button
         Button mordred = new Button("Play Mordred");
-
         box.getChildren().addAll(image, mordred);
         GridPane.setColumnIndex(box, 1);
         getChildren().add(box);
@@ -197,7 +196,7 @@ import javafx.scene.text.Font;
         // Create player hand
         StackPane playerHand = new StackPane();
 
-        createStack(hand, playerHand);
+        createStack(hand, playerHand, true);
 
         /*HBox test = new HBox();
         test.getChildren().add(playerHand);
@@ -227,16 +226,27 @@ import javafx.scene.text.Font;
         GridPane.setColumnIndex(playerInplay, index);
         GridPane.setColumnSpan(playerInplay, REMAINING);
 
-        createStack(inPlay, playerInplay);
+        createStack(inPlay, playerInplay, false);
 
         getChildren().add(playerInplay);
     }
 
-    private void createStack(List<Card> cards, StackPane s) {
+    private void createStack(List<Card> cards, StackPane s, final boolean faceDown) {
         int offset = 0;
 
         for (Card card : cards) {
-            final ImageView image = new ImageView(new Image(card.res));
+            final ImageView image;
+            if (faceDown) {
+                image = new ImageView(new Image("A Back.jpg"));
+            }
+            else {
+                image = new ImageView(new Image(card.res));
+                // Add border with same color as card
+                image.getProperties().put("color", getColor(card));
+            }
+
+            // Add focus event handler
+            image.addEventHandler(MouseEvent.MOUSE_ENTERED, focusCard(image, s));
 
             // Set alignment
             StackPane.setAlignment(image, Pos.BOTTOM_LEFT);
@@ -252,9 +262,6 @@ import javafx.scene.text.Font;
             // correct means visual index instead of calculated z-index which changes
             image.setId(offset + "");
 
-            // Add border with same color as card
-            image.getProperties().put("color", getColor(card));
-
             image.setStyle((String) image.getProperties().get("color"));
 
             // Offset/Position for next card
@@ -263,14 +270,12 @@ import javafx.scene.text.Font;
             // Add to StackPane
             s.getChildren().add(image);
 
-            // Hover on card -
-            // Brings it to front, rearranges other cards for easy access.
-            image.addEventHandler(MouseEvent.MOUSE_ENTERED, focusCard(image, s));
-
             // Reset border color when mouse is no longer hovering on card
             image.addEventHandler(MouseEvent.MOUSE_EXITED, new EventHandler<MouseEvent>() {
                 public void handle(MouseEvent event) {
-                    image.setStyle((String) image.getProperties().get("color"));
+                    image.setStyle("");
+                    if (!faceDown)
+                        image.setStyle((String) image.getProperties().get("color"));
                 }
             });
         }
