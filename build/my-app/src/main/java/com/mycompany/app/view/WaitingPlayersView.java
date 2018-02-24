@@ -247,13 +247,13 @@ public class WaitingPlayersView extends GridPane implements GameObserver, CardSt
             GridPane.setRowIndex(playerBP, i);
 
             ImageView bp = new ImageView(new Image("Battle_Points.png"));
+            bp.setPreserveRatio(true);
             bp.setFitWidth(WIDTH);
-            bp.setFitHeight(HEIGHT);
             String pBP = Integer.toString(players.get(i).totalBattlePoints);
 
             Label pBPLabel = new Label(pBP);
             pBPLabel.setFont(new Font("Cambria", 30));
-            pBPLabel.setStyle("-fx-font-weight: bold; -fx-text-fill: white;");
+            pBPLabel.setStyle("-fx-font-weight: bold; -fx-text-fill: black;");
 
             playerBP.getChildren().add(bp);
             playerBP.getChildren().add(pBPLabel);

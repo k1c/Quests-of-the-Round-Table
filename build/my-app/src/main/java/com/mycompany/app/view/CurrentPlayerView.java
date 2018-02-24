@@ -236,13 +236,26 @@ import javafx.scene.text.Font;
         GridPane.setRowIndex(playerBP, 0);
 
         ImageView bp = new ImageView(new Image("Battle_Points.png"));
+        bp.setPreserveRatio(true);
         bp.setFitWidth(WIDTH);
-        bp.setFitHeight(HEIGHT);
+
         String pBP = Integer.toString(current.totalBattlePoints);
 
         Label pBPLabel = new Label(pBP);
         pBPLabel.setFont(new Font("Cambria", 30));
-        pBPLabel.setStyle("-fx-font-weight: bold; -fx-text-fill: white;");
+
+        pBPLabel.setStyle("-fx-font-weight: bold; -fx-text-fill: black;");
+
+        /*String s = pBPLabel.getStyle();
+        if (current.shieldImage.contains("Blue")) {
+            pBPLabel.setStyle(s + " -fx-text-fill: #006bb6;");
+        } else if (current.shieldImage.contains("Red")) {
+            pBPLabel.setStyle(s + " -fx-text-fill: #aa0000;");
+        } else if (current.shieldImage.contains("Green")) {
+            pBPLabel.setStyle(s + " -fx-text-fill: #29862a;");
+        } else {
+            pBPLabel.setStyle(s + " -fx-text-fill: #8e0085;");
+        }*/
 
         playerBP.getChildren().add(bp);
         playerBP.getChildren().add(pBPLabel);
