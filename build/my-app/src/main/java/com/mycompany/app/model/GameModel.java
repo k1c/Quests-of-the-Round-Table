@@ -125,7 +125,7 @@ public class GameModel{
 		}
 
 		if (Card.Types.TOURNAMENT == card.type){
-			this.state = GameStates.PARTICIPATE_TOURNAMENT;
+			this.state = GameStates.TOURNAMENT_HANDLER;
 		}
 
 		/*
@@ -162,19 +162,21 @@ public class GameModel{
 		 * Check if there are any more items
 		 */
 		if(questSponsor.size() <= 0){
-			this.state = GameStates.BEGIN_TURN;
+			this.state = GameStates.END_TURN;
 		}
 		
 		this.updateObservers();
 
 	}
 
+	/* Might not need this since the last person who -sponsor goes to end turn state
 	public void noSponsor(){
 		if(this.state != GameStates.SPONSOR_QUEST)
 			return;
-		this.state = GameStates.BEGIN_TURN;
+		this.state = GameStates.END_TURN;
 		this.updateObservers();
 	}
+	*/
 
 	/*
 	 * NEEDS : change player parameter to a Player Object
@@ -209,20 +211,20 @@ public class GameModel{
 			this.board.addParticipant(this.participants.removeCurrent());
 		}
 		if(player == this.participants.current() && !participate){
-			this.board.addParticipant(this.participants.removeCurrent());
+			//this.board.addParticipant(this.participants.removeCurrent());
+			participants.removeCurrent();
 		}
+
+		// change state
 		if(this.participants.size() <= 0){
 			this.state = GameStates.QUEST_HANDLER;
 		}
+		else if(this.participants.size() <= 0 && this.board.getParticipants().size() <= 0){
+			this.state = GameStates.QUEST_END;	
+		}
+
+		this.updateObservers();
 	}
-
-	public void endQuest() {
-	    if(this.state != GameStates.QUEST_END) {
-	        return;
-        }
-
-        this.state = GameStates.END_TURN;
-    }
 
 	public void stage(){
 		if(this.state != GameStates.QUEST_HANDLER)
@@ -338,6 +340,31 @@ public class GameModel{
 	}
 
 
+	public void endQuest() {
+		if(this.state != GameStates.QUEST_END) {
+			return;
+		}
+
+		//apply story logic
+		board.applyStoryCardLogic(questSponsor.current());
+
+		this.state = GameStates.END_TURN;
+		this.updateObservers();
+	}
+
+
+	public void beginTournament(){
+		if(this.state != GameStates.TOURNAMENT_HANDLER)
+			return;
+
+		// start a cycle which loops through participants
+		participants = new Cycle<Integer>(players,players.indexOf(storyTurn.current()));
+
+		this.state = GameStates.PARTICIPATE_TOURNAMENT;
+	}
+
+
+
 	/*
 	 * NEEDS : change player parameter to a Player Object
 	 */
@@ -353,41 +380,120 @@ public class GameModel{
 		if(this.participants.size() <= 0){
 			this.state = GameStates.TOURNAMENT_HANDLER;
 		}
-					
+		else if(this.participants.size() <= 1 && board.getParticipants().size() <= 1){
+			this.state = GameStates.END_TURN;
+		}
+		this.updateObservers();
 	}
 
 
 	/*
 	 * NEEDS : change player parameter to a Player Object
 	 */
-	public void participateTournamentEnd(int player){
+	public void participateTournamentEnd(int player,boolean participate){
 		if(this.state != GameStates.PARTICIPATE_TOURNAMENT)
 			return;
 
-		int numberOfParticipants = 0;
-
 		/*
-		 * Action : get number of participants
+		 * ACTION : add player to quest
 		 */
+		if(player == participants.current() && participate){
+			this.board.addParticipant(this.participants.removeCurrent());
+		}
+		if(player == this.participants.current() && !participate){
+			//this.board.addParticipant(this.participants.removeCurrent());
+			participants.removeCurrent();
+		}
 
+		// change state
+		if(this.participants.size() <= 0){
+			this.state = GameStates.TOURNAMENT_HANDLER;
+		}
+		else if(this.participants.size() <= 0 && this.board.getParticipants().size() <= 0){
+			this.state = GameStates.TOURNAMENT_STAGE_END;	
+		}
 
-		if(numberOfParticipants==0)
-			state = GameStates.BEGIN_TURN;
-		else
-			state = GameStates.TOURNAMENT_HANDLER;
+		this.updateObservers();
+
 	}
 
-	public void beginTournament(){
+	public void tournamentStageStart(){
 		if(this.state != GameStates.TOURNAMENT_HANDLER)
 			return;
 
 		/*
-		 * handle tournament logic with another state
+		 * some kind of quest logic here
 		 */
+		this.participants = new Cycle<Integer>(this.board.getParticipants(),0);
+
+
+		//draw card
+		board.beginEncounter();
+
+		this.state = GameStates.TOURNAMENT_STAGE;
+
+		this.updateObservers();
+	}
+
+	public boolean tournamentStage(int id,List<Card> hand){
+		if(this.state != GameStates.TOURNAMENT_STAGE)
+			return false;
+
+		if(id != this.participants.current())
+			return false;
+
+		// implement the tournament methods
+		boolean validSubmit = board.submitHand(id,hand);
+
+		if(!validSubmit){
+			return false;
+		}
+
+		if(validSubmit){
+			this.participants.removeCurrent();
+		}
+
 		
+		if(this.participants.size() <= 0){
+			this.state = GameStates.TOURNAMENT_STAGE_END;
+		}
+		return true;
+
+	}
+
+	public void tournamentStageEnd(){
+		if(this.state != GameStates.TOURNAMENT_STAGE_END)
+			return;
+		
+		//check for winner
+		board.completeTournementStage();
+
+		//check which round we are on
+		boolean anotherRound = board.nextTournement();
+		//TIE round 1 
+		if(anotherRound){
+			//clean up round 1, 
+			this.state = GameStates.TOURNAMENT_HANDLER;
+		}
+		//TIE round 2 
+		if(!anotherRound){
+			//clean up all	
+			this.state = GameStates.TOURNAMENT_END;
+		}
+		this.updateObservers();
+
+	}
+
+	public void tournamentEnd(){
+		if(this.state != GameStates.TOURNAMENT_END)
+			return;
+
+
+		board.applyStoryCardLogic(-1);
 		this.state = GameStates.END_TURN;
 
 	}
+
 
 	public void applyEventLogic(){
 		if(this.state != GameStates.EVENT_LOGIC)

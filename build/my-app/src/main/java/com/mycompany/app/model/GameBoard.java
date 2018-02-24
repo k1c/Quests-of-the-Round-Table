@@ -28,6 +28,7 @@ public class GameBoard extends AbstractGameBoard{
 	protected StoryCard eventKingsRecognition;
 	protected StoryCard currentStory;
 	protected int currentQuestIndex;
+	protected int currentTournementStage;
 
 	protected TwoDimensionalArrayList<AdventureCard> quest;
 
@@ -41,6 +42,7 @@ public class GameBoard extends AbstractGameBoard{
 
 		this.currentStory = null;
 		this.currentQuestIndex = 0;
+		this.currentTournementStage = 0;
 
 
 
@@ -177,6 +179,47 @@ public class GameBoard extends AbstractGameBoard{
 		return true;
 	}
 
+	public boolean nextTournement(){
+		currentTournementStage++;
+		return !(this.participants.size() == 1) && (this.currentTournementStage < 2); 
+	}
+
+	public void completeTournementStage(){
+		List<Player> tempParticipants = new ArrayList();
+		List<Player> droppedPlayers = new ArrayList();
+		int maxBP = Integer.MIN_VALUE;
+
+		// all to be played go into in play
+		// find max player 
+		for(Player participant : this.participants){
+			participant.inPlay.addAll(participant.toBePlayed);
+			participant.toBePlayed.clear();
+			maxBP = Math.max(participant.getTotalBP(this),maxBP);
+		}
+		
+		//get number of players that passed
+		for(Player participant :this.participants){
+			if(participant.getTotalBP(this) >= maxBP){
+				tempParticipants.add(participant);
+			}
+			else {
+				droppedPlayers.add(participant);
+			}
+		}
+
+		// clean up the cards
+		for(Player participant : tempParticipants){
+			resetTypeInPlay(participant,Card.Types.WEAPON);	
+		}
+
+		for(Player participant : droppedPlayers){
+			resetTypeInPlay(participant,Card.Types.WEAPON);	
+			resetTypeInPlay(participant,Card.Types.AMOUR);	
+		}
+
+		this.participants = tempParticipants;
+	}
+
 
 	public boolean playerCanSponsor(int id){
 
@@ -203,9 +246,10 @@ public class GameBoard extends AbstractGameBoard{
 
 	protected void resetQuest(){
 		adventureDeckDiscard.addAll(this.quest.toList());
-		this.quest = new TwoDimensionalArrayList();		
+		this.quest.clear();
 		this.sponsor = null;
 		this.currentQuestIndex = 0;
+		this.currentTournementStage = 0;
 		this.participants = new ArrayList();
 	}
 
