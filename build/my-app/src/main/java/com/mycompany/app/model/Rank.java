@@ -16,12 +16,14 @@ public class Rank {
     protected RankType rank;
 
     public Rank(){
-	setSquire();
+	    setSquire();
     }
+
     public Rank(Rank r){
 	    this.BP = r.BP;
 	    this.path = r.path;
 	    this.rank = r.rank;
+	    this.shields  = r.shields;
     }
 
     protected void setSquire(){
@@ -50,8 +52,8 @@ public class Rank {
         return BP;
     }
 
-    public int getShields(){
-	return shields;
+    public int getShields() {
+	    return shields;
     }
 
     public String getPath(){
@@ -65,14 +67,13 @@ public class Rank {
         else {return 0;}
     }
 
-    public int addRemoveShields(int numShields){
+    public void addRemoveShields(int numShields){
         shields += numShields;
         shields = Math.max(shields, 0);
         rankUp();
-        return shields;
     }
 
-    protected void rankUp(){
+    private void rankUp(){
         if (rank == RankType.SQUIRE && shields >= MAX_SHIELDS_SQUIRE) {
             shields -= MAX_SHIELDS_SQUIRE;
             setKnight();
@@ -84,6 +85,7 @@ public class Rank {
         if (rank == RankType.CHAMPION_KNIGHT && shields >= MAX_SHIELDS_CHAMPION_KNIGHT){
             //WINNER WINNER CHICKEN DINNER
             //setKnightOfTheRoundTable();
+            System.out.println("WINRAR!");
         }
     }
 }

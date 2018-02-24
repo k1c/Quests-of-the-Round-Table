@@ -1,7 +1,5 @@
 package com.mycompany.app.model;
 
-import com.mycompany.app.model.Card;
-
 public class StoryCard extends Card{
 
     protected StoryBehaviour behaviour;
@@ -17,7 +15,7 @@ public class StoryCard extends Card{
     }
 
     public void apply(GameBoard board, int player){
-	this.behaviour.applyBehaviour(board,player);
+	    this.behaviour.applyBehaviour(board, player);
     }
 
 
