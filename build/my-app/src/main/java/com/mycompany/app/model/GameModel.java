@@ -113,7 +113,6 @@ public class GameModel{
 		Card card = board.getCurrentStoryCard();
 
 
-		/*
 		
 		if (Card.Types.EVENT == card.type){
 			this.state = GameStates.EVENT_LOGIC;
