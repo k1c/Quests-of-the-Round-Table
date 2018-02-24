@@ -45,22 +45,24 @@ public class SpecifiedBehaviour extends DefaultBehaviour{
 		return this.defaultFreeBid || (isSpecified(board) && this.specifiedFreeBid) ;
     }
 
-    protected boolean isSpecified(GameBoard board){
-	    for (Integer specID : this.specifiers){
-		    if (specID == board.currentStory.id) {
-			    return true;
-		    }
-	    }
+    protected boolean isSpecified(GameBoard board) {
+		if (board.currentStory != null) {
+			for (Integer specID : this.specifiers) {
+				if (specID == board.currentStory.id) {
+					return true;
+				}
+			}
 
-	    for (Player p : board.players) {
-		    for (Card c : p.inPlay) {
-			    for (Integer specID : specifiers) {
-				    if (specID == c.id) {
-					    return true;
-				    }
-			    }
-		    }
-	    }
+			for (Player p : board.players) {
+				for (Card c : p.inPlay) {
+					for (Integer specID : specifiers) {
+						if (specID == c.id) {
+							return true;
+						}
+					}
+				}
+			}
+		}
 	    return false;
     }
 
