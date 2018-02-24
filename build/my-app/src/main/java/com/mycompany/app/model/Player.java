@@ -26,15 +26,9 @@ public class Player extends AbstractPlayer{
 		temp.rank = new Rank(this.rank);
 		temp.totalBattlePoints = getTotalBP(board);
 
-		for(Card card:hand){
-			temp.hand.add(card.instance());	
-		}
-		for(Card card:toBePlayed){
-			temp.toBePlayed.add(card.instance());	
-		}
-		for(Card card:inPlay){
-			temp.inPlay.add(card.instance());	
-		}
+		temp.hand.addAll(this.hand);
+		temp.toBePlayed.addAll(this.toBePlayed);
+		temp.inPlay.addAll(this.inPlay);
 
 		return temp;
 

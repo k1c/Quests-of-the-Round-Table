@@ -74,6 +74,7 @@ public class CardLoader{
 		L.addAll(F.createCardList(StoryCardFactory.Types.SLAY_THE_DRAGON, 1));
 		L.addAll(F.createCardList(StoryCardFactory.Types.BOAR_HUNT, 2));
 		L.addAll(F.createCardList(StoryCardFactory.Types.REPEL_THE_SAXON_RAIDERS, 2));
+
 		L.addAll(F.createCardList(StoryCardFactory.Types.TOURNAMENT_AT_CAMELOT, 1));
 		L.addAll(F.createCardList(StoryCardFactory.Types.TOURNAMENT_AT_ORKNEY, 1));
 		L.addAll(F.createCardList(StoryCardFactory.Types.TOURNAMENT_AT_TINTAGEL, 1));

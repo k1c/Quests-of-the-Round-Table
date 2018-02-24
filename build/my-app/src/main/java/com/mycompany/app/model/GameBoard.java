@@ -101,6 +101,9 @@ public class GameBoard extends AbstractGameBoard{
 	}
 
 	protected void drawFromStoryDeck(Player p){
+
+		resetStory();
+
 		if(storyDeck.size() <= 0){
 			Collections.shuffle(storyDeckDiscard);
 			List<StoryCard> temp = storyDeck;
@@ -110,7 +113,6 @@ public class GameBoard extends AbstractGameBoard{
 		if(storyDeck.size() <= 0)
 			return;
 
-		resetStory();
 
 		currentStory = storyDeck.remove(storyDeck.size()-1);
 	}
