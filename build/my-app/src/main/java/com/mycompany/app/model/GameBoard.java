@@ -91,6 +91,9 @@ public class GameBoard extends AbstractGameBoard{
 	}
 
 	protected void drawFromAdventureDeck(Player p){
+
+		System.out.println("Adventure Deck Draw");
+
 		if(adventureDeck.size() <= 0){
 			Collections.shuffle(adventureDeckDiscard);
 			List<AdventureCard> temp = adventureDeck;
@@ -106,6 +109,11 @@ public class GameBoard extends AbstractGameBoard{
 	}
 
 	protected void drawFromStoryDeck(Player p){
+
+		System.out.println("Story Deck Draw");
+
+		resetStory();
+
 		if(storyDeck.size() <= 0){
 			Collections.shuffle(storyDeckDiscard);
 			List<StoryCard> temp = storyDeck;
@@ -115,12 +123,14 @@ public class GameBoard extends AbstractGameBoard{
 		if(storyDeck.size() <= 0)
 			return;
 
-		resetStory();
 
 		currentStory = storyDeck.remove(storyDeck.size()-1);
 	}
 
 	public void applyStoryCardLogic(int player) {
+
+		System.out.println("Applying Story Card");
+
 		currentStory.apply(this, player);
 	}
 	
@@ -158,6 +168,9 @@ public class GameBoard extends AbstractGameBoard{
 	}
 
 	public boolean nextStage(){
+
+		System.out.println("Next Stage");
+
 		if(this.quest.size()-1 < this.currentQuestIndex)
 			return false;
 		this.currentQuestIndex = this.currentQuestIndex+1;
@@ -166,6 +179,9 @@ public class GameBoard extends AbstractGameBoard{
 
 
 	public boolean playerCanSponsor(int id){
+
+		System.out.println("Player Sponsoring");	
+
 		Player p = findPlayer(id);	
 		Set<Integer>	bp = new TreeSet<Integer>();
 		int numberOfTests = 0;
