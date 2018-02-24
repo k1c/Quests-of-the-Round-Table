@@ -125,9 +125,7 @@ public class GameModel{
 		}
 
 		if (Card.Types.TOURNAMENT == card.type){
-			this.state = GameStates.PARTICIPATE_TOURNAMENT;
-			// start a cycle which loops through participants
-			participants = new Cycle<Integer>(players,players.indexOf(storyTurn.current()));
+			this.state = GameStates.TOURNAMENT_HANDLER;
 		}
 
 		/*
@@ -355,6 +353,18 @@ public class GameModel{
 	}
 
 
+	public void beginTournament(){
+		if(this.state != GameStates.TOURNAMENT_HANDLER)
+			return;
+
+		// start a cycle which loops through participants
+		participants = new Cycle<Integer>(players,players.indexOf(storyTurn.current()));
+
+		this.state = GameStates.PARTICIPATE_TOURNAMENT;
+	}
+
+
+
 	/*
 	 * NEEDS : change player parameter to a Player Object
 	 */
@@ -370,7 +380,7 @@ public class GameModel{
 		if(this.participants.size() <= 0){
 			this.state = GameStates.TOURNAMENT_HANDLER;
 		}
-		else if(this.participants.size() <= 0 && board.getParticipants().size() <= 0){
+		else if(this.participants.size() <= 1 && board.getParticipants().size() <= 1){
 			this.state = GameStates.END_TURN;
 		}
 		this.updateObservers();
@@ -425,7 +435,7 @@ public class GameModel{
 		this.updateObservers();
 	}
 
-	public boolean tournamentStage(int id){
+	public boolean tournamentStage(int id,List<Card> hand){
 		if(this.state != GameStates.TOURNAMENT_STAGE)
 			return false;
 
@@ -433,7 +443,7 @@ public class GameModel{
 			return false;
 
 		// implement the tournament methods
-		boolean validSubmit = false;
+		boolean validSubmit = board.submitHand(id,hand);
 
 		if(!validSubmit){
 			return false;
@@ -455,16 +465,22 @@ public class GameModel{
 		if(this.state != GameStates.TOURNAMENT_STAGE_END)
 			return;
 		
+		//check for winner
+		board.completeTournementStage();
+
+		//check which round we are on
+		boolean anotherRound = board.nextTournement();
 		//TIE round 1 
-		if(false){
+		if(anotherRound){
 			//clean up round 1, 
 			this.state = GameStates.TOURNAMENT_HANDLER;
 		}
 		//TIE round 2 
-		if(false){
+		if(!anotherRound){
 			//clean up all	
 			this.state = GameStates.TOURNAMENT_END;
 		}
+		this.updateObservers();
 
 	}
 
@@ -477,19 +493,6 @@ public class GameModel{
 		this.state = GameStates.END_TURN;
 
 	}
-
-	public void beginTournament(){
-		if(this.state != GameStates.TOURNAMENT_HANDLER)
-			return;
-
-		/*
-		 * handle tournament logic with another state
-		 */
-		
-		this.state = GameStates.END_TURN;
-
-	}
-
 
 
 	public void applyEventLogic(){
