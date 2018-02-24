@@ -33,7 +33,6 @@ public class ConsoleController implements GameObserver{
                 consoleView.showButton("Start Turn", e -> gameModel.drawStoryCard());
                 break;
             case EVENT_LOGIC:
-                System.out.println("It worked?");
                 consoleView.display("Begin event: " + gameModel.getCurrentStory().name);
                 consoleView.showButton("Start Event", e -> gameModel.applyEventLogic());
                 break;
