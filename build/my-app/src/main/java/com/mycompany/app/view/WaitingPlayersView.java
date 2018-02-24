@@ -84,7 +84,7 @@ public class WaitingPlayersView extends GridPane implements GameObserver {
 
         List<Card> hand = waiting.get(handIndex).hand;
         List<Card> inplay = waiting.get(inplayIndex).inPlay;
-        int numInHand = hand.size();
+        int numInHand = 1;
         int numInPlay = inplay.size();
 
         // Create grid
@@ -189,14 +189,26 @@ public class WaitingPlayersView extends GridPane implements GameObserver {
 
     private void buildHand(List<GenericPlayer> players, int handSpan){
 
-        // For each player, create hand, ONLY BACK OF CARDS: hard coded for now
+        // For each player, create hand, ONLY BACK OF CARD
         for (int i = players.size() - 1; i >= 0; i--) {
             StackPane playerHand = new StackPane();
 
             GridPane.setColumnIndex(playerHand, 2);
             GridPane.setRowIndex(playerHand, i);
             GridPane.setColumnSpan(playerHand, handSpan);
-            createStack(players.get(i).hand, playerHand, true);
+
+            final ImageView back = new ImageView(new Image("A Back.jpg"));
+            back.setPreserveRatio(true);
+            back.setFitWidth(WIDTH/1.2);
+            String playerHandSize = Integer.toString(players.get(i).hand.size());
+
+            Label pHandSize = new Label(playerHandSize);
+            pHandSize.setFont(new Font("Cambria", 30));
+            pHandSize.setStyle("-fx-font-weight: bold; -fx-text-fill: white;");
+
+            playerHand.getChildren().add(back);
+            playerHand.getChildren().add(pHandSize);
+            StackPane.setAlignment(pHandSize, Pos.CENTER);
 
             getChildren().add(playerHand);
         }
@@ -255,7 +267,7 @@ public class WaitingPlayersView extends GridPane implements GameObserver {
             image.setStyle((String) image.getProperties().get("color"));
 
             // Offset/Position for next card
-            offset++;
+            //offset++;
 
             // Add to StackPane
             s.getChildren().add(image);
