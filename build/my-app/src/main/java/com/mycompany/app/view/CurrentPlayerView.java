@@ -121,6 +121,9 @@ import javafx.scene.text.Font;
 
         // add in play
         buildInPlay(inplay, handSpan+2, inplaySpan);
+
+        // add battle points
+        buildBattlePoints(current, numCol-1);
     }
 
     private void buildRank(String rank) {
@@ -225,6 +228,30 @@ import javafx.scene.text.Font;
 
         getChildren().add(playerInplay);
     }
+
+    private void buildBattlePoints(GenericPlayer players, int index) {
+        StackPane playerBP = new StackPane();
+
+        GridPane.setColumnIndex(playerBP, index);
+        GridPane.setRowIndex(playerBP, 0);
+
+        ImageView bp = new ImageView(new Image("Battle_Points.png"));
+        bp.setFitWidth(WIDTH);
+        bp.setFitHeight(HEIGHT);
+        String pBP = Integer.toString(current.totalBattlePoints);
+
+        Label pBPLabel = new Label(pBP);
+        pBPLabel.setFont(new Font("Cambria", 30));
+        pBPLabel.setStyle("-fx-font-weight: bold; -fx-text-fill: white;");
+
+        playerBP.getChildren().add(bp);
+        playerBP.getChildren().add(pBPLabel);
+        StackPane.setAlignment(pBPLabel, Pos.CENTER);
+
+        getChildren().add(playerBP);
+    }
+
+
     public void update() {
         this.current = gameModel.getCurrentPlayer();
         buildLayout();
