@@ -194,7 +194,7 @@ public class GameBoard extends AbstractGameBoard{
 		
 		//get number of players that passed
 		for(Player participant :this.participants){
-			if(participants.getTotalBP(this) >= maxBP){
+			if(participant.getTotalBP(this) >= maxBP){
 				tempParticipants.add(participant);
 			}
 			else {
