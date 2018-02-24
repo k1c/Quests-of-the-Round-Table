@@ -1,5 +1,6 @@
 package com.mycompany.app.view;
 
+import com.mycompany.app.model.GameObserver;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.scene.control.Button;
@@ -15,7 +16,7 @@ import javafx.scene.layout.StackPane;
  *      - Else distribute like normal?
  *  Able to turn over story card after start turn button is clicked
  */
-public class DeckView extends HBox{
+public class DeckView extends HBox implements GameObserver{
 
     private static final int WIDTH = 146;
     private static final int HEIGHT = 200;
@@ -50,5 +51,9 @@ public class DeckView extends HBox{
 
 
         getChildren().addAll(adventureDeck, storyDeck);
+    }
+
+    public void update() {
+
     }
 }

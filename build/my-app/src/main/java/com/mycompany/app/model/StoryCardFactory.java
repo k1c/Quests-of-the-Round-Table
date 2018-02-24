@@ -1,5 +1,4 @@
 package com.mycompany.app.model;
-import com.mycompany.app.model.*;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -46,21 +45,21 @@ public class StoryCardFactory{
             case TOURNAMENT_AT_YORK:
                 return defaultTournament(46, "/QT York.jpg", "Tournament at York", 0);
             case KINGS_RECOGNITION:
-                return defaultEvent(47, "/E King's Recognition.jpg", "King's Recognition", 0);
+                return defaultEvent(47, "/E King's Recognition.jpg", "King's Recognition", new KingsRecognitionEvent(0));
             case QUEENS_FAVOR:
-                return defaultEvent(48, "/E Queen's Favor.jpg", "Queen's Favor", 0);
+                return defaultEvent(48, "/E Queen's Favor.jpg", "Queen's Favor", new QueensFavorEvent(0));
             case COURT_CALLED_TO_CAMELOT:
-                return defaultEvent(49, "/E Court Called Camelot.jpg", "Court Called to Camelot", 0);
+                return defaultEvent(49, "/E Court Called Camelot.jpg", "Court Called to Camelot", new CourtCalledToCamelotEvent(0));
             case POX:
-                return defaultEvent(50, "/E Pox.jpg", "Pox", 0);
+                return defaultEvent(50, "/E Pox.jpg", "Pox", new PoxEvent(-1));
             case PLAGUE:
-                return defaultEvent(51, "/E Plague.jpg", "Plague", 0);
+                return defaultEvent(51, "/E Plague.jpg", "Plague", new PlagueEvent(-2));
             case CHIVALROUS_DEED:
-                return defaultEvent(52, "/E Chivalrous Deed.jpg", "Chivalrous Deed", 0);
+                return defaultEvent(52, "/E Chivalrous Deed.jpg", "Chivalrous Deed", new ChivalrousDeedEvent(3));
             case PROSPERITY_THROUGHOUT_THE_REALM:
-                return defaultEvent(53, "/E Prosperity Throughout the Realm.jpg", "Prosperity Throughout the Realm", 0);
+                return defaultEvent(53, "/E Prosperity Throughout the Realm.jpg", "Prosperity Throughout the Realm", new ProsperityEvent(0));
             case KINGS_CALL_TO_ARMS:
-                return defaultEvent(54, "/E King's Call to Arms.jpg", "King's Call to Arms", 0);
+                return defaultEvent(54, "/E King's Call to Arms.jpg", "King's Call to Arms", new KingsCallToArms(0));
         }
         return null;
     }
@@ -83,8 +82,8 @@ public class StoryCardFactory{
         return new TournamentCard(id, res, new StoryBehaviour(numShields), name);
     }
 
-    public static StoryCard defaultEvent(int id, String res, String name, int numShields) {
-        return new EventCard(id, res, new StoryBehaviour(numShields), name);
+    public static StoryCard defaultEvent(int id, String res, String name, StoryBehaviour behaviour) {
+        return new EventCard(id, res, behaviour, name);
     }
 
 

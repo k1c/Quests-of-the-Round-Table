@@ -42,8 +42,8 @@ public class Quests extends Application{
 
         primaryStage.show();
     }
-    private boolean isWindows()
-    {
+
+    private boolean isWindows() {
         return System.getProperty("os.name").startsWith("Windows");
     }
 

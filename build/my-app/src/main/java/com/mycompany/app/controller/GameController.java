@@ -86,54 +86,6 @@ public class GameController{
 
        // currentPlayerView.setGridLinesVisible(true);
 
-        // ---------- OLD - BORDERPANE
-       /* DeckView decks = new DeckView();
-		ConsoleView consoleView = new ConsoleView();
-		BorderPane root = new BorderPane();
-
-		StackPane stackPane = new StackPane();
-		stackPane.getChildren().add(consoleView);
-		stackPane.setAlignment(Pos.CENTER_RIGHT);
-		stackPane.setPadding(new Insets(MARGIN_OUTER*2));
-		root.setTop(stackPane);
-
-        root.setLeft(decks);
-
-		GridPane currentPlayer = new GridPane();
-
-		currentPlayer.setPadding(new Insets(MARGIN_OUTER));
-		currentPlayer.setAlignment(Pos.BOTTOM_RIGHT);
-
-		currentPlayer.add(currentPlayerView, 0, 0);
-
-		root.setBottom(currentPlayer);
-
-		GridPane waitingPlayers = new GridPane();
-
-		waitingPlayers.setPadding(new Insets(0, MARGIN_OUTER, MARGIN_OUTER*10, MARGIN_OUTER));
-		waitingPlayers.setAlignment(Pos.BOTTOM_RIGHT);
-
-		waitingPlayers.add(waitingPlayersView, 0, 0);
-
-		root.setRight(waitingPlayers);
-
-		GridPane quests = new GridPane();
-
-		quests.setPadding(new Insets(MARGIN_OUTER));
-		quests.setAlignment(Pos.TOP_LEFT);
-
-		QuestsView q = new QuestsView();
-		quests.add(q, 0, 0);
-
-		HBox top = new HBox(10);
-
-		Region r = new Region();
-		HBox.setHgrow(r, Priority.ALWAYS);
-
-		top.getChildren().addAll(quests, r, consoleView);
-
-		root.setTop(top);*/
-
 		Scene gameScene = new Scene(root, primaryStage.getScene().getWidth(), primaryStage.getScene().getHeight());
 
 		primaryStage.setScene(gameScene);

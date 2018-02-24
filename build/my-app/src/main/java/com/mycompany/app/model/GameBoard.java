@@ -115,8 +115,8 @@ public class GameBoard extends AbstractGameBoard{
 		currentStory = storyDeck.remove(storyDeck.size()-1);
 	}
 
-	public void applyStoryCardLogic(int player){
-		currentStory.apply(this,player);		
+	public void applyStoryCardLogic(int player) {
+		currentStory.apply(this, player);
 	}
 	
 	public void drawFromStoryDeck(int id){
