@@ -82,12 +82,12 @@ import javafx.scene.text.Font;
         // get # of cols needed
 
         // how many columns needed to cover stacked cards
-        int cardsPerCol = WIDTH/X_OFFSET;
+        double cardsPerCol = WIDTH/X_OFFSET;
         int handSpan = (int) Math.floor(numInHand/cardsPerCol + 1);
-        int inplaySpan = (int) Math.floor(numInPlay/cardsPerCol + 1);
+        int inplaySpan = (int) Math.ceil((numInPlay/cardsPerCol) + 1);
 
-        // Total number of columns: 2 extra for spacing, 1 for rank,
-        int numCol = 2 + 1 + handSpan + inplaySpan;
+        // Total number of columns: 1 for rank, 1 for shield, handspan, inplay, BP
+        int numCol = 1 + 1 + handSpan + inplaySpan + 1;
 
         // Set gridpane width
         setPrefWidth(numCol * WIDTH);
@@ -120,7 +120,7 @@ import javafx.scene.text.Font;
         buildHand(hand, handSpan, true);
 
         // add in play
-        buildInPlay(inplay, handSpan+3);
+        buildInPlay(inplay, handSpan+2, inplaySpan);
     }
 
     private void buildRank(String rank) {
@@ -213,13 +213,13 @@ import javafx.scene.text.Font;
         getChildren().add(playerHand);
     }
 
-    private void buildInPlay(List<Card> inPlay, int index) {
+    private void buildInPlay(List<Card> inPlay, int index, int inplaySpan) {
 
         // Create player in play
         StackPane playerInplay = new StackPane();
 
         GridPane.setColumnIndex(playerInplay, index);
-        GridPane.setColumnSpan(playerInplay, REMAINING);
+        GridPane.setColumnSpan(playerInplay, inplaySpan);
 
         createStack(inPlay, playerInplay, false, true, HEIGHT, WIDTH, X_OFFSET);
 
