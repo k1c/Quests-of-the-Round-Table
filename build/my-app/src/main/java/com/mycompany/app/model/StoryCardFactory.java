@@ -79,7 +79,7 @@ public class StoryCardFactory{
     }
 
     public static StoryCard defaultTournament(int id, String res, String name, int numShields){
-        return new TournamentCard(id, res, new StoryBehaviour(numShields), name);
+        return new TournamentCard(id, res, new TournamentBehaviour(numShields), name);
     }
 
     public static StoryCard defaultEvent(int id, String res, String name, StoryBehaviour behaviour) {
