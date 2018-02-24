@@ -36,7 +36,8 @@ public class WaitingPlayersView extends GridPane implements GameObserver, CardSt
         setAlignment(Pos.TOP_RIGHT);
         setNodeOrientation(NodeOrientation.RIGHT_TO_LEFT);
         setPrefHeight(HEIGHT);
-        setVgap(5);
+        setVgap(10);
+        setHgap(5);
 
         buildLayout();
     }
@@ -88,12 +89,12 @@ public class WaitingPlayersView extends GridPane implements GameObserver, CardSt
         // get # of cols needed
 
         // how many columns needed to cover stacked cards
-        int cardsPerCol = WIDTH/X_OFFSET;
+        double cardsPerCol = WIDTH/X_OFFSET;
         int handSpan = (int) Math.floor(numInHand/cardsPerCol + 1);
-        int inplaySpan = (int) Math.floor(numInPlay/cardsPerCol + 1);
+        int inplaySpan = (int) Math.ceil(numInPlay/cardsPerCol + 1);
 
-        // Total number of columns: 2 extra for spacing, 1 for rank,
-        int numCol = 2 + 1 + handSpan + inplaySpan;
+        // Total number of columns: 1 for rank, 1 for shield, handspan, inplay, BP
+        int numCol = 1 + 1 + handSpan + inplaySpan + 1;
 
         // Set gridpane width
         setPrefWidth(numCol * WIDTH);
@@ -129,7 +130,7 @@ public class WaitingPlayersView extends GridPane implements GameObserver, CardSt
         buildHand(waiting, handSpan);
 
         // add in play
-        buildInPlay(waiting, handSpan+3);
+        buildInPlay(waiting, handSpan+2, inplaySpan);
 
         // add battle points
        // buildBattlePoints(waiting, )
@@ -201,8 +202,8 @@ public class WaitingPlayersView extends GridPane implements GameObserver, CardSt
 
 
             final ImageView back = new ImageView(new Image("A Back.jpg"));
-            back.setPreserveRatio(true);
-            back.setFitWidth(WIDTH/1.2);
+            back.setFitWidth(WIDTH);
+            back.setFitHeight(HEIGHT);
             String playerHandSize = Integer.toString(players.get(i).hand.size());
 
             Label pHandSize = new Label(playerHandSize);
@@ -219,7 +220,7 @@ public class WaitingPlayersView extends GridPane implements GameObserver, CardSt
 
     }
 
-    private void buildInPlay(List<GenericPlayer> players, int index) {
+    private void buildInPlay(List<GenericPlayer> players, int index, int inplaySpan) {
 
         // For each player, create in play cards
         for (int i = players.size() - 1; i >= 0; i--) {
@@ -227,7 +228,7 @@ public class WaitingPlayersView extends GridPane implements GameObserver, CardSt
             StackPane playerInplay = new StackPane();
 
             GridPane.setColumnIndex(playerInplay, index);
-            GridPane.setColumnSpan(playerInplay, REMAINING);
+            GridPane.setColumnSpan(playerInplay, inplaySpan);
             GridPane.setRowIndex(playerInplay, i);
 
             createStack(players.get(i).inPlay, playerInplay, false, false, HEIGHT, WIDTH, X_OFFSET);
