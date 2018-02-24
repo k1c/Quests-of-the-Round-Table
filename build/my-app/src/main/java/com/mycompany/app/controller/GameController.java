@@ -50,7 +50,7 @@ public class GameController{
 
 		currentPlayerView = new CurrentPlayerView(gameModel);
 		waitingPlayersView = new WaitingPlayersView(gameModel);
-        deckView = new DeckView();
+        deckView = new DeckView(gameModel);
         consoleView = new ConsoleView(gameModel);
         questsView = new QuestsView();
 
@@ -71,12 +71,6 @@ public class GameController{
 
         AnchorPane.setRightAnchor(cd, 0.0);
         AnchorPane.setTopAnchor(cd, 0.0);
-/*
-        AnchorPane.setLeftAnchor(deckView, 0.0);
-        AnchorPane.setTopAnchor(deckView, primaryStage.getHeight()/2);
-
-        AnchorPane.setRightAnchor(consoleView, 0.0);
-        AnchorPane.setTopAnchor(consoleView, 0.0);*/
 
         AnchorPane.setRightAnchor(waitingPlayersView, 0.0);
         AnchorPane.setTopAnchor(waitingPlayersView, primaryStage.getHeight()/4.5);

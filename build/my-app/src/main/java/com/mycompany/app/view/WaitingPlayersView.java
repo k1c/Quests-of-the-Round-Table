@@ -1,4 +1,4 @@
-/**
+/*
  * Author: Carolyne Pelletier
  *
  * TODO:
@@ -7,19 +7,16 @@
 package com.mycompany.app.view;
 
 import com.mycompany.app.model.*;
-import javafx.event.EventHandler;
 import javafx.geometry.*;
-import javafx.scene.Node;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.*;
 import java.util.*;
-import javafx.scene.input.MouseEvent;
 import javafx.scene.text.Font;
 
-public class WaitingPlayersView extends GridPane implements GameObserver {
+public class WaitingPlayersView extends GridPane implements GameObserver, CardStack {
 
     private GameModel gameModel;
     private List<GenericPlayer> waiting;
@@ -39,7 +36,8 @@ public class WaitingPlayersView extends GridPane implements GameObserver {
         setAlignment(Pos.TOP_RIGHT);
         setNodeOrientation(NodeOrientation.RIGHT_TO_LEFT);
         setPrefHeight(HEIGHT);
-        setVgap(5);
+        setVgap(10);
+        setHgap(5);
 
         buildLayout();
     }
@@ -84,19 +82,19 @@ public class WaitingPlayersView extends GridPane implements GameObserver {
 
         List<Card> hand = waiting.get(handIndex).hand;
         List<Card> inplay = waiting.get(inplayIndex).inPlay;
-        int numInHand = hand.size();
+        int numInHand = 1;
         int numInPlay = inplay.size();
 
         // Create grid
         // get # of cols needed
 
         // how many columns needed to cover stacked cards
-        int cardsPerCol = WIDTH/X_OFFSET;
+        double cardsPerCol = WIDTH/X_OFFSET;
         int handSpan = (int) Math.floor(numInHand/cardsPerCol + 1);
-        int inplaySpan = (int) Math.floor(numInPlay/cardsPerCol + 1);
+        int inplaySpan = (int) Math.ceil(numInPlay/cardsPerCol + 1);
 
-        // Total number of columns: 2 extra for spacing, 1 for rank,
-        int numCol = 2 + 1 + handSpan + inplaySpan;
+        // Total number of columns: 1 for rank, 1 for shield, handspan, inplay, BP
+        int numCol = 1 + 1 + handSpan + inplaySpan + 1;
 
         // Set gridpane width
         setPrefWidth(numCol * WIDTH);
@@ -132,7 +130,11 @@ public class WaitingPlayersView extends GridPane implements GameObserver {
         buildHand(waiting, handSpan);
 
         // add in play
-        buildInPlay(waiting, handSpan+3);
+        buildInPlay(waiting, handSpan+2, inplaySpan);
+
+        // add battle points
+        buildBattlePoints(waiting, numCol-1);
+
     }
 
     private void buildRank(String[] ranks) {
@@ -189,21 +191,35 @@ public class WaitingPlayersView extends GridPane implements GameObserver {
 
     private void buildHand(List<GenericPlayer> players, int handSpan){
 
-        // For each player, create hand, ONLY BACK OF CARDS: hard coded for now
+        // For each player, create hand, ONLY BACK OF CARD
         for (int i = players.size() - 1; i >= 0; i--) {
             StackPane playerHand = new StackPane();
 
             GridPane.setColumnIndex(playerHand, 2);
             GridPane.setRowIndex(playerHand, i);
             GridPane.setColumnSpan(playerHand, handSpan);
-            createStack(players.get(i).hand, playerHand, true);
+
+
+            final ImageView back = new ImageView(new Image("A Back.jpg"));
+            back.setFitWidth(WIDTH);
+            back.setFitHeight(HEIGHT);
+            String playerHandSize = Integer.toString(players.get(i).hand.size());
+
+            Label pHandSize = new Label(playerHandSize);
+            pHandSize.setFont(new Font("Cambria", 30));
+            pHandSize.setStyle("-fx-font-weight: bold; -fx-text-fill: white;");
+
+            playerHand.getChildren().add(back);
+            playerHand.getChildren().add(pHandSize);
+            StackPane.setAlignment(pHandSize, Pos.CENTER);
+
 
             getChildren().add(playerHand);
         }
 
     }
 
-    private void buildInPlay(List<GenericPlayer> players, int index) {
+    private void buildInPlay(List<GenericPlayer> players, int index, int inplaySpan) {
 
         // For each player, create in play cards
         for (int i = players.size() - 1; i >= 0; i--) {
@@ -211,131 +227,40 @@ public class WaitingPlayersView extends GridPane implements GameObserver {
             StackPane playerInplay = new StackPane();
 
             GridPane.setColumnIndex(playerInplay, index);
-            GridPane.setColumnSpan(playerInplay, REMAINING);
+            GridPane.setColumnSpan(playerInplay, inplaySpan);
             GridPane.setRowIndex(playerInplay, i);
 
-            createStack(players.get(i).inPlay, playerInplay, false);
+            createStack(players.get(i).inPlay, playerInplay, false, false, HEIGHT, WIDTH, X_OFFSET);
 
             getChildren().add(playerInplay);
         }
     }
 
-    private void createStack(List<Card> cards, StackPane s, final boolean faceDown) {
-        int offset = 0;
+    private void buildBattlePoints(List<GenericPlayer> players, int index) {
 
-        for (Card card : cards) {
-            final ImageView image;
-            if (faceDown) {
-                image = new ImageView(new Image("A Back.jpg"));
-            }
-            else {
-                image = new ImageView(new Image(card.res));
-                // Add border with same color as card
-                image.getProperties().put("color", getColor(card));
+        // For each player, create in play cards
+        for (int i = players.size() - 1; i >= 0; i--) {
+            // Create player in play
+            StackPane playerBP = new StackPane();
 
-                // Add focus event handler
-                image.addEventHandler(MouseEvent.MOUSE_ENTERED, focusCard(image, s));
-            }
+            GridPane.setColumnIndex(playerBP, index);
+            GridPane.setRowIndex(playerBP, i);
 
+            ImageView bp = new ImageView(new Image("Battle_Points.png"));
+            bp.setFitWidth(WIDTH);
+            bp.setFitHeight(HEIGHT);
+            String pBP = Integer.toString(players.get(i).totalBattlePoints);
 
-            // Set alignment
-            StackPane.setAlignment(image, Pos.BOTTOM_LEFT);
+            Label pBPLabel = new Label(pBP);
+            pBPLabel.setFont(new Font("Cambria", 30));
+            pBPLabel.setStyle("-fx-font-weight: bold; -fx-text-fill: white;");
 
-            // Scale image
-            image.setFitHeight(HEIGHT);
-            image.setFitWidth(WIDTH);
+            playerBP.getChildren().add(bp);
+            playerBP.getChildren().add(pBPLabel);
+            StackPane.setAlignment(pBPLabel, Pos.CENTER);
 
-            // Move to left for 'stack' effect
-            image.setTranslateX(X_OFFSET * offset);
-
-            // Add 'correct' position of the card in the stackpane
-            // correct means visual index instead of calculated z-index which changes
-            image.setId(offset + "");
-
-            image.setStyle((String) image.getProperties().get("color"));
-
-            // Offset/Position for next card
-            offset++;
-
-            // Add to StackPane
-            s.getChildren().add(image);
-
-            // Reset border color when mouse is no longer hovering on card
-            image.addEventHandler(MouseEvent.MOUSE_EXITED, new EventHandler<MouseEvent>() {
-                public void handle(MouseEvent event) {
-                    if (!faceDown)
-                        image.setStyle((String) image.getProperties().get("color"));
-                }
-            });
+            getChildren().add(playerBP);
         }
-    }
-
-
-    private EventHandler<MouseEvent> focusCard(final ImageView image, final StackPane p) {
-        return new EventHandler<MouseEvent>() {
-            public void handle(MouseEvent event) {
-
-                // Selection color
-                image.setStyle("-fx-effect: dropshadow(gaussian, #ff7c14, 5, 1, 0, 0)");
-
-                // Get all current cards on display
-                List<Node> children = new ArrayList<Node>(p.getChildren());
-                // Sort by actual index instead of z-index
-                Collections.sort(children, new Comparator<Node>() {
-                    public int compare(Node o1, Node o2) {
-                        return Integer.parseInt(o1.getId()) - Integer.parseInt(o2.getId());
-                    }
-                });
-
-                // Get position of card user is hovering over
-                int index = children.indexOf(image);
-
-                // Start to re-arrange cards from both ends till they meet
-                int right = 0;
-                int left = children.size() - 1;
-
-                while (right != left) {
-                    if (!children.get(right).equals(image)) {
-                        children.get(right).toFront();
-                        right++;
-                    }
-
-                    if (!children.get(left).equals(image)) {
-                        children.get(left).toFront();
-                        left--;
-                    }
-                }
-
-                // Bring target card in front
-                children.get(index).toFront();
-            }
-        };
-    }
-
-    private String getColor(Card card) {
-        String css = "-fx-effect: innershadow(gaussian, ";
-
-        switch (card.type) {
-            case FOE:
-                css += "white, ";
-                break;
-            case ALLY:
-                css += "deepskyblue, ";
-                break;
-            case TEST:
-                css += "forestgreen, ";
-                break;
-            case AMOUR:
-                css += "yellow, ";
-                break;
-            case WEAPON:
-                css += "red, ";
-                break;
-        }
-
-        css += "10, 0.7, 0, 0);";
-
-        return css;
     }
 
     public void update() {
