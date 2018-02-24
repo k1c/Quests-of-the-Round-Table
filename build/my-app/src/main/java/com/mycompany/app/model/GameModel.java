@@ -162,19 +162,21 @@ public class GameModel{
 		 * Check if there are any more items
 		 */
 		if(questSponsor.size() <= 0){
-			this.state = GameStates.BEGIN_TURN;
+			this.state = GameStates.END_TURN;
 		}
 		
 		this.updateObservers();
 
 	}
 
+	/* Might not need this since the last person who -sponsor goes to end turn state
 	public void noSponsor(){
 		if(this.state != GameStates.SPONSOR_QUEST)
 			return;
-		this.state = GameStates.BEGIN_TURN;
+		this.state = GameStates.END_TURN;
 		this.updateObservers();
 	}
+	*/
 
 	/*
 	 * NEEDS : change player parameter to a Player Object
@@ -211,18 +213,17 @@ public class GameModel{
 		if(player == this.participants.current() && !participate){
 			this.board.addParticipant(this.participants.removeCurrent());
 		}
+
+		// change state
 		if(this.participants.size() <= 0){
 			this.state = GameStates.QUEST_HANDLER;
 		}
+		else if(this.participants.size() <= 0 && this.board.getParticipants().size() <= 0){
+			this.state = GameStates.QUEST_END;	
+		}
+
+		this.updateObservers();
 	}
-
-	public void endQuest() {
-	    if(this.state != GameStates.QUEST_END) {
-	        return;
-        }
-
-        this.state = GameStates.END_TURN;
-    }
 
 	public void stage(){
 		if(this.state != GameStates.QUEST_HANDLER)
@@ -334,6 +335,19 @@ public class GameModel{
 			this.state = GameStates.QUEST_END;
 		else
 			this.state = GameStates.QUEST_HANDLER;
+		this.updateObservers();
+	}
+
+
+	public void endQuest() {
+		if(this.state != GameStates.QUEST_END) {
+			return;
+		}
+
+		//apply story logic
+		board.applyStoryCardLogic(questSponsor.current());
+
+		this.state = GameStates.END_TURN;
 		this.updateObservers();
 	}
 
