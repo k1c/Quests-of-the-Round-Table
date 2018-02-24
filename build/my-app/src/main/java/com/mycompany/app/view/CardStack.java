@@ -14,13 +14,18 @@ import java.util.List;
 
 public interface CardStack {
 
-    default void createStack(List<Card> cards, StackPane s, final boolean faceDown, int height, int width, int x_offset) {
+    default void createStack(List<Card> cards, StackPane s, final boolean faceDown, final boolean isCurrent, int height, int width, int x_offset) {
         int offset = 0;
 
         for (Card card : cards) {
             final ImageView image;
             if (faceDown) {
                 image = new ImageView(new Image("A Back.jpg"));
+
+                if (isCurrent) {
+                    // Add focus event handler
+                    image.addEventHandler(MouseEvent.MOUSE_ENTERED, focusCard(image, s, true));
+                }
             }
             else {
                 image = new ImageView(new Image(card.res));
@@ -28,7 +33,7 @@ public interface CardStack {
                 image.getProperties().put("color", getColor(card));
 
                 // Add focus event handler
-                image.addEventHandler(MouseEvent.MOUSE_ENTERED, focusCard(image, s));
+                image.addEventHandler(MouseEvent.MOUSE_ENTERED, focusCard(image, s, false));
             }
 
             // Set alignment
@@ -40,6 +45,9 @@ public interface CardStack {
 
             // Move to left for 'stack' effect
             image.setTranslateX(x_offset * offset);
+
+            // Add image front path
+            image.getProperties().put("front", card.res);
 
             // Add 'correct' position of the card in the stackpane
             // correct means visual index instead of calculated z-index which changes
@@ -55,15 +63,20 @@ public interface CardStack {
 
             // Reset border color when mouse is no longer hovering on card
             image.addEventHandler(MouseEvent.MOUSE_EXITED, e -> {
-                        if (!faceDown)
-                            image.setStyle((String) image.getProperties().get("color"));
-                    }
+                if (isCurrent && faceDown) {
+                    image.setStyle("");
+                    image.setImage(new Image("A Back.jpg"));
+                }
+
+                if (!faceDown)
+                    image.setStyle((String) image.getProperties().get("color"));
+                }
             );
         }
     }
 
 
-    default EventHandler<MouseEvent> focusCard(final ImageView image, final StackPane p) {
+    default EventHandler<MouseEvent> focusCard(final ImageView image, final StackPane p, final boolean showCard) {
         return e -> {
             // Selection color
             image.setStyle("-fx-effect: dropshadow(gaussian, #ff7c14, 5, 1, 0, 0)");
@@ -96,6 +109,8 @@ public interface CardStack {
             }
 
             // Bring target card in front
+            if (showCard)
+                image.setImage(new Image((String) image.getProperties().get("front")));
             children.get(index).toFront();
         };
     }

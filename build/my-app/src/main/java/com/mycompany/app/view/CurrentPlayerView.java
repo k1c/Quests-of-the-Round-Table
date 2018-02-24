@@ -15,6 +15,7 @@ package com.mycompany.app.view;
 import com.mycompany.app.model.*;
 import javafx.geometry.*;
 import javafx.scene.control.Button;
+import javafx.scene.control.CheckBox;
 import javafx.scene.control.Label;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
@@ -39,6 +40,8 @@ import javafx.scene.text.Font;
     private static final int WIDTH = 146;
     private static final int HEIGHT = 200;
     private static final int X_OFFSET = WIDTH/3;
+
+    private StackPane playerHand;
 
     public CurrentPlayerView(GameModel gameModel) {
         this.gameModel = gameModel;
@@ -111,10 +114,10 @@ import javafx.scene.text.Font;
 
         // add shield + mordred button
         String shield = current.shieldImage;
-        buildShield(shield);
+        buildShield(shield, handSpan);
 
         // add in hand
-        buildHand(hand, handSpan);
+        buildHand(hand, handSpan, true);
 
         // add in play
         buildInPlay(inplay, handSpan+3);
@@ -158,11 +161,25 @@ import javafx.scene.text.Font;
         getChildren().add(playerRank);
     }
 
-    private void buildShield(String shield) {
+    private void buildShield(String shield, int handSpan) {
         VBox box = new VBox(10);
         box.setAlignment(Pos.CENTER);
 
         box.setPadding(new Insets(0, 0,0,20));
+
+        // add checkbox for show/hide
+        CheckBox show = new CheckBox("Show hand");
+        show.setAllowIndeterminate(false);
+        show.setOnAction(e -> {
+            if (getChildren().contains(playerHand)) getChildren().remove(playerHand);
+
+            if (show.isSelected()) {
+                buildHand(current.hand, handSpan, false);
+            } else {
+                buildHand(current.hand, handSpan, true);
+            }
+        });
+
         StackPane image = new StackPane();
         // add shield image
         ImageView shieldImage = new ImageView(new Image(shield));
@@ -179,17 +196,17 @@ import javafx.scene.text.Font;
 
         // add button
         Button mordred = new Button("Play Mordred");
-        box.getChildren().addAll(image, mordred);
+        box.getChildren().addAll(show, image, mordred);
         GridPane.setColumnIndex(box, 1);
         getChildren().add(box);
     }
 
-    private void buildHand(List<Card> hand, int handSpan){
+    private void buildHand(List<Card> hand, int handSpan, boolean faceDown){
 
         // Create player hand
-        StackPane playerHand = new StackPane();
+        playerHand = new StackPane();
 
-        createStack(hand, playerHand, false, HEIGHT, WIDTH, X_OFFSET);
+        createStack(hand, playerHand, faceDown, true, HEIGHT, WIDTH, X_OFFSET);
 
         GridPane.setColumnIndex(playerHand, 2);
         GridPane.setColumnSpan(playerHand, handSpan);
@@ -204,7 +221,7 @@ import javafx.scene.text.Font;
         GridPane.setColumnIndex(playerInplay, index);
         GridPane.setColumnSpan(playerInplay, REMAINING);
 
-        createStack(inPlay, playerInplay, false, HEIGHT, WIDTH, X_OFFSET);
+        createStack(inPlay, playerInplay, false, true, HEIGHT, WIDTH, X_OFFSET);
 
         getChildren().add(playerInplay);
     }

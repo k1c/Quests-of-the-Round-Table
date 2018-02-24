@@ -50,7 +50,7 @@ public class GameController{
 
 		currentPlayerView = new CurrentPlayerView(gameModel);
 		waitingPlayersView = new WaitingPlayersView(gameModel);
-        deckView = new DeckView();
+        deckView = new DeckView(gameModel);
         consoleView = new ConsoleView(gameModel);
         questsView = new QuestsView();
 
