@@ -1,4 +1,4 @@
-/**
+/*
  * Author: Akhil Dalal
  * As part of TEAM 4
  *
@@ -13,10 +13,7 @@
 package com.mycompany.app.view;
 
 import com.mycompany.app.model.*;
-import javafx.collections.ObservableList;
-import javafx.event.EventHandler;
 import javafx.geometry.*;
-import javafx.scene.Node;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.image.Image;
@@ -24,9 +21,6 @@ import javafx.scene.image.ImageView;
 import javafx.scene.layout.*;
 
 import java.util.*;
-
-import javafx.scene.input.MouseEvent;
-import javafx.scene.paint.Paint;
 import javafx.scene.text.Font;
 
 /**
@@ -36,7 +30,7 @@ import javafx.scene.text.Font;
  * 1) Currently passing in the game model object
  * - Any way to avoid this or make it better?
  */
-    public class CurrentPlayerView extends GridPane implements GameObserver {
+    public class CurrentPlayerView extends GridPane implements GameObserver, CardStack {
 
     private GameModel gameModel;
     private GenericPlayer current;
@@ -99,7 +93,6 @@ import javafx.scene.text.Font;
         for (int i = 0; i < numCol; i++) {
             ColumnConstraints col = new ColumnConstraints();
             col.setHgrow(javafx.scene.layout.Priority.SOMETIMES);
-            col.setMinWidth(WIDTH);
             col.setPrefWidth(WIDTH);
             getColumnConstraints().add(col);
         }
@@ -196,25 +189,10 @@ import javafx.scene.text.Font;
         // Create player hand
         StackPane playerHand = new StackPane();
 
-        createStack(hand, playerHand, true);
+        createStack(hand, playerHand, false, HEIGHT, WIDTH, X_OFFSET);
 
-        /*HBox test = new HBox();
-        test.getChildren().add(playerHand);
-*/
         GridPane.setColumnIndex(playerHand, 2);
         GridPane.setColumnSpan(playerHand, handSpan);
-        /*test.setMaxWidth(handSpan*WIDTH - X_OFFSET + 12);
-        test.setPadding(new Insets(10, 0, 0,0));
-        test.setStyle("-fx-border-style: solid inside;"
-                + "-fx-border-width: 10;" + "-fx-border-color: #006bb6;");
-
-        Label title = new Label(" In Hand ");
-        title.setStyle("-fx-background-color: #f4f4f4; -fx-font-weight: bold;");
-        title.setTranslateY(-40);
-        title.setTranslateX((handSpan*WIDTH - X_OFFSET + 15)/5.5);
-
-        test.getChildren().add(title);
-        title.setFont(new Font("Cambria", 26));*/
         getChildren().add(playerHand);
     }
 
@@ -226,129 +204,10 @@ import javafx.scene.text.Font;
         GridPane.setColumnIndex(playerInplay, index);
         GridPane.setColumnSpan(playerInplay, REMAINING);
 
-        createStack(inPlay, playerInplay, false);
+        createStack(inPlay, playerInplay, false, HEIGHT, WIDTH, X_OFFSET);
 
         getChildren().add(playerInplay);
     }
-
-    private void createStack(List<Card> cards, StackPane s, final boolean faceDown) {
-        int offset = 0;
-
-        for (Card card : cards) {
-            final ImageView image;
-            if (faceDown) {
-                image = new ImageView(new Image("A Back.jpg"));
-            }
-            else {
-                image = new ImageView(new Image(card.res));
-                // Add border with same color as card
-                image.getProperties().put("color", getColor(card));
-            }
-
-            // Add focus event handler
-            image.addEventHandler(MouseEvent.MOUSE_ENTERED, focusCard(image, s));
-
-            // Set alignment
-            StackPane.setAlignment(image, Pos.BOTTOM_LEFT);
-
-            // Scale image
-            image.setFitHeight(HEIGHT);
-            image.setFitWidth(WIDTH);
-
-            // Move to left for 'stack' effect
-            image.setTranslateX(X_OFFSET * offset);
-
-            // Add 'correct' position of the card in the stackpane
-            // correct means visual index instead of calculated z-index which changes
-            image.setId(offset + "");
-
-            image.setStyle((String) image.getProperties().get("color"));
-
-            // Offset/Position for next card
-            offset++;
-
-            // Add to StackPane
-            s.getChildren().add(image);
-
-            // Reset border color when mouse is no longer hovering on card
-            image.addEventHandler(MouseEvent.MOUSE_EXITED, new EventHandler<MouseEvent>() {
-                public void handle(MouseEvent event) {
-                    image.setStyle("");
-                    if (!faceDown)
-                        image.setStyle((String) image.getProperties().get("color"));
-                }
-            });
-        }
-    }
-
-
-    private EventHandler<MouseEvent> focusCard(final ImageView image, final StackPane p) {
-        return new EventHandler<MouseEvent>() {
-            public void handle(MouseEvent event) {
-
-                // Selection color
-                image.setStyle("-fx-effect: dropshadow(gaussian, #ff7c14, 5, 1, 0, 0)");
-
-                // Get all current cards on display
-                List<Node> children = new ArrayList<Node>(p.getChildren());
-                // Sort by actual index instead of z-index
-                Collections.sort(children, new Comparator<Node>() {
-                    public int compare(Node o1, Node o2) {
-                        return Integer.parseInt(o1.getId()) - Integer.parseInt(o2.getId());
-                    }
-                });
-
-                // Get position of card user is hovering over
-                int index = children.indexOf(image);
-
-                // Start to re-arrange cards from both ends till they meet
-                int right = 0;
-                int left = children.size() - 1;
-
-                while (right != left) {
-                    if (!children.get(right).equals(image)) {
-                        children.get(right).toFront();
-                        right++;
-                    }
-
-                    if (!children.get(left).equals(image)) {
-                        children.get(left).toFront();
-                        left--;
-                    }
-                }
-
-                // Bring target card in front
-                children.get(index).toFront();
-            }
-        };
-    }
-
-    private String getColor(Card card) {
-        String css = "-fx-effect: innershadow(gaussian, ";
-
-        switch (card.type) {
-            case FOE:
-                css += "white, ";
-                break;
-            case ALLY:
-                css += "deepskyblue, ";
-                break;
-            case TEST:
-                css += "forestgreen, ";
-                break;
-            case AMOUR:
-                css += "yellow, ";
-                break;
-            case WEAPON:
-                css += "red, ";
-                break;
-        }
-
-        css += "10, 0.7, 0, 0);";
-
-        return css;
-    }
-
     public void update() {
         this.current = gameModel.getCurrentPlayer();
         buildLayout();

@@ -21,11 +21,6 @@ import javafx.scene.text.TextAlignment;
 public class ConsoleView extends HBox{
     private ConsoleController consoleController;
     private  GameModel gameModel;
-    private final int HEIGHT = 200;
-    private final int WIDTH = 146;
-
-    private final double BTN_WIDTH = WIDTH/2.0;
-    private final double BTN_HEIGHT = HEIGHT/4.0;
 
     private Label consoleLog;
     private VBox btnBox;
@@ -42,7 +37,7 @@ public class ConsoleView extends HBox{
 
         consoleLog = new Label("check");
         consoleLog.setWrapText(true);
-        consoleLog.setTextAlignment(TextAlignment.LEFT);
+        //consoleLog.setTextAlignment(TextAlignment.LEFT);
         consoleLog.setFont(new Font("Cambria",26));
 
 
@@ -68,9 +63,8 @@ public class ConsoleView extends HBox{
         getChildren().remove(btnBox);
 
         Button btn = new Button(name);
-        btn.setMinSize(BTN_WIDTH, BTN_HEIGHT);
-        btn.setMaxSize(BTN_WIDTH, BTN_HEIGHT);
-        btn.setPrefSize(BTN_WIDTH, BTN_HEIGHT);
+        //btn.setWrapText(true);
+        btn.setFont(new Font("Cambria",20));
 
         btn.setOnMouseClicked(handler);
 
