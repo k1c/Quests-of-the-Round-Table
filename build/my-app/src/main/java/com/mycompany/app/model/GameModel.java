@@ -367,7 +367,7 @@ public class GameModel{
 		if(this.participants.size() <= 0){
 			this.state = GameStates.TOURNAMENT_HANDLER;
 		}
-		else if(this.participants.size() <= 0 && board.getParticipants.size() <= 0){
+		else if(this.participants.size() <= 0 && board.getParticipants().size() <= 0){
 			this.state = GameStates.END_TURN;
 		}
 		this.updateObservers();
@@ -384,20 +384,26 @@ public class GameModel{
 	}
 
 	public void tournamentStageStart(){
-		if(this.state != TOURNAMENT_HANDLER)
+		if(this.state != GameStates.TOURNAMENT_HANDLER)
 			return;
 	
 	}
 
 	public void tournamentStage(){
+		if(this.state != GameStates.TOURNAMENT_STAGE)
+			return;
 
 	}
 
 	public void tournamentStageEnd(){
+		if(this.state != GameStates.TOURNAMENT_STAGE_END)
+			return;
 
 	}
 
 	public void tournamentEnd(){
+		if(this.state != GameStates.TOURNAMENT_END)
+			return;
 
 	}
 
