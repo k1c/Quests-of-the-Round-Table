@@ -21,10 +21,6 @@ public class ConsoleController implements GameObserver{
         consoleView.showButton("Start Turn", e -> this. gameModel.drawStoryCard());
     }
 
-    public void startTurn() {
-        gameModel.drawStoryCard();
-    }
-
     public void update() {
         GameStates s = gameModel.getState();
         switch (s) {
