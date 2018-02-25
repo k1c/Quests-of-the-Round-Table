@@ -47,7 +47,6 @@ public class GameModel{
 			this.state = state;
 			this.currentPlayers = new Cycle(players,players.indexOf(playerId));
 		}
-
 		
 	}
 
@@ -178,17 +177,20 @@ public class GameModel{
 		if(this.state != GameStates.SPONSOR_QUEST)
 			return;
 
+		System.out.println(questSponsor.items());
+        int currPlayer = questSponsor.current();
+
 		/*
 		 * Verify that they can sponsor with current cards
 		 */
-		if(player == questSponsor.current() && sponsor && board.playerCanSponsor(player)){
+		if(player == currPlayer && sponsor && board.playerCanSponsor(player)){
 			//this.state = GameStates.SPONSOR_SUBMIT;
 			changeState(GameStates.SPONSOR_SUBMIT,players.indexOf(questSponsor.current()));
 		}
-		else if(player == questSponsor.current() && !sponsor){
+		else if(player == currPlayer && !sponsor){
 			questSponsor.removeCurrent();
 		}
-		else if(player == questSponsor.current() && !board.playerCanSponsor(player)){
+		else if(player == currPlayer && !board.playerCanSponsor(player)){
 			questSponsor.removeCurrent();	
 		}
 
@@ -198,8 +200,10 @@ public class GameModel{
 		 */
 		if(questSponsor.size() <= 0){
 			//this.state = GameStates.END_TURN;
-			changeState(GameStates.END_TURN,players.indexOf(questSponsor.current()));
-		}
+			changeState(GameStates.BEGIN_TURN, storyTurn.next());
+		} else if (this.state != GameStates.SPONSOR_SUBMIT){
+            changeState(GameStates.SPONSOR_QUEST,players.indexOf(questSponsor.current()));
+        }
 		
 		this.updateObservers();
 
