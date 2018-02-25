@@ -94,7 +94,7 @@ public class GameBoard extends AbstractGameBoard{
 
 	protected void drawFromAdventureDeck(Player p){
 
-		System.out.println("Adventure Deck Draw");
+		//System.out.println("Adventure Deck Draw");
 
 		if(adventureDeck.size() <= 0){
 			Collections.shuffle(adventureDeckDiscard);

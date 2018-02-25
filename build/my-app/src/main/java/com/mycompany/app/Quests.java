@@ -27,6 +27,9 @@ public class Quests extends Application{
 
     @Override
     public void start(Stage primaryStage) {
+        LoggerMessageExample obj = new LoggerMessageExample();
+        obj.runMe("new person");
+
         primaryStage.setTitle(TITLE);
 
         BorderPane root = new BorderPane();
@@ -41,6 +44,8 @@ public class Quests extends Application{
         if(isWindows()) primaryStage.setMaximized(true);
 
         primaryStage.show();
+
+
     }
 
     private boolean isWindows() {
