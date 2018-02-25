@@ -9,6 +9,7 @@ public class GameModel{
 
 	private List<GameObserver> observers;
 	private GameStates state;
+	private GameStates savedState;
 
 	private int numberOfPlayers;
 
@@ -26,13 +27,35 @@ public class GameModel{
 	private Cycle<Integer> storyTurn;
 	private Cycle<Integer> questSponsor;
 	private Cycle<Integer> participants;
+	private Cycle<Integer> discard;
+
+	private Cycle<Integer> currentPlayers;
+	private Cycle<Integer> savedCurrentPlayers;
 	private int participationCounter;
+
+
+	protected void changeState(GameStates state,Cycle<Integer> currentCycle){
+		List<Integer> playersOverLimit = new ArrayList();//get players over limit
+
+		if(playersOverLimit.size() > 0){
+			this.savedState = state;
+			this.currentPlayers = new Cycle(playersOverLimit,0);
+			this.savedCurrentPlayers = this.currentPlayers;
+			//change state to discard
+		}
+		else{
+			this.state = state;
+			this.currentPlayers = currentCycle;
+		}
+
+		
+	}
 
 	public GameModel(){
 		observers = new ArrayList<GameObserver>();
 		board = new GameBoard();
 		
-		}
+	}
 
 
 	public void initGame(int numHumans,int numAI,String[] humanNames){
@@ -67,15 +90,18 @@ public class GameModel{
 	    return this.state;
     }
 
+    	//fix this
 	public GenericPlayer getCurrentPlayer(){
 		int p = storyTurn.current();
 		return board.getGenericPlayer(p);
 	}
 
+
 	public Card getCurrentStory(){
 		return board.getCurrentStoryCard();	
 	}
 
+	//fix this
 	public List<GenericPlayer> getWaitingPlayers(){
 		Cycle<Integer> waitingPlayersCycle = (new Cycle(storyTurn));
 		waitingPlayersCycle.removeCurrent();
@@ -115,17 +141,20 @@ public class GameModel{
 
 		
 		if (Card.Types.EVENT == card.type){
-			this.state = GameStates.EVENT_LOGIC;
+			changeState(GameStates.EVENT_LOGIC,storyTurn);
+			//this.state = GameStates.EVENT_LOGIC;
 		}
 
 		if (Card.Types.QUEST == card.type){
-			this.state = GameStates.SPONSOR_QUEST;
 			// start a cycle  with the sponsor as current player
 			questSponsor = new Cycle<Integer>(players,players.indexOf(storyTurn.current()));
+			//this.state = GameStates.SPONSOR_QUEST;
+			changeState(GameStates.SPONSOR_QUEST,questSponsor);
 		}
 
 		if (Card.Types.TOURNAMENT == card.type){
-			this.state = GameStates.TOURNAMENT_HANDLER;
+			changeState(GameStates.TOURNAMENT_HANDLER,storyTurn);
+			//this.state = GameStates.TOURNAMENT_HANDLER;
 		}
 
 		/*
@@ -149,6 +178,7 @@ public class GameModel{
 		 */
 		if(player == questSponsor.current() && sponsor && board.playerCanSponsor(player)){
 			this.state = GameStates.SPONSOR_SUBMIT;
+			//changeState(GameStates.SPONSOR_SUBMIT,
 		}
 		else if(player == questSponsor.current() && !sponsor){
 			questSponsor.removeCurrent();
