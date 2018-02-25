@@ -199,7 +199,7 @@ public class GameView extends HBox {
 
         addValidationListener(startGame, textField1, textField2, textField3, textField4);
 
-        VBox gameMenu = new VBox(20, title ,humanLabel, humanSlider, aiLabel, aiSlider, player1HB, player2HB, player3HB, player4HB, startGame);
+        VBox gameMenu = new VBox(20, title , startGame, humanLabel, humanSlider, aiLabel, aiSlider, player1HB, player2HB, player3HB, player4HB);
         gameMenu.setPadding(new Insets(100.0, 0.0, 0.0,0.0));
         gameMenu.setAlignment(Pos.TOP_LEFT);
 
