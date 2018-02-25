@@ -83,6 +83,16 @@ public class GameBoard extends AbstractGameBoard{
 
 	}
 
+	public List<Integer> playersToDiscard(){
+		List<Integer> temp = new ArrayList();	
+		for(Player p : players){
+			if(p.hand.size() > 12){
+				temp.add(p.id());	
+			}		
+		}
+		return temp;
+	}
+
 	public List<GenericPlayer> winningPlayers(){
 		List<GenericPlayer> temp = new ArrayList();
 		for(Player p : players){
@@ -251,6 +261,37 @@ public class GameBoard extends AbstractGameBoard{
 		this.currentQuestIndex = 0;
 		this.currentTournementStage = 0;
 		this.participants = new ArrayList();
+	}
+
+	public boolean discardHand(int player, List<Card> hand){
+
+		Player p = findPlayer(player);	
+
+		boolean validHand   = true;
+
+		List<AdventureCard> tempPlayerHand = new ArrayList(p.hand);
+		List<AdventureCard> submittedCards  = new ArrayList();
+
+		for(Card item: hand){
+			AdventureCard temp = findCard(p.hand,item);
+			if(temp == null)
+				return false;
+			submittedCards.add(temp);
+		}
+
+		for(AdventureCard card : submittedCards){
+			validHand = validHand && tempPlayerHand.remove(card);
+		}
+				
+
+
+		 if(!validHand)
+			return false;
+		
+		adventureDeckDiscard.addAll(submittedCards);
+		p.hand = tempPlayerHand;
+
+		return true;
 	}
 
 
