@@ -59,6 +59,10 @@ public class GameModel{
 		}
 	}
 
+	public int getNumberOfStages(){
+		return board.getCurrentQuestStages();
+	}
+
 	public ViewGameBoard getGameBoard(){
 		return board.getViewCopy();
 	}

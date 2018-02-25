@@ -688,6 +688,13 @@ public class GameBoard extends AbstractGameBoard{
 		return p.genericPlayer(this);
 	}
 
+	public int getCurrentQuestStages(){
+		if(currentStory != null && currentStory.type == Card.Types.QUEST){
+			return currentStory.getNumStages();
+		}
+		return 0;
+	}
+
 	protected List<Card> copyAdventureCards(List<AdventureCard> hand){
 		List<Card> cards = new ArrayList<Card>();
 		for(Card card : hand)
