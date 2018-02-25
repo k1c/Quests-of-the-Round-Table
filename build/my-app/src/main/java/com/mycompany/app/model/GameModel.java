@@ -65,7 +65,8 @@ public class GameModel{
 		board.initGame(numHumans, numAI, humanNames, CardLoader.loadAdventureCards(), CardLoader.loadStoryCards());
 		players = board.getPlayerIds();		
 		storyTurn = new Cycle<Integer>(players,0);
-		this.state = GameStates.BEGIN_TURN;
+		//this.state = GameStates.BEGIN_TURN;
+		changeState(GameStates.BEGIN_TURN,players.indexOf(storyTurn.current()));
 	}
 
 	public void registerObserver(GameObserver o){
@@ -92,7 +93,7 @@ public class GameModel{
 
     	//fix this
 	public GenericPlayer getCurrentPlayer(){
-		int p = storyTurn.current();
+		int p = currentPlayers.current();
 		return board.getGenericPlayer(p);
 	}
 
@@ -103,7 +104,7 @@ public class GameModel{
 
 	//fix this
 	public List<GenericPlayer> getWaitingPlayers(){
-		Cycle<Integer> waitingPlayersCycle = (new Cycle(storyTurn));
+		Cycle<Integer> waitingPlayersCycle = (new Cycle(currentPlayers));
 		waitingPlayersCycle.removeCurrent();
 		List<Integer>  waitingPlayers = waitingPlayersCycle.items();
 
