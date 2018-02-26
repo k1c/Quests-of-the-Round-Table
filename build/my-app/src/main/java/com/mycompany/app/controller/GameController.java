@@ -8,6 +8,7 @@
 
 package com.mycompany.app.controller;
 
+import com.mycompany.app.GameLogger;
 import com.mycompany.app.model.GameModel;
 import com.mycompany.app.view.*;
 import javafx.geometry.Insets;
@@ -46,7 +47,6 @@ public class GameController{
 
 	public void startGame(Stage primaryStage, int numHumans, int numAI, String[] humanNames) {
 		gameModel.initGame(numHumans, numAI, humanNames);
-
 
 		currentPlayerView = new CurrentPlayerView(gameModel);
 		waitingPlayersView = new WaitingPlayersView(gameModel);

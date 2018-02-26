@@ -27,8 +27,6 @@ public class Quests extends Application{
 
     @Override
     public void start(Stage primaryStage) {
-        LoggerMessageExample obj = new LoggerMessageExample();
-        obj.runMe("new person");
 
         primaryStage.setTitle(TITLE);
 

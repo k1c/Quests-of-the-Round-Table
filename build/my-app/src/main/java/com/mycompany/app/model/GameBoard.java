@@ -4,6 +4,7 @@ import java.lang.Math;
 import java.util.ArrayList;
 import java.util.Iterator;
 
+import com.mycompany.app.GameLogger;
 import com.mycompany.app.model.AdventureCard;
 import com.mycompany.app.model.Card;
 import com.mycompany.app.model.GameBoard;
@@ -31,8 +32,8 @@ public class GameBoard extends AbstractGameBoard{
 	protected int currentTournementStage;
 
 	protected TwoDimensionalArrayList<AdventureCard> quest;
-
 	public void initGame(int numHumans, int numAI, String[] names, List<AdventureCard> ad, List<StoryCard> sd){
+		GameLogger log = GameLogger.getInstanceUsingDoubleLocking();
 
 	    int num = numHumans+numAI;
 
@@ -56,13 +57,20 @@ public class GameBoard extends AbstractGameBoard{
 
 		Collections.shuffle(adventureDeck);
 		Collections.shuffle(storyDeck);
+		log.gameState("Adventure Deck Shuffled");
+		log.gameState("Story Deck Shuffled");
+
 
 		String[] shieldImages = {"Shield Blue.png", "Shield Red.png", "Shield Green.png", "Shield Purple.png"};
-		for(int i = 0; i < numHumans; i++)
+		for(int i = 0; i < numHumans; i++) {
 			this.players.add(new Player(names[i], shieldImages[i]));
+			log.objectCreation("Player","Player "+ (i+1) + " is named " + names[i]);
+		}
 
-        for(int i = 0; i < numAI; i++)
-            this.players.add(new Player("AI " + (i+1), shieldImages[i+numHumans]));
+        for(int i = 0; i < numAI; i++) {
+			this.players.add(new Player("AI " + (i + 1), shieldImages[i + numHumans]));
+			log.objectCreation("Player", "Player "+ (numHumans+i+1) + " is named AI " + (i + 1));
+		}
 
 		for(int i = 0; i < INITIAL_CARDS; i++){
 			for(Player p : players) {
