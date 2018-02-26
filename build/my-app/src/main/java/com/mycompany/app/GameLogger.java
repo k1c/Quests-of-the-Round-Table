@@ -57,15 +57,4 @@ public class GameLogger {
     public void fatal(String parameter) {
         logger.fatal("Fatal:" + WHITESPACE8 + parameter);
     }
-
-
-
-
-
-
-
-
-
-
-
 }
