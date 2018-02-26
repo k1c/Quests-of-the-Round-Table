@@ -123,18 +123,15 @@ public class GameModel{
 	    return this.state;
     }
 
-    	//fix this
 	public GenericPlayer getCurrentPlayer(){
 		int p = currentPlayers.current();
 		return board.getGenericPlayer(p);
 	}
 
-
 	public Card getCurrentStory(){
 		return board.getCurrentStoryCard();	
 	}
 
-	//fix this
 	public List<GenericPlayer> getWaitingPlayers(){
 		Cycle<Integer> waitingPlayersCycle = (new Cycle(currentPlayers));
 		waitingPlayersCycle.removeCurrent();
@@ -206,7 +203,6 @@ public class GameModel{
 		if(this.state != GameStates.SPONSOR_QUEST)
 			return;
 
-		System.out.println(questSponsor.items());
         int currPlayer = questSponsor.current();
 
 		/*
@@ -471,6 +467,37 @@ public class GameModel{
 		this.updateObservers();
 	}
 
+
+	/*
+	 * NEEDS : change player parameter to a Player Object
+	 */
+	public void participateTournamentEnd(int player,boolean participate){
+		if(this.state != GameStates.PARTICIPATE_TOURNAMENT)
+			return;
+
+		/*
+		 * ACTION : add player to quest
+		 */
+		if(player == participants.current() && participate){
+			this.board.addParticipant(this.participants.removeCurrent());
+		}
+		if(player == this.participants.current() && !participate){
+			//this.board.addParticipant(this.participants.removeCurrent());
+			participants.removeCurrent();
+		}
+
+		// change state
+		if(this.participants.size() <= 0){
+			this.state = GameStates.TOURNAMENT_HANDLER;
+		}
+		else if(this.participants.size() <= 0 && this.board.getParticipants().size() <= 0){
+			this.state = GameStates.TOURNAMENT_STAGE_END;	
+		}
+
+		this.updateObservers();
+
+	}
+
 	public void tournamentStageStart(){
 		if(this.state != GameStates.TOURNAMENT_HANDLER)
 			return;
@@ -522,10 +549,10 @@ public class GameModel{
 			return;
 		
 		//check for winner
-		board.completeTournementStage();
+		board.completeTournamentStage();
 
 		//check which round we are on
-		boolean anotherRound = board.nextTournement();
+		boolean anotherRound = board.nextTournament();
 		//TIE round 1 
 		if(anotherRound){
 			//clean up round 1, 
