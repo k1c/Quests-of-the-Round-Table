@@ -30,6 +30,9 @@ public class Player extends AbstractPlayer{
 		temp.toBePlayed.addAll(this.toBePlayed);
 		temp.inPlay.addAll(this.inPlay);
 
+		Collections.sort(temp.hand);
+		Collections.sort(temp.inPlay);
+
 		return temp;
 
 	}
