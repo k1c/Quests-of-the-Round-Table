@@ -399,7 +399,7 @@ public class GameModel{
 			return;
 
 		/*
-		 * ACTION : add player to quest
+		 * ACTION : add player to tournament
 		 */
 		if(player == participants.current() && participate){
 			this.board.addParticipant(this.participants.removeCurrent());
@@ -470,10 +470,10 @@ public class GameModel{
 			return;
 		
 		//check for winner
-		board.completeTournementStage();
+		board.completeTournamentStage();
 
 		//check which round we are on
-		boolean anotherRound = board.nextTournement();
+		boolean anotherRound = board.nextTournament();
 		//TIE round 1 
 		if(anotherRound){
 			//clean up round 1, 
