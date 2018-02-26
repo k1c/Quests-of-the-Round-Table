@@ -59,10 +59,10 @@ public class GameBoard extends AbstractGameBoard{
 
 		String[] shieldImages = {"Shield Blue.png", "Shield Red.png", "Shield Green.png", "Shield Purple.png"};
 		for(int i = 0; i < numHumans; i++)
-			this.players.add(new Player(names[i], shieldImages[i]));
+			this.players.add(new HumanPlayer(names[i], shieldImages[i]));
 
         for(int i = 0; i < numAI; i++)
-            this.players.add(new Player("AI " + (i+1), shieldImages[i+numHumans]));
+            this.players.add(new HumanPlayer("AI " + (i+1), shieldImages[i+numHumans]));
 
 		for(int i = 0; i < INITIAL_CARDS; i++){
 			for(Player p : players) {
