@@ -350,8 +350,6 @@ public class GameBoard extends AbstractGameBoard{
 			}
 
 			if(cardListHas(stageList,Card.Types.FOE) && currentBP >= lastBP){
-				System.out.println("Current " + currentBP);
-				System.out.println("Last " + lastBP);
 				lastBP = currentBP;
 			}
 			else if (cardListHas(stageList, Card.Types.FOE)){
@@ -361,22 +359,18 @@ public class GameBoard extends AbstractGameBoard{
 
 		//any stage has invalid setup
 		if(!validStage) {
-			System.out.println("submitQuest false 2");
 			return false;
 		}
 		//too many tests
 		if(testNumber > 1) {
-			System.out.println("submitQuest false 3");
 			return false;
 		}
 		//BP does not follow BP order
 		if(!validBP) {
-			System.out.println("submitQuest false 4");
 			return false;
 		}
 		//Player does not have the hand to support quest
 		if(!validHand) {
-			System.out.println("submitQuest false 5");
 			return false;
 		}
 
@@ -419,26 +413,21 @@ public class GameBoard extends AbstractGameBoard{
 		// get total BP
 		for(AdventureCard card : quest){
 			questBP += card.getBattlePoints(this);
-			System.out.println("Quest BP: " + questBP);
 		}
 
 		// play all cards to be played
 		for(Player participant : this.participants){
 			participant.inPlay.addAll(participant.toBePlayed);
 			participant.toBePlayed.clear();
-			System.out.println("inPlay: " + participant.id + participant.inPlay.size());
 		}
 		
 		// simulate the battle
 		for(Player participant : this.participants){
-			System.out.println("Total BP: " + participant + " " + participant.getTotalBP(this) );
 			if(participant.getTotalBP(this) >= questBP){
 				tempParticipants.add(participant);
-				System.out.println("Temp Players: " + participant);
 			}
 			else{
 				droppedPlayers.add(participant);
-				System.out.println("Dropped Players: " + participant);
 			}
 		}
 
@@ -581,8 +570,6 @@ public class GameBoard extends AbstractGameBoard{
 		int BP = 0;
 
 		for(AdventureCard item: list){
-			System.out.println("Item: " + item);
-			System.out.println("Item BP: " + item.getBattlePoints(this));
 			BP += item.getBattlePoints(this); 	
 		}
 
@@ -621,34 +608,22 @@ public class GameBoard extends AbstractGameBoard{
 
 		//the stage is not unique
 		if(cardSet.size() != stage.size()) {
-			System.out.println("cardSet size" + cardSet.size());
-			System.out.println("cardSet " + cardSet.toString());
-			System.out.println("stage size" + stage.size());
-			System.out.println("cardStage " + stage.toString());
-			System.out.println("cardStage " + cardSet.toString());
-
-			System.out.println("validateStage false 1");
 			return false;
 		}
 		//the stage does not have a foe nor a test
 		if(foeNumber != 1 && testNumber != 1) {
-
-			System.out.println("validateStage false 2");
 			return false;
 		}
 		//the stage has too many tests for 1 foe
 		if(foeNumber == 1 && testNumber > 0) {
-			System.out.println("validateStage false 3");
 			return false;
 		}
 		//the stage has too many foes for 1 test 
 		if(testNumber == 1 && stage.size() > 1) {
-			System.out.println("validateStage false 4");
 			return false;
 		}
 		//there only exists foes weapons and tests
 		if((foeNumber+testNumber+weaponNumber) != stage.size()) {
-			System.out.println("validateStage false 5");
 			return false;
 		}
 
