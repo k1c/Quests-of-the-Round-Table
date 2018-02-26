@@ -25,9 +25,12 @@ public class CardLoaderTest extends TestCase{
 		cards.addAll(CardLoader.loadAdventureCards());
 
 
+		// ADVENTURE CARDS
+
 		assertEquals(125,cards.size());
 
-		// Weapons 
+		// WEAPONS
+
 		//Excalibur
 		assertEquals(2,countId(cards,1));
 		//Lance
@@ -43,7 +46,8 @@ public class CardLoaderTest extends TestCase{
 
 
 
-		// Foes 
+		// FOES
+
 		// Dragon
 		assertEquals(1,countId(cards,7));
 		// Giant
@@ -68,14 +72,14 @@ public class CardLoaderTest extends TestCase{
 		assertEquals(8,countId(cards,17));
 
 
-		// Tests 
+		// TESTS
 
 		assertEquals(2,countId(cards,18));
 		assertEquals(2,countId(cards,19));
 		assertEquals(2,countId(cards,20));
 		assertEquals(2,countId(cards,21));
 
-		// Allies 
+		// ALLIES
 
 		// Sir Galahad
 		assertEquals(1,countId(cards,22));
@@ -98,38 +102,39 @@ public class CardLoaderTest extends TestCase{
 		// Merlin
 		assertEquals(1,countId(cards,31));
 
-		// Amours 
+		// AMOURS
+
 		assertEquals(8,countId(cards,32));
 
 
 		List<Card> storyDeck = new ArrayList();
 		storyDeck.addAll(CardLoader.loadStoryCards());
 
-		// Story Cards 
+		// STORY CARDS
 
 		assertEquals(28,storyDeck.size());
 		
-		// Quests 
+		// QUESTS
 
-		// search for the holy grail
+		// Search for the Holy Grail
 		assertEquals(1,countId(storyDeck,33));
-		// the of the green knight
+		// Test of the Green Knight
 		assertEquals(1,countId(storyDeck,34));
-		// search of the questing beast 
+		// Search for the Questing Beast
 		assertEquals(1,countId(storyDeck,35));
-		// defend the queen's honour
+		// Defend the Queen's Honour
 		assertEquals(1,countId(storyDeck,36));
-		// rescue the fair maiden
+		// Rescue the Fair Maiden
 		assertEquals(1,countId(storyDeck,37));
-		// journey though the enchanted forest
+		// Journey though the Enchanted Forest
 		assertEquals(1,countId(storyDeck,38));
-		// vanquish king Arthur's enemies
+		// Vanquish King Arthur's Enemies
 		assertEquals(2,countId(storyDeck,39));
-		// slay the dragon
+		// Slay the Dragon
 		assertEquals(1,countId(storyDeck,40));
-		// boar hunt
+		// Boar Hunt
 		assertEquals(2,countId(storyDeck,41));
-		// repel the Saxon raiders
+		// Repel the Saxon Raiders
 		assertEquals(2,countId(storyDeck,42));
 		*/
 

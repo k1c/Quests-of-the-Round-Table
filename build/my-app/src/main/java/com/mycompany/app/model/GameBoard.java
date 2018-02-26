@@ -28,7 +28,7 @@ public class GameBoard extends AbstractGameBoard{
 	protected StoryCard eventKingsRecognition;
 	protected StoryCard currentStory;
 	protected int currentQuestIndex;
-	protected int currentTournementStage;
+	protected int currentTournamentStage;
 
 	protected TwoDimensionalArrayList<AdventureCard> quest;
 
@@ -42,7 +42,7 @@ public class GameBoard extends AbstractGameBoard{
 
 		this.currentStory = null;
 		this.currentQuestIndex = 0;
-		this.currentTournementStage = 0;
+		this.currentTournamentStage = 0;
 
 
 
@@ -66,11 +66,11 @@ public class GameBoard extends AbstractGameBoard{
 
 		for(int i = 0; i < INITIAL_CARDS; i++){
 			for(Player p : players) {
-				//placeholder
+				/*//placeholder
 				if (i<5){
 					p.inPlay.add(adventureDeck.remove(adventureDeck.size()-1));
 				}
-				//placeholder
+				//placeholder*/
 				drawFromAdventureDeck(p);
 			}
 		}
@@ -94,7 +94,7 @@ public class GameBoard extends AbstractGameBoard{
 
 	protected void drawFromAdventureDeck(Player p){
 
-		System.out.println("Adventure Deck Draw");
+		//System.out.println("Adventure Deck Draw");
 
 		if(adventureDeck.size() <= 0){
 			Collections.shuffle(adventureDeckDiscard);
@@ -179,12 +179,12 @@ public class GameBoard extends AbstractGameBoard{
 		return true;
 	}
 
-	public boolean nextTournement(){
-		currentTournementStage++;
-		return !(this.participants.size() == 1) && (this.currentTournementStage < 2); 
+	public boolean nextTournament(){
+		currentTournamentStage++;
+		return !(this.participants.size() == 1) && (this.currentTournamentStage < 2);
 	}
 
-	public void completeTournementStage(){
+	public void completeTournamentStage(){
 		List<Player> tempParticipants = new ArrayList();
 		List<Player> droppedPlayers = new ArrayList();
 		int maxBP = Integer.MIN_VALUE;
@@ -241,15 +241,17 @@ public class GameBoard extends AbstractGameBoard{
 		/*
 		 * Replace the '2' with the current Story stages
 		 */
-		return bp.size() + numberOfTests >= 2;
+		return bp.size() + numberOfTests >= currentStory.getNumStages();
 	}
 
 	protected void resetQuest(){
-		adventureDeckDiscard.addAll(this.quest.toList());
-		this.quest.clear();
+		if(this.quest != null) {
+			adventureDeckDiscard.addAll(this.quest.toList());
+			this.quest.clear();
+		}
 		this.sponsor = null;
 		this.currentQuestIndex = 0;
-		this.currentTournementStage = 0;
+		this.currentTournamentStage = 0;
 		this.participants = new ArrayList();
 	}
 
@@ -268,8 +270,9 @@ public class GameBoard extends AbstractGameBoard{
 
 		for(Card item: hand){
 			AdventureCard temp = findCard(p.hand,item);
-			if(temp == null)
+			if(temp == null) {
 				return false;
+			}
 			submittedCards.add(temp);
 		}
 
@@ -285,14 +288,17 @@ public class GameBoard extends AbstractGameBoard{
 		set.addAll(submittedCards);
 		set.addAll(p.inPlay);
 
-		 duplicates = (set.size() == (submittedCards.size() + p.inPlay.size()));
+		duplicates = (set.size() == (submittedCards.size() + p.inPlay.size()));
 
-		 if(!validHand)
-			return false;
-		 if(!correctType)
+		 if(!validHand) {
 			 return false;
-		 if(!duplicates)
+		 }
+		 if(!correctType) {
 			 return false;
+		 }
+		 if(!duplicates) {
+			 return false;
+		 }
 		
 		p.toBePlayed = submittedCards;		
 		p.hand = tempPlayerHand;
@@ -318,8 +324,9 @@ public class GameBoard extends AbstractGameBoard{
 		for(ArrayList<Card> stageList : playerQuest){
 			for(Card item : stageList){
 				AdventureCard temp = findCard(p.hand,item);
-				if(temp == null)
+				if(temp == null) {
 					return false;
+				}
 				quest.addToInnerArray(stage,temp);
 			}
 			stage++;
@@ -343,23 +350,35 @@ public class GameBoard extends AbstractGameBoard{
 			}
 
 			if(cardListHas(stageList,Card.Types.FOE) && currentBP >= lastBP){
+				System.out.println("Current " + currentBP);
+				System.out.println("Last " + lastBP);
+				lastBP = currentBP;
+			}
+			else if (cardListHas(stageList, Card.Types.FOE)){
 				validBP = false;
 			}
 		}
 
 		//any stage has invalid setup
-		if(!validStage)
+		if(!validStage) {
+			System.out.println("submitQuest false 2");
 			return false;
+		}
 		//too many tests
-		if(testNumber > 1)
+		if(testNumber > 1) {
+			System.out.println("submitQuest false 3");
 			return false;
+		}
 		//BP does not follow BP order
-		if(!validBP)
+		if(!validBP) {
+			System.out.println("submitQuest false 4");
 			return false;
+		}
 		//Player does not have the hand to support quest
-		if(!validHand)
+		if(!validHand) {
+			System.out.println("submitQuest false 5");
 			return false;
-
+		}
 
 		//submit final changes
 		resetQuest();
@@ -379,7 +398,7 @@ public class GameBoard extends AbstractGameBoard{
 	}
 
 	public void endQuest(){
-		// remove cards weapons and amours from allies
+		// remove weapons and amours from allies
 		for(Player participant : this.participants){
 			resetTypeInPlay(participant,Card.Types.WEAPON);	
 			resetTypeInPlay(participant,Card.Types.AMOUR);	
@@ -400,21 +419,26 @@ public class GameBoard extends AbstractGameBoard{
 		// get total BP
 		for(AdventureCard card : quest){
 			questBP += card.getBattlePoints(this);
+			System.out.println("Quest BP: " + questBP);
 		}
 
 		// play all cards to be played
 		for(Player participant : this.participants){
 			participant.inPlay.addAll(participant.toBePlayed);
 			participant.toBePlayed.clear();
+			System.out.println("inPlay: " + participant.id + participant.inPlay.size());
 		}
 		
 		// simulate the battle
 		for(Player participant : this.participants){
+			System.out.println("Total BP: " + participant + " " + participant.getTotalBP(this) );
 			if(participant.getTotalBP(this) >= questBP){
 				tempParticipants.add(participant);
+				System.out.println("Temp Players: " + participant);
 			}
 			else{
 				droppedPlayers.add(participant);
+				System.out.println("Dropped Players: " + participant);
 			}
 		}
 
@@ -545,7 +569,7 @@ public class GameBoard extends AbstractGameBoard{
 
 
 	public void resetTypeInPlay(Player p,Card.Types type){
-		for(AdventureCard card : p.inPlay){
+		for(AdventureCard card : new ArrayList<>(p.inPlay)){
 			if(card.type == type){
 				adventureDeckDiscard.add(card);
 				p.inPlay.remove(card);
@@ -557,6 +581,8 @@ public class GameBoard extends AbstractGameBoard{
 		int BP = 0;
 
 		for(AdventureCard item: list){
+			System.out.println("Item: " + item);
+			System.out.println("Item BP: " + item.getBattlePoints(this));
 			BP += item.getBattlePoints(this); 	
 		}
 
@@ -594,20 +620,37 @@ public class GameBoard extends AbstractGameBoard{
 		}
 
 		//the stage is not unique
-		if(cardSet.size() != stage.size())
+		if(cardSet.size() != stage.size()) {
+			System.out.println("cardSet size" + cardSet.size());
+			System.out.println("cardSet " + cardSet.toString());
+			System.out.println("stage size" + stage.size());
+			System.out.println("cardStage " + stage.toString());
+			System.out.println("cardStage " + cardSet.toString());
+
+			System.out.println("validateStage false 1");
 			return false;
+		}
 		//the stage does not have a foe nor a test
-		if(foeNumber != 1 || testNumber != 1)
+		if(foeNumber != 1 && testNumber != 1) {
+
+			System.out.println("validateStage false 2");
 			return false;
+		}
 		//the stage has too many tests for 1 foe
-		if(foeNumber == 1 && testNumber > 0)
+		if(foeNumber == 1 && testNumber > 0) {
+			System.out.println("validateStage false 3");
 			return false;
+		}
 		//the stage has too many foes for 1 test 
-		if(testNumber == 1 && stage.size() > 1)
+		if(testNumber == 1 && stage.size() > 1) {
+			System.out.println("validateStage false 4");
 			return false;
+		}
 		//there only exists foes weapons and tests
-		if((foeNumber+testNumber+weaponNumber) != stage.size())
+		if((foeNumber+testNumber+weaponNumber) != stage.size()) {
+			System.out.println("validateStage false 5");
 			return false;
+		}
 
 		return true;
 	}
@@ -693,6 +736,16 @@ public class GameBoard extends AbstractGameBoard{
 			return currentStory.getNumStages();
 		}
 		return 0;
+	}
+
+	public int getNumQuestCards(){
+		int counter = 0;
+		for(ArrayList<AdventureCard> stage : quest) {
+			for (Card item : stage) {
+				counter++;
+			}
+		}
+		return counter;
 	}
 
 	protected List<Card> copyAdventureCards(List<AdventureCard> hand){

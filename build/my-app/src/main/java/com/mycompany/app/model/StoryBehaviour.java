@@ -8,6 +8,7 @@ public class StoryBehaviour {
     protected ArrayList<Integer> specified;
 
     public StoryBehaviour(int numShields){
+
         this.numShields = numShields;
     };
 
@@ -15,7 +16,9 @@ public class StoryBehaviour {
         return this.numShields;
     }
 
-    public void applyBehaviour(GameBoard b, int player){};
+    public void applyBehaviour(GameBoard b, int player){
+        System.out.println("Applying Story Behaviour" + player);
+    };
 
 }
 

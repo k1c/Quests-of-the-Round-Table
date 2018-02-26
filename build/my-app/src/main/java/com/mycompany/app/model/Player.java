@@ -46,4 +46,5 @@ public class Player extends AbstractPlayer{
 		return getInPlayBp(board) + rank.getBP();
 	}
 
+
 }

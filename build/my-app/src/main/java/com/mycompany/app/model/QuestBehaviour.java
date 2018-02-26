@@ -15,7 +15,7 @@ public class QuestBehaviour extends StoryBehaviour{
         }
 
         //sponsor draws adventure cards
-        for(int i = 0; i < (b.currentStory.getNumStages() + b.quest.size()); i++){
+        for(int i = 0; i < (b.currentStory.getNumStages() + b.getNumQuestCards()); i++){
             b.drawFromAdventureDeck(b.sponsor);
         }
 
