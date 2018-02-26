@@ -274,6 +274,9 @@ public class GameBoard extends AbstractGameBoard{
 		List<AdventureCard> tempPlayerHand = new ArrayList(p.hand);
 		List<AdventureCard> submittedCards  = new ArrayList();
 
+		List<AdventureCard> allies   = new ArrayList();
+		List<AdventureCard> discards = new ArrayList();
+
 		for(Card item: hand){
 			AdventureCard temp = findCard(p.hand,item);
 			if(temp == null)
@@ -283,6 +286,12 @@ public class GameBoard extends AbstractGameBoard{
 
 		for(AdventureCard card : submittedCards){
 			validHand = validHand && tempPlayerHand.remove(card);
+			if(card.type == Card.Types.ALLY){
+				allies.add(card);
+			}
+			else{
+				discards.add(card);
+			}
 		}
 				
 
@@ -290,7 +299,8 @@ public class GameBoard extends AbstractGameBoard{
 		 if(!validHand)
 			return false;
 		
-		adventureDeckDiscard.addAll(submittedCards);
+		adventureDeckDiscard.addAll(discards);
+		p.inPlay.addAll(allies);
 		p.hand = tempPlayerHand;
 
 		return true;
