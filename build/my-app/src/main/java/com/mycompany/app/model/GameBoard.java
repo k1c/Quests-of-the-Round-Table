@@ -4,6 +4,7 @@ import java.lang.Math;
 import java.util.ArrayList;
 import java.util.Iterator;
 
+import com.mycompany.app.GameLogger;
 import com.mycompany.app.model.AdventureCard;
 import com.mycompany.app.model.Card;
 import com.mycompany.app.model.GameBoard;
@@ -29,10 +30,12 @@ public class GameBoard extends AbstractGameBoard{
 	protected StoryCard currentStory;
 	protected int currentQuestIndex;
 	protected int currentTournamentStage;
+	GameLogger log = GameLogger.getInstanceUsingDoubleLocking();
+
 
 	protected TwoDimensionalArrayList<AdventureCard> quest;
-
 	public void initGame(int numHumans, int numAI, String[] names, List<AdventureCard> ad, List<StoryCard> sd){
+		log.gameState("Game Board Screen");
 
 	    int num = numHumans+numAI;
 
@@ -57,12 +60,23 @@ public class GameBoard extends AbstractGameBoard{
 		Collections.shuffle(adventureDeck);
 		Collections.shuffle(storyDeck);
 
-		String[] shieldImages = {"Shield Blue.png", "Shield Red.png", "Shield Green.png", "Shield Purple.png"};
-		for(int i = 0; i < numHumans; i++)
-			this.players.add(new HumanPlayer(names[i], shieldImages[i]));
+		log.gameState("Adventure Deck Shuffled");
+		log.gameState("Story Deck Shuffled");
+		log.count("Total Players",num);
+		log.count("Humans",numHumans);
+		log.count("AIs", numAI);
 
-        for(int i = 0; i < numAI; i++)
-            this.players.add(new HumanPlayer("AI " + (i+1), shieldImages[i+numHumans]));
+		String[] shieldImages = {"Shield Blue.png", "Shield Red.png", "Shield Green.png", "Shield Purple.png"};
+
+		for(int i = 0; i < numHumans; i++) {
+			this.players.add(new HumanPlayer(names[i], shieldImages[i]));
+			log.objectCreation("Player","Player "+ (i+1) + " is named " + names[i]);
+		}
+
+		for(int i = 0; i < numAI; i++) {
+			this.players.add(new HumanPlayer("AI " + (i+1), shieldImages[i+numHumans]));
+			log.objectCreation("Player", "Player "+ (numHumans+i+1) + " is named AI " + (i + 1));
+		}
 
 		for(int i = 0; i < INITIAL_CARDS; i++){
 			for(Player p : players) {
@@ -104,8 +118,6 @@ public class GameBoard extends AbstractGameBoard{
 
 	protected void drawFromAdventureDeck(Player p){
 
-		//System.out.println("Adventure Deck Draw");
-
 		if(adventureDeck.size() <= 0){
 			Collections.shuffle(adventureDeckDiscard);
 			List<AdventureCard> temp = adventureDeck;
@@ -115,14 +127,14 @@ public class GameBoard extends AbstractGameBoard{
 		if(adventureDeck.size() <= 0)
 			return;
 
-		p.hand.add(adventureDeck.remove(adventureDeck.size()-1));
+		AdventureCard ac = adventureDeck.remove(adventureDeck.size()-1);
+		p.hand.add(ac);
+		log.playerCard(p,ac,"Adventure Deck");
 
 		//if (p.hand.size > 12) discardAdventureCards()
 	}
 
 	protected void drawFromStoryDeck(Player p){
-
-		System.out.println("Story Deck Draw");
 
 		resetStory();
 
@@ -137,6 +149,7 @@ public class GameBoard extends AbstractGameBoard{
 
 
 		currentStory = storyDeck.remove(storyDeck.size()-1);
+		log.playerCard(p,currentStory,"Story Deck");
 	}
 
 	public void applyStoryCardLogic(int player) {
@@ -181,7 +194,7 @@ public class GameBoard extends AbstractGameBoard{
 
 	public boolean nextStage(){
 
-		System.out.println("Next Stage");
+		log.gameState("Next Stage");
 
 		if(this.quest.size()-1 < this.currentQuestIndex)
 			return false;
@@ -233,9 +246,8 @@ public class GameBoard extends AbstractGameBoard{
 
 	public boolean playerCanSponsor(int id){
 
-		System.out.println("Player Sponsoring");	
-
-		Player p = findPlayer(id);	
+		Player p = findPlayer(id);
+		log.playerAction(p,"is attempting to Sponsor the Quest");
 		Set<Integer>	bp = new TreeSet<Integer>();
 		int numberOfTests = 0;
 
