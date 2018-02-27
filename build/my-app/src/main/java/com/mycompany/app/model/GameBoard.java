@@ -59,10 +59,10 @@ public class GameBoard extends AbstractGameBoard{
 
 		String[] shieldImages = {"Shield Blue.png", "Shield Red.png", "Shield Green.png", "Shield Purple.png"};
 		for(int i = 0; i < numHumans; i++)
-			this.players.add(new Player(names[i], shieldImages[i]));
+			this.players.add(new HumanPlayer(names[i], shieldImages[i]));
 
         for(int i = 0; i < numAI; i++)
-            this.players.add(new Player("AI " + (i+1), shieldImages[i+numHumans]));
+            this.players.add(new HumanPlayer("AI " + (i+1), shieldImages[i+numHumans]));
 
 		for(int i = 0; i < INITIAL_CARDS; i++){
 			for(Player p : players) {
@@ -81,6 +81,16 @@ public class GameBoard extends AbstractGameBoard{
 	}
 	public void loadGame(){
 
+	}
+
+	public List<Integer> playersToDiscard(){
+		List<Integer> temp = new ArrayList();	
+		for(Player p : players){
+			if(p.hand.size() > 12){
+				temp.add(p.id());	
+			}		
+		}
+		return temp;
 	}
 
 	public List<GenericPlayer> winningPlayers(){
@@ -253,6 +263,47 @@ public class GameBoard extends AbstractGameBoard{
 		this.currentQuestIndex = 0;
 		this.currentTournamentStage = 0;
 		this.participants = new ArrayList();
+	}
+
+	public boolean discardHand(int player, List<Card> hand){
+
+		Player p = findPlayer(player);	
+
+		boolean validHand   = true;
+
+		List<AdventureCard> tempPlayerHand = new ArrayList(p.hand);
+		List<AdventureCard> submittedCards  = new ArrayList();
+
+		List<AdventureCard> allies   = new ArrayList();
+		List<AdventureCard> discards = new ArrayList();
+
+		for(Card item: hand){
+			AdventureCard temp = findCard(p.hand,item);
+			if(temp == null)
+				return false;
+			submittedCards.add(temp);
+		}
+
+		for(AdventureCard card : submittedCards){
+			validHand = validHand && tempPlayerHand.remove(card);
+			if(card.type == Card.Types.ALLY){
+				allies.add(card);
+			}
+			else{
+				discards.add(card);
+			}
+		}
+				
+
+
+		 if(!validHand)
+			return false;
+		
+		adventureDeckDiscard.addAll(discards);
+		p.inPlay.addAll(allies);
+		p.hand = tempPlayerHand;
+
+		return true;
 	}
 
 

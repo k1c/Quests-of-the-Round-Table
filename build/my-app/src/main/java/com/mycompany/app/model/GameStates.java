@@ -23,6 +23,7 @@ public enum GameStates{
     STAGE_END,
     QUEST_END,
     WINNERS,
+    DISCARD,
     END_TURN
    }
 

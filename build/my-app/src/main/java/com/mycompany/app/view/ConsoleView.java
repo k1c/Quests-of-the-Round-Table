@@ -57,8 +57,9 @@ public class ConsoleView extends HBox{
         getChildren().add(index, consoleLog);
     }
 
-    public void showButton(String name, EventHandler<MouseEvent> handler) {
-        btnBox.getChildren().clear();
+    public void showButton(String name, EventHandler<MouseEvent> handler, int numButtons) {
+        if (numButtons == 1)
+            btnBox.getChildren().clear();
 
         getChildren().remove(btnBox);
 
