@@ -177,7 +177,6 @@ public class GameModel{
 		if(this.state != GameStates.SPONSOR_QUEST)
 			return;
 
-		System.out.println(questSponsor.items());
         int currPlayer = questSponsor.current();
 
 		/*
@@ -233,9 +232,11 @@ public class GameModel{
 			this.participants = new Cycle(players,players.indexOf(questSponsor.current()));
 			this.participants.removeCurrent();
 			changeState(GameStates.PARTICIPATE_QUEST,players.indexOf(this.participants.current()));
+			System.out.println("Valid");
+			this.updateObservers();
 			//this.state = GameStates.PARTICIPATE_QUEST;
 		}
-
+        System.out.println("Invalid");
 	}
 
 	/*

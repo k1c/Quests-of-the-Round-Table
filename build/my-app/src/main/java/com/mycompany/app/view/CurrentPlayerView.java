@@ -13,6 +13,7 @@
 package com.mycompany.app.view;
 
 import com.mycompany.app.model.*;
+import javafx.event.EventType;
 import javafx.geometry.*;
 import javafx.scene.control.Button;
 import javafx.scene.control.CheckBox;
@@ -41,6 +42,8 @@ import javafx.scene.text.Font;
     private static final int HEIGHT = 200;
     private static final int X_OFFSET = WIDTH/3;
 
+    private int handSpan;
+    private CheckBox show;
     private StackPane playerHand;
 
     public CurrentPlayerView(GameModel gameModel) {
@@ -83,7 +86,7 @@ import javafx.scene.text.Font;
 
         // how many columns needed to cover stacked cards
         double cardsPerCol = WIDTH/X_OFFSET;
-        int handSpan = (int) Math.floor(numInHand/cardsPerCol + 1);
+        handSpan = (int) Math.floor(numInHand/cardsPerCol + 1);
         int inplaySpan = (int) Math.ceil((numInPlay/cardsPerCol) + 1);
 
         // Total number of columns: 1 for rank, 1 for shield, handspan, inplay, BP
@@ -117,13 +120,13 @@ import javafx.scene.text.Font;
         buildShield(shield, handSpan);
 
         // add in hand
-        buildHand(hand, handSpan, true);
+        buildHand(hand, true, null, null);
 
         // add in play
-        buildInPlay(inplay, handSpan+2, inplaySpan);
+        buildInPlay(inplay, handSpan+3, inplaySpan);
 
         // add battle points
-        buildBattlePoints(current, numCol-1);
+        buildBattlePoints(current, numCol);
     }
 
     private void buildRank(String rank) {
@@ -171,15 +174,15 @@ import javafx.scene.text.Font;
         box.setPadding(new Insets(0, 0,0,20));
 
         // add checkbox for show/hide
-        CheckBox show = new CheckBox("Show hand");
+        show = new CheckBox("Show hand");
         show.setAllowIndeterminate(false);
-        show.setOnAction(e -> {
+        show.selectedProperty().addListener(e -> {
             if (getChildren().contains(playerHand)) getChildren().remove(playerHand);
 
             if (show.isSelected()) {
-                buildHand(current.hand, handSpan, false);
+                buildHand(current.hand, false, null, null);
             } else {
-                buildHand(current.hand, handSpan, true);
+                buildHand(current.hand,true, null, null);
             }
         });
 
@@ -204,12 +207,13 @@ import javafx.scene.text.Font;
         getChildren().add(box);
     }
 
-    private void buildHand(List<Card> hand, int handSpan, boolean faceDown){
+    public void buildHand(List<Card> hand, boolean faceDown, Button btn, Card.Types[] types){
+        if(getChildren().contains(playerHand)) getChildren().remove(playerHand);
 
         // Create player hand
         playerHand = new StackPane();
 
-        createStack(hand, playerHand, faceDown, true, HEIGHT, WIDTH, X_OFFSET);
+        createStack(hand, playerHand, faceDown, true, HEIGHT, WIDTH, X_OFFSET, btn, types);
 
         GridPane.setColumnIndex(playerHand, 2);
         GridPane.setColumnSpan(playerHand, handSpan);
@@ -224,7 +228,7 @@ import javafx.scene.text.Font;
         GridPane.setColumnIndex(playerInplay, index);
         GridPane.setColumnSpan(playerInplay, inplaySpan);
 
-        createStack(inPlay, playerInplay, false, true, HEIGHT, WIDTH, X_OFFSET);
+        createStack(inPlay, playerInplay, false, true, HEIGHT, WIDTH, X_OFFSET, null, null);
 
         getChildren().add(playerInplay);
     }
@@ -264,9 +268,21 @@ import javafx.scene.text.Font;
         getChildren().add(playerBP);
     }
 
+    public ImageView getFrontCard() {
+        return (ImageView) playerHand.getChildren().get(playerHand.getChildren().size() - 2);
+    }
 
     public void update() {
         this.current = gameModel.getCurrentPlayer();
+
         buildLayout();
+
+        GameStates s = gameModel.getState();
+        switch (s) {
+            case SPONSOR_SUBMIT:
+                if (!show.isSelected())
+                    show.setSelected(true);
+                break;
+        }
     }
 }

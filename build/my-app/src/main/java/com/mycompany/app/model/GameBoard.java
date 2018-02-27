@@ -364,7 +364,7 @@ public class GameBoard extends AbstractGameBoard{
 		//submit final changes
 		resetQuest();
 
-		p.hand = tempPlayerHand;	
+		p.hand = tempPlayerHand;
 		this.quest = quest;
 		this.sponsor = p;
 		this.currentQuestIndex = 0;
