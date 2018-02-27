@@ -9,6 +9,7 @@
 package com.mycompany.app.view;
 
 import com.mycompany.app.Quests;
+import com.mycompany.app.model.GameModel;
 import com.mycompany.app.model.GameObserver;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
@@ -17,71 +18,70 @@ import javafx.scene.layout.*;
 public class QuestsView extends GridPane implements GameObserver{
     private final int WIDTH = 146;
     private final int HEIGHT = 200;
+    private final GameModel gameModel;
 
-    public QuestsView() {
+    public QuestsView(GameModel gameModel) {
+        this.gameModel = gameModel;
+
         setHgap(10.0);
 
-        // Num cols and num rows
-        int numCols = 5;
-        int numRows = 2;
+        buildLayout();
+    }
 
-        for (int i = 0; i < numCols+1; i++) {
-            ColumnConstraints questC = new ColumnConstraints();
-            questC.setHgrow(Priority.SOMETIMES);
-            questC.setMinWidth(WIDTH);
-            questC.setPrefWidth(WIDTH);
-            getColumnConstraints().add(questC);
+    private void buildLayout() {
+        getChildren().clear();
+
+        while (getRowConstraints().size() > 0) {
+            getRowConstraints().remove(0);
         }
 
-        for (int i = 0; i < numRows; i++) {
+        while (getColumnConstraints().size() > 0) {
+            getColumnConstraints().remove(0);
+        }
+
+        // Get quest info
+        int numStages = this.gameModel.getNumberOfStages();
+        ImageView questCard = new ImageView(new Image(this.gameModel.getCurrentStory().res));
+
+        // Build grid
+        // 2 rows
+        // numStages columns + 1 for quest card
+
+        // Columns
+        for (int i = 0; i < numStages + 1; i++) {
+            ColumnConstraints col = new ColumnConstraints();
+            col.setHgrow(Priority.SOMETIMES);
+            col.setMinWidth(WIDTH);
+            col.setPrefWidth(WIDTH);
+            getColumnConstraints().add(col);
+        }
+
+        // Rows
+        for (int i = 0; i < 2; i++) {
             RowConstraints row = new RowConstraints();
-            row.setMaxHeight(HEIGHT);
+            row.setVgrow(Priority.SOMETIMES);
             row.setMinHeight(HEIGHT);
             row.setPrefHeight(HEIGHT);
-            row.setVgrow(Priority.SOMETIMES);
             getRowConstraints().add(row);
         }
 
-        for (int i = 1; i < numCols+1; i++) {
-            StackPane card = new StackPane();
-            GridPane.setColumnIndex(card, i);
-            GridPane.setRowIndex(card, 0);
+        // Display Quest card
+        showQuestCard(questCard);
 
-            ImageView img = new ImageView(new Image("F Thieves.jpg"));
-            img.setFitHeight(HEIGHT);
-            img.setFitWidth(WIDTH);
+        // Display Stages placeholders
 
-            card.getChildren().add(img);
-            getChildren().add(card);
-        }
+        // Display Weapon placeholders
 
-        for (int i = 1; i < numCols+1; i++) {
-            StackPane card = new StackPane();
-            GridPane.setColumnIndex(card, i);
-            GridPane.setRowIndex(card, 1);
+        // Display total BP
+    }
 
-            for (int j = 0; j < 6; j++) {
-                ImageView c = new ImageView(new Image("W Dagger.jpg"));
-                c.setFitWidth(WIDTH);
-                c.setFitHeight(HEIGHT);
-                c.setTranslateY((HEIGHT/6) * j);
-                card.getChildren().add(c);
-            }
+    private void showQuestCard (ImageView questCard) {
+        StackPane qc = new StackPane();
 
-            getChildren().add(card);
-        }
+        qc.getChildren().add(questCard);
 
-
-        StackPane questCard = new StackPane();
-        GridPane.setColumnIndex(questCard, 0);
-        GridPane.setRowIndex(questCard, 0);
-
-        ImageView card = new ImageView(new Image("Q Boar Hunt.jpg"));
-
-        card.setFitHeight(HEIGHT);
-        card.setFitWidth(WIDTH);
-
-        questCard.getChildren().add(card);
+        GridPane.setRowIndex(qc, 0);
+        GridPane.setColumnIndex(qc, 0);
 
         getChildren().add(questCard);
     }

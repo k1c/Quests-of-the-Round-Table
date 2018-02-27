@@ -17,7 +17,10 @@ public class Cycle<T>{
     }
 
     protected int getIndex(){
-        currentIndex = currentIndex % list.size();  
+	if(list.size() <= 0)
+		currentIndex = 0;
+	else
+		currentIndex = currentIndex % list.size();  
         return currentIndex;
     }
     protected int nextIndex(){

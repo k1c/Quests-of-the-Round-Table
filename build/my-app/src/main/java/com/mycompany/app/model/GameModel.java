@@ -10,6 +10,10 @@ public class GameModel{
 	private List<GameObserver> observers;
 	private GameStates state;
 
+	//for when there is a discard interrupt
+	private GameStates savedState;
+	private int savedIndex;
+
 	private int numberOfPlayers;
 
 	//Active Story Player
@@ -26,13 +30,60 @@ public class GameModel{
 	private Cycle<Integer> storyTurn;
 	private Cycle<Integer> questSponsor;
 	private Cycle<Integer> participants;
+	private Cycle<Integer> discard;
+
+	private Cycle<Integer> currentPlayers;
 	private int participationCounter;
+
+
+	public boolean discard (int playerId, List<Card> discards){
+		if(this.state != GameStates.DISCARD)
+			return false;
+
+		if(this.discard.current() != playerId)
+			return false;
+
+		boolean valid = board.discardHand(playerId,discards);
+
+		if(!valid)
+			return false;
+
+		discard.removeCurrent();
+
+		if(discard.size() <= 0)
+			changeState(this.savedState,this.savedIndex);
+		else{
+			changeState(GameStates.DISCARD,discard.current());
+		}
+
+		return true;
+
+	}
+
+	protected void changeState(GameStates state,int playerId){
+		List<Integer> playersOverLimit = board.playersToDiscard();//get players over limit
+
+		// Discard
+		if(playersOverLimit.size() > 0 && this.state != GameStates.DISCARD){
+			this.savedState = state;
+			this.savedIndex = this.players.indexOf(playerId);
+			this.state = GameStates.DISCARD;
+
+			this.currentPlayers = new Cycle(playersOverLimit,0);
+		}
+		//Change State
+		else{
+			this.currentPlayers = new Cycle(players,players.indexOf(playerId));
+			this.state = state;
+		}
+		
+	}
 
 	public GameModel(){
 		observers = new ArrayList<GameObserver>();
 		board = new GameBoard();
 		
-		}
+	}
 
 
 	public void initGame(int numHumans,int numAI,String[] humanNames){
@@ -42,7 +93,8 @@ public class GameModel{
 		board.initGame(numHumans, numAI, humanNames, CardLoader.loadAdventureCards(), CardLoader.loadStoryCards());
 		players = board.getPlayerIds();		
 		storyTurn = new Cycle<Integer>(players,0);
-		this.state = GameStates.BEGIN_TURN;
+		//this.state = GameStates.BEGIN_TURN;
+		changeState(GameStates.BEGIN_TURN,players.indexOf(storyTurn.current()));
 	}
 
 	public void registerObserver(GameObserver o){
@@ -72,7 +124,7 @@ public class GameModel{
     }
 
 	public GenericPlayer getCurrentPlayer(){
-		int p = storyTurn.current();
+		int p = currentPlayers.current();
 		return board.getGenericPlayer(p);
 	}
 
@@ -81,7 +133,7 @@ public class GameModel{
 	}
 
 	public List<GenericPlayer> getWaitingPlayers(){
-		Cycle<Integer> waitingPlayersCycle = (new Cycle(storyTurn));
+		Cycle<Integer> waitingPlayersCycle = (new Cycle(currentPlayers));
 		waitingPlayersCycle.removeCurrent();
 		List<Integer>  waitingPlayers = waitingPlayersCycle.items();
 
@@ -119,17 +171,20 @@ public class GameModel{
 
 		
 		if (Card.Types.EVENT == card.type){
-			this.state = GameStates.EVENT_LOGIC;
+			changeState(GameStates.EVENT_LOGIC,storyTurn.current());
+			//this.state = GameStates.EVENT_LOGIC;
 		}
 
 		if (Card.Types.QUEST == card.type){
-			this.state = GameStates.SPONSOR_QUEST;
 			// start a cycle  with the sponsor as current player
 			questSponsor = new Cycle<Integer>(players,players.indexOf(storyTurn.current()));
+			//this.state = GameStates.SPONSOR_QUEST;
+			changeState(GameStates.SPONSOR_QUEST,questSponsor.current());
 		}
 
 		if (Card.Types.TOURNAMENT == card.type){
-			this.state = GameStates.TOURNAMENT_HANDLER;
+			changeState(GameStates.TOURNAMENT_HANDLER,storyTurn.current());
+			//this.state = GameStates.TOURNAMENT_HANDLER;
 		}
 
 		/*
@@ -148,16 +203,19 @@ public class GameModel{
 		if(this.state != GameStates.SPONSOR_QUEST)
 			return;
 
+        int currPlayer = questSponsor.current();
+
 		/*
 		 * Verify that they can sponsor with current cards
 		 */
-		if(player == questSponsor.current() && sponsor && board.playerCanSponsor(player)){
-			this.state = GameStates.SPONSOR_SUBMIT;
+		if(player == currPlayer && sponsor && board.playerCanSponsor(player)){
+			//this.state = GameStates.SPONSOR_SUBMIT;
+			changeState(GameStates.SPONSOR_SUBMIT,questSponsor.current());
 		}
-		else if(player == questSponsor.current() && !sponsor){
+		else if(player == currPlayer && !sponsor){
 			questSponsor.removeCurrent();
 		}
-		else if(player == questSponsor.current() && !board.playerCanSponsor(player)){
+		else if(player == currPlayer && !board.playerCanSponsor(player)){
 			questSponsor.removeCurrent();	
 		}
 
@@ -166,8 +224,11 @@ public class GameModel{
 		 * Check if there are any more items
 		 */
 		if(questSponsor.size() <= 0){
-			this.state = GameStates.END_TURN;
-		}
+			//this.state = GameStates.END_TURN;
+			changeState(GameStates.BEGIN_TURN, storyTurn.next());
+		} else if (this.state != GameStates.SPONSOR_SUBMIT){
+            changeState(GameStates.SPONSOR_QUEST,questSponsor.current());
+        }
 		
 		this.updateObservers();
 
@@ -196,8 +257,8 @@ public class GameModel{
 		if(questSponsor.current() == player && board.submitQuest(quest,player)){
 			this.participants = new Cycle(players,players.indexOf(questSponsor.current()));
 			this.participants.removeCurrent();
-
-			this.state = GameStates.PARTICIPATE_QUEST;
+			changeState(GameStates.PARTICIPATE_QUEST,this.participants.current());
+			//this.state = GameStates.PARTICIPATE_QUEST;
 		}
 
 	}
@@ -221,10 +282,12 @@ public class GameModel{
 
 		// change state
 		if(this.participants.size() <= 0){
-			this.state = GameStates.QUEST_HANDLER;
+			//this.state = GameStates.QUEST_HANDLER;
+			changeState(GameStates.QUEST_HANDLER,this.participants.current());
 		}
 		else if(this.participants.size() <= 0 && this.board.getParticipants().size() <= 0){
-			this.state = GameStates.QUEST_END;	
+			//this.state = GameStates.QUEST_END;	
+			changeState(GameStates.QUEST_HANDLER,this.participants.current());
 		}
 
 		this.updateObservers();
@@ -242,10 +305,14 @@ public class GameModel{
 		//draw card
 		board.beginEncounter();
 
-		if(board.stageType(Card.Types.FOE))
-			this.state = GameStates.STAGE_FOE;
-		if(board.stageType(Card.Types.TEST))
-			this.state = GameStates.STAGE_TEST;
+		if(board.stageType(Card.Types.FOE)){
+			//this.state = GameStates.STAGE_FOE;
+			changeState(GameStates.STAGE_FOE,this.participants.current());
+		}
+		if(board.stageType(Card.Types.TEST)){
+			//this.state = GameStates.STAGE_TEST;
+			changeState(GameStates.STAGE_TEST,this.participants.current());
+		}
 
 		this.updateObservers();
 	}
@@ -267,7 +334,8 @@ public class GameModel{
 		}
 
 		if(this.participants.size() <= 0 ){
-			this.state = GameStates.STAGE_END;
+			changeState(GameStates.STAGE_END,playerID);
+			//this.state = GameStates.STAGE_END;
 		}
 
 		this.updateObservers();
@@ -290,7 +358,8 @@ public class GameModel{
 		}
 
 		if(validSubmit && board.checkTestWinner()){
-			this.state = GameStates.STAGE_END;
+			//this.state = GameStates.STAGE_END;
+			changeState(GameStates.STAGE_END,this.participants.current());
 		}
 
 		if(validSubmit && !board.checkTestWinner()){
@@ -314,7 +383,8 @@ public class GameModel{
 		board.giveUp(id);
 
 		if(board.checkTestWinner()){
-			this.state = GameStates.STAGE_END;
+			//this.state = GameStates.STAGE_END;
+			changeState(GameStates.STAGE_END,this.participants.current());
 		}
 
 	}
@@ -332,14 +402,17 @@ public class GameModel{
 		}
 
 		if(board.getParticipants().size() == 0){
-			this.state = GameStates.QUEST_END;
+			//this.state = GameStates.QUEST_END;
+			changeState(GameStates.QUEST_END,this.questSponsor.current());
 		}
 
 		//distribute cards
 		if(!this.board.nextStage())
-			this.state = GameStates.QUEST_END;
+			changeState(GameStates.QUEST_END,this.questSponsor.current());
+			//this.state = GameStates.QUEST_END;
 		else
-			this.state = GameStates.QUEST_HANDLER;
+			changeState(GameStates.QUEST_HANDLER,this.questSponsor.current());
+			//this.state = GameStates.QUEST_HANDLER;
 		this.updateObservers();
 	}
 
@@ -352,7 +425,8 @@ public class GameModel{
 		//apply story logic
 		board.applyStoryCardLogic(questSponsor.current());
 
-		this.state = GameStates.END_TURN;
+		changeState(GameStates.END_TURN,questSponsor.current());
+		//this.state = GameStates.END_TURN;
 		this.updateObservers();
 	}
 
@@ -364,7 +438,8 @@ public class GameModel{
 		// start a cycle which loops through participants
 		participants = new Cycle<Integer>(players,players.indexOf(storyTurn.current()));
 
-		this.state = GameStates.PARTICIPATE_TOURNAMENT;
+		//this.state = GameStates.PARTICIPATE_TOURNAMENT;
+		changeState(GameStates.PARTICIPATE_TOURNAMENT,participants.current());
 	}
 
 
@@ -382,10 +457,12 @@ public class GameModel{
 			this.board.addParticipant(this.participants.removeCurrent());
 		}
 		if(this.participants.size() <= 0){
-			this.state = GameStates.TOURNAMENT_HANDLER;
+			//this.state = GameStates.TOURNAMENT_HANDLER;
+			changeState(GameStates.TOURNAMENT_HANDLER,player);
 		}
 		else if(this.participants.size() <= 1 && board.getParticipants().size() <= 1){
-			this.state = GameStates.END_TURN;
+			changeState(GameStates.END_TURN,this.storyTurn.current());
+			//this.state = GameStates.END_TURN;
 		}
 		this.updateObservers();
 	}
@@ -434,7 +511,8 @@ public class GameModel{
 		//draw card
 		board.beginEncounter();
 
-		this.state = GameStates.TOURNAMENT_STAGE;
+		//this.state = GameStates.TOURNAMENT_STAGE;
+		changeState(GameStates.TOURNAMENT_STAGE,this.participants.current());
 
 		this.updateObservers();
 	}
@@ -459,7 +537,8 @@ public class GameModel{
 
 		
 		if(this.participants.size() <= 0){
-			this.state = GameStates.TOURNAMENT_STAGE_END;
+			changeState(GameStates.TOURNAMENT_STAGE_END,id);
+			//this.state = GameStates.TOURNAMENT_STAGE_END;
 		}
 		return true;
 
@@ -470,19 +549,21 @@ public class GameModel{
 			return;
 		
 		//check for winner
-		board.completeTournementStage();
+		board.completeTournamentStage();
 
 		//check which round we are on
-		boolean anotherRound = board.nextTournement();
+		boolean anotherRound = board.nextTournament();
 		//TIE round 1 
 		if(anotherRound){
 			//clean up round 1, 
-			this.state = GameStates.TOURNAMENT_HANDLER;
+			//this.state = GameStates.TOURNAMENT_HANDLER;
+			changeState(GameStates.TOURNAMENT_HANDLER,this.participants.current());
 		}
 		//TIE round 2 
 		if(!anotherRound){
 			//clean up all	
-			this.state = GameStates.TOURNAMENT_END;
+			changeState(GameStates.TOURNAMENT_END,this.storyTurn.current());
+			//this.state = GameStates.TOURNAMENT_END;
 		}
 		this.updateObservers();
 
@@ -494,7 +575,9 @@ public class GameModel{
 
 
 		board.applyStoryCardLogic(-1);
-		this.state = GameStates.END_TURN;
+		changeState(GameStates.END_TURN,this.storyTurn.current());
+		//this.state = GameStates.END_TURN;
+		this.updateObservers();
 
 	}
 
@@ -508,7 +591,9 @@ public class GameModel{
 		 */
 		board.applyStoryCardLogic(storyTurn.current());
 
-		this.state = GameStates.END_TURN;
+		//this.state = GameStates.END_TURN;
+		changeState(GameStates.END_TURN,this.storyTurn.current());
+
 		this.updateObservers();
 	}
 
@@ -520,7 +605,8 @@ public class GameModel{
 		this.turn++;
 		this.currentPlayer = storyTurn.next();
 
-		this.state = GameStates.BEGIN_TURN;
+		//this.state = GameStates.BEGIN_TURN;
+		changeState(GameStates.BEGIN_TURN,this.storyTurn.current());
 		this.updateObservers();
 	}
 

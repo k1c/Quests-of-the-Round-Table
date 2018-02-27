@@ -183,7 +183,7 @@ public class AdventureCardFactoryTest extends TestCase{
 		board.players = new ArrayList<Player>();
 
 		for (int i = 0; i < 4; i++)
-			board.players.add(new Player("",""));
+			board.players.add(new HumanPlayer("",""));
 
 		AdventureCard Temp = AdventureCardFactory.createCard(AdventureCardFactory.Types.TEST_OF_VALOR);
 		assertEquals(18, Temp.id);
@@ -201,7 +201,7 @@ public class AdventureCardFactoryTest extends TestCase{
 		board.players = new ArrayList<Player>();
 
 		for (int i = 0; i < 2; i++)
-			board.players.add(new Player("",""));
+			board.players.add(new HumanPlayer("",""));
 
 		AdventureCard Temp = AdventureCardFactory.createCard(AdventureCardFactory.Types.TEST_OF_VALOR);
 		assertEquals(18, Temp.id);
@@ -220,7 +220,7 @@ public class AdventureCardFactoryTest extends TestCase{
 		board.players = new ArrayList<Player>();
 
 		for (int i = 0; i < 4; i++)
-			board.players.add(new Player("",""));
+			board.players.add(new HumanPlayer("",""));
 
 
 		AdventureCard Temp = AdventureCardFactory.createCard(AdventureCardFactory.Types.TEST_OF_THE_QUESTING_BEAST);

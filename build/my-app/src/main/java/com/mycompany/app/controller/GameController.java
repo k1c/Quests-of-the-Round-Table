@@ -10,6 +10,8 @@ package com.mycompany.app.controller;
 
 import com.mycompany.app.GameLogger;
 import com.mycompany.app.model.GameModel;
+import com.mycompany.app.model.GameObserver;
+import com.mycompany.app.model.GameStates;
 import com.mycompany.app.view.*;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
@@ -23,7 +25,7 @@ import javafx.stage.Stage;
  * 2) Consistent fonts and sizes
  * 3) This can't be a God class - Strip down to minimal
  */
-public class GameController{
+public class GameController implements GameObserver{
 
 	private static final int MARGIN_OUTER = 10;
 	private final int WIDTH = 1920;
@@ -44,15 +46,15 @@ public class GameController{
 		this.gameModel = gameModel;
 	}
 
-
 	public void startGame(Stage primaryStage, int numHumans, int numAI, String[] humanNames) {
+
 		gameModel.initGame(numHumans, numAI, humanNames);
 
 		currentPlayerView = new CurrentPlayerView(gameModel);
 		waitingPlayersView = new WaitingPlayersView(gameModel);
         deckView = new DeckView(gameModel);
         consoleView = new ConsoleView(gameModel);
-        questsView = new QuestsView();
+        //questsView = new QuestsView(gameModel);
 
         AnchorPane root = new AnchorPane();
         root.setPadding(new Insets(MARGIN_OUTER*2));
@@ -63,11 +65,11 @@ public class GameController{
         cd.getChildren().addAll(consoleView, deckView);
 
 
-        root.getChildren().addAll(questsView, cd, waitingPlayersView, currentPlayerView);
+        root.getChildren().addAll(cd, waitingPlayersView, currentPlayerView);
 
 
-        AnchorPane.setLeftAnchor(questsView, 0.0);
-        AnchorPane.setTopAnchor(questsView, 0.0);
+        //AnchorPane.setLeftAnchor(questsView, 0.0);
+        //AnchorPane.setTopAnchor(questsView, 0.0);
 
         AnchorPane.setRightAnchor(cd, 0.0);
         AnchorPane.setTopAnchor(cd, 0.0);
@@ -84,6 +86,12 @@ public class GameController{
 
 		primaryStage.setScene(gameScene);
 	}
+
+	public void update() {
+        GameStates s = this.gameModel.getState();
+
+        /*switch (s) {
+            case
+        }*/
+    }
 }
-
-

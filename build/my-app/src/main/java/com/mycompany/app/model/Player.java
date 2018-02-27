@@ -6,7 +6,7 @@ import com.mycompany.app.model.GenericPlayer;
 import com.mycompany.app.model.Rank;
 import java.util.*;
 
-public class Player extends AbstractPlayer{
+public abstract class Player extends AbstractPlayer{
 
 	public List<AdventureCard> hand;
 	public List<AdventureCard> toBePlayed;
@@ -18,17 +18,23 @@ public class Player extends AbstractPlayer{
 		this.hand = new ArrayList<AdventureCard>();
 		this.toBePlayed = new ArrayList<AdventureCard>();
 		this.inPlay = new ArrayList<AdventureCard>();
+
+		this.type = Type.Player;
 	}
 
 	public GenericPlayer genericPlayer(GameBoard board){
 		GenericPlayer temp = new GenericPlayer(this.id, this.name, this.shieldImage);
 
+		temp.type = this.type;
 		temp.rank = new Rank(this.rank);
 		temp.totalBattlePoints = getTotalBP(board);
 
 		temp.hand.addAll(this.hand);
 		temp.toBePlayed.addAll(this.toBePlayed);
 		temp.inPlay.addAll(this.inPlay);
+
+		Collections.sort(temp.hand);
+		Collections.sort(temp.inPlay);
 
 		return temp;
 
@@ -45,5 +51,6 @@ public class Player extends AbstractPlayer{
 	public int getTotalBP(GameBoard board){
 		return getInPlayBp(board) + rank.getBP();
 	}
+
 
 }
