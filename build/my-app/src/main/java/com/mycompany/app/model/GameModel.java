@@ -2,6 +2,8 @@ package com.mycompany.app.model;
 
 
 import java.util.*;
+
+import com.mycompany.app.GameLogger;
 import com.mycompany.app.model.Card;
 
 
@@ -34,6 +36,8 @@ public class GameModel{
 
 	private Cycle<Integer> currentPlayers;
 	private int participationCounter;
+	GameLogger log = GameLogger.getInstanceUsingDoubleLocking();
+
 
 
 	public boolean discard (int playerId, List<Card> discards){
@@ -62,7 +66,7 @@ public class GameModel{
 
 	protected void changeState(GameStates state,int playerId){
 		List<Integer> playersOverLimit = board.playersToDiscard();//get players over limit
-
+		log.gameState(state.toString());
 		// Discard
 		if(playersOverLimit.size() > 0 && this.state != GameStates.DISCARD){
 			this.savedState = state;
@@ -210,12 +214,15 @@ public class GameModel{
 		 */
 		if(player == currPlayer && sponsor && board.playerCanSponsor(player)){
 			//this.state = GameStates.SPONSOR_SUBMIT;
+			log.warning("Successful Sponsorship");
 			changeState(GameStates.SPONSOR_SUBMIT,questSponsor.current());
 		}
 		else if(player == currPlayer && !sponsor){
+			log.warning("Unsuccessful Sponsorship");
 			questSponsor.removeCurrent();
 		}
 		else if(player == currPlayer && !board.playerCanSponsor(player)){
+			log.warning("Unsuccessful Sponsorship");
 			questSponsor.removeCurrent();	
 		}
 
