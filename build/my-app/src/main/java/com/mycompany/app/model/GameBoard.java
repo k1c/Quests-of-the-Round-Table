@@ -247,7 +247,6 @@ public class GameBoard extends AbstractGameBoard{
 	public boolean playerCanSponsor(int id){
 
 		Player p = findPlayer(id);
-		log.playerAction(p,"is attempting to Sponsor the Quest");
 		Set<Integer>	bp = new TreeSet<Integer>();
 		int numberOfTests = 0;
 
