@@ -23,11 +23,40 @@
 			<scope>test</scope>
 		</dependency>
 
-
-
 	</dependencies>
 	<properties>
 		<maven.compiler.source>1.8</maven.compiler.source>
 		<maven.compiler.target>1.8</maven.compiler.target>
 	</properties>
+
+	<build>
+		<plugins>
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-shade-plugin</artifactId>
+				<version>3.1.0</version>
+				<executions>
+					<execution>
+						<phase>package</phase>
+						<goals>
+							<goal>shade</goal>
+						</goals>
+						<configuration>
+							<artifactSet>
+								<includes>
+									<include>classworlds:classworlds</include>
+									<include>junit:junit</include>
+									<include>jmock:*</include>
+									<include>*:xml-apis</include>
+									<include>org.apache.maven:lib:tests</include>
+									<include>log4j:log4j:jar:</include>
+								</includes>
+							</artifactSet>
+						</configuration>
+					</execution>
+				</executions>
+			</plugin>
+		</plugins>
+	</build>
+
 </project>

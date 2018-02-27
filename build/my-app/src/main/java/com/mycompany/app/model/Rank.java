@@ -73,7 +73,7 @@ public class Rank {
         rankUp();
     }
 
-    private void rankUp(){
+    protected void rankUp(){
         if (rank == RankType.SQUIRE && shields >= MAX_SHIELDS_SQUIRE) {
             shields -= MAX_SHIELDS_SQUIRE;
             setKnight();
