@@ -9,6 +9,10 @@
 package com.mycompany.app.controller;
 
 import com.mycompany.app.model.*;
+import com.mycompany.app.GameLogger;
+import com.mycompany.app.model.GameModel;
+import com.mycompany.app.model.GameObserver;
+import com.mycompany.app.model.GameStates;
 import com.mycompany.app.view.*;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
@@ -54,7 +58,6 @@ public class GameController implements GameObserver{
 	public void startGame(Stage primaryStage, int numHumans, int numAI, String[] humanNames) {
 
 		gameModel.initGame(numHumans, numAI, humanNames);
-
 
 		currentPlayerView = new CurrentPlayerView(gameModel);
 		waitingPlayersView = new WaitingPlayersView(gameModel);
