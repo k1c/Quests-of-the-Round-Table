@@ -1,18 +1,14 @@
 package com.mycompany.app;
 
 import com.mycompany.app.model.Player;
+import org.apache.log4j.Level;
 import org.apache.log4j.Logger;
 
-
-public class GameLogger {
+public class GameLogger  {
 
     private static GameLogger ourInstance = new GameLogger ();
 
     final Logger logger = Logger.getLogger(GameLogger.class);
-
-    private static final String WHITESPACE8 = "        ";
-    private static final String WHITESPACE3 = "   ";
-
 
     public static GameLogger  getInstanceUsingDoubleLocking() {
         if (ourInstance == null) {
@@ -27,34 +23,36 @@ public class GameLogger {
 
     private GameLogger() { }
 
-    public void userAction(Player player, String action){
-        logger.info("User Action:"+ WHITESPACE8 + player.name + " " + action);
-
+    public void userAction(Player player, String action) {
+        String str = "User Action:  " + player.name + " " + action;
+        logger.log(GameLogger.class.getCanonicalName(), Level.INFO, str, null);
     }
 
     public void gameState(String state){
-        logger.info("Game State:" + WHITESPACE8 + state);
+        state = "Game State:  "  + state;
+        logger.log(GameLogger.class.getCanonicalName(), Level.INFO, state,null);
     }
 
     public void objectCreation(String objectType, String description){
-        logger.info(objectType + " Creation:" + WHITESPACE3 + description);
+        String str = objectType + " Creation:  "  + description;
+        logger.log(GameLogger.class.getCanonicalName(), Level.INFO, str,null);
     }
 
     public void debug(String parameter) {
         if(logger.isDebugEnabled()){
-            logger.debug("Debug:"+ WHITESPACE8 + parameter);
+            logger.log(GameLogger.class.getCanonicalName(), Level.DEBUG, parameter, null);
         }
     }
 
     public void warn(String parameter) {
-        logger.warn("Warning:"+ WHITESPACE8 + parameter);
+        logger.log(GameLogger.class.getCanonicalName(), Level.WARN, parameter, null);
     }
 
     public void error(String parameter) {
-        logger.error("Error:" + WHITESPACE8 + parameter);
+        logger.log(GameLogger.class.getCanonicalName(), Level.ERROR, parameter, null);
     }
 
     public void fatal(String parameter) {
-        logger.fatal("Fatal:" + WHITESPACE8 + parameter);
+        logger.log(GameLogger.class.getCanonicalName(), Level.FATAL, parameter, null);
     }
 }

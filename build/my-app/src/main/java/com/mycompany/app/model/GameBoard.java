@@ -57,8 +57,10 @@ public class GameBoard extends AbstractGameBoard{
 
 		Collections.shuffle(adventureDeck);
 		Collections.shuffle(storyDeck);
+
 		log.gameState("Adventure Deck Shuffled");
 		log.gameState("Story Deck Shuffled");
+
 
 
 		String[] shieldImages = {"Shield Blue.png", "Shield Red.png", "Shield Green.png", "Shield Purple.png"};
