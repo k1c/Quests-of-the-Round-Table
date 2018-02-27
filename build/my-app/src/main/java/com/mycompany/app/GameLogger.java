@@ -39,6 +39,12 @@ public class GameLogger  {
         logger.log(GameLogger.class.getCanonicalName(), Level.INFO, state,null);
     }
 
+    public void gameStateAction(String state,String action){
+        state = "Game State Action :  "  + state + " ---- " + action;
+        logger.log(GameLogger.class.getCanonicalName(), Level.INFO, state,null);
+    }
+
+
     public void objectCreation(String objectType, String description){
         String str = objectType + " Creation:  "  + description;
         logger.log(GameLogger.class.getCanonicalName(), Level.INFO, str,null);

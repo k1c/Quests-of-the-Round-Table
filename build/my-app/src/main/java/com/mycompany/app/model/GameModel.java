@@ -39,6 +39,55 @@ public class GameModel{
 	GameLogger log = GameLogger.getInstanceUsingDoubleLocking();
 
 
+	protected void AI_Move(AbstractAI ai){
+		switch(this.state){
+			case BEGIN_TURN:
+				log.gameStateAction(this.state.toString(),"AI MOVE");
+				// we could disable this
+				//drawStoryCard();
+				break;
+			/* Quest Setup */
+			// decide whether sponsor a quest
+			case SPONSOR_QUEST:
+				log.gameStateAction(this.state.toString(),"AI MOVE");
+				sponsorQuest(ai.id(),ai.doISponsorAQuest(this.board));
+				break;
+			// decide the quest setup
+			case SPONSOR_SUBMIT:
+				log.gameStateAction(this.state.toString(),"AI MOVE");
+				break;
+			// decide to participate in a quest
+			case PARTICIPATE_QUEST:
+				log.gameStateAction(this.state.toString(),"AI MOVE");
+				break;
+			// continue onto next stage : is AI needed
+			case QUEST_HANDLER:
+				log.gameStateAction(this.state.toString(),"AI MOVE");
+				break;
+			// submit foes for a stage
+			case STAGE_FOE:
+				log.gameStateAction(this.state.toString(),"AI MOVE");
+				break;
+			// submit bids for a stage
+			// decide whether to give up
+			case STAGE_TEST:
+				log.gameStateAction(this.state.toString(),"AI MOVE");
+				break;
+			// flip up cards : is AI needed
+			case STAGE_END:
+				log.gameStateAction(this.state.toString(),"AI MOVE");
+				break;
+			// clear up quest : is AI needed here
+			case QUEST_END:
+				log.gameStateAction(this.state.toString(),"AI MOVE");
+				break;
+			// end turn : is AI needed here
+			case END_TURN:
+				log.gameStateAction(this.state.toString(),"AI MOVE");
+				break;
+
+		}
+	}
 
 	public boolean discard (int playerId, List<Card> discards){
 		if(this.state != GameStates.DISCARD)
@@ -54,19 +103,17 @@ public class GameModel{
 
 		discard.removeCurrent();
 
-		if(discard.size() <= 0)
+			if(discard.size() <= 0)
 			changeState(this.savedState,this.savedIndex);
 		else{
 			changeState(GameStates.DISCARD,discard.current());
 		}
-
 		return true;
 
 	}
 
 	protected void changeState(GameStates state,int playerId){
 		List<Integer> playersOverLimit = board.playersToDiscard();//get players over limit
-		log.gameState(state.toString());
 		// Discard
 		if(playersOverLimit.size() > 0 && this.state != GameStates.DISCARD){
 			this.savedState = state;
@@ -80,7 +127,10 @@ public class GameModel{
 			this.currentPlayers = new Cycle(players,players.indexOf(playerId));
 			this.state = state;
 		}
-		
+
+		log.gameState(this.state.toString());
+		if(board.playerIsAI(playerId))
+			AI_Move(board.getAI(playerId));
 	}
 
 	public GameModel(){
