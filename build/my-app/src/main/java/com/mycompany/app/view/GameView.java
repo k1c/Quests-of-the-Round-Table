@@ -6,6 +6,7 @@
  */
 package com.mycompany.app.view;
 
+import com.mycompany.app.GameLogger;
 import com.mycompany.app.controller.GameController;
 import com.mycompany.app.model.GameModel;
 import javafx.beans.binding.BooleanBinding;
@@ -26,11 +27,17 @@ import javafx.scene.image.ImageView;
 import javafx.scene.image.Image;
 import javafx.geometry.Pos;
 
+
 public class GameView extends HBox {
 
     private GameController gameController;
 
     public GameView(GameModel gameModel) {
+
+        GameLogger log = GameLogger.getInstanceUsingDoubleLocking();
+        log.gameState("Start Menu Screen");
+        log.gameState("Gathering Game Config from User");
+
         this.gameController = new GameController(gameModel, this);
 
         Image roundTable = new Image("roundtable-tpbackground.png");
@@ -193,7 +200,6 @@ public class GameView extends HBox {
                     humanNames[3] = textField4.getText();
                 }
                 gameController.startGame((Stage) startGame.getScene().getWindow(), (int) humanSlider.getValue(), (int) aiSlider.getValue(), humanNames);
-
             }
         });
 
@@ -222,12 +228,13 @@ public class GameView extends HBox {
     }
 
     private void addValidationListener(TextField textField){
+        GameLogger log = GameLogger.getInstanceUsingDoubleLocking();
         textField.setId("red");
         textField.textProperty().addListener(new ChangeListener<String>() {
             @Override
             public void changed(final ObservableValue<? extends String> observable, final String oldValue, final String newValue) {
                 if (newValue.trim().length() > 11 || newValue.trim() == null || newValue.trim().isEmpty()){
-                    System.out.println("YOU FOOL! Y U NO DO UNDER 12");
+                    log.error("Player Name Over 11 Chars");
                     textField.setStyle("-fx-effect: dropshadow(three-pass-box,red,10.0,0.7,0.0,0.0)");
                     textField.setId("red");
                 } else {
