@@ -23,9 +23,15 @@ public class GameLogger  {
 
     private GameLogger() { }
 
-    public void userAction(Player player, String action) {
+    public void playerAction(Player player, String action) {
         String str = "User Action:  " + player.name + " " + action;
         logger.log(GameLogger.class.getCanonicalName(), Level.INFO, str, null);
+    }
+
+    public void playerCard(Player player, Object cardType, String deckType) {
+        String str = "Card Drawn:  " + player.name + " draws " + cardType + " from the " + deckType;
+        logger.log(GameLogger.class.getCanonicalName(), Level.INFO, str,null);
+
     }
 
     public void gameState(String state){
@@ -38,13 +44,23 @@ public class GameLogger  {
         logger.log(GameLogger.class.getCanonicalName(), Level.INFO, str,null);
     }
 
+    public void count(String objBeingCounted, int num){
+        String str = "Number of " + objBeingCounted + ":  " +num;
+        logger.log(GameLogger.class.getCanonicalName(), Level.INFO, str,null);
+    }
+
+    public void cardDrawn(Object cardType){
+        String str = "Card Drawn:  "+cardType;
+        logger.log(GameLogger.class.getCanonicalName(), Level.INFO, str,null);
+    }
+
     public void debug(String parameter) {
         if(logger.isDebugEnabled()){
             logger.log(GameLogger.class.getCanonicalName(), Level.DEBUG, parameter, null);
         }
     }
 
-    public void warn(String parameter) {
+    public void warning(String parameter) {
         logger.log(GameLogger.class.getCanonicalName(), Level.WARN, parameter, null);
     }
 
