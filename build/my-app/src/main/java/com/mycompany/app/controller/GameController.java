@@ -195,6 +195,16 @@ public class GameController implements GameObserver{
                 AnchorPane.setLeftAnchor(questsView, 0.0);
                 AnchorPane.setTopAnchor(questsView, 0.0);
                 root.getChildren().add(questsView);
+                break;
+			case QUEST_HANDLER:
+				if(questsView.isFoeStage(1)){
+					consoleView.display("Stage 1 is a Foe");
+				}else{
+					consoleView.display("Stage 1 is a Test");
+				}
+
+				consoleView.showButton("Nothing", e -> {}, 1);
+				break;
         }
     }
 }
