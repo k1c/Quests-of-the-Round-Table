@@ -5,6 +5,8 @@ import java.util.ArrayList;
 import java.util.Iterator;
 
 import com.mycompany.app.GameLogger;
+import com.mycompany.app.model.AbstractPlayer;
+import com.mycompany.app.model.AbstractAI;
 import com.mycompany.app.model.AdventureCard;
 import com.mycompany.app.model.Card;
 import com.mycompany.app.model.GameBoard;
@@ -22,6 +24,7 @@ public class GameBoard extends AbstractGameBoard{
 	protected List<StoryCard> 	storyDeckDiscard;
 
 	protected List<Player>		players;
+	protected List<AbstractAI>	ais;
 	protected List<Player> 		participants;
 
 	protected Player		sponsor;
@@ -34,6 +37,7 @@ public class GameBoard extends AbstractGameBoard{
 
 
 	protected TwoDimensionalArrayList<AdventureCard> quest;
+
 	public void initGame(int numHumans, int numAI, String[] names, List<AdventureCard> ad, List<StoryCard> sd){
 		log.gameState("Game Board Screen");
 
@@ -56,6 +60,7 @@ public class GameBoard extends AbstractGameBoard{
 		this.storyDeckDiscard 	  = new ArrayList<StoryCard>();
 		this.players 		  = new ArrayList<Player>();
 		this.participants 	  = new ArrayList<Player>();
+		this.ais		  = new ArrayList();
 
 		Collections.shuffle(adventureDeck);
 		Collections.shuffle(storyDeck);
@@ -70,12 +75,14 @@ public class GameBoard extends AbstractGameBoard{
 
 		for(int i = 0; i < numHumans; i++) {
 			this.players.add(new HumanPlayer(names[i], shieldImages[i]));
-			log.objectCreation("Player","Player "+ (i+1) + " is named " + names[i]);
+			log.objectCreation("Player","Player "+ players.get(players.size()-1).id() + " is named " + names[i]);
 		}
 
 		for(int i = 0; i < numAI; i++) {
-			this.players.add(new HumanPlayer("AI " + (i+1), shieldImages[i+numHumans]));
-			log.objectCreation("Player", "Player "+ (numHumans+i+1) + " is named AI " + (i + 1));
+			AbstractAI ai = new AIDefault("AI " + (i+1), shieldImages[i+numHumans]);
+			this.players.add(ai);
+			this.ais.add(ai);
+			log.objectCreation("Player", "Player "+ players.get(players.size()-1).id() + " is named AI " + (i + 1));
 		}
 
 		for(int i = 0; i < INITIAL_CARDS; i++){
@@ -95,6 +102,21 @@ public class GameBoard extends AbstractGameBoard{
 	}
 	public void loadGame(){
 
+	}
+
+	public AbstractAI getAI(int id){
+		for(AbstractAI ai : ais){
+			if(ai.id() == id)
+				return ai;
+		}
+		return null;
+	}
+	public boolean playerIsAI(int id){
+		for(Player p : players){
+			if(id == p.id() && p.type == AbstractPlayer.Type.AI)
+				return true;
+		}
+		return false;
 	}
 
 	public List<Integer> playersToDiscard(){
