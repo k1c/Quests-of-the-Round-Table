@@ -1,5 +1,6 @@
 package com.mycompany.app;
 
+import com.mycompany.app.model.GenericPlayer;
 import com.mycompany.app.model.Player;
 import org.apache.log4j.Level;
 import org.apache.log4j.Logger;
@@ -28,10 +29,31 @@ public class GameLogger  {
         logger.log(GameLogger.class.getCanonicalName(), Level.INFO, str, null);
     }
 
+    public void playerAction(GenericPlayer player, String action) {
+        String str = "User Action:  " + player.name + " " + action;
+        logger.log(GameLogger.class.getCanonicalName(), Level.INFO, str, null);
+    }
+
     public void playerCard(Player player, Object cardType, String deckType) {
         String str = "Card Drawn:  " + player.name + " draws " + cardType + " from the " + deckType;
         logger.log(GameLogger.class.getCanonicalName(), Level.INFO, str,null);
 
+    }
+
+    public void playerCard(GenericPlayer player, Object cardType, String deckType) {
+        String str = "Card Drawn:  " + player.name + " draws " + cardType + " from the " + deckType;
+        logger.log(GameLogger.class.getCanonicalName(), Level.INFO, str,null);
+
+    }
+
+    public void cardPlayed(Player player, Object cardType, String location) {
+        String str = "Card Played:  " + player.name + " plays " + cardType + " " + location;
+        logger.log(GameLogger.class.getCanonicalName(), Level.INFO, str,null);
+    }
+
+    public void cardPlayed(GenericPlayer player, Object cardType, String location) {
+        String str = "Card Played:  " + player.name + " plays " + cardType + " " + location;
+        logger.log(GameLogger.class.getCanonicalName(), Level.INFO, str,null);
     }
 
     public void gameState(String state){

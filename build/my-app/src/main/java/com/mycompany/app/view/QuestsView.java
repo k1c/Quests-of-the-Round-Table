@@ -8,6 +8,7 @@
  */
 package com.mycompany.app.view;
 
+import com.mycompany.app.GameLogger;
 import com.mycompany.app.Quests;
 import com.mycompany.app.model.Card;
 import com.mycompany.app.model.GameModel;
@@ -36,6 +37,8 @@ public class QuestsView extends GridPane implements GameObserver, CardStack{
     private boolean set = false;
     private int Y_OFFSET = HEIGHT/5;
     private TwoDimensionalArrayList<Card> questSetup;
+
+    GameLogger log = GameLogger.getInstanceUsingDoubleLocking();
 
     public QuestsView(GameModel gameModel) {
         this.gameModel = gameModel;
@@ -258,8 +261,11 @@ public class QuestsView extends GridPane implements GameObserver, CardStack{
                     image.setStyle((String) image.getProperties().get("color"));
             });
         }
+    }
 
-        System.out.println(questSetup.get(stage-1).size());
+    public void clearQuest() {
+        questSetup.clear();
+        buildLayout();
     }
 
     public boolean isFoeStage(int stage) {

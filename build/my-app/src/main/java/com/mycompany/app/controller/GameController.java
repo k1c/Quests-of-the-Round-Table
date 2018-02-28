@@ -46,6 +46,8 @@ public class GameController implements GameObserver{
 
 	private GenericPlayer current;
 
+	private GameLogger log = GameLogger.getInstanceUsingDoubleLocking();
+
 	private final GameModel gameModel;
 	private final GameView gameView;
 
@@ -92,16 +94,24 @@ public class GameController implements GameObserver{
 	}
 
 	public void setup(int stage, int row) {
+		GenericPlayer curr = gameModel.getCurrentPlayer();
 		currentPlayerView.buildHand(gameModel.getCurrentPlayer().hand, false, null, null);
+
+		if (stage <= 1 && row == 0) {
+			questsView.clearQuest();
+		}
+
 		if (stage <= gameModel.getNumberOfStages()) {
 			questsView.setFocus(stage, row);
 			if (row == 0) {
 				// foe/test
+				log.playerAction(gameModel.getCurrentPlayer(), "adding a foe/test to stage " + stage);
 				consoleView.display("Add a foe or a test to stage " + stage);
 
                 Button play = new Button("Play Card");
                 play.addEventHandler(MouseEvent.MOUSE_CLICKED, e -> {
                     Card img = (Card) currentPlayerView.getFrontCard().getProperties().get("card");
+                    log.cardPlayed(gameModel.getCurrentPlayer(), img, "in Quest setup");
                     questsView.setFoeTest(img, stage);
                     // add to player's tobeplayed and remove from hand
 					// on successfull submit, cards removed from tobe
@@ -113,11 +123,13 @@ public class GameController implements GameObserver{
 			}
 			else {
                 //weapons
+				log.playerAction(gameModel.getCurrentPlayer(), "adding weapon(s) to stage " + stage);
                 consoleView.display("Add weapon(s) to stage " + stage);
 
                 Button play = new Button("Play Card");
                 play.addEventHandler(MouseEvent.MOUSE_CLICKED, e -> {
                     Card img = (Card) currentPlayerView.getFrontCard().getProperties().get("card");
+					log.cardPlayed(gameModel.getCurrentPlayer(), img, "in Quest setup");
                     questsView.setWeapons(img, stage);
                     // add to player's tobeplayed and remove from hand
                     // on successfull submit, cards removed from tobe
@@ -146,7 +158,16 @@ public class GameController implements GameObserver{
 					, 1);
 		} else {
             consoleView.display("Done! Submit quest setup?");
-            consoleView.showButton("Submit", e -> gameModel.submitQuest(gameModel.getCurrentPlayer().id(), questsView.getQuestSetup()), 1);
+            consoleView.showButton("Submit", e -> {
+            	boolean valid = gameModel.submitQuest(gameModel.getCurrentPlayer().id(), questsView.getQuestSetup());
+            	if (!valid) {
+            		log.error("Quest setup is invalid and it will restart");
+            		consoleView.display("The quest setup is invalid!\nPlease rebuild the quest.");
+					consoleView.showButton("Setup Quest", e2 -> setup(1, 0), 1);
+				} else {
+					log.playerAction(curr, "successfully set up the Quest");
+				}
+			}, 1);
 		}
     }
 

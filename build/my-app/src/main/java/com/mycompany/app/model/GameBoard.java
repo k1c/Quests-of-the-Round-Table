@@ -411,7 +411,7 @@ public class GameBoard extends AbstractGameBoard{
 				testNumber++;
 			}
 
-			if(cardListHas(stageList,Card.Types.FOE) && currentBP >= lastBP){
+			if(cardListHas(stageList,Card.Types.FOE) && currentBP > lastBP){
 				lastBP = currentBP;
 			}
 			else if (cardListHas(stageList, Card.Types.FOE)){
