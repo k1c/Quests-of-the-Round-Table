@@ -24,6 +24,7 @@ import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.*;
 import javafx.stage.Stage;
 
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -180,9 +181,27 @@ public class GameController implements GameObserver{
 		}
     }
 
-    public void setStage(int stage, int row, Image card) {
+    public void discard() {
+	    GenericPlayer p = gameModel.getCurrentPlayer();
+	    List<Card> discards = new ArrayList<>();
+	    consoleView.display(p.name + ", discard to get to 12");
+	    consoleView.showButton("Submit Discard", e -> {
+	        gameModel.discard(p.id(), discards);
+	        if (gameModel.getNumDiscards() > 1)
+	            discard();
+        }, 1);
 
-	}
+	    Button btn = new Button("Discard");
+        Card.Types[] types = {Card.Types.FOE, Card.Types.ALLY, Card.Types.TEST, Card.Types.AMOUR, Card.Types.WEAPON};
+	    btn.addEventHandler(MouseEvent.MOUSE_CLICKED, e -> {
+            Card img = (Card) currentPlayerView.getFrontCard().getProperties().get("card");
+            discards.add(img);
+            p.hand.remove(img);
+            currentPlayerView.buildHand(p.hand,false,btn, types);
+        });
+        p.hand.removeAll(discards);
+	    currentPlayerView.buildHand(p.hand, false, btn, types);
+    }
 
 	public void update() {
         GameStates s = this.gameModel.getState();
@@ -196,15 +215,6 @@ public class GameController implements GameObserver{
                 AnchorPane.setTopAnchor(questsView, 0.0);
                 root.getChildren().add(questsView);
                 break;
-			case QUEST_HANDLER:
-				if(questsView.isFoeStage(1)){
-					consoleView.display("Stage 1 is a Foe");
-				}else{
-					consoleView.display("Stage 1 is a Test");
-				}
-
-				consoleView.showButton("Nothing", e -> {}, 1);
-				break;
         }
     }
 }

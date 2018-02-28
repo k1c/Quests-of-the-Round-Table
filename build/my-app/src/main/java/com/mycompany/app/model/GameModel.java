@@ -160,6 +160,7 @@ public class GameModel{
 
 		discard.removeCurrent();
 
+		System.out.println(this.savedState.toString());
 		if(discard.size() <= 0)
 			changeState(this.savedState,this.savedIndex);
 		else{
@@ -174,12 +175,14 @@ public class GameModel{
 		List<Integer> playersOverLimit = board.playersToDiscard();//get players over limit
 		log.gameState(state.toString());
 		// Discard
-		if(playersOverLimit.size() > 0 && this.state != GameStates.DISCARD){
-			log.gameStateAction(this.state,"Discard Found",board.findPlayer(playerId));
-			this.savedState = state;
-			this.savedIndex = this.players.indexOf(playerId);
-			this.state = GameStates.DISCARD;
+		if(playersOverLimit.size() > 0){
+            if (this.state != GameStates.DISCARD) {
+                this.savedState = state;
+                this.savedIndex = this.players.indexOf(playerId);
+            }
 
+            this.state = GameStates.DISCARD;
+            log.gameStateAction(this.state,"Discard Found",board.findPlayer(playerId));
 			//System.out.println(playersOverLimit);
 
 			this.discard = new Cycle(playersOverLimit,0);
@@ -204,6 +207,9 @@ public class GameModel{
 		
 	}
 
+	public int getNumDiscards() {
+	    return discard.size();
+    }
 
 	public void initGame(int numHumans,int numAI,String[] humanNames){
 

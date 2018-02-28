@@ -56,9 +56,19 @@ public class ConsoleController implements GameObserver{
                 consoleView.showButton("Participate", e -> gameModel.participateQuest(gameModel.getCurrentPlayer().id(), true), 1);
                 consoleView.showButton("Decline", e -> gameModel.participateQuest(gameModel.getCurrentPlayer().id(), false), 2);
                 break;
+            case QUEST_HANDLER:
+                consoleView.display("Depart on Quest?");
+                consoleView.showButton("Begin", e -> gameModel.stage(), 1);
+                break;
             case DISCARD:
-                consoleView.display("DISCARD STATE");
-                consoleView.showButton("Nothing", e -> {}, 1);
+                consoleView.display("You have more than 12 cards!\nPlease discard.");
+                consoleView.showButton("Begin", e -> gameController.discard(), 1);
+                break;
+            case STAGE_FOE:
+                consoleView.display("Foe stage");
+                break;
+            case STAGE_TEST:
+                consoleView.display("Test stage");
                 break;
         }
     }

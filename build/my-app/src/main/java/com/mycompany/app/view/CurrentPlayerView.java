@@ -90,7 +90,7 @@ import javafx.scene.text.Font;
         int inplaySpan = (int) Math.ceil((numInPlay/cardsPerCol) + 1);
 
         // Total number of columns: 1 for rank, 1 for shield, handspan, inplay, BP
-        int numCol = 1 + 1 + handSpan + inplaySpan + 1;
+        int numCol = 1 + 1 + handSpan + 2 + inplaySpan + 1;
 
         // Set gridpane width
         setPrefWidth(numCol * WIDTH);
