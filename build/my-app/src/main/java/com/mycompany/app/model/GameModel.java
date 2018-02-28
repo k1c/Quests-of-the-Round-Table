@@ -42,50 +42,101 @@ public class GameModel{
 	protected void AI_Move(AbstractAI ai){
 		switch(this.state){
 			case BEGIN_TURN:
-				log.gameStateAction(this.state.toString(),"AI MOVE");
-				// we could disable this
-				//drawStoryCard();
+				log.gameStateAction(this.state.toString(),"AI Draw Story",ai);
+
+				/* this can be a user interaction */
+				drawStoryCard();
 				break;
 			/* Quest Setup */
 			// decide whether sponsor a quest
 			case SPONSOR_QUEST:
-				log.gameStateAction(this.state.toString(),"AI MOVE");
+				log.gameStateAction(this.state.toString(),"AI Sponsor Quest",ai);
 				sponsorQuest(ai.id(),ai.doISponsorAQuest(this.board));
 				break;
 			// decide the quest setup
 			case SPONSOR_SUBMIT:
-				log.gameStateAction(this.state.toString(),"AI MOVE");
+				log.gameStateAction(this.state.toString(),"AI Submitting Sponsor",ai);
+				submitQuest(ai.id(),ai.sponsorQuest(this.board));
 				break;
 			// decide to participate in a quest
 			case PARTICIPATE_QUEST:
-				log.gameStateAction(this.state.toString(),"AI MOVE");
+				log.gameStateAction(this.state.toString(),"AI Participate Quest",ai);
+				participateQuest(ai.id(),ai.doIParticipateInQuest(this.board));
 				break;
 			// continue onto next stage : is AI needed
 			case QUEST_HANDLER:
-				log.gameStateAction(this.state.toString(),"AI MOVE");
+				log.gameStateAction(this.state.toString(),"AI Begin Quest Stage",ai);
+
+				/* This can be a user interaction */
+				stage();
 				break;
 			// submit foes for a stage
 			case STAGE_FOE:
-				log.gameStateAction(this.state.toString(),"AI MOVE");
+				log.gameStateAction(this.state.toString(),"AI Move Foe",ai);
+				stageFoe(ai.id(),ai.playQuest(this.board));
 				break;
 			// submit bids for a stage
 			// decide whether to give up
 			case STAGE_TEST:
-				log.gameStateAction(this.state.toString(),"AI MOVE");
+				log.gameStateAction(this.state.toString(),"AI Bidding",ai);
+				
+				// if the AI cannot id more, then give up
+				if(!stageTest(ai.id(),ai.nextBid(this.board))){
+					testGiveUp(ai.id());
+				}
 				break;
 			// flip up cards : is AI needed
 			case STAGE_END:
-				log.gameStateAction(this.state.toString(),"AI MOVE");
+				log.gameStateAction(this.state.toString(),"AI Quest Stage End",ai);
+
+				/* Can be a user interaction */
+				stageEnd();
 				break;
 			// clear up quest : is AI needed here
 			case QUEST_END:
-				log.gameStateAction(this.state.toString(),"AI MOVE");
+				log.gameStateAction(this.state.toString(),"AI Quest End",ai);
+				
+				/* Can be a user interaction */
+				endQuest();
 				break;
+			case PARTICIPATE_TOURNAMENT:
+				log.gameStateAction(this.state.toString(),"AI Participate Tournament",ai);
+				participateTournament(ai.id(),ai.doIParticipateInTournament(this.board));
+				break;
+			case TOURNAMENT_HANDLER:
+				log.gameStateAction(this.state.toString(),"AI Stage Begin",ai);
+
+				/* Can be a user interaction */
+				tournamentStageStart();
+				break;
+			case TOURNAMENT_STAGE:
+				log.gameStateAction(this.state.toString(),"Play Tournament Stage",ai);
+
+				tournamentStage(ai.id(),ai.playInTournament(this.board));
+				break;
+			case TOURNAMENT_STAGE_END:
+				log.gameStateAction(this.state.toString(),"End Tournament Stage",ai);
+
+				/* Can be a user interaction */
+				tournamentStageEnd();
+				break;
+			case TOURNAMENT_END:
+				log.gameStateAction(this.state.toString(),"End Tournament",ai);
+
+				/* Can be a user interaction */
+				tournamentEnd();
+			case EVENT_LOGIC:
+				log.gameStateAction(this.state.toString(),"Apply Event",ai);
+
+				/* Can be a user interaction */
+				applyEventLogic();
 			// end turn : is AI needed here
 			case END_TURN:
-				log.gameStateAction(this.state.toString(),"AI MOVE");
-				break;
+				log.gameStateAction(this.state.toString(),"End Turn",ai);
 
+				/* Can be a user interaction */
+				endTurn();
+				break;
 		}
 	}
 
@@ -282,9 +333,9 @@ public class GameModel{
 		 */
 		if(questSponsor.size() <= 0){
 			//this.state = GameStates.END_TURN;
-			changeState(GameStates.BEGIN_TURN, storyTurn.next());
+			changeState(GameStates.END_TURN, storyTurn.current());
 		} else if (this.state != GameStates.SPONSOR_SUBMIT){
-            changeState(GameStates.SPONSOR_QUEST,questSponsor.current());
+			changeState(GameStates.SPONSOR_QUEST,questSponsor.current());
         }
 		
 		this.updateObservers();
@@ -293,7 +344,7 @@ public class GameModel{
 
 	/* Might not need this since the last person who -sponsor goes to end turn state
 	public void noSponsor(){
-		if(this.state != GameStates.SPONSOR_QUEST)
+
 			return;
 		this.state = GameStates.END_TURN;
 		this.updateObservers();
@@ -513,46 +564,18 @@ public class GameModel{
 		if(player == this.participants.current() && !participate){
 			this.board.addParticipant(this.participants.removeCurrent());
 		}
-		if(this.participants.size() <= 0){
-			//this.state = GameStates.TOURNAMENT_HANDLER;
+
+		if(this.participants.size() <= 0 && board.getParticipants().size() > 1){
 			changeState(GameStates.TOURNAMENT_HANDLER,player);
 		}
-		else if(this.participants.size() <= 1 && board.getParticipants().size() <= 1){
+		else if(this.participants.size() <= 0 && board.getParticipants().size() <= 1){
 			changeState(GameStates.END_TURN,this.storyTurn.current());
-			//this.state = GameStates.END_TURN;
 		}
-		this.updateObservers();
-	}
-
-
-	/*
-	 * NEEDS : change player parameter to a Player Object
-	 */
-	public void participateTournamentEnd(int player,boolean participate){
-		if(this.state != GameStates.PARTICIPATE_TOURNAMENT)
-			return;
-
-		/*
-		 * ACTION : add player to quest
-		 */
-		if(player == participants.current() && participate){
-			this.board.addParticipant(this.participants.removeCurrent());
-		}
-		if(player == this.participants.current() && !participate){
-			//this.board.addParticipant(this.participants.removeCurrent());
-			participants.removeCurrent();
-		}
-
-		// change state
-		if(this.participants.size() <= 0){
-			this.state = GameStates.TOURNAMENT_HANDLER;
-		}
-		else if(this.participants.size() <= 0 && this.board.getParticipants().size() <= 0){
-			this.state = GameStates.TOURNAMENT_STAGE_END;	
+		else{
+			changeState(GameStates.PARTICIPATE_TOURNAMENT,this.participants.current());
 		}
 
 		this.updateObservers();
-
 	}
 
 	public void tournamentStageStart(){
