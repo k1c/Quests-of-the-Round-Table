@@ -230,7 +230,7 @@ public class WaitingPlayersView extends GridPane implements GameObserver, CardSt
             GridPane.setColumnSpan(playerInplay, inplaySpan);
             GridPane.setRowIndex(playerInplay, i);
 
-            createStack(players.get(i).inPlay, playerInplay, false, false, HEIGHT, WIDTH, X_OFFSET);
+            createStack(players.get(i).inPlay, playerInplay, false, false, HEIGHT, WIDTH, X_OFFSET, null, null);
 
             getChildren().add(playerInplay);
         }

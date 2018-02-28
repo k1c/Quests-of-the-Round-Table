@@ -154,24 +154,31 @@ public class GameModel{
 
 		discard.removeCurrent();
 
-			if(discard.size() <= 0)
+		if(discard.size() <= 0)
 			changeState(this.savedState,this.savedIndex);
 		else{
 			changeState(GameStates.DISCARD,discard.current());
 		}
+
 		return true;
 
 	}
 
 	protected void changeState(GameStates state,int playerId){
 		List<Integer> playersOverLimit = board.playersToDiscard();//get players over limit
+		log.gameState(state.toString());
 		// Discard
 		if(playersOverLimit.size() > 0 && this.state != GameStates.DISCARD){
+			log.gameStateAction(this.state.toString(),"Discarding",playerId);
+
 			this.savedState = state;
 			this.savedIndex = this.players.indexOf(playerId);
 			this.state = GameStates.DISCARD;
 
-			this.currentPlayers = new Cycle(playersOverLimit,0);
+			//System.out.println(playersOverLimit);
+
+			this.discard = new Cycle(playersOverLimit,0);
+			this.currentPlayers = new Cycle(players,players.indexOf(playersOverLimit.get(0)));
 		}
 		//Change State
 		else{
@@ -344,7 +351,7 @@ public class GameModel{
 
 	/* Might not need this since the last person who -sponsor goes to end turn state
 	public void noSponsor(){
-
+		if(this.state != GameStates.SPONSOR_QUEST)
 			return;
 		this.state = GameStates.END_TURN;
 		this.updateObservers();
@@ -355,9 +362,9 @@ public class GameModel{
 	 * NEEDS : change player parameter to a Player Object
 	 * NEEDS : some kind of quest object to submit
 	 */
-	public void submitQuest(int player,TwoDimensionalArrayList<Card> quest){
+	public boolean submitQuest(int player,TwoDimensionalArrayList<Card> quest){
 		if(this.state != GameStates.SPONSOR_SUBMIT)
-			return;
+			return false;
 
 		/*
 		 * verify that it is a valid quest
@@ -365,9 +372,12 @@ public class GameModel{
 		if(questSponsor.current() == player && board.submitQuest(quest,player)){
 			this.participants = new Cycle(players,players.indexOf(questSponsor.current()));
 			this.participants.removeCurrent();
+      
 			changeState(GameStates.PARTICIPATE_QUEST,this.participants.current());
+			return true;
 			//this.state = GameStates.PARTICIPATE_QUEST;
 		}
+		return false;
 
 	}
 
@@ -377,26 +387,36 @@ public class GameModel{
 	public void participateQuest(int player,boolean participate){
 		if(this.state != GameStates.PARTICIPATE_QUEST)			
 			return;
+
+
 		/*
 		 * ACTION : add player to quest
 		 */
-		if(player == participants.current() && participate){
+		int currPlayer = this.participants.current();
+		Player p = board.findPlayer(currPlayer);
+        log.playerAction(p, "is deciding whether to participate in the Quest");
+
+		if(player == currPlayer && participate){
+			log.playerAction(p, "successfully participates in the Quest");
 			this.board.addParticipant(this.participants.removeCurrent());
-		}
-		if(player == this.participants.current() && !participate){
+		}else if(player == currPlayer && !participate){
+			log.playerAction(p, "declines to participate in the Quest");
 			//this.board.addParticipant(this.participants.removeCurrent());
 			participants.removeCurrent();
 		}
 
 		// change state
-		if(this.participants.size() <= 0){
+		if(this.participants.size() <= 0 && this.board.getParticipants().size()>0){
 			//this.state = GameStates.QUEST_HANDLER;
-			changeState(GameStates.QUEST_HANDLER,this.participants.current());
+			changeState(GameStates.QUEST_HANDLER, currPlayer);
 		}
 		else if(this.participants.size() <= 0 && this.board.getParticipants().size() <= 0){
 			//this.state = GameStates.QUEST_END;	
-			changeState(GameStates.QUEST_HANDLER,this.participants.current());
+			changeState(GameStates.QUEST_END, currPlayer);
 		}
+		else if(this.state != GameStates.QUEST_HANDLER) {
+		    changeState(GameStates.PARTICIPATE_QUEST, this.participants.current());
+        }
 
 		this.updateObservers();
 	}
@@ -570,12 +590,14 @@ public class GameModel{
 		}
 		else if(this.participants.size() <= 0 && board.getParticipants().size() <= 1){
 			changeState(GameStates.END_TURN,this.storyTurn.current());
+			//this.state = GameStates.END_TURN;
 		}
 		else{
 			changeState(GameStates.PARTICIPATE_TOURNAMENT,this.participants.current());
 		}
 
 		this.updateObservers();
+
 	}
 
 	public void tournamentStageStart(){

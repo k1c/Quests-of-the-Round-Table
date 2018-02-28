@@ -1,5 +1,6 @@
 package com.mycompany.app.controller;
 
+import com.mycompany.app.GameLogger;
 import com.mycompany.app.model.GameModel;
 import com.mycompany.app.model.GameObserver;
 import com.mycompany.app.model.GameStates;
@@ -7,14 +8,17 @@ import com.mycompany.app.view.ConsoleView;
 import javafx.event.EventHandler;
 import javafx.scene.input.MouseEvent;
 
-
 public class ConsoleController implements GameObserver{
     private GameModel gameModel;
     private ConsoleView consoleView;
+    private GameController gameController;
 
-    public ConsoleController(GameModel gameModel, ConsoleView consoleView) {
+    private GameLogger log = GameLogger.getInstanceUsingDoubleLocking();
+
+    public ConsoleController(GameModel gameModel, ConsoleView consoleView, GameController gameController) {
         this.gameModel = gameModel;
         this.consoleView = consoleView;
+        this.gameController = gameController;
 
         this.gameModel.registerObserver(this);
         consoleView.display("Ready, " + this.gameModel.getCurrentPlayer().name + "?");
@@ -23,6 +27,7 @@ public class ConsoleController implements GameObserver{
 
     public void update() {
         GameStates s = gameModel.getState();
+
         switch (s) {
             case BEGIN_TURN:
                 consoleView.display("Ready, " + gameModel.getCurrentPlayer().name + "?");
@@ -44,7 +49,15 @@ public class ConsoleController implements GameObserver{
             case SPONSOR_SUBMIT:
                 consoleView.display(gameModel.getCurrentPlayer().name + " is now sponsoring the quest.\n" +
                         "Please start setting up quest.");
-                consoleView.showButton("Setup Quest", e -> System.out.println("Nothing for now"), 1);
+                consoleView.showButton("Setup Quest", e -> this.gameController.setup(1, 0), 1);
+                break;
+            case PARTICIPATE_QUEST:
+                consoleView.display(gameModel.getCurrentPlayer().name + ", participate in quest?");
+                consoleView.showButton("Participate", e -> gameModel.participateQuest(gameModel.getCurrentPlayer().id(), true), 1);
+                consoleView.showButton("Decline", e -> gameModel.participateQuest(gameModel.getCurrentPlayer().id(), false), 2);
+                break;
+            case QUEST_HANDLER:
+                consoleView.display("Brave knights, beware!\nA Foe or Test lies in front of you!");
                 break;
             default:
                 consoleView.display("Defaulted in ConsoleController.");

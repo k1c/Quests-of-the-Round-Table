@@ -2,20 +2,25 @@ package com.mycompany.app.view;
 
 import com.mycompany.app.model.Card;
 import javafx.event.EventHandler;
+import javafx.event.EventTarget;
 import javafx.geometry.Pos;
 import javafx.scene.Node;
+import javafx.scene.control.Button;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.StackPane;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 public interface CardStack {
 
-    default void createStack(List<Card> cards, StackPane s, final boolean faceDown, final boolean isCurrent, int height, int width, int x_offset) {
+    default void createStack(List<Card> cards, StackPane s, final boolean faceDown, final boolean isCurrent, int height, int width, int x_offset, Button btn, Card.Types[] types) {
         int offset = 0;
+
+        if (btn != null && s.getChildren().contains(btn)) s.getChildren().remove(btn);
 
         for (Card card : cards) {
             final ImageView image;
@@ -24,7 +29,7 @@ public interface CardStack {
 
                 if (isCurrent) {
                     // Add focus event handler
-                    image.addEventHandler(MouseEvent.MOUSE_ENTERED, focusCard(image, s, true));
+                    image.addEventHandler(MouseEvent.MOUSE_ENTERED, focusCard(image, s, true, x_offset, btn, types));
                 }
             }
             else {
@@ -33,7 +38,7 @@ public interface CardStack {
                 image.getProperties().put("color", getColor(card));
 
                 // Add focus event handler
-                image.addEventHandler(MouseEvent.MOUSE_ENTERED, focusCard(image, s, false));
+                image.addEventHandler(MouseEvent.MOUSE_ENTERED, focusCard(image, s, false, x_offset, btn, types));
             }
 
             // Set alignment
@@ -45,6 +50,9 @@ public interface CardStack {
 
             // Move to left for 'stack' effect
             image.setTranslateX(x_offset * offset);
+
+            // Add card object as a property
+            image.getProperties().put("card", card);
 
             // Add image front path
             image.getProperties().put("front", card.res);
@@ -68,16 +76,18 @@ public interface CardStack {
                     image.setImage(new Image("A Back.jpg"));
                 }
 
-                if (!faceDown)
+                if (!faceDown) {
                     image.setStyle((String) image.getProperties().get("color"));
+                   // if (btn != null && s.getChildren().contains(btn)) s.getChildren().remove(btn);
                 }
-            );
+            });
         }
     }
 
-
-    default EventHandler<MouseEvent> focusCard(final ImageView image, final StackPane p, final boolean showCard) {
+    default EventHandler<MouseEvent> focusCard(final ImageView image, final StackPane p, final boolean showCard, int x_offset, Button btn, Card.Types[] types) {
         return e -> {
+            if (btn != null && p.getChildren().contains(btn))p.getChildren().remove(btn);
+
             // Selection color
             image.setStyle("-fx-effect: dropshadow(gaussian, #ff7c14, 5, 1, 0, 0)");
 
@@ -111,7 +121,14 @@ public interface CardStack {
             // Bring target card in front
             if (showCard)
                 image.setImage(new Image((String) image.getProperties().get("front")));
+
+
             children.get(index).toFront();
+            if (btn != null && Arrays.asList(types).contains(((Card) image.getProperties().get("card")).type)) {
+                btn.setTranslateY(-1 * image.getFitHeight()/2.0 + 10);
+                p.getChildren().add(btn);
+                btn.toFront();
+            }
         };
     }
 

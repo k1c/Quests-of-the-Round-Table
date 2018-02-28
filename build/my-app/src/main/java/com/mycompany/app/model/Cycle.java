@@ -37,16 +37,22 @@ public class Cycle<T>{
     }
     
     public T removeCurrent(){
+	if(list.size() <=0)
+		return null;
         T temp = list.remove(currentIndex);
         getIndex();
         return temp;
     }
     
     public T current(){
+	    if(list.size()<= 0)
+		    return null;
         return list.get(currentIndex);
     }
     
     public T next(){
+	if(list.size() <=0)
+		return null;
         nextIndex();
         return list.get(currentIndex);
     }
