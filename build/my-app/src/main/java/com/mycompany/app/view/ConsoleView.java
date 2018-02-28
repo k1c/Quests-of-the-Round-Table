@@ -5,6 +5,7 @@
  */
 package com.mycompany.app.view;
 
+import com.mycompany.app.controller.GameController;
 import com.mycompany.app.model.GameModel;
 import com.mycompany.app.controller.ConsoleController;
 import com.mycompany.app.model.GameObserver;
@@ -25,8 +26,9 @@ public class ConsoleView extends HBox{
     private Label consoleLog;
     private VBox btnBox;
 
-    public ConsoleView(GameModel gameModel){
+    public ConsoleView(GameModel gameModel, GameController gameController){
         this.gameModel = gameModel;
+
 
         setSpacing(30.0);
         setPrefWidth(500);
@@ -41,7 +43,7 @@ public class ConsoleView extends HBox{
         consoleLog.setFont(new Font("Cambria",26));
 
 
-        consoleController = new ConsoleController(gameModel, this);
+        consoleController = new ConsoleController(gameModel, this, gameController);
     }
 
     public void display(String toDisplay) {

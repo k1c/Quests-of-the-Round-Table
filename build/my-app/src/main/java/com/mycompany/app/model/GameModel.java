@@ -80,7 +80,7 @@ public class GameModel{
 			this.currentPlayers = new Cycle(players,players.indexOf(playerId));
 			this.state = state;
 		}
-		
+		this.updateObservers();
 	}
 
 	public GameModel(){
@@ -209,14 +209,14 @@ public class GameModel{
 
         int currPlayer = questSponsor.current();
         Player p = board.findPlayer(currPlayer);
-		log.playerAction(p,"is attempting to Sponsor the Quest");
+		log.playerAction(p,"is deciding whether to Sponsor the Quest");
 
 		/*
 		 * Verify that they can sponsor with current cards
 		 */
 		if(player == currPlayer && sponsor && board.playerCanSponsor(player)){
 			//this.state = GameStates.SPONSOR_SUBMIT;
-			log.playerAction(p,"sucessfully sponsors the Quest");
+			log.playerAction(p,"successfully sponsors the Quest");
 			changeState(GameStates.SPONSOR_SUBMIT,questSponsor.current());
 		}
 		else if(player == currPlayer && !sponsor){
@@ -256,9 +256,9 @@ public class GameModel{
 	 * NEEDS : change player parameter to a Player Object
 	 * NEEDS : some kind of quest object to submit
 	 */
-	public void submitQuest(int player,TwoDimensionalArrayList<Card> quest){
+	public boolean submitQuest(int player,TwoDimensionalArrayList<Card> quest){
 		if(this.state != GameStates.SPONSOR_SUBMIT)
-			return;
+			return false;
 
 		/*
 		 * verify that it is a valid quest
@@ -266,10 +266,12 @@ public class GameModel{
 		if(questSponsor.current() == player && board.submitQuest(quest,player)){
 			this.participants = new Cycle(players,players.indexOf(questSponsor.current()));
 			this.participants.removeCurrent();
+      
 			changeState(GameStates.PARTICIPATE_QUEST,this.participants.current());
+			return true;
 			//this.state = GameStates.PARTICIPATE_QUEST;
 		}
-
+		return false;
 	}
 
 	/*
@@ -278,13 +280,20 @@ public class GameModel{
 	public void participateQuest(int player,boolean participate){
 		if(this.state != GameStates.PARTICIPATE_QUEST)			
 			return;
+
+
 		/*
 		 * ACTION : add player to quest
 		 */
-		if(player == participants.current() && participate){
+		int currPlayer = this.participants.current();
+		Player p = board.findPlayer(currPlayer);
+        log.playerAction(p, "is deciding whether to participate in the Quest");
+
+		if(player == currPlayer && participate){
+		    log.playerAction(p, "successfully participates in the Quest");
 			this.board.addParticipant(this.participants.removeCurrent());
-		}
-		if(player == this.participants.current() && !participate){
+		}else if(player == currPlayer && !participate){
+            log.playerAction(p, "declines to participate in the Quest");
 			//this.board.addParticipant(this.participants.removeCurrent());
 			participants.removeCurrent();
 		}
@@ -292,12 +301,16 @@ public class GameModel{
 		// change state
 		if(this.participants.size() <= 0){
 			//this.state = GameStates.QUEST_HANDLER;
-			changeState(GameStates.QUEST_HANDLER,this.participants.current());
+			changeState(GameStates.QUEST_HANDLER, currPlayer);
 		}
 		else if(this.participants.size() <= 0 && this.board.getParticipants().size() <= 0){
 			//this.state = GameStates.QUEST_END;	
-			changeState(GameStates.QUEST_HANDLER,this.participants.current());
+			changeState(GameStates.QUEST_HANDLER, currPlayer);
 		}
+
+		if(this.state != GameStates.QUEST_HANDLER) {
+		    changeState(GameStates.PARTICIPATE_QUEST, this.participants.current());
+        }
 
 		this.updateObservers();
 	}

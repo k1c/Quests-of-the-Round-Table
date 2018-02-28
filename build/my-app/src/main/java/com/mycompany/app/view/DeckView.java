@@ -62,19 +62,28 @@ public class DeckView extends HBox implements GameObserver{
         getChildren().addAll(adventureDeck, storyDeck);
     }
 
+    private void refreshStoryDeck() {
+        storyDeck.getChildren().clear();
+        sty.setImage(new Image(gameModel.getCurrentStory().res));
+        storyDeck.getChildren().add(sty);
+    }
+
+    private void resetStoryDeck() {
+        storyDeck.getChildren().clear();
+        sty.setImage(new Image("S Back.jpg"));
+        storyDeck.getChildren().add(sty);
+    }
+
     public void update() {
         GameStates s = gameModel.getState();
 
         switch (s) {
-            case EVENT_LOGIC:
-                storyDeck.getChildren().clear();
-                sty.setImage(new Image(gameModel.getCurrentStory().res));
-                storyDeck.getChildren().add(sty);
+            case BEGIN_TURN:
+            case SPONSOR_SUBMIT:
+                resetStoryDeck();
                 break;
             default:
-                storyDeck.getChildren().clear();
-                sty.setImage(new Image("S Back.jpg"));
-                storyDeck.getChildren().add(sty);
+                refreshStoryDeck();
                 break;
         }
     }

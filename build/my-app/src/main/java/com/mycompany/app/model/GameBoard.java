@@ -411,7 +411,7 @@ public class GameBoard extends AbstractGameBoard{
 				testNumber++;
 			}
 
-			if(cardListHas(stageList,Card.Types.FOE) && currentBP >= lastBP){
+			if(cardListHas(stageList,Card.Types.FOE) && currentBP > lastBP){
 				lastBP = currentBP;
 			}
 			else if (cardListHas(stageList, Card.Types.FOE)){
@@ -439,7 +439,7 @@ public class GameBoard extends AbstractGameBoard{
 		//submit final changes
 		resetQuest();
 
-		p.hand = tempPlayerHand;	
+		p.hand = tempPlayerHand;
 		this.quest = quest;
 		this.sponsor = p;
 		this.currentQuestIndex = 0;
