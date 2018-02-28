@@ -56,16 +56,10 @@ public class ConsoleController implements GameObserver{
                 consoleView.showButton("Participate", e -> gameModel.participateQuest(gameModel.getCurrentPlayer().id(), true), 1);
                 consoleView.showButton("Decline", e -> gameModel.participateQuest(gameModel.getCurrentPlayer().id(), false), 2);
                 break;
-            case QUEST_HANDLER:
-                consoleView.display("Brave knights, beware!\nA Foe or Test lies in front of you!");
-                consoleView.showButton("Nothing", e -> {}, 1);
-                break;
             case DISCARD:
                 consoleView.display("DISCARD STATE");
                 consoleView.showButton("Nothing", e -> {}, 1);
                 break;
-            default:
-                consoleView.display("Defaulted in ConsoleController.");
         }
     }
 }

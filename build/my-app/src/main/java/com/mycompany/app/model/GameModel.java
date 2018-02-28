@@ -189,6 +189,8 @@ public class GameModel{
 		log.gameState(this.state.toString());
 		if(board.playerIsAI(playerId))
 			AI_Move(board.getAI(playerId));
+
+		this.updateObservers();
 	}
 
 	public GameModel(){

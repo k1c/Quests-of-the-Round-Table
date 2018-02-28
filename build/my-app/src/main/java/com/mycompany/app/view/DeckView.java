@@ -78,12 +78,12 @@ public class DeckView extends HBox implements GameObserver{
         GameStates s = gameModel.getState();
 
         switch (s) {
-            case BEGIN_TURN:
-            case SPONSOR_SUBMIT:
-                resetStoryDeck();
+            case EVENT_LOGIC:
+            case SPONSOR_QUEST:
+                refreshStoryDeck();
                 break;
             default:
-                refreshStoryDeck();
+                resetStoryDeck();
                 break;
         }
     }
