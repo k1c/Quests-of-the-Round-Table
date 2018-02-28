@@ -24,6 +24,8 @@ import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.*;
 import javafx.stage.Stage;
 
+import java.util.List;
+
 /**
  * TODO:
  * 1) Consistent margins and spacing
@@ -43,6 +45,7 @@ public class GameController implements GameObserver{
 	private DeckView deckView;
 	private ConsoleView consoleView;
 	private QuestsView questsView;
+	private List<Card> questSetup;
 
 	private GenericPlayer current;
 
@@ -95,11 +98,13 @@ public class GameController implements GameObserver{
 
 	public void setup(int stage, int row) {
 		GenericPlayer curr = gameModel.getCurrentPlayer();
-		currentPlayerView.buildHand(gameModel.getCurrentPlayer().hand, false, null, null);
-
 		if (stage <= 1 && row == 0) {
 			questsView.clearQuest();
 		}
+		questSetup = questsView.getQuestSetup().toList();
+		curr.hand.removeAll(questSetup);
+		currentPlayerView.buildHand(curr.hand, false, null, null);
+
 
 		if (stage <= gameModel.getNumberOfStages()) {
 			questsView.setFocus(stage, row);
@@ -115,28 +120,31 @@ public class GameController implements GameObserver{
                     questsView.setFoeTest(img, stage);
                     // add to player's tobeplayed and remove from hand
 					// on successfull submit, cards removed from tobe
-                    currentPlayerView.buildHand(gameModel.getCurrentPlayer().hand, false, null, null);
+					curr.hand.remove(img);
+                    currentPlayerView.buildHand(curr.hand, false, null, null);
                 });
                 Card.Types[] types = {Card.Types.FOE, Card.Types.TEST};
-                currentPlayerView.buildHand(gameModel.getCurrentPlayer().hand, false, play, types);
+                currentPlayerView.buildHand(curr.hand, false, play, types);
 
 			}
 			else {
                 //weapons
 				log.playerAction(gameModel.getCurrentPlayer(), "adding weapon(s) to stage " + stage);
                 consoleView.display("Add weapon(s) to stage " + stage);
+				Card.Types[] types = {Card.Types.WEAPON};
 
                 Button play = new Button("Play Card");
                 play.addEventHandler(MouseEvent.MOUSE_CLICKED, e -> {
                     Card img = (Card) currentPlayerView.getFrontCard().getProperties().get("card");
 					log.cardPlayed(gameModel.getCurrentPlayer(), img, "in Quest setup");
                     questsView.setWeapons(img, stage);
+                    curr.hand.remove(img);
+                    currentPlayerView.buildHand(curr.hand,false,play,types);
                     // add to player's tobeplayed and remove from hand
                     // on successfull submit, cards removed from tobe
                     //currentPlayerView.buildHand(gameModel.getCurrentPlayer().hand, false, null, null);
                 });
-                Card.Types[] types = {Card.Types.WEAPON};
-                currentPlayerView.buildHand(gameModel.getCurrentPlayer().hand, false, play, types);
+                currentPlayerView.buildHand(curr.hand, false, play, types);
 			}
 
 			consoleView.showButton("Next"
@@ -164,6 +172,7 @@ public class GameController implements GameObserver{
             		log.error("Quest setup is invalid and it will restart");
             		consoleView.display("The quest setup is invalid!\nPlease rebuild the quest.");
 					consoleView.showButton("Setup Quest", e2 -> setup(1, 0), 1);
+					//currentPlayerView.buildHand(gameModel.getCurrentPlayer().hand,false,null,null);
 				} else {
 					log.playerAction(curr, "successfully set up the Quest");
 				}

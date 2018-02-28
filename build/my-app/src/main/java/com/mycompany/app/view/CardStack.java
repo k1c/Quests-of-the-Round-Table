@@ -125,7 +125,7 @@ public interface CardStack {
 
             children.get(index).toFront();
             if (btn != null && Arrays.asList(types).contains(((Card) image.getProperties().get("card")).type)) {
-                btn.setTranslateY(-1 * image.getFitHeight()/2.0 + 10);
+                btn.setTranslateY(-1 * image.getFitHeight()/2.0 - 15);
                 p.getChildren().add(btn);
                 btn.toFront();
             }
