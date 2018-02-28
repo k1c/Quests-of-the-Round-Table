@@ -36,7 +36,7 @@ public static final String ANSI_WHITE = "\u001B[37m";
     private GameLogger() { }
 
     public void playerAction(Player player, String action) {
-        String str = "User Action:  " + player.name + " " + action;
+        String str = String.format("%sUser Action:  %s :%s %s",ANSI_PURPLE,player.toString(),ANSI_RESET,action);
         logger.log(GameLogger.class.getCanonicalName(), Level.INFO, str, null);
     }
 

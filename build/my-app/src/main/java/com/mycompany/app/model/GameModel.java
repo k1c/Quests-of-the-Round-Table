@@ -315,22 +315,23 @@ public class GameModel{
 		if(this.state != GameStates.SPONSOR_QUEST)
 			return;
 
-        int currPlayer = questSponsor.current();
-
+		int currPlayer = questSponsor.current();
+		Player p = board.findPlayer(currPlayer);
+		log.playerAction(p,"is deciding whether to Sponsor the Quest");
 		/*
 		 * Verify that they can sponsor with current cards
 		 */
 		if(player == currPlayer && sponsor && board.playerCanSponsor(player)){
 			//this.state = GameStates.SPONSOR_SUBMIT;
-			log.warning("Successful Sponsorship");
+			log.playerAction(p,"successfully sponsors the Quest");
 			changeState(GameStates.SPONSOR_SUBMIT,questSponsor.current());
 		}
 		else if(player == currPlayer && !sponsor){
-			log.warning("Unsuccessful Sponsorship");
+			log.playerAction(p,"declines to sponsor the Quest");
 			questSponsor.removeCurrent();
 		}
 		else if(player == currPlayer && !board.playerCanSponsor(player)){
-			log.warning("Unsuccessful Sponsorship");
+			log.playerAction(p,"cannot sponsor the Quest");
 			questSponsor.removeCurrent();	
 		}
 
