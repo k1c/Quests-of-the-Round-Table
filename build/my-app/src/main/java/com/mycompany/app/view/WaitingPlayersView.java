@@ -89,7 +89,7 @@ public class WaitingPlayersView extends GridPane implements GameObserver, CardSt
         int inplaySpan = (int) Math.ceil(numInPlay/cardsPerCol + 1);
 
         // Total number of columns: 1 for rank, 1 for shield, handspan, inplay, BP
-        int numCol = 1 + 1 + handSpan + inplaySpan + 1;
+        int numCol = 1 + 1 + handSpan + inplaySpan + 1 + 1;
 
         // Set gridpane width
         setPrefWidth(numCol * WIDTH);
@@ -127,8 +127,10 @@ public class WaitingPlayersView extends GridPane implements GameObserver, CardSt
         // add in play
         buildInPlay(waiting, handSpan+2, inplaySpan);
 
+        buildToBePlayed(numCol - 1);
+
         // add battle points
-        buildBattlePoints(waiting, numCol-1);
+        buildBattlePoints(waiting, numCol);
 
     }
 
@@ -209,8 +211,15 @@ public class WaitingPlayersView extends GridPane implements GameObserver, CardSt
             pHandSize.setFont(new Font("Cambria", 30));
             pHandSize.setStyle("-fx-font-weight: bold; -fx-text-fill: white;");
 
+            Label playLabel = new Label("In Hand");
+            playLabel.setFont(new Font("Cambria", 15));
+            playLabel.setStyle("-fx-font-weight: bold; -fx-text-fill: white;");
+            StackPane.setAlignment(playLabel, Pos.TOP_CENTER);
+
             playerHand.getChildren().add(back);
             playerHand.getChildren().add(pHandSize);
+            playerHand.getChildren().add(playLabel);
+
             StackPane.setAlignment(pHandSize, Pos.CENTER);
 
             i--;
@@ -238,6 +247,45 @@ public class WaitingPlayersView extends GridPane implements GameObserver, CardSt
 
             getChildren().add(playerInplay);
         }
+    }
+
+    private void buildToBePlayed(int index){
+
+        int i = waiting.size() - 1;
+
+        // For each player, create hand, ONLY BACK OF CARD
+        for (GenericPlayer p : waiting) {
+            StackPane playerHand = new StackPane();
+
+            GridPane.setColumnIndex(playerHand, index);
+            GridPane.setRowIndex(playerHand, i);
+
+
+            final ImageView back = new ImageView(new Image("A Back.jpg"));
+            back.setFitWidth(WIDTH);
+            back.setFitHeight(HEIGHT);
+            String playerHandSize = Integer.toString(p.toBePlayed.size());
+
+            Label pHandSize = new Label(playerHandSize);
+            pHandSize.setFont(new Font("Cambria", 30));
+            pHandSize.setStyle("-fx-font-weight: bold; -fx-text-fill: white;");
+
+
+            Label playLabel = new Label("To Be Played");
+            playLabel.setFont(new Font("Cambria", 15));
+            playLabel.setStyle("-fx-font-weight: bold; -fx-text-fill: white;");
+            StackPane.setAlignment(playLabel, Pos.TOP_CENTER);
+
+            playerHand.getChildren().add(back);
+            playerHand.getChildren().add(pHandSize);
+            playerHand.getChildren().add(playLabel);
+            StackPane.setAlignment(pHandSize, Pos.CENTER);
+
+            i--;
+
+            getChildren().add(playerHand);
+        }
+
     }
 
     private void buildBattlePoints(List<GenericPlayer> players, int index) {

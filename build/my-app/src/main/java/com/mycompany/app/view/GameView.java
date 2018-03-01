@@ -180,7 +180,27 @@ public class GameView extends HBox {
 
         final Button startGame = new Button();
         startGame.setText("Start Game");
-        startGame.setFont(new Font("Cambria",30));
+        startGame.setFont(new Font("Cambria",20));
+
+        Button scenario1 = new Button("Scenario 1");
+        scenario1.setFont(new Font("Cambria", 20));
+
+        Button scenario2 = new Button("Scenario 2");
+        scenario2.setFont(new Font("Cambria", 20));
+
+        Button scenario3 = new Button("Scenario 3");
+        scenario3.setFont(new Font("Cambria", 20));
+
+        Button scenario4 = new Button("Scenario 4");
+        scenario4.setFont(new Font("Cambria", 20));
+
+        Button scenario5 = new Button("Scenario 5");
+        scenario5.setFont(new Font("Cambria", 20));
+
+
+        HBox btnBox = new HBox(10);
+        btnBox.setAlignment(Pos.CENTER);
+        btnBox.getChildren().addAll(startGame, scenario1, scenario2, scenario3, scenario4, scenario5);
 
         startGame.addEventHandler(MouseEvent.MOUSE_CLICKED, new EventHandler<MouseEvent>() {
             @Override
@@ -205,7 +225,7 @@ public class GameView extends HBox {
 
         addValidationListener(startGame, textField1, textField2, textField3, textField4);
 
-        VBox gameMenu = new VBox(20, title , startGame, humanLabel, humanSlider, aiLabel, aiSlider, player1HB, player2HB, player3HB, player4HB);
+        VBox gameMenu = new VBox(20, title , btnBox, humanLabel, humanSlider, aiLabel, aiSlider, player1HB, player2HB, player3HB, player4HB);
         gameMenu.setPadding(new Insets(100.0, 0.0, 0.0,0.0));
         gameMenu.setAlignment(Pos.TOP_LEFT);
 
