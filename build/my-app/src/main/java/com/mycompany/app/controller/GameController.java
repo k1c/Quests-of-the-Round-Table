@@ -196,7 +196,7 @@ public class GameController implements GameObserver{
         Card.Types[] types = {Card.Types.FOE, Card.Types.ALLY, Card.Types.TEST, Card.Types.AMOUR, Card.Types.WEAPON};
 	    btn.addEventHandler(MouseEvent.MOUSE_CLICKED, removeCard(discards, p, btn, types));
         p.hand.removeAll(discards);
-	    currentPlayerView.buildHand(p.hand, true, btn, types);
+	    currentPlayerView.buildHand(p.hand, false, btn, types);
     }
 
     public void startFoeStage() {
@@ -209,7 +209,7 @@ public class GameController implements GameObserver{
         consoleView.display(p.name + ", choose cards to fight the foe.\n Click submit once ready.");
         consoleView.showButton("Submit", e -> {
             gameModel.stageFoe(p.id(), toPlay);
-            if (gameModel.getNumParticipants() > 1)
+            if (gameModel.getNumParticipants() > 0)
                 startFoeStage();
         }, 1);
 
