@@ -176,7 +176,7 @@ public class GameBoard extends AbstractGameBoard{
 
 	public void applyStoryCardLogic(int player) {
 
-		System.out.println("Applying Story Card");
+		log.gameState("Applying Story Card");
 		currentStory.apply(this, player);
 
 		for(Player p: this.players){
