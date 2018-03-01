@@ -228,15 +228,15 @@ public class GameController implements GameObserver{
 
         consoleView.display(p.name + ", choose the cards you'd like to bid.\n");
         consoleView.showButton("Submit", e -> {
-            //if(!gameModel.stageTest(p.id(), bids)){
-            consoleView.display("You need to bid more!");
-            //}
-            if (gameModel.getNumParticipants() > 0)
+            if(!gameModel.stageTest(p.id(), bids)){
+            	consoleView.display("You need to bid more!");
+            }
+            if (gameModel.getNumParticipants() > 1)
                 startTestStage();
         }, 1);
         consoleView.showButton("Give up", e -> {
             gameModel.testGiveUp(p.id());
-            if (gameModel.getNumParticipants() > 0)
+            if (gameModel.getNumParticipants() > 1)
                 startTestStage();
         }, 2);
 
