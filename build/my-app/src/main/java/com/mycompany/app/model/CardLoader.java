@@ -88,5 +88,14 @@ public class CardLoader{
 
 	}
 
+	public static List<StoryCard> rigGame1(){
+		StoryCardFactory F = new StoryCardFactory();
+		List<StoryCard> L = new ArrayList<StoryCard>();
 
+		L.addAll(F.createCardList(StoryCardFactory.Types.CHIVALROUS_DEED, 1));
+		L.addAll(F.createCardList(StoryCardFactory.Types.PROSPERITY_THROUGHOUT_THE_REALM, 1));
+		L.addAll(F.createCardList(StoryCardFactory.Types.BOAR_HUNT, 1));
+
+		return L;
+	}
 }

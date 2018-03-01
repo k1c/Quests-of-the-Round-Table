@@ -97,7 +97,40 @@ public class GameBoard extends AbstractGameBoard{
 		}
 	}
 
-	public void rigGame(){
+	public void initRig(List<AbstractAI> ai, List<HumanPlayer> hu,List<AdventureCard> ad, List<StoryCard> sd,boolean shuffle_adventure,boolean shuffle_story,boolean addCards){
+
+		log.gameState("Rigging Game");
+
+
+		this.currentStory = null;
+		this.currentQuestIndex = 0;
+		this.currentTournamentStage = 0;
+
+		this.players.addAll(ai);
+		this.players.addAll(hu);
+
+		this.ais.addAll(ai);
+
+		this.adventureDeck.addAll(ad);
+		this.storyDeck.addAll(sd);
+
+		this.adventureDeckDiscard = new ArrayList<AdventureCard>();	
+		this.storyDeckDiscard 	  = new ArrayList<StoryCard>();
+		this.participants 	  = new ArrayList<Player>();
+
+		if(shuffle_story)
+			Collections.shuffle(this.storyDeck);
+
+		if(shuffle_adventure)
+			Collections.shuffle(this.adventureDeck);
+
+		if(addCards){
+			for(Player p : this.players){
+				for(int num=p.hand.size(); num <= 12; num=p.hand.size()){
+					drawFromAdventureDeck(p);
+				}
+			}
+		}
 
 	}
 	public void loadGame(){
