@@ -591,7 +591,7 @@ public class GameBoard extends AbstractGameBoard{
 			if(item.type == Card.Types.AMOUR && !amourInPlay){
 				tempInPlay.add(item);
 			}
-			else if(item.type != Card.Types.AMOUR && (item.freeBid(this) || item.type == Card.Types.ALLY)){
+			else if(item.type != Card.Types.AMOUR && (item.freeBid(this) /*|| item.type == Card.Types.ALLY*/)){
 				tempInPlay.add(item);
 			}
 			else{
