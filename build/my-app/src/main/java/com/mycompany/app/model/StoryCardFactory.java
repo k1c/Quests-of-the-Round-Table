@@ -45,7 +45,7 @@ public class StoryCardFactory{
             case TOURNAMENT_AT_YORK:
                 return defaultTournament(46, "/QT York.jpg", "Tournament at York", 0);
             case KINGS_RECOGNITION:
-                return defaultEvent(47, "/E King's Recognition.jpg", "King's Recognition", new KingsRecognitionEvent(0));
+                return defaultEvent(47, "/E King's Recognition.jpg", "King's Recognition", new KingsRecognitionEvent(2));
             case QUEENS_FAVOR:
                 return defaultEvent(48, "/E Queen's Favor.jpg", "Queen's Favor", new QueensFavorEvent(0));
             case COURT_CALLED_TO_CAMELOT:
