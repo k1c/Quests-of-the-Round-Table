@@ -4,13 +4,13 @@ package com.mycompany.app.model;
 import com.mycompany.app.model.Card;
 
 public class Card implements Comparable<Card>{
-	public static enum Types {FOE,ALLY,WEAPON,AMOUR,TEST, EVENT, QUEST, TOURNAMENT};
+	public static enum Types {FOE,ALLY,WEAPON,AMOUR,TEST, EVENT, QUEST, TOURNAMENT, RANK};
 	public final Types type;
 	public final int id;
 	public final String res;
 	public final String name;
 
-	protected Card(int id,String res,String name, Types type){
+	public Card(int id,String res,String name, Types type){  //change back to protected once Rank cards are added
 		this.name = name;
 		this.res = res;
 		this.id = id;

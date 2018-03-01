@@ -140,29 +140,29 @@ public class GameModel{
 		}
 	}
 
-	public boolean discard (int playerId, List<Card> discards){
-		if(this.state != GameStates.DISCARD){
-			log.gameStateAction(this.state,"Incorrect State",board.findPlayer(playerId));
+	public boolean discard (int playerId, List<Card> discards) {
+		if (this.state != GameStates.DISCARD) {
+			log.gameStateAction(this.state, "Incorrect State", board.findPlayer(playerId));
 			return false;
 		}
 
-		if(this.discard.current() != playerId){
-			log.gameStateAction(this.state,"Incorrect Player",board.findPlayer(playerId));
+		if (this.discard.current() != playerId) {
+			log.gameStateAction(this.state, "Incorrect Player", board.findPlayer(playerId));
 			return false;
 		}
 
-		boolean valid = board.discardHand(playerId,discards);
+		boolean valid = board.discardHand(playerId, discards);
 
-		if(!valid){
-			log.gameStateAction(this.state,"Invalid Discard",board.findPlayer(playerId));
+		if (!valid) {
+			log.gameStateAction(this.state, "Invalid Discard", board.findPlayer(playerId));
 			return false;
 		}
 
 		discard.removeCurrent();
-	
-		if(discard.size() <= 0)
-			changeState(this.savedState,this.savedIndex);
-		else{
+
+		if (discard.size() <= 0){
+		changeState(this.savedState, this.savedIndex);
+	    }else{
 			changeState(GameStates.DISCARD,discard.current());
 		}
 
@@ -301,13 +301,14 @@ public class GameModel{
 
 		if (Card.Types.QUEST == card.type){
 			// start a cycle  with the sponsor as current player
-			questSponsor = new Cycle<Integer>(players,players.indexOf(storyTurn.current()));
+			questSponsor = new Cycle<Integer>(players,storyTurn.current());
 			//this.state = GameStates.SPONSOR_QUEST;
 			changeState(GameStates.SPONSOR_QUEST,questSponsor.current());
 		}
 
 		if (Card.Types.TOURNAMENT == card.type){
-			changeState(GameStates.TOURNAMENT_HANDLER,storyTurn.current());
+			this.participants = new Cycle<Integer>(this.players,this.storyTurn.current());
+			changeState(GameStates.PARTICIPATE_TOURNAMENT,storyTurn.current());
 			//this.state = GameStates.TOURNAMENT_HANDLER;
 		}
 
@@ -650,26 +651,29 @@ public class GameModel{
 			log.gameStateAction(this.state,"Invalid State",board.findPlayer(player));
 			return;
 		}
-		if(player == participants.current() && participate){
+		int currentPlayer = participants.current();
+		Player p = board.findPlayer(currentPlayer);
+		log.playerAction(p,"is deciding wheter to participate in the Tournament");
+
+		if(player == currentPlayer && participate){
 			log.gameStateAction(this.state,"Participates",board.findPlayer(player));
 			this.board.addParticipant(this.participants.removeCurrent());
-		}
-		if(player == this.participants.current() && !participate){
+		}else if(player == currentPlayer && !participate){
 			log.gameStateAction(this.state,"Does Not Participate",board.findPlayer(player));
 			this.participants.removeCurrent();
 		}
 
-		if(this.participants.size() <= 0 && board.getParticipants().size() > 1){
+		if(this.participants.size() <= 0 && board.getParticipants().size() > 0){
 			log.gameStateAction(this.state,"Beginning Tournament",board.findPlayer(player));
-			changeState(GameStates.TOURNAMENT_HANDLER,player);
+			changeState(GameStates.TOURNAMENT_HANDLER,currentPlayer);
 		}
-		else if(this.participants.size() <= 0 && board.getParticipants().size() <= 1){
+		else if(this.participants.size() <= 0 && board.getParticipants().size() <= 0){
 			log.gameStateAction(this.state,"Not Enough Participants",board.findPlayer(player));
 			changeState(GameStates.END_TURN,this.storyTurn.current());
 			//this.state = GameStates.END_TURN;
 		}
 		else{
-			log.gameStateAction(this.state,"Next Participant",board.findPlayer(player));
+			log.gameStateAction(this.state,"Next Participant",board.findPlayer(this.participants.current()));
 			changeState(GameStates.PARTICIPATE_TOURNAMENT,this.participants.current());
 		}
 
@@ -728,6 +732,8 @@ public class GameModel{
 			log.gameStateAction(this.state,"Ending Stage",board.findPlayer(id));
 			changeState(GameStates.TOURNAMENT_STAGE_END,id);
 			//this.state = GameStates.TOURNAMENT_STAGE_END;
+		} else {
+			changeState(GameStates.TOURNAMENT_STAGE, this.participants.current());
 		}
 		return true;
 

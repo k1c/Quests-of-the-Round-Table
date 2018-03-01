@@ -46,6 +46,8 @@ public class GameController implements GameObserver{
 	private ConsoleView consoleView;
 	private QuestsView questsView;
 	private List<Card> questSetup;
+    private TournamentView tournamentView;
+    private List<Card> tournamentSetup;
 
 	private GenericPlayer current;
 
@@ -58,6 +60,7 @@ public class GameController implements GameObserver{
 		this.gameView = gameView;
 		this.gameModel = gameModel;
 		this.gameModel.registerObserver(this);
+
 	}
 
 	public void startGame(Stage primaryStage, int numHumans, int numAI, String[] humanNames) {
@@ -180,6 +183,67 @@ public class GameController implements GameObserver{
 		}
     }
 
+    public void setupTournament(int player, int row){
+        GenericPlayer curr = gameModel.getCurrentPlayer();
+
+        if (player <= 1 && row == 0) {
+            tournamentView.clearTournament();
+        }
+        currentPlayerView.buildHand(curr.hand, false, null, null);
+
+        if (gameModel.getState() == GameStates.TOURNAMENT_STAGE) {
+            tournamentView.setFocus(player, row);
+            if (row == 0) {
+                log.gameState(gameModel.getCurrentPlayer()+" is added to the tournament");
+                consoleView.display("Ready " + gameModel.getCurrentPlayer().name + " ?");
+                Card card = new Card(666,gameModel.getCurrentPlayer().rank.getPath(),"Rank",Card.Types.RANK);
+                tournamentView.setPlayer(card,player);
+            }
+            else {
+                //cards
+                log.playerAction(gameModel.getCurrentPlayer(), "adding card(s) to tournament");
+                consoleView.display("Add card(s) in tournament");
+                Card.Types[] types = {Card.Types.WEAPON, Card.Types.ALLY, Card.Types.AMOUR};
+
+                Button play = new Button("Play Card");
+                play.addEventHandler(MouseEvent.MOUSE_CLICKED, e -> {
+                    Card img = (Card) currentPlayerView.getFrontCard().getProperties().get("card");
+                    log.cardPlayed(gameModel.getCurrentPlayer(), img, "in Tournament setup");
+                    tournamentView.setCards(img,player);
+                    curr.hand.remove(img);
+                    currentPlayerView.buildHand(curr.hand,false,play,types);
+                    // add to player's tobeplayed and remove from hand
+                    // on successfull submit, cards removed from tobe
+                    //currentPlayerView.buildHand(gameModel.getCurrentPlayer().hand, false, null, null);
+                });
+                currentPlayerView.buildHand(curr.hand, false, play, types);
+            }
+
+            consoleView.showButton("Next"
+                    , e -> {
+
+                        if (row == 0){
+                            setupTournament(player,row+1);
+                        }else{
+                            List<Card> temp = tournamentView.getTournamentSetup().get(player - 1);
+                            temp.remove(0);
+                            if(!gameModel.tournamentStage(gameModel.getCurrentPlayer().id(), temp)) {
+                                setupTournament(player, row);
+                            } else {
+                                setupTournament(player+1,0);
+                            }
+                        }
+                    }
+                    , 1);
+        } else {
+            consoleView.display("Run Tournament");
+            consoleView.showButton("Start", e -> {
+                gameModel.tournamentStageEnd();
+            }, 1);
+        }
+
+    }
+
     // PASS IN CUSTOM HANDLER TO SHOW/HIDE TO PREVENT SCREWUP
     // DISCARD STARTS WITH PLAYER HAND DOWN
     public void discard() {
@@ -264,9 +328,15 @@ public class GameController implements GameObserver{
         GameStates s = this.gameModel.getState();
 
         switch (s) {
+            case TOURNAMENT_HANDLER:
+                if (root.getChildren().contains(tournamentView)) root.getChildren().remove(tournamentView);
+                tournamentView = new TournamentView((gameModel));
+                AnchorPane.setLeftAnchor(tournamentView, 0.0);
+                AnchorPane.setTopAnchor(tournamentView, 0.0);
+                root.getChildren().add(tournamentView);
+                break;
             case SPONSOR_SUBMIT:
                 if (root.getChildren().contains(questsView)) root.getChildren().remove(questsView);
-
                 questsView = new QuestsView(gameModel);
                 AnchorPane.setLeftAnchor(questsView, 0.0);
                 AnchorPane.setTopAnchor(questsView, 0.0);
@@ -277,6 +347,13 @@ public class GameController implements GameObserver{
                 consoleView.showButton("Finish", e -> {
                     root.getChildren().remove(questsView);
                     gameModel.endQuest();
+                }, 1);
+                break;
+            case TOURNAMENT_END:
+                consoleView.display("End of Tournament");
+                consoleView.showButton("Finish", e -> {
+                    root.getChildren().remove(tournamentView);
+                    gameModel.tournamentEnd();
                 }, 1);
                 break;
         }
