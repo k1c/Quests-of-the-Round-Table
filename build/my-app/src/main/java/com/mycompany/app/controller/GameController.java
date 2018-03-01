@@ -228,6 +228,7 @@ public class GameController implements GameObserver{
                             List<Card> temp = tournamentView.getTournamentSetup().get(player - 1);
                             temp.remove(0);
                             if(!gameModel.tournamentStage(gameModel.getCurrentPlayer().id(), temp)) {
+                                tournamentView.clearPlayerCards(player);
                                 setupTournament(player, row);
                             } else {
                                 setupTournament(player+1,0);

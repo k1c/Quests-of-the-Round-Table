@@ -39,6 +39,10 @@ public class TournamentView extends GridPane implements GameObserver, CardStack 
         buildLayout();
     }
 
+    public void clearPlayerCards(int player) {
+        tournamentCards[player - 1].getChildren().clear();
+    }
+
     private void buildLayout() {
         getChildren().clear();
 
