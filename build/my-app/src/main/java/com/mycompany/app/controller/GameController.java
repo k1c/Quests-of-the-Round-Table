@@ -60,6 +60,7 @@ public class GameController implements GameObserver{
 		this.gameView = gameView;
 		this.gameModel = gameModel;
 		this.gameModel.registerObserver(this);
+
 	}
 
 	public void startGame(Stage primaryStage, int numHumans, int numAI, String[] humanNames) {
@@ -184,47 +185,31 @@ public class GameController implements GameObserver{
 
     public void setupTournament(int player, int row){
         GenericPlayer curr = gameModel.getCurrentPlayer();
+
         if (player <= 1 && row == 0) {
             tournamentView.clearTournament();
         }
-        tournamentSetup = tournamentView.getTournamentSetup().toList();
-
-        curr.hand.removeAll(tournamentSetup);
         currentPlayerView.buildHand(curr.hand, false, null, null);
 
-/*
-        if (player <= gameModel.getNumberOfStages()) {
-            questsView.setFocus(player, row);
+        if (player <= gameModel.getNumParticipants()) {
+            tournamentView.setFocus(player, row);
             if (row == 0) {
-                // foe/test
-                log.playerAction(gameModel.getCurrentPlayer(), "adding a foe/test to player " + player);
-                consoleView.display("Add a foe or a test to player " + player);
-
-                Button play = new Button("Play Card");
-                play.addEventHandler(MouseEvent.MOUSE_CLICKED, e -> {
-                    Card img = (Card) currentPlayerView.getFrontCard().getProperties().get("card");
-                    log.cardPlayed(gameModel.getCurrentPlayer(), img, "in Quest setup");
-                    questsView.setFoeTest(img, player);
-                    // add to player's tobeplayed and remove from hand
-                    // on successfull submit, cards removed from tobe
-                    curr.hand.remove(img);
-                    currentPlayerView.buildHand(curr.hand, false, null, null);
-                });
-                Card.Types[] types = {Card.Types.FOE, Card.Types.TEST};
-                currentPlayerView.buildHand(curr.hand, false, play, types);
-
+                log.gameState(gameModel.getCurrentPlayer()+" is added to the tournament");
+                consoleView.display("Ready " + gameModel.getCurrentPlayer().name + " ?");
+                Card card = new Card(666,gameModel.getCurrentPlayer().rank.getPath(),"Rank",Card.Types.RANK);
+                tournamentView.setPlayer(card,player);
             }
             else {
-                //weapons
-                log.playerAction(gameModel.getCurrentPlayer(), "adding weapon(s) to player " + player);
-                consoleView.display("Add weapon(s) to player " + player);
-                Card.Types[] types = {Card.Types.WEAPON};
+                //cards
+                log.playerAction(gameModel.getCurrentPlayer(), "adding card(s) to tournament");
+                consoleView.display("Add card(s) in tournament");
+                Card.Types[] types = {Card.Types.WEAPON, Card.Types.ALLY, Card.Types.AMOUR};
 
                 Button play = new Button("Play Card");
                 play.addEventHandler(MouseEvent.MOUSE_CLICKED, e -> {
                     Card img = (Card) currentPlayerView.getFrontCard().getProperties().get("card");
-                    log.cardPlayed(gameModel.getCurrentPlayer(), img, "in Quest setup");
-                    questsView.setWeapons(img, player);
+                    log.cardPlayed(gameModel.getCurrentPlayer(), img, "in Tournament setup");
+                    tournamentView.setCards(img,player);
                     curr.hand.remove(img);
                     currentPlayerView.buildHand(curr.hand,false,play,types);
                     // add to player's tobeplayed and remove from hand
@@ -236,36 +221,27 @@ public class GameController implements GameObserver{
 
             consoleView.showButton("Next"
                     , e -> {
-                        if (questsView.hasCard()) {
-                            if (row == 0 && !questsView.isFoeStage(player)) {
-                                questsView.setWeapons(null, player);
-                                setup(player + 1, 0);
-                            }
-                            else if (row == 0)
-                                setup(player, row+1);
-                            else
-                                setup(player+1, 0);
 
-                        } else {
-                            consoleView.display("Foe/Test cannot be empty!\nAdd a foe or a test to player " + player);
+                        if (row == 0){
+                            setupTournament(player,row+1);
+                        }else{
+                            List<Card> temp = tournamentView.getTournamentSetup().get(player - 1);
+                            temp.remove(0);
+                            /*if(!gameModel.tournamentStage(gameModel.getCurrentPlayer().id(), temp)) {
+                                setupTournament(player, row);
+                            } else {
+                                setupTournament(player+1,0);
+                            }*/
+                            setupTournament(player+1,0);
                         }
                     }
                     , 1);
         } else {
-            consoleView.display("Done! Submit quest setup?");
-            consoleView.showButton("Submit", e -> {
-                boolean valid = gameModel.submitQuest(gameModel.getCurrentPlayer().id(), questsView.getQuestSetup());
-                if (!valid) {
-                    log.error("Quest setup is invalid and it will restart");
-                    consoleView.display("The quest setup is invalid!\nPlease rebuild the quest.");
-                    consoleView.showButton("Setup Quest", e2 -> setup(1, 0), 1);
-                    //currentPlayerView.buildHand(gameModel.getCurrentPlayer().hand,false,null,null);
-                } else {
-                    log.playerAction(curr, "successfully set up the Quest");
-                }
+            consoleView.display("Run Tournament");
+            consoleView.showButton("Start", e -> {
+                gameModel.tournamentStageEnd();
             }, 1);
         }
-        */
 
     }
 
@@ -276,7 +252,6 @@ public class GameController implements GameObserver{
 	    List<Card> discards = new ArrayList<>();
 	    consoleView.display(p.name + ", discard to get to 12");
 	    consoleView.showButton("Submit Discard", e -> {
-	    	log.debug("in discard before");
 	        gameModel.discard(p.id(), discards);
 	        if (gameModel.getNumDiscards() > 0)
 	            discard();
@@ -354,9 +329,15 @@ public class GameController implements GameObserver{
         GameStates s = this.gameModel.getState();
 
         switch (s) {
+            case TOURNAMENT_HANDLER:
+                if (root.getChildren().contains(tournamentView)) root.getChildren().remove(tournamentView);
+                tournamentView = new TournamentView((gameModel));
+                AnchorPane.setLeftAnchor(tournamentView, 0.0);
+                AnchorPane.setTopAnchor(tournamentView, 0.0);
+                root.getChildren().add(tournamentView);
+                break;
             case SPONSOR_SUBMIT:
                 if (root.getChildren().contains(questsView)) root.getChildren().remove(questsView);
-
                 questsView = new QuestsView(gameModel);
                 AnchorPane.setLeftAnchor(questsView, 0.0);
                 AnchorPane.setTopAnchor(questsView, 0.0);
@@ -369,6 +350,8 @@ public class GameController implements GameObserver{
                     gameModel.endQuest();
                 }, 1);
                 break;
+            case TOURNAMENT_END:
+                consoleView.display("END OF TOURNEY");
         }
     }
 }

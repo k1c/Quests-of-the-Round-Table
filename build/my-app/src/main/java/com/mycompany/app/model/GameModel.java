@@ -161,10 +161,8 @@ public class GameModel{
 		discard.removeCurrent();
 
 		if (discard.size() <= 0){
-			log.debug("1");
 		changeState(this.savedState, this.savedIndex);
 	    }else{
-			log.debug("2");
 			changeState(GameStates.DISCARD,discard.current());
 		}
 
@@ -174,7 +172,6 @@ public class GameModel{
 
 	protected void changeState(GameStates state,int playerId){
 		List<Integer> playersOverLimit = board.playersToDiscard();//get players over limit
-		log.debug("HERRREEEEE?");
 		log.gameState(state.toString());
 		// Discard
 		if(playersOverLimit.size() > 0){
@@ -188,7 +185,6 @@ public class GameModel{
 			//System.out.println(playersOverLimit);
 
 			this.discard = new Cycle(playersOverLimit,0);
-			log.debug(discard.toString());
 			this.currentPlayers = new Cycle(players,players.indexOf(playersOverLimit.get(0)));
 		}
 		//Change State
@@ -211,7 +207,6 @@ public class GameModel{
 	}
 
 	public int getNumDiscards() {
-		log.debug(discard.size() + "insideGetNumDiscards");
 	    return discard.size();
     }
 
@@ -730,6 +725,7 @@ public class GameModel{
 		if(validSubmit){
 			log.gameStateAction(this.state,"Correct Submission",board.findPlayer(id));
 			this.participants.removeCurrent();
+			changeState(GameStates.TOURNAMENT_STAGE, this.participants.current());
 		}
 
 		

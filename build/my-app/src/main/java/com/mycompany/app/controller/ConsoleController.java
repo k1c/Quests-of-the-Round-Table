@@ -72,7 +72,6 @@ public class ConsoleController implements GameObserver{
                 consoleView.showButton("Begin", e -> gameModel.tournamentStageStart(), 1);
                 break;
             case DISCARD:
-                log.debug("DISCARD IN CONSOLE CONTROLLER");
                 consoleView.display("You have more than 12 cards!\nPlease discard.");
                 consoleView.showButton("Begin", e -> gameController.discard(), 1);
                 break;

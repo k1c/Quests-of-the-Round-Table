@@ -50,16 +50,16 @@ public class TournamentView extends GridPane implements GameObserver, CardStack 
             getColumnConstraints().remove(0);
         }
 
-        // Get quest info
-        int numStages = this.gameModel.getNumberOfStages();
-        ImageView questCard = new ImageView(new Image(this.gameModel.getCurrentStory().res));
+        // Get player info
+        int numPlayers = this.gameModel.getNumParticipants();
+        ImageView tournamentCard = new ImageView(new Image(this.gameModel.getCurrentStory().res));
 
         // Build grid
         // 2 rows
-        // numStages columns + 1 for quest card
+        // numPlayers columns + 1 for quest card
 
         // Columns
-        for (int i = 0; i < numStages + 1; i++) {
+        for (int i = 0; i < numPlayers + 1; i++) {
             ColumnConstraints col = new ColumnConstraints();
             col.setHgrow(Priority.SOMETIMES);
             col.setMinWidth(WIDTH);
@@ -77,42 +77,42 @@ public class TournamentView extends GridPane implements GameObserver, CardStack 
         }
 
         // Display Quest card
-        showQuestCard(questCard);
+        showTournamentCard(tournamentCard);
 
         // Display Stages placeholders
-        showStages(numStages);
+        showPlayers(numPlayers);
 
         // Display Weapon placeholders
-        showWeapons(numStages);
+        showCards(numPlayers);
 
         // Display total BP
     }
 
-    private void showQuestCard (ImageView questCard) {
+    private void showTournamentCard (ImageView tournamentCard) {
         StackPane qc = new StackPane();
 
-        questCard.setFitHeight(HEIGHT);
-        questCard.setFitWidth(WIDTH);
+        tournamentCard.setFitHeight(HEIGHT);
+        tournamentCard.setFitWidth(WIDTH);
 
-        qc.getChildren().add(questCard);
+        qc.getChildren().add(tournamentCard);
 
         GridPane.setRowIndex(qc, 0);
         GridPane.setColumnIndex(qc, 0);
 
-        getChildren().add(questCard);
+        getChildren().add(tournamentCard);
     }
 
-    private void showStages(int numStages) {
+    private void showPlayers(int numPlayers) {
         // players[i] is the for the foe at player i+1
-        players = new StackPane[numStages];
+        players = new StackPane[numPlayers];
 
-        for (int i = 0; i < numStages; i++) {
+        for (int i = 0; i < numPlayers; i++) {
             players[i] = new StackPane();
             players[i].setPrefHeight(HEIGHT);
             players[i].setPrefWidth(WIDTH);
             players[i].setStyle("-fx-border-style: solid inside; -fx-border-width: 5; -fx-border-color: black");
 
-            Label placeholder = new Label("Foe/Test");
+            Label placeholder = new Label("Player");
             placeholder.setStyle("-fx-font-weight: bold; -fx-font-size: 26;");
 
             players[i].getChildren().add(placeholder);
@@ -123,17 +123,17 @@ public class TournamentView extends GridPane implements GameObserver, CardStack 
         }
     }
 
-    private void showWeapons(int numStages) {
+    private void showCards(int numPlayers) {
         // tournamentCards[i] is for the tournamentCards at player i+1
-        tournamentCards = new StackPane[numStages];
+        tournamentCards = new StackPane[numPlayers];
 
-        for (int i = 0; i < numStages; i++) {
+        for (int i = 0; i < numPlayers; i++) {
             tournamentCards[i] = new StackPane();
             tournamentCards[i].setPrefHeight(HEIGHT);
             tournamentCards[i].setPrefWidth(WIDTH);
             tournamentCards[i].setStyle("-fx-border-style: solid inside; -fx-border-width: 5; -fx-border-color: black");
 
-            Label placeholder = new Label("Weapons");
+            Label placeholder = new Label("Cards");
             placeholder.setStyle("-fx-font-weight: bold; -fx-font-size: 26;");
 
             tournamentCards[i].getChildren().add(placeholder);
@@ -144,14 +144,8 @@ public class TournamentView extends GridPane implements GameObserver, CardStack 
         }
     }
 
-    public boolean hasCard() {
-        return set;
-    }
-
-    public void setFoeTest(Card card, int player) {
+    public void setPlayer(Card card, int player) {
         tournamentSetup.addToInnerArray(player-1, card);
-        set = true;
-
 
         players[player-1].getChildren().clear();
 
@@ -167,7 +161,7 @@ public class TournamentView extends GridPane implements GameObserver, CardStack 
         set = false;
         int i = 0;
         if (row == 0) {
-            // foe/test
+            // player
             for (StackPane s : players) {
                 s.setStyle("-fx-border-style: solid inside; -fx-border-width: 5; -fx-border-color: black");
                 tournamentCards[i].setStyle("-fx-border-style: solid inside; -fx-border-width: 5; -fx-border-color: black");
@@ -178,7 +172,6 @@ public class TournamentView extends GridPane implements GameObserver, CardStack 
 
         } else {
             // tournamentCards
-            // foe/test
             for (StackPane w : tournamentCards) {
                 players[i].setStyle("-fx-border-style: solid inside; -fx-border-width: 5; -fx-border-color: black");
                 w.setStyle("-fx-border-style: solid inside; -fx-border-width: 5; -fx-border-color: black");
@@ -187,11 +180,10 @@ public class TournamentView extends GridPane implements GameObserver, CardStack 
 
             tournamentCards[player-1].setStyle("-fx-border-style: solid inside; -fx-border-width: 5; -fx-border-color: gold");
 
-            set = true;
         }
     }
 
-    public void setWeapons(Card card, int player) {
+    public void setCards(Card card, int player) {
 
         if (card == null) {
             tournamentCards[player-1].setStyle("");
@@ -256,12 +248,6 @@ public class TournamentView extends GridPane implements GameObserver, CardStack 
         buildLayout();
     }
 
-    public boolean isFoeStage(int player) {
-        if (tournamentSetup.get(player - 1).get(0).type == Card.Types.FOE )
-            return true;
-
-        return false;
-    }
 
     public TwoDimensionalArrayList<Card> getTournamentSetup() {
         return this.tournamentSetup;
