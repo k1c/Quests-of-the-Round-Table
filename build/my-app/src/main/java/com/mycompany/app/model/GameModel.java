@@ -567,15 +567,17 @@ public class GameModel{
 
 		log.gameStateAction(this.state,"Given Up",board.findPlayer(id));
 		board.giveUp(id);
-        this.participants.removeCurrent();
+		this.participants.removeCurrent();
 
 		if(board.checkTestWinner()){
 			log.gameStateAction(this.state,"Someone Has Won",board.findPlayer(id));
 			//this.state = GameStates.STAGE_END;
 			changeState(GameStates.STAGE_END,this.participants.current());
 		} else {
-		    changeState(GameStates.STAGE_TEST, this.participants.current());
-        }
+			changeState(GameStates.STAGE_TEST, this.participants.current());
+		}
+
+		updateObservers();
 
 	}
 

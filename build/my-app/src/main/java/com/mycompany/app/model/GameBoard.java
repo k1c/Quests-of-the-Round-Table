@@ -177,8 +177,12 @@ public class GameBoard extends AbstractGameBoard{
 	public void applyStoryCardLogic(int player) {
 
 		System.out.println("Applying Story Card");
-
 		currentStory.apply(this, player);
+
+		for(Player p: this.players){
+			resetTypeInPlay(p,Card.Types.AMOUR);
+			resetTypeInPlay(p,Card.Types.WEAPON);
+		}
 	}
 	
 	public void drawFromStoryDeck(int id){
@@ -557,6 +561,7 @@ public class GameBoard extends AbstractGameBoard{
 		boolean validHand   = true;
 		boolean amourInPlay = false;
 		int testBids = 0;
+		boolean validBid = false;
 
 		List<AdventureCard> tempPlayerHand = new ArrayList(p.hand);
 		List<AdventureCard> tempToBePlayed = new ArrayList(p.toBePlayed);
@@ -603,8 +608,10 @@ public class GameBoard extends AbstractGameBoard{
 		p.toBePlayed = tempToBePlayed;
 		p.inPlay = tempInPlay;
 		p.hand = tempPlayerHand;
+		
+		validBid = maxBidder(p) && totalPlayerBids(p) >= testBids;
 
-		return maxBidder(p) && totalPlayerBids(p) >= testBids;
+		return validBid;
 	}
 
 	protected int totalPlayerBids(Player p){
