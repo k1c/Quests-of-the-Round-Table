@@ -178,6 +178,7 @@ public class GameBoard extends AbstractGameBoard{
 
 		log.gameState("Applying Story Card");
 		currentStory.apply(this, player);
+		resetQuest();
 
 		for(Player p: this.players){
 			resetTypeInPlay(p,Card.Types.AMOUR);
