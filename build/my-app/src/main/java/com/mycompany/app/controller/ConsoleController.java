@@ -50,8 +50,7 @@ public class ConsoleController implements GameObserver{
                 consoleView.showButton("Setup Quest", e -> this.gameController.setup(1, 0), 1);
                 break;
             case TOURNAMENT_STAGE:
-                consoleView.display(gameModel.getCurrentPlayer().name + " is now in the tournament.\n" +
-                        "Please start setting up tournament.");
+                consoleView.display(gameModel.getCurrentPlayer().name + " is now in the tournament");
                 consoleView.showButton("Setup Tournament", e -> this.gameController.setupTournament(1, 0), 1);
                 break;
             case PARTICIPATE_QUEST:
