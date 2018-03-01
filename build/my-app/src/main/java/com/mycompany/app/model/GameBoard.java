@@ -142,6 +142,10 @@ public class GameBoard extends AbstractGameBoard{
 		return 0;
 	}
 
+	public int getStageIndex(){
+		return 0;
+	}
+
 	public AbstractAI getAI(int id){
 		for(AbstractAI ai : ais){
 			if(ai.id() == id)
