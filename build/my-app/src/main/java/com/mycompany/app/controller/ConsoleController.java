@@ -5,8 +5,6 @@ import com.mycompany.app.model.GameModel;
 import com.mycompany.app.model.GameObserver;
 import com.mycompany.app.model.GameStates;
 import com.mycompany.app.view.ConsoleView;
-import javafx.event.EventHandler;
-import javafx.scene.input.MouseEvent;
 
 public class ConsoleController implements GameObserver{
     private GameModel gameModel;
@@ -51,14 +49,43 @@ public class ConsoleController implements GameObserver{
                         "Please start setting up quest.");
                 consoleView.showButton("Setup Quest", e -> this.gameController.setup(1, 0), 1);
                 break;
+            case TOURNAMENT_STAGE:
+                consoleView.display(gameModel.getCurrentPlayer().name + " is now in the tournament");
+                consoleView.showButton("Setup Tournament", e -> this.gameController.setupTournament(1, 0), 1);
+                break;
             case PARTICIPATE_QUEST:
                 consoleView.display(gameModel.getCurrentPlayer().name + ", participate in quest?");
                 consoleView.showButton("Participate", e -> gameModel.participateQuest(gameModel.getCurrentPlayer().id(), true), 1);
                 consoleView.showButton("Decline", e -> gameModel.participateQuest(gameModel.getCurrentPlayer().id(), false), 2);
                 break;
+            case PARTICIPATE_TOURNAMENT:
+                consoleView.display(gameModel.getCurrentPlayer().name + ", participate in tournament?");
+                consoleView.showButton("Participate", e -> gameModel.participateTournament(gameModel.getCurrentPlayer().id(), true), 1);
+                consoleView.showButton("Decline", e -> gameModel.participateTournament(gameModel.getCurrentPlayer().id(), false), 2);
+                break;
+            case QUEST_HANDLER:
+                consoleView.display("Begin/Continue on Quest");
+                consoleView.showButton("Begin", e -> gameModel.stage(), 1);
+                break;
+            case TOURNAMENT_HANDLER:
+                consoleView.display("Depart in Tournament?");
+                consoleView.showButton("Begin", e -> gameModel.tournamentStageStart(), 1);
+                break;
             case DISCARD:
-                consoleView.display("DISCARD STATE");
-                consoleView.showButton("Nothing", e -> {}, 1);
+                consoleView.display("You have more than 12 cards!\nPlease discard.");
+                consoleView.showButton("Begin", e -> gameController.discard(), 1);
+                break;
+            case STAGE_FOE:
+                consoleView.display("Next stage is a Foe.");
+                consoleView.showButton("Begin", e -> gameController.startFoeStage(), 1);
+                break;
+            case STAGE_TEST:
+                consoleView.display("Next stage is a Test.");
+                consoleView.showButton("Begin", e -> gameController.startTestStage(), 1);
+                break;
+            case STAGE_END:
+                consoleView.display("Run the stage?");
+                consoleView.showButton("End Stage", e -> gameModel.stageEnd(), 1);
                 break;
         }
     }

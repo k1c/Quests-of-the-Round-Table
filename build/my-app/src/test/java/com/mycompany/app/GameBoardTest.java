@@ -29,10 +29,7 @@ public class GameBoardTest extends TestCase{
 
 		String[] humanNames = dummyNames;
 
-		//board.initGame(numHumans, numAI, humanNames, CardLoader.loadAdventureCards(), CardLoader.loadStoryCards());
 		initGameTest(board, numHumans, numAI, humanNames);
-
-		//drawFromAdventureDeckTest(board, )
 
 
 		//cards can be drawn from Adventure Deck
@@ -144,7 +141,6 @@ public class GameBoardTest extends TestCase{
 		submitQuestTest(board,boarAndFriends, board.players.get(0).id);
 
 		//Player 1 submits their quest
-		//board.submitQuest(boarAndFriends, board.players.get(0).id);
 
 		//check that Player 1 is the sponsor
 		assertEquals(board.sponsor, board.players.get(0));
@@ -164,8 +160,6 @@ public class GameBoardTest extends TestCase{
 		List<Card> p3SubmitCards = new ArrayList<Card>(12);
 		p3SubmitCards.add(board.players.get(2).hand.get(10));
 
-		//board.submitHand(board.players.get(2).id, p3SubmitCards);
-
 		submitHandTest(board, board.players.get(2).id, p3SubmitCards);
 
 		//Player 4 plays a Battle-ax
@@ -174,19 +168,9 @@ public class GameBoardTest extends TestCase{
 
 		board.submitHand(board.players.get(3).id, p4SubmitCards);
 
-
-		//Player 4's Battle-ax is in "to be played"
-		/*assertEquals(1, board.players.get(3).toBePlayed.size());
-		assertEquals(3, board.players.get(3).toBePlayed.get(0).id);
-		assertEquals(11, board.players.get(3).hand.size());*/
-
 		//resolve stage
-		//board.completeFoeStage();
 		completeFoeStageTest(board);
 
-
-		//Second & Final quest stage (Boar + Dagger + Sword)
-		//board.nextStage();
 		nextStageTest(board);
 
 		//Player 3 plays Excalibur
@@ -195,32 +179,14 @@ public class GameBoardTest extends TestCase{
 
 		board.submitHand(board.players.get(2).id, p3SubmitCards2);
 
-
-		//Player 3's Excalibur is in "to be played"
-		/*assertEquals(1, board.players.get(2).toBePlayed.size());
-		assertEquals(1, board.players.get(2).toBePlayed.get(0).id);
-		assertEquals(10, board.players.get(2).hand.size());*/
-
 		//Player 4 plays a Lance
 		List<Card> p4SubmitCards2 = new ArrayList<Card>(12);
 		p4SubmitCards2.add(board.players.get(3).hand.get(10));
 
 		board.submitHand(board.players.get(3).id, p4SubmitCards2);
 
-
-		//Player 4's Lance is in "to be played"
-		/*assertEquals(1, board.players.get(3).toBePlayed.size());
-		assertEquals(2, board.players.get(3).toBePlayed.get(0).id);
-		assertEquals(10, board.players.get(3).hand.size());*/
-
 		//resolve stage
 		board.completeFoeStage();
-
-		//Player 3 is the only remaining participant
-		/*assertEquals(1, board.participants.size());
-		assertEquals(board.participants.get(0), board.players.get(2));*/
-
-		//board.endQuest();
 		endQuestTest(board);
 
 	}
@@ -370,8 +336,6 @@ public class GameBoardTest extends TestCase{
 		assertEquals(0, board.players.get(2).inPlay.size());
 		assertEquals(0, board.players.get(3).inPlay.size());
 
-		//!! check that weapons are in the discard pile
-
 	}
 
 	public void nextStageTest(GameBoard board){
@@ -390,7 +354,6 @@ public class GameBoardTest extends TestCase{
 
 		//check that quest is reset
 		assertEquals(0, board.quest.size());
-		//!! check that quest cards are in the adventure deck discard pile
 
 		//check that sponsor has drawn 2 + 4 = 6 adventure cards
 		assertEquals(12 - 4 + 6, board.players.get(0).hand.size());

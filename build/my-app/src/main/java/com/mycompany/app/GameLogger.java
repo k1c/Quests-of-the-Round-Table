@@ -72,8 +72,8 @@ public static final String ANSI_WHITE = "\u001B[37m";
         logger.log(GameLogger.class.getCanonicalName(), Level.INFO, state,null);
     }
 
-    public void gameStateAction(String state,String action,Object o){
-        state = String.format("%s(%s)%sAction: %s: %s%s",ANSI_RED,state,ANSI_GREEN,action,ANSI_RESET,o.toString());
+    public void gameStateAction(Object state,String action,Object o){
+        state = String.format("%s(%s)%sAction: %s: %s%s",ANSI_RED,state.toString(),ANSI_GREEN,action,ANSI_RESET,o.toString());
         logger.log(GameLogger.class.getCanonicalName(), Level.INFO, state,null);
     }
 

@@ -177,9 +177,14 @@ public class GameBoard extends AbstractGameBoard{
 
 	public void applyStoryCardLogic(int player) {
 
-		System.out.println("Applying Story Card");
-
+		log.gameState("Applying Story Card");
 		currentStory.apply(this, player);
+		resetQuest();
+
+		for(Player p: this.players){
+			resetTypeInPlay(p,Card.Types.AMOUR);
+			resetTypeInPlay(p,Card.Types.WEAPON);
+		}
 	}
 	
 	public void drawFromStoryDeck(int id){
@@ -219,7 +224,7 @@ public class GameBoard extends AbstractGameBoard{
 
 		log.gameState("Next Stage");
 
-		if(this.quest.size()-1 < this.currentQuestIndex)
+		if(this.quest.size()-1 <= this.currentQuestIndex)
 			return false;
 		this.currentQuestIndex = this.currentQuestIndex+1;
 		return true;
@@ -400,16 +405,22 @@ public class GameBoard extends AbstractGameBoard{
 		Player p = findPlayer(player);	
 		TwoDimensionalArrayList<AdventureCard> quest = new TwoDimensionalArrayList<AdventureCard>();
 		List<AdventureCard> tempPlayerHand = new ArrayList(p.hand);
+		Set<AdventureCard> questIntegrity = new TreeSet();
 
 		boolean validStage = true;
 		boolean validBP    = true;
 		boolean validHand  = true;
+		boolean correctNumberOfStages = true;
+		boolean validFoeTestIntegrity = true;
 
 		int testNumber = 0;
 		int lastBP = 0;
 
 		//create an adventure card copy
 		int stage = 0;
+
+
+		correctNumberOfStages = currentStory.getNumStages() == playerQuest.size();
 
 		for(ArrayList<Card> stageList : playerQuest){
 			for(Card item : stageList){
@@ -432,6 +443,10 @@ public class GameBoard extends AbstractGameBoard{
 		//validate each quest
 		for(ArrayList<AdventureCard> stageList : quest){
 
+
+			questIntegrity.addAll(getListTypes(stageList,Card.Types.TEST));	
+			questIntegrity.addAll(getListTypes(stageList,Card.Types.FOE));	
+
 			int currentBP = calculateBP(stageList);
 			validStage = validateStage(stageList) && validStage;
 
@@ -447,6 +462,16 @@ public class GameBoard extends AbstractGameBoard{
 			}
 		}
 
+		validFoeTestIntegrity = questIntegrity.size() == currentStory.getNumStages();
+	
+		
+		if(!validFoeTestIntegrity){
+			return false;
+		}
+		
+		if(!correctNumberOfStages){
+			return false;
+		}
 		//any stage has invalid setup
 		if(!validStage) {
 			return false;
@@ -543,6 +568,7 @@ public class GameBoard extends AbstractGameBoard{
 		boolean validHand   = true;
 		boolean amourInPlay = false;
 		int testBids = 0;
+		boolean validBid = false;
 
 		List<AdventureCard> tempPlayerHand = new ArrayList(p.hand);
 		List<AdventureCard> tempToBePlayed = new ArrayList(p.toBePlayed);
@@ -577,7 +603,7 @@ public class GameBoard extends AbstractGameBoard{
 			if(item.type == Card.Types.AMOUR && !amourInPlay){
 				tempInPlay.add(item);
 			}
-			else if(item.type != Card.Types.AMOUR && (item.freeBid(this) || item.type == Card.Types.ALLY)){
+			else if(item.type != Card.Types.AMOUR && (item.freeBid(this) /*|| item.type == Card.Types.ALLY*/)){
 				tempInPlay.add(item);
 			}
 			else{
@@ -589,8 +615,10 @@ public class GameBoard extends AbstractGameBoard{
 		p.toBePlayed = tempToBePlayed;
 		p.inPlay = tempInPlay;
 		p.hand = tempPlayerHand;
+		
+		validBid = maxBidder(p) && totalPlayerBids(p) >= testBids;
 
-		return maxBidder(p) && totalPlayerBids(p) >= testBids;
+		return validBid;
 	}
 
 	protected int totalPlayerBids(Player p){
@@ -679,6 +707,15 @@ public class GameBoard extends AbstractGameBoard{
 		return false;
 	}
 
+	protected List<AdventureCard> getListTypes(List<AdventureCard> cards, Card.Types type){
+		List<AdventureCard> temp = new ArrayList();
+		for(AdventureCard item : cards){
+			if(item.type == type)
+				temp.add(item);
+		}
+		return temp;
+			
+	}
 	protected boolean validateStage(List<AdventureCard> stage){
 		int foeNumber = 0;
 		int testNumber = 0;

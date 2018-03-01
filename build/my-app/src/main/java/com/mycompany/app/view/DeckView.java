@@ -80,6 +80,7 @@ public class DeckView extends HBox implements GameObserver{
         switch (s) {
             case EVENT_LOGIC:
             case SPONSOR_QUEST:
+            case PARTICIPATE_TOURNAMENT:
                 refreshStoryDeck();
                 break;
             default:

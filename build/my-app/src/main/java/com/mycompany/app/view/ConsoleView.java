@@ -31,7 +31,7 @@ public class ConsoleView extends HBox{
 
 
         setSpacing(30.0);
-        setPrefWidth(500);
+        setPrefWidth(600);
         setAlignment(Pos.CENTER_RIGHT);
 
         btnBox = new VBox(10);
@@ -67,7 +67,7 @@ public class ConsoleView extends HBox{
 
         Button btn = new Button(name);
         //btn.setWrapText(true);
-        btn.setFont(new Font("Cambria",20));
+        btn.setFont(new Font("Cambria",15));
 
         btn.setOnMouseClicked(handler);
 
