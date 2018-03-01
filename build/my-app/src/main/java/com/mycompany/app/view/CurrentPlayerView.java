@@ -90,7 +90,7 @@ import javafx.scene.text.Font;
         int inplaySpan = (int) Math.ceil((numInPlay/cardsPerCol) + 1);
 
         // Total number of columns: 1 for rank, 1 for shield, handspan, inplay, BP
-        int numCol = 1 + 1 + handSpan + 2 + inplaySpan + 1;
+        int numCol = 1 + 1 + handSpan + 2 + inplaySpan + 1 + 1;
 
         // Set gridpane width
         setPrefWidth(numCol * WIDTH);
@@ -124,6 +124,9 @@ import javafx.scene.text.Font;
 
         // add in play
         buildInPlay(inplay, handSpan+3, inplaySpan);
+
+        // add tobeplayed
+        buildToBePlayed(numCol - 1);
 
         // add battle points
         buildBattlePoints(current, numCol);
@@ -233,6 +236,35 @@ import javafx.scene.text.Font;
         getChildren().add(playerInplay);
     }
 
+    private void buildToBePlayed(int index) {
+        StackPane playerToBePlayed = new StackPane();
+
+        GridPane.setColumnIndex(playerToBePlayed, index);
+        GridPane.setRowIndex(playerToBePlayed, 0);
+
+        final ImageView back = new ImageView(new Image("A Back.jpg"));
+        back.setFitWidth(WIDTH);
+        back.setFitHeight(HEIGHT);
+        String playerHandSize = Integer.toString(gameModel.getCurrentPlayer().toBePlayed.size());
+
+        Label pHandSize = new Label(playerHandSize);
+        pHandSize.setFont(new Font("Cambria", 40));
+        pHandSize.setStyle("-fx-font-weight: bold; -fx-text-fill: white;");
+
+        StackPane.setAlignment(pHandSize, Pos.CENTER);
+
+        Label playLabel = new Label("To Be Played");
+        playLabel.setFont(new Font("Cambria", 15));
+        playLabel.setStyle("-fx-font-weight: bold; -fx-text-fill: white;");
+        StackPane.setAlignment(playLabel, Pos.TOP_CENTER);
+
+        playerToBePlayed.getChildren().add(back);
+        playerToBePlayed.getChildren().add(pHandSize);
+        playerToBePlayed.getChildren().add(playLabel);
+
+        getChildren().add(playerToBePlayed);
+    }
+
     private void buildBattlePoints(GenericPlayer players, int index) {
         StackPane playerBP = new StackPane();
 
@@ -249,17 +281,6 @@ import javafx.scene.text.Font;
         pBPLabel.setFont(new Font("Cambria", 30));
 
         pBPLabel.setStyle("-fx-font-weight: bold; -fx-text-fill: black;");
-
-        /*String s = pBPLabel.getStyle();
-        if (current.shieldImage.contains("Blue")) {
-            pBPLabel.setStyle(s + " -fx-text-fill: #006bb6;");
-        } else if (current.shieldImage.contains("Red")) {
-            pBPLabel.setStyle(s + " -fx-text-fill: #aa0000;");
-        } else if (current.shieldImage.contains("Green")) {
-            pBPLabel.setStyle(s + " -fx-text-fill: #29862a;");
-        } else {
-            pBPLabel.setStyle(s + " -fx-text-fill: #8e0085;");
-        }*/
 
         playerBP.getChildren().add(bp);
         playerBP.getChildren().add(pBPLabel);
