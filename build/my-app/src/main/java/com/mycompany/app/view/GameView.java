@@ -192,19 +192,21 @@ public class GameView extends HBox {
         Button scenario2 = new Button("Scenario 2");
         scenario2.setFont(new Font("Cambria", 20));
 
+        scenario2.setOnMouseClicked(e -> {
+            gameModel.rigGame2();
+            gameController.buildBoardLayout((Stage) scenario1.getScene().getWindow());
+        });
+
         Button scenario3 = new Button("Scenario 3");
         scenario3.setFont(new Font("Cambria", 20));
-
-        Button scenario4 = new Button("Scenario 4");
-        scenario4.setFont(new Font("Cambria", 20));
-
-        Button scenario5 = new Button("Scenario 5");
-        scenario5.setFont(new Font("Cambria", 20));
-
+        scenario3.setOnMouseClicked(e -> {
+            gameModel.rigGame3();
+            gameController.buildBoardLayout((Stage) scenario1.getScene().getWindow());
+        });
 
         HBox btnBox = new HBox(10);
         btnBox.setAlignment(Pos.CENTER);
-        btnBox.getChildren().addAll(startGame, scenario1, scenario2, scenario3, scenario4, scenario5);
+        btnBox.getChildren().addAll(startGame, scenario1, scenario2, scenario3);
 
         startGame.addEventHandler(MouseEvent.MOUSE_CLICKED, new EventHandler<MouseEvent>() {
             @Override
