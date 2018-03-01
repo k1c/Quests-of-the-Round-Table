@@ -218,7 +218,7 @@ public class GameBoard extends AbstractGameBoard{
 
 		log.gameState("Next Stage");
 
-		if(this.quest.size()-1 < this.currentQuestIndex)
+		if(this.quest.size()-1 <= this.currentQuestIndex)
 			return false;
 		this.currentQuestIndex = this.currentQuestIndex+1;
 		return true;

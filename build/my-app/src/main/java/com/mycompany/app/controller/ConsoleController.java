@@ -5,8 +5,6 @@ import com.mycompany.app.model.GameModel;
 import com.mycompany.app.model.GameObserver;
 import com.mycompany.app.model.GameStates;
 import com.mycompany.app.view.ConsoleView;
-import javafx.event.EventHandler;
-import javafx.scene.input.MouseEvent;
 
 public class ConsoleController implements GameObserver{
     private GameModel gameModel;
@@ -57,7 +55,7 @@ public class ConsoleController implements GameObserver{
                 consoleView.showButton("Decline", e -> gameModel.participateQuest(gameModel.getCurrentPlayer().id(), false), 2);
                 break;
             case QUEST_HANDLER:
-                consoleView.display("Depart on Quest?");
+                consoleView.display("Begin/Continue on Quest");
                 consoleView.showButton("Begin", e -> gameModel.stage(), 1);
                 break;
             case DISCARD:
@@ -65,10 +63,16 @@ public class ConsoleController implements GameObserver{
                 consoleView.showButton("Begin", e -> gameController.discard(), 1);
                 break;
             case STAGE_FOE:
-                consoleView.display("Foe stage");
+                consoleView.display("Next stage is a Foe.");
+                consoleView.showButton("Begin", e -> gameController.startFoeStage(), 1);
                 break;
             case STAGE_TEST:
-                consoleView.display("Test stage");
+                consoleView.display("Next stage is a Test.");
+                consoleView.showButton("Begin", e -> gameController.startTestStage(), 1);
+                break;
+            case STAGE_END:
+                consoleView.display("Run the stage?");
+                consoleView.showButton("End Stage", e -> gameModel.stageEnd(), 1);
                 break;
         }
     }
