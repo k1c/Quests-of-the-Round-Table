@@ -237,6 +237,22 @@ public class GameModel{
 		changeState(GameStates.BEGIN_TURN,players.indexOf(storyTurn.current()));
 	}
 
+	public void rigGame2(){
+		turn = 0;
+		board = RiggedGameModel.rig2();	
+		players = board.getPlayerIds();		
+		storyTurn = new Cycle<Integer>(players,0);
+		changeState(GameStates.BEGIN_TURN,players.indexOf(storyTurn.current()));
+	}
+
+	public void rigGame3(){
+		turn = 0;
+		board = RiggedGameModel.rig3();	
+		players = board.getPlayerIds();		
+		storyTurn = new Cycle<Integer>(players,0);
+		changeState(GameStates.BEGIN_TURN,players.indexOf(storyTurn.current()));
+	}
+
 	public void registerObserver(GameObserver o){
 		this.observers.add(o);
 	}
