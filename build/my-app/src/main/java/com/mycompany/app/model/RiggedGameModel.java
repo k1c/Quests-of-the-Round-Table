@@ -10,21 +10,21 @@ public class RiggedGameModel{
 		List<HumanPlayer> humans = new ArrayList<>();
 		GameBoard b = new GameBoard();
 
-		HumanPlayer p1 = new HumanPlayer("Human 1", "Shield Blue.png");
+		HumanPlayer p1 = new HumanPlayer("Player 1", "Shield Blue.png");
 		p1.hand.add(F.createCard(AdventureCardFactory.Types.SAXONS));
 		p1.hand.add(F.createCard(AdventureCardFactory.Types.BOAR));
 		p1.hand.add(F.createCard(AdventureCardFactory.Types.DAGGER));
 		p1.hand.add(F.createCard(AdventureCardFactory.Types.SWORD));
 
-		HumanPlayer p2 = new HumanPlayer("Human 2", "Shield Green.png");
+		HumanPlayer p2 = new HumanPlayer("Player 2", "Shield Green.png");
 		p2.hand.add(F.createCard(AdventureCardFactory.Types.DAGGER));
 
-		HumanPlayer p3 = new HumanPlayer("Human 3", "Shield Red.png");
+		HumanPlayer p3 = new HumanPlayer("Player 3", "Shield Red.png");
 		p3.hand.add(F.createCard(AdventureCardFactory.Types.HORSE));
 		p3.hand.add(F.createCard(AdventureCardFactory.Types.EXCALIBUR));
 		p3.hand.add(F.createCard(AdventureCardFactory.Types.AMOUR));
 
-		HumanPlayer p4 = new HumanPlayer("Human 4", "Shield Purple.png");
+		HumanPlayer p4 = new HumanPlayer("Player 4", "Shield Purple.png");
 		p4.hand.add(F.createCard(AdventureCardFactory.Types.BATTLE_AX));
 		p4.hand.add(F.createCard(AdventureCardFactory.Types.LANCE));
 		p4.hand.add(F.createCard(AdventureCardFactory.Types.THIEVES));

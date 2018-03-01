@@ -168,12 +168,17 @@ public class WaitingPlayersView extends GridPane implements GameObserver, CardSt
             shield.setPreserveRatio(true);
             shield.setFitWidth(WIDTH/1.2);
 
-            Label currShields = new Label(p.name + " \n" + p.rank.getShields() + "/" + p.rank.getMaxShields());
-            currShields.setFont(new Font("Cambria", 10));
+            Label currShields = new Label(p.rank.getShields() + "/" + p.rank.getMaxShields());
+            currShields.setFont(new Font("Cambria", 30));
             currShields.setStyle("-fx-font-weight: bold; -fx-text-fill: white;");
 
+            Label name = new Label(p.name);
+            name.setFont(new Font("Cambria", 15));
+            name.setStyle("-fx-font-weight: bold; -fx-text-fill: white;");
+            StackPane.setAlignment(name, Pos.TOP_CENTER);
             image.getChildren().add(shield);
             image.getChildren().add(currShields);
+            image.getChildren().add(name);
             StackPane.setAlignment(currShields, Pos.CENTER);
 
             // add button
