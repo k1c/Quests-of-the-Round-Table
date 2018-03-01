@@ -625,13 +625,14 @@ public class GameModel{
 
 		}
 
+		System.out.println(board.getParticipants().size());
 		if(board.getParticipants().size() == 0){
 			log.gameStateAction(this.state,"No More Participants","");
 			changeState(GameStates.QUEST_END,this.questSponsor.current());
 		}
 
 		//distribute cards
-		if(!this.board.nextStage()){
+		else if(!this.board.nextStage()){
 			log.gameStateAction(this.state,"Completed All Stages","");
 			changeState(GameStates.QUEST_END,this.questSponsor.current());
 		}
