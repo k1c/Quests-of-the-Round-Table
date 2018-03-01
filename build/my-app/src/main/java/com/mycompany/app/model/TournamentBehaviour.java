@@ -10,6 +10,7 @@ public class TournamentBehaviour extends StoryBehaviour{
 	public void applyBehaviour(GameBoard b, int player){
 
 		//award shields to remaining participants
+		System.out.println("WOKING HERE");
 		for (Player p : b.participants){
 			p.rank.addRemoveShields(b.currentStory.getNumStages() + this.numShields );
 		}

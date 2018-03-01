@@ -714,6 +714,12 @@ public class GameModel{
 			return false;
 		}
 
+		log.gameStateAction(this.state,"Participants : ",this.participants.items());
+		if(this.participants.size() <= 0){
+			log.gameStateAction(this.state,"All Players Have Played",board.findPlayer(id));
+			return false;
+		}
+
 		// implement the tournament methods
 		boolean validSubmit = board.submitHand(id,hand);
 
@@ -756,7 +762,7 @@ public class GameModel{
 			//clean up round 1, 
 			//this.state = GameStates.TOURNAMENT_HANDLER;
 			log.gameStateAction(this.state,"Tie Breaker","");
-			changeState(GameStates.TOURNAMENT_HANDLER,this.participants.current());
+			changeState(GameStates.TOURNAMENT_HANDLER,this.board.getParticipants().get(0));
 		}
 		//TIE round 2 
 		if(!anotherRound){
