@@ -557,6 +557,7 @@ public class GameBoard extends AbstractGameBoard{
 		boolean validHand   = true;
 		boolean amourInPlay = false;
 		int testBids = 0;
+		boolean validBid = false;
 
 		List<AdventureCard> tempPlayerHand = new ArrayList(p.hand);
 		List<AdventureCard> tempToBePlayed = new ArrayList(p.toBePlayed);
@@ -603,8 +604,10 @@ public class GameBoard extends AbstractGameBoard{
 		p.toBePlayed = tempToBePlayed;
 		p.inPlay = tempInPlay;
 		p.hand = tempPlayerHand;
+		
+		validBid = maxBidder(p) && totalPlayerBids(p) >= testBids;
 
-		return maxBidder(p) && totalPlayerBids(p) >= testBids;
+		return validBid;
 	}
 
 	protected int totalPlayerBids(Player p){
