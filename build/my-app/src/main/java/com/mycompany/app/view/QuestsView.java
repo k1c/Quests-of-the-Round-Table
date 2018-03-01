@@ -203,6 +203,13 @@ public class QuestsView extends GridPane implements GameObserver, CardStack{
         }
     }
 
+    public void setStageBP(int stage, int BP) {
+        ImageView img = new ImageView(new Image("Battle_Points.png"));
+        img.setPreserveRatio(true);
+        img.setFitHeight(75);
+        stages[stage].getChildren().add(img);
+    }
+
     public void setWeapons(Card card, int stage) {
 
         if (card == null) {

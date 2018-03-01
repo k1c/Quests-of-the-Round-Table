@@ -363,6 +363,9 @@ public class GameController implements GameObserver{
                     gameModel.tournamentEnd();
                 }, 1);
                 break;
+            case STAGE_FOE:
+                //questsView.setStageBP(gameModel.);
+                break;
         }
     }
 }
