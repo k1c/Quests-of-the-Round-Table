@@ -11,7 +11,9 @@ public class TournamentBehaviour extends StoryBehaviour{
 
 		//award shields to remaining participants
 		for (Player p : b.participants){
-			p.rank.addRemoveShields(b.currentStory.getNumStages() + this.numShields );
+			System.out.println("Num participants: " + b.numParticipants);
+			System.out.println("this.numShields: " + this.numShields);
+			p.rank.addRemoveShields(b.numParticipants + this.numShields );
 		}
 
 	}

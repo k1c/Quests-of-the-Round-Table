@@ -33,6 +33,7 @@ public class GameBoard extends AbstractGameBoard{
 	protected StoryCard currentStory;
 	protected int currentQuestIndex;
 	protected int currentTournamentStage;
+	protected int numParticipants;
 	GameLogger log = GameLogger.getInstanceUsingDoubleLocking();
 
 
@@ -233,6 +234,7 @@ public class GameBoard extends AbstractGameBoard{
 		List<Player> tempParticipants = new ArrayList();
 		List<Player> droppedPlayers = new ArrayList();
 		int maxBP = Integer.MIN_VALUE;
+		numParticipants = this.participants.size();
 
 		// all to be played go into in play
 		// find max player 
@@ -312,8 +314,10 @@ public class GameBoard extends AbstractGameBoard{
 
 		for(Card item: hand){
 			AdventureCard temp = findCard(p.hand,item);
-			if(temp == null)
+			if(temp == null) {
+				System.out.println("Discard false 1");
 				return false;
+			}
 			submittedCards.add(temp);
 		}
 
@@ -329,8 +333,10 @@ public class GameBoard extends AbstractGameBoard{
 				
 
 
-		 if(!validHand)
-			return false;
+		 if(!validHand) {
+			 System.out.println("Discard false 2");
+			 return false;
+		 }
 		
 		adventureDeckDiscard.addAll(discards);
 		p.inPlay.addAll(allies);

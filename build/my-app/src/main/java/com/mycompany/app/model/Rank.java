@@ -44,6 +44,10 @@ public class Rank {
         path = "/R Champion Knight.jpg";
     }
 
+    protected void setKnightOfTheRoundTable(){
+        rank = RankType.KNIGHT_OF_THE_ROUND_TABLE;
+    }
+
     public RankType getRank(){
         return rank;
     }
@@ -83,8 +87,7 @@ public class Rank {
             setChampionKnight();
         }
         if (rank == RankType.CHAMPION_KNIGHT && shields >= MAX_SHIELDS_CHAMPION_KNIGHT){
-            //WINNER WINNER CHICKEN DINNER
-            //setKnightOfTheRoundTable();
+            setKnightOfTheRoundTable();
             System.out.println("WINRAR!");
         }
     }
