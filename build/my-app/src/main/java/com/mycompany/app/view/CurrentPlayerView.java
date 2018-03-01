@@ -90,7 +90,7 @@ import javafx.scene.text.Font;
         int inplaySpan = (int) Math.ceil((numInPlay/cardsPerCol) + 1);
 
         // Total number of columns: 1 for rank, 1 for shield, handspan, inplay, BP
-        int numCol = 1 + 1 + handSpan + 2 + inplaySpan + 1 + 1;
+        int numCol = 1 + 1 + handSpan + 1 + inplaySpan + 1 + 1 + 1;
 
         // Set gridpane width
         setPrefWidth(numCol * WIDTH);
@@ -126,10 +126,10 @@ import javafx.scene.text.Font;
         buildInPlay(inplay, handSpan+3, inplaySpan);
 
         // add tobeplayed
-        buildToBePlayed(numCol - 1);
+        buildToBePlayed(numCol - 3);
 
         // add battle points
-        buildBattlePoints(current, numCol);
+        buildBattlePoints(current, numCol - 2);
     }
 
     private void buildRank(String rank) {
