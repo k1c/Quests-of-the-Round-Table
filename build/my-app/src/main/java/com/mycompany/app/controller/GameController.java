@@ -364,7 +364,7 @@ public class GameController implements GameObserver{
                 }, 1);
                 break;
             case STAGE_FOE:
-                //questsView.setStageBP(gameModel.);
+                questsView.setStageBP(gameModel.getStageIndex(), gameModel.getStageBp());
                 break;
         }
     }

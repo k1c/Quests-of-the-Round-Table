@@ -21,6 +21,7 @@ import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.*;
+import javafx.scene.text.Font;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -206,8 +207,16 @@ public class QuestsView extends GridPane implements GameObserver, CardStack{
     public void setStageBP(int stage, int BP) {
         ImageView img = new ImageView(new Image("Battle_Points.png"));
         img.setPreserveRatio(true);
-        img.setFitHeight(75);
+        img.setFitHeight(85);
+        StackPane.setAlignment(img, Pos.CENTER);
+
+        Label label = new Label(BP + "");
+        label.setFont(new Font("Cambria", 25));
+        label.setStyle("-fx-font-weight: bold; -fx-text-fill: white;");
+
+
         stages[stage].getChildren().add(img);
+        stages[stage].getChildren().add(label);
     }
 
     public void setWeapons(Card card, int stage) {
