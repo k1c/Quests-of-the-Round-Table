@@ -73,7 +73,7 @@ public class RiggedGameModel{
 		humans.add(p4);
 
 		b.initRig(new ArrayList<AbstractAI>(),humans,
-				CardLoader.loadAdventureCards(), CardLoader.rigGame1(),true,false,true);
+				CardLoader.loadAdventureCards(), CardLoader.rigGame2(),true,false,true);
 		return b;
 	}
 
@@ -83,8 +83,11 @@ public class RiggedGameModel{
 		GameBoard b = new GameBoard();
 
 		HumanPlayer p1 = new HumanPlayer("Player 1", "Shield Blue.png");
+		p1.inPlay.add(F.createCard(AdventureCardFactory.Types.MERLIN));
+		p1.inPlay.add(F.createCard(AdventureCardFactory.Types.SIR_TRISTAN));
 
 		HumanPlayer p2 = new HumanPlayer("Player 2", "Shield Green.png");
+		p2.inPlay.add(F.createCard(AdventureCardFactory.Types.QUEEN_ISEULT));
 
 		HumanPlayer p3 = new HumanPlayer("Player 3", "Shield Red.png");
 
@@ -96,7 +99,7 @@ public class RiggedGameModel{
 		humans.add(p4);
 
 		b.initRig(new ArrayList<AbstractAI>(),humans,
-				CardLoader.loadAdventureCards(), CardLoader.rigGame1(),true,false,true);
+				CardLoader.loadAdventureCards(), CardLoader.rigGame3(),true,false,true);
 		return b;
 	}
 }
