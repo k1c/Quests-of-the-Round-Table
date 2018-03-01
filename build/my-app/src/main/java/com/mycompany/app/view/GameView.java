@@ -184,6 +184,10 @@ public class GameView extends HBox {
 
         Button scenario1 = new Button("Scenario 1");
         scenario1.setFont(new Font("Cambria", 20));
+        scenario1.setOnMouseClicked(e -> {
+            gameModel.rigGame1();
+            gameController.buildBoardLayout((Stage) scenario1.getScene().getWindow());
+        });
 
         Button scenario2 = new Button("Scenario 2");
         scenario2.setFont(new Font("Cambria", 20));

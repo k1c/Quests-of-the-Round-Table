@@ -169,7 +169,7 @@ public class WaitingPlayersView extends GridPane implements GameObserver, CardSt
             shield.setFitWidth(WIDTH/1.2);
 
             Label currShields = new Label(p.name + " \n" + p.rank.getShields() + "/" + p.rank.getMaxShields());
-            currShields.setFont(new Font("Cambria", 30));
+            currShields.setFont(new Font("Cambria", 10));
             currShields.setStyle("-fx-font-weight: bold; -fx-text-fill: white;");
 
             image.getChildren().add(shield);
