@@ -597,6 +597,7 @@ public class GameModel{
 		}
 		if(board.stageType(Card.Types.TEST)){
 			log.gameStateAction(this.state,"Cleaning Up Test Stage","");
+			board.completeTestStage();
 
 		}
 
