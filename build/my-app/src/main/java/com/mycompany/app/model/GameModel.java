@@ -159,8 +159,7 @@ public class GameModel{
 		}
 
 		discard.removeCurrent();
-
-		System.out.println(this.savedState.toString());
+	
 		if(discard.size() <= 0)
 			changeState(this.savedState,this.savedIndex);
 		else{
