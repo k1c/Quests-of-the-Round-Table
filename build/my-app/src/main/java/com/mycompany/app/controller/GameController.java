@@ -65,10 +65,15 @@ public class GameController implements GameObserver{
 
 	public void startGame(Stage primaryStage, int numHumans, int numAI, String[] humanNames) {
 
-		gameModel.initGame(numHumans, numAI, humanNames);
+	    gameModel.initGame(numHumans, numAI, humanNames);
 
-		currentPlayerView = new CurrentPlayerView(gameModel);
-		waitingPlayersView = new WaitingPlayersView(gameModel);
+	    buildBoardLayout(primaryStage);
+	}
+
+	public void buildBoardLayout(Stage primaryStage) {
+
+        currentPlayerView = new CurrentPlayerView(gameModel);
+        waitingPlayersView = new WaitingPlayersView(gameModel);
         deckView = new DeckView(gameModel);
         consoleView = new ConsoleView(gameModel, this);
 
@@ -92,12 +97,13 @@ public class GameController implements GameObserver{
         AnchorPane.setRightAnchor(currentPlayerView, 0.0);
         AnchorPane.setBottomAnchor(currentPlayerView, 0.0);
 
-       // currentPlayerView.setGridLinesVisible(true);
+        // currentPlayerView.setGridLinesVisible(true);
 
-		Scene gameScene = new Scene(root, primaryStage.getScene().getWidth(), primaryStage.getScene().getHeight());
+        Scene gameScene = new Scene(root, primaryStage.getScene().getWidth(), primaryStage.getScene().getHeight());
 
-		primaryStage.setScene(gameScene);
-	}
+        primaryStage.setScene(gameScene);
+
+    }
 
 	public void setup(int stage, int row) {
 		GenericPlayer curr = gameModel.getCurrentPlayer();

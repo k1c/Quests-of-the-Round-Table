@@ -101,6 +101,13 @@ public class GameBoard extends AbstractGameBoard{
 
 		log.gameState("Rigging Game");
 
+		this.adventureDeck = new ArrayList<>();
+		this.storyDeck = new ArrayList<>();
+		this.adventureDeckDiscard = new ArrayList<AdventureCard>();
+		this.storyDeckDiscard 	  = new ArrayList<StoryCard>();
+		this.participants 	  = new ArrayList<Player>();
+		this.players = new ArrayList<>();
+		this.ais  = new ArrayList<>();
 
 		this.currentStory = null;
 		this.currentQuestIndex = 0;
@@ -114,10 +121,6 @@ public class GameBoard extends AbstractGameBoard{
 		this.adventureDeck.addAll(ad);
 		this.storyDeck.addAll(sd);
 
-		this.adventureDeckDiscard = new ArrayList<AdventureCard>();	
-		this.storyDeckDiscard 	  = new ArrayList<StoryCard>();
-		this.participants 	  = new ArrayList<Player>();
-
 		if(shuffle_story)
 			Collections.shuffle(this.storyDeck);
 
@@ -126,7 +129,7 @@ public class GameBoard extends AbstractGameBoard{
 
 		if(addCards){
 			for(Player p : this.players){
-				for(int num=p.hand.size(); num <= 12; num=p.hand.size()){
+				for(int num=p.hand.size(); num < 12; num=p.hand.size()){
 					drawFromAdventureDeck(p);
 				}
 			}
