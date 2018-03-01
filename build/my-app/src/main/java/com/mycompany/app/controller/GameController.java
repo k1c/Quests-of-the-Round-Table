@@ -47,6 +47,8 @@ public class GameController implements GameObserver{
 	private ConsoleView consoleView;
 	private QuestsView questsView;
 	private List<Card> questSetup;
+    private TournamentView tournamentView;
+    private List<Card> tournamentSetup;
 
 	private GenericPlayer current;
 
@@ -181,13 +183,103 @@ public class GameController implements GameObserver{
 		}
     }
 
+    public void setupTournament(int player, int row){
+        GenericPlayer curr = gameModel.getCurrentPlayer();
+        if (player <= 1 && row == 0) {
+            tournamentView.clearTournament();
+        }
+        tournamentSetup = tournamentView.getTournamentSetup().toList();
+
+        curr.hand.removeAll(tournamentSetup);
+        currentPlayerView.buildHand(curr.hand, false, null, null);
+
+/*
+        if (player <= gameModel.getNumberOfStages()) {
+            questsView.setFocus(player, row);
+            if (row == 0) {
+                // foe/test
+                log.playerAction(gameModel.getCurrentPlayer(), "adding a foe/test to player " + player);
+                consoleView.display("Add a foe or a test to player " + player);
+
+                Button play = new Button("Play Card");
+                play.addEventHandler(MouseEvent.MOUSE_CLICKED, e -> {
+                    Card img = (Card) currentPlayerView.getFrontCard().getProperties().get("card");
+                    log.cardPlayed(gameModel.getCurrentPlayer(), img, "in Quest setup");
+                    questsView.setFoeTest(img, player);
+                    // add to player's tobeplayed and remove from hand
+                    // on successfull submit, cards removed from tobe
+                    curr.hand.remove(img);
+                    currentPlayerView.buildHand(curr.hand, false, null, null);
+                });
+                Card.Types[] types = {Card.Types.FOE, Card.Types.TEST};
+                currentPlayerView.buildHand(curr.hand, false, play, types);
+
+            }
+            else {
+                //weapons
+                log.playerAction(gameModel.getCurrentPlayer(), "adding weapon(s) to player " + player);
+                consoleView.display("Add weapon(s) to player " + player);
+                Card.Types[] types = {Card.Types.WEAPON};
+
+                Button play = new Button("Play Card");
+                play.addEventHandler(MouseEvent.MOUSE_CLICKED, e -> {
+                    Card img = (Card) currentPlayerView.getFrontCard().getProperties().get("card");
+                    log.cardPlayed(gameModel.getCurrentPlayer(), img, "in Quest setup");
+                    questsView.setWeapons(img, player);
+                    curr.hand.remove(img);
+                    currentPlayerView.buildHand(curr.hand,false,play,types);
+                    // add to player's tobeplayed and remove from hand
+                    // on successfull submit, cards removed from tobe
+                    //currentPlayerView.buildHand(gameModel.getCurrentPlayer().hand, false, null, null);
+                });
+                currentPlayerView.buildHand(curr.hand, false, play, types);
+            }
+
+            consoleView.showButton("Next"
+                    , e -> {
+                        if (questsView.hasCard()) {
+                            if (row == 0 && !questsView.isFoeStage(player)) {
+                                questsView.setWeapons(null, player);
+                                setup(player + 1, 0);
+                            }
+                            else if (row == 0)
+                                setup(player, row+1);
+                            else
+                                setup(player+1, 0);
+
+                        } else {
+                            consoleView.display("Foe/Test cannot be empty!\nAdd a foe or a test to player " + player);
+                        }
+                    }
+                    , 1);
+        } else {
+            consoleView.display("Done! Submit quest setup?");
+            consoleView.showButton("Submit", e -> {
+                boolean valid = gameModel.submitQuest(gameModel.getCurrentPlayer().id(), questsView.getQuestSetup());
+                if (!valid) {
+                    log.error("Quest setup is invalid and it will restart");
+                    consoleView.display("The quest setup is invalid!\nPlease rebuild the quest.");
+                    consoleView.showButton("Setup Quest", e2 -> setup(1, 0), 1);
+                    //currentPlayerView.buildHand(gameModel.getCurrentPlayer().hand,false,null,null);
+                } else {
+                    log.playerAction(curr, "successfully set up the Quest");
+                }
+            }, 1);
+        }
+        */
+
+    }
+
     public void discard() {
 	    GenericPlayer p = gameModel.getCurrentPlayer();
 	    List<Card> discards = new ArrayList<>();
 	    consoleView.display(p.name + ", discard to get to 12");
 	    consoleView.showButton("Submit Discard", e -> {
+	    	log.debug("in discard before");
 	        gameModel.discard(p.id(), discards);
+			log.debug("in discard after");
 	        if (gameModel.getNumDiscards() > 1)
+	        	log.debug("in discard gameController");
 	            discard();
         }, 1);
 
