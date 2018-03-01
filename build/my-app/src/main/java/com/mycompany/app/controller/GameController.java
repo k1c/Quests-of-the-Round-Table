@@ -14,12 +14,11 @@ import com.mycompany.app.model.GameModel;
 import com.mycompany.app.model.GameObserver;
 import com.mycompany.app.model.GameStates;
 import com.mycompany.app.view.*;
+import javafx.event.EventHandler;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
-import javafx.scene.image.Image;
-import javafx.scene.image.ImageView;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.*;
 import javafx.stage.Stage;
@@ -270,6 +269,8 @@ public class GameController implements GameObserver{
 
     }
 
+    // PASS IN CUSTOM HANDLER TO SHOW/HIDE TO PREVENT SCREWUP
+    // DISCARD STARTS WITH PLAYER HAND DOWN
     public void discard() {
 	    GenericPlayer p = gameModel.getCurrentPlayer();
 	    List<Card> discards = new ArrayList<>();
@@ -277,22 +278,76 @@ public class GameController implements GameObserver{
 	    consoleView.showButton("Submit Discard", e -> {
 	    	log.debug("in discard before");
 	        gameModel.discard(p.id(), discards);
-			log.debug("in discard after");
-	        if (gameModel.getNumDiscards() > 1)
-	        	log.debug("in discard gameController");
+	        if (gameModel.getNumDiscards() > 0)
 	            discard();
         }, 1);
 
 	    Button btn = new Button("Discard");
         Card.Types[] types = {Card.Types.FOE, Card.Types.ALLY, Card.Types.TEST, Card.Types.AMOUR, Card.Types.WEAPON};
-	    btn.addEventHandler(MouseEvent.MOUSE_CLICKED, e -> {
+	    btn.addEventHandler(MouseEvent.MOUSE_CLICKED, removeCard(discards, p, btn, types));
+        p.hand.removeAll(discards);
+	    currentPlayerView.buildHand(p.hand, true, btn, types);
+    }
+
+    public void startFoeStage() {
+        GenericPlayer p = gameModel.getCurrentPlayer();
+
+        // a player has to choose cards to play
+        // send to stageFoe (p id, list of cards)
+        List<Card> toPlay = new ArrayList<>();
+
+        consoleView.display(p.name + ", choose cards to fight the foe.\n Click submit once ready.");
+        consoleView.showButton("Submit", e -> {
+            gameModel.stageFoe(p.id(), toPlay);
+            if (gameModel.getNumParticipants() > 1)
+                startFoeStage();
+        }, 1);
+
+        Card.Types[] types = {Card.Types.WEAPON, Card.Types.ALLY, Card.Types.AMOUR};
+
+        // Button for the card. Add card from here to list.
+        Button btn = new Button("Play");
+        btn.addEventHandler(MouseEvent.MOUSE_CLICKED, removeCard(toPlay, p, btn, types));
+        p.hand.removeAll(toPlay);
+        currentPlayerView.buildHand(p.hand, false, btn, types);
+    }
+
+    public void startTestStage() {
+        GenericPlayer p = gameModel.getCurrentPlayer();
+        List<Card> bids = new ArrayList<>();
+
+        consoleView.display(p.name + ", choose the cards you'd like to bid.\n");
+        consoleView.showButton("Submit", e -> {
+            //if(!gameModel.stageTest(p.id(), bids)){
+            consoleView.display("You need to bid more!");
+            //}
+            if (gameModel.getNumParticipants() > 0)
+                startTestStage();
+        }, 1);
+        consoleView.showButton("Give up", e -> {
+            gameModel.testGiveUp(p.id());
+            if (gameModel.getNumParticipants() > 0)
+                startTestStage();
+        }, 2);
+
+        Card.Types[] types = {Card.Types.FOE, Card.Types.ALLY, Card.Types.WEAPON, Card.Types.TEST, Card.Types.AMOUR};
+
+        Button btn = new Button("Play");
+
+        btn.addEventHandler(MouseEvent.MOUSE_CLICKED, removeCard(bids, p, btn, types));
+
+        p.hand.removeAll(bids);
+        currentPlayerView.buildHand(p.hand, false, btn, types);
+
+    }
+
+    public EventHandler<MouseEvent> removeCard(List<Card> cards, GenericPlayer p, Button btn, Card.Types[] types) {
+        return e -> {
             Card img = (Card) currentPlayerView.getFrontCard().getProperties().get("card");
-            discards.add(img);
+            cards.add(img);
             p.hand.remove(img);
             currentPlayerView.buildHand(p.hand,false,btn, types);
-        });
-        p.hand.removeAll(discards);
-	    currentPlayerView.buildHand(p.hand, false, btn, types);
+        };
     }
 
 	public void update() {
@@ -306,6 +361,13 @@ public class GameController implements GameObserver{
                 AnchorPane.setLeftAnchor(questsView, 0.0);
                 AnchorPane.setTopAnchor(questsView, 0.0);
                 root.getChildren().add(questsView);
+                break;
+            case QUEST_END:
+                consoleView.display("End of quest!");
+                consoleView.showButton("Finish", e -> {
+                    root.getChildren().remove(questsView);
+                    gameModel.endQuest();
+                }, 1);
                 break;
         }
     }

@@ -62,9 +62,7 @@ public class WaitingPlayersView extends GridPane implements GameObserver, CardSt
         int inplayIndex = 0;
         int hHand = 0;
         int hInplay = 0;
-        int c = waiting.size();
 
-        String[] ranks = new String[c];
         for (GenericPlayer p : waiting) {
             if (p.hand.size() >= hHand) {
                 hHand = p.hand.size();
@@ -75,9 +73,6 @@ public class WaitingPlayersView extends GridPane implements GameObserver, CardSt
                 hInplay = p.inPlay.size();
                 inplayIndex = waiting.indexOf(p);
             }
-
-            ranks[c-1] = p.rank.getPath();
-            c--;
         }
 
         List<Card> hand = waiting.get(handIndex).hand;
@@ -121,7 +116,7 @@ public class WaitingPlayersView extends GridPane implements GameObserver, CardSt
         }
 
         // add ranks
-        buildRank(ranks);
+        buildRank();
 
         // add shields and mordred button
         buildShield();
@@ -137,27 +132,30 @@ public class WaitingPlayersView extends GridPane implements GameObserver, CardSt
 
     }
 
-    private void buildRank(String[] ranks) {
+    private void buildRank() {
 
         // Create player rank
-        for (int i = 0; i < ranks.length; i++) {
+        int i = waiting.size() - 1;
+        for (GenericPlayer p : waiting) {
             StackPane playerRank = new StackPane();
 
             GridPane.setColumnIndex(playerRank, 0);
             GridPane.setRowIndex(playerRank, i);
 
-            ImageView rankCard = new ImageView(new Image(ranks[i]));
+            ImageView rankCard = new ImageView(new Image(p.rank.getPath()));
             rankCard.setFitWidth(WIDTH);
             rankCard.setFitHeight(HEIGHT);
 
             playerRank.getChildren().add(rankCard);
+
+            i--;
 
             getChildren().add(playerRank);
         }
     }
 
     private void buildShield() {
-        int i = waiting.size();
+        int i = waiting.size() - 1;
         for (GenericPlayer p : waiting) {
             VBox box = new VBox(10);
             box.setAlignment(Pos.CENTER);
@@ -168,7 +166,7 @@ public class WaitingPlayersView extends GridPane implements GameObserver, CardSt
             shield.setPreserveRatio(true);
             shield.setFitWidth(WIDTH/1.2);
 
-            Label currShields = new Label(p.rank.getShields() + "/" + p.rank.getMaxShields());
+            Label currShields = new Label(p.name + " \n" + p.rank.getShields() + "/" + p.rank.getMaxShields());
             currShields.setFont(new Font("Cambria", 30));
             currShields.setStyle("-fx-font-weight: bold; -fx-text-fill: white;");
 
@@ -181,7 +179,7 @@ public class WaitingPlayersView extends GridPane implements GameObserver, CardSt
 
             box.getChildren().addAll(image, mordred);
             GridPane.setColumnIndex(box, 1);
-            GridPane.setRowIndex(box, i-1);
+            GridPane.setRowIndex(box, i);
 
             i--;
 
@@ -191,8 +189,10 @@ public class WaitingPlayersView extends GridPane implements GameObserver, CardSt
 
     private void buildHand(List<GenericPlayer> players, int handSpan){
 
+        int i = waiting.size() - 1;
+
         // For each player, create hand, ONLY BACK OF CARD
-        for (int i = players.size() - 1; i >= 0; i--) {
+        for (GenericPlayer p : waiting) {
             StackPane playerHand = new StackPane();
 
             GridPane.setColumnIndex(playerHand, 2);
@@ -203,7 +203,7 @@ public class WaitingPlayersView extends GridPane implements GameObserver, CardSt
             final ImageView back = new ImageView(new Image("A Back.jpg"));
             back.setFitWidth(WIDTH);
             back.setFitHeight(HEIGHT);
-            String playerHandSize = Integer.toString(players.get(i).hand.size());
+            String playerHandSize = Integer.toString(p.hand.size());
 
             Label pHandSize = new Label(playerHandSize);
             pHandSize.setFont(new Font("Cambria", 30));
@@ -213,6 +213,7 @@ public class WaitingPlayersView extends GridPane implements GameObserver, CardSt
             playerHand.getChildren().add(pHandSize);
             StackPane.setAlignment(pHandSize, Pos.CENTER);
 
+            i--;
 
             getChildren().add(playerHand);
         }
@@ -221,8 +222,9 @@ public class WaitingPlayersView extends GridPane implements GameObserver, CardSt
 
     private void buildInPlay(List<GenericPlayer> players, int index, int inplaySpan) {
 
+        int i = waiting.size() - 1;
         // For each player, create in play cards
-        for (int i = players.size() - 1; i >= 0; i--) {
+        for (GenericPlayer p : waiting) {
             // Create player in play
             StackPane playerInplay = new StackPane();
 
@@ -230,7 +232,9 @@ public class WaitingPlayersView extends GridPane implements GameObserver, CardSt
             GridPane.setColumnSpan(playerInplay, inplaySpan);
             GridPane.setRowIndex(playerInplay, i);
 
-            createStack(players.get(i).inPlay, playerInplay, false, false, HEIGHT, WIDTH, X_OFFSET, null, null);
+            createStack(p.inPlay, playerInplay, false, false, HEIGHT, WIDTH, X_OFFSET, null, null);
+
+            i--;
 
             getChildren().add(playerInplay);
         }
@@ -238,8 +242,9 @@ public class WaitingPlayersView extends GridPane implements GameObserver, CardSt
 
     private void buildBattlePoints(List<GenericPlayer> players, int index) {
 
+        int  i = waiting.size() - 1;
         // For each player, create in play cards
-        for (int i = players.size() - 1; i >= 0; i--) {
+        for (GenericPlayer p : waiting) {
             // Create player in play
             StackPane playerBP = new StackPane();
 
@@ -249,7 +254,7 @@ public class WaitingPlayersView extends GridPane implements GameObserver, CardSt
             ImageView bp = new ImageView(new Image("Battle_Points.png"));
             bp.setPreserveRatio(true);
             bp.setFitWidth(WIDTH);
-            String pBP = Integer.toString(players.get(i).totalBattlePoints);
+            String pBP = Integer.toString(p.totalBattlePoints);
 
             Label pBPLabel = new Label(pBP);
             pBPLabel.setFont(new Font("Cambria", 30));
@@ -258,6 +263,8 @@ public class WaitingPlayersView extends GridPane implements GameObserver, CardSt
             playerBP.getChildren().add(bp);
             playerBP.getChildren().add(pBPLabel);
             StackPane.setAlignment(pBPLabel, Pos.CENTER);
+
+            i--;
 
             getChildren().add(playerBP);
         }

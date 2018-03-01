@@ -477,6 +477,10 @@ public class GameModel{
 		this.updateObservers();
 	}
 
+	public int getNumParticipants() {
+	    return this.participants.size();
+    }
+
 	public boolean stageFoe(int playerID, List<Card> list){
 		if(this.state != GameStates.STAGE_FOE){
 			log.gameStateAction(this.state,"Invalid State",board.findPlayer(playerID));
@@ -504,7 +508,9 @@ public class GameModel{
 			log.gameStateAction(this.state,"last participant",board.findPlayer(playerID));
 			changeState(GameStates.STAGE_END,playerID);
 			//this.state = GameStates.STAGE_END;
-		}
+		} else {
+		    changeState(GameStates.STAGE_FOE, this.participants.current());
+        }
 
 		this.updateObservers();
 
@@ -527,6 +533,7 @@ public class GameModel{
 
 		if(!validSubmit) {
 			log.gameStateAction(this.state,"Invalid Bid",board.findPlayer(playerID));
+			changeState(GameStates.STAGE_TEST, this.participants.current());
 			return false;
 		}
 
@@ -534,11 +541,10 @@ public class GameModel{
 			//this.state = GameStates.STAGE_END;
 			log.gameStateAction(this.state,"Wins Bid",board.findPlayer(playerID));
 			changeState(GameStates.STAGE_END,this.participants.current());
-		}
-
-		if(validSubmit && !board.checkTestWinner()){
+		} else if(validSubmit && !board.checkTestWinner()){
 			log.gameStateAction(this.state,"Passes Bid",board.findPlayer(playerID));
 			this.participants.next();
+			changeState(GameStates.STAGE_TEST, this.participants.current());
 		}
 
 		this.updateObservers();
@@ -550,7 +556,7 @@ public class GameModel{
 	public void testGiveUp(Integer id){
 		if(this.state != GameStates.STAGE_TEST){
 			log.gameStateAction(this.state,"Invalid State",board.findPlayer(id));
-			this.participants.next();
+			//this.participants.next();
 			return;
 		}
 
@@ -561,12 +567,15 @@ public class GameModel{
 
 		log.gameStateAction(this.state,"Given Up",board.findPlayer(id));
 		board.giveUp(id);
+        this.participants.removeCurrent();
 
 		if(board.checkTestWinner()){
 			log.gameStateAction(this.state,"Someone Has Won",board.findPlayer(id));
 			//this.state = GameStates.STAGE_END;
 			changeState(GameStates.STAGE_END,this.participants.current());
-		}
+		} else {
+		    changeState(GameStates.STAGE_TEST, this.participants.current());
+        }
 
 	}
 

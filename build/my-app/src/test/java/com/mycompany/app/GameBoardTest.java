@@ -107,6 +107,7 @@ public class GameBoardTest extends TestCase{
 		board.submitQuest(boarAndFriends, board.players.get(0).id);
 
 		//check that Player 1's quest is submitted proper;y
+		System.out.println("OVER--"+board.players.get(0).hand.toString());
 		assertEquals(12, board.players.get(0).hand.size());
 		assertEquals(2, board.quest.size());
 		assertEquals(1, board.quest.get(0).size());
