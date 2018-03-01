@@ -725,7 +725,6 @@ public class GameModel{
 		if(validSubmit){
 			log.gameStateAction(this.state,"Correct Submission",board.findPlayer(id));
 			this.participants.removeCurrent();
-			changeState(GameStates.TOURNAMENT_STAGE, this.participants.current());
 		}
 
 		
@@ -733,6 +732,8 @@ public class GameModel{
 			log.gameStateAction(this.state,"Ending Stage",board.findPlayer(id));
 			changeState(GameStates.TOURNAMENT_STAGE_END,id);
 			//this.state = GameStates.TOURNAMENT_STAGE_END;
+		} else {
+			changeState(GameStates.TOURNAMENT_STAGE, this.participants.current());
 		}
 		return true;
 

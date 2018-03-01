@@ -191,7 +191,7 @@ public class GameController implements GameObserver{
         }
         currentPlayerView.buildHand(curr.hand, false, null, null);
 
-        if (player <= gameModel.getNumParticipants()) {
+        if (gameModel.getState() == GameStates.TOURNAMENT_STAGE) {
             tournamentView.setFocus(player, row);
             if (row == 0) {
                 log.gameState(gameModel.getCurrentPlayer()+" is added to the tournament");
@@ -227,12 +227,11 @@ public class GameController implements GameObserver{
                         }else{
                             List<Card> temp = tournamentView.getTournamentSetup().get(player - 1);
                             temp.remove(0);
-                            /*if(!gameModel.tournamentStage(gameModel.getCurrentPlayer().id(), temp)) {
+                            if(!gameModel.tournamentStage(gameModel.getCurrentPlayer().id(), temp)) {
                                 setupTournament(player, row);
                             } else {
                                 setupTournament(player+1,0);
-                            }*/
-                            setupTournament(player+1,0);
+                            }
                         }
                     }
                     , 1);
@@ -351,7 +350,12 @@ public class GameController implements GameObserver{
                 }, 1);
                 break;
             case TOURNAMENT_END:
-                consoleView.display("END OF TOURNEY");
+                consoleView.display("End of Tournament");
+                consoleView.showButton("Finish", e -> {
+                    root.getChildren().remove(tournamentView);
+                    gameModel.tournamentEnd();
+                }, 1);
+                break;
         }
     }
 }
