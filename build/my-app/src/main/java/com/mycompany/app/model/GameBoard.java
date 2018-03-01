@@ -134,17 +134,25 @@ public class GameBoard extends AbstractGameBoard{
 		}
 
 	}
+
+	public int getQuestIndex(){
+		return this.currentQuestIndex;
+	}
+
+	public int getCurrentQuestBP(){
+		int accumulator = 0;
+		for(AdventureCard item : this.quest.get(this.currentQuestIndex)){
+			accumulator += item.getBattlePoints(this);
+		}
+		return accumulator;
+		
+	}
+
+	
 	public void loadGame(){
 
 	}
 
-	public int getStageBp(){
-		return 0;
-	}
-
-	public int getStageIndex(){
-		return 0;
-	}
 
 	public AbstractAI getAI(int id){
 		for(AbstractAI ai : ais){

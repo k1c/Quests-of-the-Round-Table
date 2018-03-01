@@ -206,9 +206,17 @@ public class GameModel{
 		
 	}
 
+	public int getStageBp(){
+		return board.getCurrentQuestBP();
+	}
+
+	public int getStageIndex(){
+		return board.getQuestIndex();
+	}
+
 	public int getNumDiscards() {
 	    return discard.size();
-    }
+	}
 
 	public void initGame(int numHumans,int numAI,String[] humanNames){
 
