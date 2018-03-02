@@ -255,7 +255,7 @@ public class GameBoard extends AbstractGameBoard{
 
 	public void applyStoryCardLogic(int player) {
 
-		log.action("applyStoryCardLogic","applying story card end logic","");
+		log.action("applyStoryCardLogic","applying story card end logic",this.currentStory);
 
 		currentStory.apply(this, player);
 		resetQuest();
@@ -643,6 +643,7 @@ public class GameBoard extends AbstractGameBoard{
 	}
 
 	public void completeFoeStage(){
+
 		List<AdventureCard> quest = this.quest.get(currentQuestIndex);
 		List<Player> tempParticipants = new ArrayList();
 		List<Player> droppedPlayers = new ArrayList();
@@ -663,30 +664,34 @@ public class GameBoard extends AbstractGameBoard{
 		for(Player participant : this.participants){
 			if(participant.getTotalBP(this) >= questBP){
 				tempParticipants.add(participant);
+				log.action("completeFoeStage","player continues",participant);
 			}
 			else{
 				droppedPlayers.add(participant);
+				log.action("completeFoeStage","player dropped",participant);
 			}
 		}
 
 		// clean up the cards
 		for(Player participant : tempParticipants){
+			log.action("completeFoeStage","clearing weapons",participant);
 			resetTypeInPlay(participant,Card.Types.WEAPON);	
 		}
 
 		for(Player participant : droppedPlayers){
+			log.action("completeFoeStage","clearing dropped weapons and amour",participant);
 			resetTypeInPlay(participant,Card.Types.WEAPON);	
 			resetTypeInPlay(participant,Card.Types.AMOUR);	
 		}
-		
 
 		this.participants = tempParticipants;
 
 	}
 
 	public boolean submitBids(int player, List<Card> hand){
-
 		Player p = findPlayer(player);
+
+		log.action("submitBids","bid submit",p);
 
 		boolean validHand   = true;
 		boolean amourInPlay = false;
@@ -716,8 +721,10 @@ public class GameBoard extends AbstractGameBoard{
 			validHand = validHand && tempPlayerHand.remove(card);
 		}
 
-		if(!validHand)
+		if(!validHand){
+			log.action("submitBids","Invalid : Hand",p);
 			return false;
+		}
 
 		for(AdventureCard item : submittedCards){
 			if(item.type == Card.Types.AMOUR && amourInPlay){
@@ -735,11 +742,16 @@ public class GameBoard extends AbstractGameBoard{
 
 		}
 
+		log.action("submitBids","to bid discard",tempToBePlayed);
+		log.action("submitBids","as free bid",tempInPlay);
+
 		p.toBePlayed = tempToBePlayed;
 		p.inPlay = tempInPlay;
 		p.hand = tempPlayerHand;
 		
 		validBid = maxBidder(p) && totalPlayerBids(p) >= testBids;
+
+		log.action("submitBids","enough to pass",validBid);
 
 		return validBid;
 	}
@@ -772,13 +784,16 @@ public class GameBoard extends AbstractGameBoard{
 		}
 
 		if(participants.size() == 1) {
+			log.action("checkTestWinner","is there winner ",totalPlayerBids(participants.get(0)) >= testBids);
 			return totalPlayerBids(participants.get(0)) >= testBids;
 		}
+		log.action("checkTestWinner","is there winner ",participants.size() <= 0);
 		return participants.size() <= 0;
 	}
 
 	protected void giveUp(Integer id){
 		Player p = findPlayer(id);
+		log.action("giveUp","player is giving up test",p);
 
 		p.hand.addAll(p.toBePlayed);
 		p.toBePlayed.clear();
@@ -788,7 +803,8 @@ public class GameBoard extends AbstractGameBoard{
 
 
 	public void completeTestStage(){
-
+		
+		log.action("completeTestStage","Cleaning up stage","");
 		for (Player p : participants){
 			this.adventureDeckDiscard.addAll(p.toBePlayed);
 			p.toBePlayed.clear();
@@ -799,8 +815,10 @@ public class GameBoard extends AbstractGameBoard{
 
 
 	public void resetTypeInPlay(Player p,Card.Types type){
+		log.action("resetTypeInPlay","player discarding type",p);
 		for(AdventureCard card : new ArrayList<>(p.inPlay)){
 			if(card.type == type){
+				log.action("resetTypeInPlay","player discards"+ p.toString(),card);
 				adventureDeckDiscard.add(card);
 				p.inPlay.remove(card);
 			}
@@ -813,6 +831,8 @@ public class GameBoard extends AbstractGameBoard{
 		for(AdventureCard item: list){
 			BP += item.getBattlePoints(this); 	
 		}
+
+		log.action("calculateBP","Battle Points",BP);
 
 		return BP;
 	}
@@ -858,25 +878,35 @@ public class GameBoard extends AbstractGameBoard{
 
 		//the stage is not unique
 		if(cardSet.size() != stage.size()) {
+			log.action("validStage","Invalid : Stage is not unique",stage);
 			return false;
 		}
 		//the stage does not have a foe nor a test
 		if(foeNumber != 1 && testNumber != 1) {
+			log.action("validStage","Invalid : Stage has no foes or tests",stage);
 			return false;
 		}
 		//the stage has too many tests for 1 foe
 		if(foeNumber == 1 && testNumber > 0) {
+			log.action("validStage","Invalid : stage foe with a test",stage);
+			return false;
+		}
+		if(foeNumber > 1){
+			log.action("validStage","Invalid : Too many Foes",stage);
 			return false;
 		}
 		//the stage has too many foes for 1 test 
 		if(testNumber == 1 && stage.size() > 1) {
+			log.action("validStage","Invalid : test with other items in stage",stage);
 			return false;
 		}
 		//there only exists foes weapons and tests
 		if((foeNumber+testNumber+weaponNumber) != stage.size()) {
+			log.action("validStage","Invalid: invalid type in stage",stage);
 			return false;
 		}
 
+		log.action("validStage","Valid Stage",stage);
 		return true;
 	}
 
