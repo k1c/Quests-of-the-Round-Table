@@ -226,7 +226,7 @@ public class GameModel{
 		players = board.getPlayerIds();		
 		storyTurn = new Cycle<Integer>(players,0);
 		//this.state = GameStates.BEGIN_TURN;
-		changeState(GameStates.BEGIN_TURN,players.indexOf(storyTurn.current()));
+		changeState(GameStates.BEGIN_TURN,storyTurn.current());
 	}
 
 	public void rigGame1(){
@@ -234,7 +234,7 @@ public class GameModel{
 		board = RiggedGameModel.rig1();	
 		players = board.getPlayerIds();		
 		storyTurn = new Cycle<Integer>(players,0);
-		changeState(GameStates.BEGIN_TURN,players.indexOf(storyTurn.current()));
+		changeState(GameStates.BEGIN_TURN,storyTurn.current());
 	}
 
 	public void rigGame2(){
@@ -242,7 +242,7 @@ public class GameModel{
 		board = RiggedGameModel.rig2();	
 		players = board.getPlayerIds();		
 		storyTurn = new Cycle<Integer>(players,0);
-		changeState(GameStates.BEGIN_TURN,players.indexOf(storyTurn.current()));
+		changeState(GameStates.BEGIN_TURN,storyTurn.current());
 	}
 
 	public void rigGame3(){
@@ -250,7 +250,7 @@ public class GameModel{
 		board = RiggedGameModel.rig3();	
 		players = board.getPlayerIds();		
 		storyTurn = new Cycle<Integer>(players,0);
-		changeState(GameStates.BEGIN_TURN,players.indexOf(storyTurn.current()));
+		changeState(GameStates.BEGIN_TURN,storyTurn.current());
 	}
 
 	public void registerObserver(GameObserver o){

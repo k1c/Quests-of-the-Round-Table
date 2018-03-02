@@ -81,6 +81,9 @@ public class RiggedGameModel{
 		AdventureCardFactory F = new AdventureCardFactory();
 		List<HumanPlayer> humans = new ArrayList<>();
 		GameBoard b = new GameBoard();
+		List<AbstractAI> strategy1AI = new ArrayList();
+		strategy1AI.add(new Strategy1AI("Strategy1AI","Shield Purple.png" ));
+
 
 		HumanPlayer p1 = new HumanPlayer("Player 1", "Shield Blue.png");
 		p1.inPlay.add(F.createCard(AdventureCardFactory.Types.MERLIN));
@@ -91,15 +94,14 @@ public class RiggedGameModel{
 
 		HumanPlayer p3 = new HumanPlayer("Player 3", "Shield Red.png");
 
-		HumanPlayer p4 = new HumanPlayer("Player 4", "Shield Purple.png");
+		//HumanPlayer p4 = new HumanPlayer("Player 4", "Shield Purple.png");
 
 		humans.add(p1);
-		humans.add(p2);
-		humans.add(p3);
-		humans.add(p4);
+		//humans.add(p2);
+		//humans.add(p3);
 
-		b.initRig(new ArrayList<AbstractAI>(),humans,
-				CardLoader.loadAdventureCards(), CardLoader.rigGame3(),true,false,true);
+		b.initRig(strategy1AI,humans,
+				CardLoader.loadAdventureCards(), CardLoader.loadStoryCards(),true,true,true);
 		return b;
 	}
 }
