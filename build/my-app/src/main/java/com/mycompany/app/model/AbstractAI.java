@@ -3,19 +3,7 @@ import java.util.List;
 
 public abstract class AbstractAI extends Player{
 
-	private static int idCount = 0;
-	protected int id;
-	public Rank rank;
-	public String name;
-	public String shieldImage;
-
-	/*
-	 * behaviour 1
-	 * behaviour 2
-	 * behaviour 3
-	 * behaviour 4
-	 */
-
+	AbstractStrategyBehaviour behaviour;
 
 
 	public AbstractAI(String name, String shieldImage){
@@ -29,49 +17,66 @@ public abstract class AbstractAI extends Player{
 	 * Return Type : TRUE -- I want to participate
 	 * 		 FALSE - I do not participate
 	 */
-	abstract public boolean doIParticipateInTournament(GameBoard board);
+	public boolean doIParticipateInTournament(GameBoard board) {
+		return behaviour.doIParticipateInTournament(board,this);
+	}
 
 
 	/*
 	 * Description : Returns a list of cards to play in that tournament round
 	 * Return Type : List<Card> 
 	 */
-	abstract public List<Card> playInTournament(GameBoard board);
+	public List<Card> playInTournament(GameBoard board){
+		return behaviour.playInTournament(board,this);
+	}
 
 	/* Description : Returns whether AI will sponsor a quest or not
 	 * Return Type : TRUE -- I want to participate
 	 * 		 FALSE - I do not participate
 	 */
-	abstract public boolean doISponsorAQuest(GameBoard board);
+	public boolean doISponsorAQuest(GameBoard board){
+		return behaviour.doISponsorAQuest(board,this);
+	}
 
 	/*
 	 * Description : Returns a setup Quest
 	 * Return Type : TwoDimensionalArrayList<Card>  
 	 */
-	abstract public TwoDimensionalArrayList<Card> sponsorQuest(GameBoard board);
+	public TwoDimensionalArrayList<Card> sponsorQuest(GameBoard board){
+		return behaviour.sponsorQuest(board,this);
+	}
 
 
 	/* Description : Returns whether AI will participate in quest or not
 	 * Return Type : TRUE -- I want to participate
 	 * 		 FALSE - I do not participate
 	 */
-	abstract public boolean doIParticipateInQuest(GameBoard board);
+	public boolean doIParticipateInQuest(GameBoard board){
+		return behaviour.doIParticipateInQuest(board,this);
+	}
 
 	/*
 	 * Description : Returns a list of cards to play in that Quest round
 	 * Return Type : List<Card> 
 	 */
-	abstract public List<Card> playQuest(GameBoard board);
+	public List<Card> playQuest(GameBoard board){
+		return behaviour.playQuest(board,this);
+	}
 
 	/*
 	 * Description : Returns a list of cards to play in that test round
 	 * Return Type : List<Card> 
 	 */
-	abstract public List<Card> nextBid(GameBoard board);
+	public List<Card> nextBid(GameBoard board){
+		return behaviour.nextBid(board,this);
+
+	}
 
 	/*
 	 * ??? Discard Functionality I guess
 	 * Return Type : List<Card> to discard or put int play
 	 */
-	abstract public List<Card> discardAfterWinningTest(GameBoard board);
+	public List<Card> discardAfterWinningTest(GameBoard board){
+		return behaviour.discardAfterWinningTest(board,this);
+	}
 }

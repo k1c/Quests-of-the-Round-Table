@@ -114,8 +114,8 @@ public class GameBoard extends AbstractGameBoard{
 		this.currentTournamentStage = 0;
 
 		log.action("initRig","Adding Players","");
-		this.players.addAll(ai);
 		this.players.addAll(hu);
+		this.players.addAll(ai);
 
 		this.ais.addAll(ai);
 
