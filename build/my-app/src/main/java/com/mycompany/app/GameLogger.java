@@ -7,6 +7,8 @@ import org.apache.log4j.Logger;
 
 public class GameLogger  {
 
+	private static int id = 0;
+
 public static final String ANSI_RESET = "";
 public static final String ANSI_BLACK = "";
 public static final String ANSI_RED = "";
@@ -35,61 +37,74 @@ public static final String ANSI_WHITE = "\u001B[37m";
 
     private GameLogger() { }
 
+    private String id(){
+	synchronized(this){
+		this.id++;
+		return String.format(" log#%d ",this.id);
+	}
+    }
     public void playerAction(Player player, String action) {
-        String str = String.format("%sUser Action:  %s :%s %s",ANSI_PURPLE,player.toString(),ANSI_RESET,action);
+        String str = String.format(this.id() +"%sUser Action:  %s :%s %s",ANSI_PURPLE,player.toString(),ANSI_RESET,action);
         logger.log(GameLogger.class.getCanonicalName(), Level.INFO, str, null);
     }
 
     public void playerAction(GenericPlayer player, String action) {
-        String str = "User Action:  " + player.name + " " + action;
+        String str = this.id() +"User Action:  " + player.name + " " + action;
         logger.log(GameLogger.class.getCanonicalName(), Level.INFO, str, null);
     }
 
     public void playerCard(Player player, Object cardType, String deckType) {
-        String str = "Card Drawn:  " + player.name + " draws " + cardType + " from the " + deckType;
+        String str = this.id() +"Card Drawn:  " + player.name + " draws " + cardType + " from the " + deckType;
         logger.log(GameLogger.class.getCanonicalName(), Level.INFO, str,null);
 
     }
 
     public void playerCard(GenericPlayer player, Object cardType, String deckType) {
-        String str = "Card Drawn:  " + player.name + " draws " + cardType + " from the " + deckType;
+        String str =  this.id() + "Card Drawn:  " + player.name + " draws " + cardType + " from the " + deckType;
         logger.log(GameLogger.class.getCanonicalName(), Level.INFO, str,null);
 
     }
 
     public void cardPlayed(Player player, Object cardType, String location) {
-        String str = "Card Played:  " + player.name + " plays " + cardType + " " + location;
+        String str = this.id() + "Card Played:  " + player.name + " plays " + cardType + " " + location;
         logger.log(GameLogger.class.getCanonicalName(), Level.INFO, str,null);
     }
 
     public void cardPlayed(GenericPlayer player, Object cardType, String location) {
-        String str = "Card Played:  " + player.name + " plays " + cardType + " " + location;
+        String str = this.id() + "Card Played:  " + player.name + " plays " + cardType + " " + location;
         logger.log(GameLogger.class.getCanonicalName(), Level.INFO, str,null);
     }
 
     public void gameState(String state){
-        state = String.format("%sGame State: %s%s",ANSI_RED,ANSI_RESET,state); 
+        state = String.format(this.id() + "%sGame State: %s%s",ANSI_RED,ANSI_RESET,state); 
         logger.log(GameLogger.class.getCanonicalName(), Level.INFO, state,null);
     }
 
     public void gameStateAction(Object state,String action,Object o){
-        state = String.format("%s(%s)%sAction: %s: %s%s",ANSI_RED,state.toString(),ANSI_GREEN,action,ANSI_RESET,o.toString());
+        state = String.format(this.id() + "%s(%s)%sAction: %s: %s%s",ANSI_RED,state.toString(),ANSI_GREEN,action,ANSI_RESET,o.toString());
         logger.log(GameLogger.class.getCanonicalName(), Level.INFO, state,null);
     }
 
+    /*
+	log.action("","","");
+*/
+    public void action(Object description,String action,Object o){
+        String str = String.format(this.id() + "[%s]:%s    %s",description,action,o.toString());
+        logger.log(GameLogger.class.getCanonicalName(), Level.INFO, str,null);
+    }
 
     public void objectCreation(String objectType, String description){
-        String str = objectType + " Creation:  "  + description;
+        String str = this.id() + objectType + " Creation:  "  + description;
         logger.log(GameLogger.class.getCanonicalName(), Level.INFO, str,null);
     }
 
     public void count(String objBeingCounted, int num){
-        String str = "Number of " + objBeingCounted + ":  " +num;
+        String str = this.id() + "Number of " + objBeingCounted + ":  " +num;
         logger.log(GameLogger.class.getCanonicalName(), Level.INFO, str,null);
     }
 
     public void cardDrawn(Object cardType){
-        String str = "Card Drawn:  "+cardType;
+        String str = this.id() + "Card Drawn:  "+cardType;
         logger.log(GameLogger.class.getCanonicalName(), Level.INFO, str,null);
     }
 
