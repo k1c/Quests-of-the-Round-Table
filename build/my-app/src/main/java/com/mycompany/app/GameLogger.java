@@ -7,6 +7,8 @@ import org.apache.log4j.Logger;
 
 public class GameLogger  {
 
+	public static int id = 0;
+
 public static final String ANSI_RESET = "";
 public static final String ANSI_BLACK = "";
 public static final String ANSI_RED = "";
@@ -28,6 +30,7 @@ public static final String ANSI_WHITE = "\u001B[37m";
                 if (ourInstance == null) {
                     ourInstance = new GameLogger();
                 }
+		id++;
             }
         }
         return ourInstance;
@@ -77,6 +80,13 @@ public static final String ANSI_WHITE = "\u001B[37m";
         logger.log(GameLogger.class.getCanonicalName(), Level.INFO, state,null);
     }
 
+    /*
+	log.action("","","");
+*/
+    public void action(Object description,String action,Object o){
+        String str = String.format("[%s]:%s    %s",description,action,o.toString());
+        logger.log(GameLogger.class.getCanonicalName(), Level.INFO, str,null);
+    }
 
     public void objectCreation(String objectType, String description){
         String str = objectType + " Creation:  "  + description;
