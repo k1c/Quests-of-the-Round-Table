@@ -118,8 +118,6 @@ public class GameBoard extends AbstractGameBoard{
 		this.players.addAll(hu);
 		this.players.addAll(ai);
 
-		System.out.println(this.players.toString());
-
 		this.ais.addAll(ai);
 
 		this.adventureDeck.addAll(ad);
