@@ -193,7 +193,6 @@ public class GameModel{
 			this.state = state;
 		}
 
-		log.gameState(this.state.toString());
 		if(board.playerIsAI(playerId))
 			AI_Move(board.getAI(playerId));
 
