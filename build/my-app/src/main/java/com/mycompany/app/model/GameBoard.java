@@ -114,8 +114,9 @@ public class GameBoard extends AbstractGameBoard{
 		this.currentQuestIndex = 0;
 		this.currentTournamentStage = 0;
 
-		this.players.addAll(ai);
+
 		this.players.addAll(hu);
+		this.players.addAll(ai);
 
 		this.ais.addAll(ai);
 
