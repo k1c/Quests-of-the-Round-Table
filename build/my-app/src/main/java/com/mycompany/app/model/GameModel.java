@@ -217,11 +217,39 @@ public class GameModel{
 	    return discard.size();
 	}
 
-	public void initGame(int numHumans,int numAI,String[] humanNames){
+	public void initGame(int numHumans,int ai_type1,int ai_type2,String[] humanNames){
+
+		String[] shieldImages = {"Shield Blue.png", "Shield Red.png", "Shield Green.png", "Shield Purple.png"};
+		List<HumanPlayer> h = new ArrayList();
+		List<AbstractAI> a = new ArrayList();
 
 		turn = 0;
 
-		board.initGame(numHumans, numAI, humanNames, CardLoader.loadAdventureCards(), CardLoader.loadStoryCards());
+		int num = Math.min(numHumans + ai_type1 + ai_type2, 4);
+
+		for(int i = 0; i < num; i++){
+			if(i < numHumans){
+				h.add(new HumanPlayer(humanNames[i],shieldImages[i]));			
+			}
+			else if(i < numHumans + ai_type1){
+				a.add(new Strategy1AI(String.format("AI%d", i+1-numHumans),shieldImages[i]));			
+			}
+			else if(i < numHumans + ai_type1 + ai_type2){
+				a.add(new Strategy1AI(String.format("AI%d", i+1-numHumans-ai_type1),shieldImages[i]));			
+			}
+		}
+
+		System.out.println(numHumans);
+		System.out.println(ai_type1);
+		System.out.println(ai_type2);
+		System.out.println(h);
+		System.out.println(a);
+
+		board.initRig(a,h,CardLoader.loadAdventureCards(),CardLoader.loadStoryCards(),
+				true,true,true);
+			
+
+		//board.initGame(numHumans, numAI, humanNames, CardLoader.loadAdventureCards(), CardLoader.loadStoryCards());
 		players = board.getPlayerIds();		
 		storyTurn = new Cycle<Integer>(players,0);
 		//this.state = GameStates.BEGIN_TURN;

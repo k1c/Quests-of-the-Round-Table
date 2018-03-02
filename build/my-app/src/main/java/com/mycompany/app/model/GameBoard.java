@@ -134,7 +134,7 @@ public class GameBoard extends AbstractGameBoard{
 		}
 
 		if(addCards){
-			log.action("initRig","Adding Cards","");
+			log.action("initRig","Adding Cards",this.players);
 			for(Player p : this.players){
 				for(int num=p.hand.size(); num < 12; num=p.hand.size()){
 					drawFromAdventureDeck(p);
