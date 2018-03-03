@@ -39,6 +39,11 @@ public class GameBoard extends AbstractGameBoard{
 
 	protected TwoDimensionalArrayList<AdventureCard> quest;
 
+	public List<Player> getParticipantPlayers(){
+		List<Player> participants = this.participants;
+		return participants;
+	}
+
 	public void initGame(int numHumans, int numAI, String[] names, List<AdventureCard> ad, List<StoryCard> sd){
 		log.gameState("Game Board Screen");
 
@@ -46,6 +51,7 @@ public class GameBoard extends AbstractGameBoard{
 
 		if( num > MAX_PLAYERS || num < MIN_PLAYERS)
 			num = MIN_PLAYERS;
+
 
 
 		this.currentStory = null;
@@ -159,7 +165,6 @@ public class GameBoard extends AbstractGameBoard{
 		
 	}
 
-	
 
 	public AbstractAI getAI(int id){
 		log.action("getAI","Getting Ai","");
@@ -927,7 +932,7 @@ public class GameBoard extends AbstractGameBoard{
 	public List<Integer> getParticipants(){
 		List<Integer> temp = new ArrayList();
 		for(Player p : this.participants){
-			temp.add(p.id());			
+			temp.add(p.id());
 		}
 		return temp;
 	}

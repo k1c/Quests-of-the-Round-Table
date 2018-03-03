@@ -9,7 +9,23 @@ public class Strategy1 extends AbstractStrategyBehaviour{
      * Return Type : TRUE -- I want to participate
      * 		 FALSE - I do not participate
      */
-    public boolean doIParticipateInTournament(GameBoard board,AbstractAI ai){
+    public boolean doIParticipateInTournament(GameBoard board, AbstractAI ai){
+
+        List<Player> players = board.getParticipantPlayers();
+        int currentRank = 0;
+        boolean win = false;
+
+        ViewGameBoard b = board.getViewCopy();
+
+        for (Player p : players ) {
+            if (p.rank.getShields() + (board.getCurrentQuestStages() - players.size()) >= p.rank.getMaxShields()) {
+                win = true;
+            }
+        }
+        if (win == true){
+            return true;
+        }
+
         return false;
     }
 
