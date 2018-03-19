@@ -239,20 +239,13 @@ public class GameModel{
 			}
 		}
 
-		System.out.println(numHumans);
-		System.out.println(ai_type1);
-		System.out.println(ai_type2);
-		System.out.println(h);
-		System.out.println(a);
 
-		board.initRig(a,h,CardLoader.loadAdventureCards(),CardLoader.loadStoryCards(),
-				true,true,true);
+		board.initRig(a,h,CardLoader.loadAdventureCards(),CardLoader.loadStoryCards(),true,true,true);
 			
 
-		//board.initGame(numHumans, numAI, humanNames, CardLoader.loadAdventureCards(), CardLoader.loadStoryCards());
 		players = board.getPlayerIds();		
 		storyTurn = new Cycle<Integer>(players,0);
-		//this.state = GameStates.BEGIN_TURN;
+
 		changeState(GameStates.BEGIN_TURN,storyTurn.current());
 	}
 
