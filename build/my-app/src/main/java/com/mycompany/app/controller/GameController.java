@@ -65,7 +65,7 @@ public class GameController implements GameObserver{
 
 	public void startGame(Stage primaryStage, int numHumans, int numAI, String[] humanNames) {
 
-	    gameModel.initGame(numHumans, numAI, humanNames);
+	    gameModel.initGame(numHumans, numAI,0, humanNames);
 
 	    buildBoardLayout(primaryStage);
 	}
