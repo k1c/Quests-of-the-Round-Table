@@ -58,6 +58,7 @@ public class CardLoader{
 		StoryCardFactory F = new StoryCardFactory();
 
 		List<StoryCard> L = new ArrayList<StoryCard>();
+		/*
 		L.addAll(F.createCardList(StoryCardFactory.Types.SEARCH_FOR_THE_HOLY_GRAIL, 1));
 		L.addAll(F.createCardList(StoryCardFactory.Types.TEST_OF_THE_GREEN_KNIGHT, 1));
 		L.addAll(F.createCardList(StoryCardFactory.Types.SEARCH_FOR_THE_QUESTING_BEAST, 1));
@@ -68,12 +69,15 @@ public class CardLoader{
 		L.addAll(F.createCardList(StoryCardFactory.Types.SLAY_THE_DRAGON, 1));
 		L.addAll(F.createCardList(StoryCardFactory.Types.BOAR_HUNT, 2));
 		L.addAll(F.createCardList(StoryCardFactory.Types.REPEL_THE_SAXON_RAIDERS, 2));
+		*/
 
 		L.addAll(F.createCardList(StoryCardFactory.Types.TOURNAMENT_AT_CAMELOT, 1));
 		L.addAll(F.createCardList(StoryCardFactory.Types.TOURNAMENT_AT_ORKNEY, 1));
 		L.addAll(F.createCardList(StoryCardFactory.Types.TOURNAMENT_AT_TINTAGEL, 1));
 		L.addAll(F.createCardList(StoryCardFactory.Types.TOURNAMENT_AT_YORK, 1));
+		
 
+		/*
 		//L.addAll(F.createCardList(StoryCardFactory.Types.KINGS_RECOGNITION, 2));
 		L.addAll(F.createCardList(StoryCardFactory.Types.QUEENS_FAVOR, 2));
 		L.addAll(F.createCardList(StoryCardFactory.Types.COURT_CALLED_TO_CAMELOT, 2));
@@ -82,6 +86,7 @@ public class CardLoader{
 		L.addAll(F.createCardList(StoryCardFactory.Types.CHIVALROUS_DEED, 1));
 		L.addAll(F.createCardList(StoryCardFactory.Types.PROSPERITY_THROUGHOUT_THE_REALM, 1));
 		//L.addAll(F.createCardList(StoryCardFactory.Types.KINGS_CALL_TO_ARMS, 1));
+		*/
 
 		return L;
 
