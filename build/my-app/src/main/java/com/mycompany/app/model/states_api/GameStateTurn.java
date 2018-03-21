@@ -41,6 +41,7 @@ public class GameStateTurn extends GameState{
 			model.questSponsor = new Cycle<Integer>(model.players,model.storyTurn.current());
 			//changeState(GameStates.SPONSOR_QUEST,questSponsor.current());
 			//model.state = GameStates.SPONSOR_QUEST;
+			model.gameState = new GameStateQuestSponsor(this,model.questSponsor.current());
 		}
 
 		if (Card.Types.TOURNAMENT == card.type){

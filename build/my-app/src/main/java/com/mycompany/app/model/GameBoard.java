@@ -507,9 +507,10 @@ protected List<Player> 		participants;
 			 return false;
 		 }
 		
-		 log.action("submitHand","to be played",p.toBePlayed);
 		 p.toBePlayed = submittedCards;		
 		 p.hand = tempPlayerHand;
+
+		 log.action("submitHand","to be played",p.toBePlayed);
 
 		 return true;
 	}

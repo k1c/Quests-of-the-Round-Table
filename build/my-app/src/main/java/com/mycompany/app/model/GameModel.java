@@ -127,18 +127,60 @@ public class GameModel{
 	
 
 	public void drawStoryCard(){
+		System.out.println("drawStoryCard");
 		this.gameState.next();
 		this.updateObservers();
 	} 	
-	public void sponsorQuest(int player,boolean sponsor){}
-	public boolean submitQuest(int player,TwoDimensionalArrayList<Card> quest){return false;}
-	public void participateQuest(int player,boolean participate){}
-	public void stage(){}
-	public boolean stageFoe(int playerID, List<Card> list){return false;}
-	public boolean stageTest(int playerID, List<Card> list){return false;}
-	public void testGiveUp(Integer id){}
-	public void stageEnd(){}
-	public void endQuest() {}
+	public void sponsorQuest(int player,boolean sponsor){
+		System.out.println("sponsorQuest");
+		this.gameState.decision(player,sponsor);	
+		this.updateObservers();
+	}
+	public boolean submitQuest(int player,TwoDimensionalArrayList<Card> quest){
+		System.out.println("submitQuest");
+		boolean retValue = this.gameState.quest(player,quest);	
+		this.updateObservers();
+		return retValue;
+	}
+	public void participateQuest(int player,boolean participate){
+		System.out.println("participateQuest");
+		this.gameState.decision(player,participate);
+		this.updateObservers();
+	
+	}
+	public void stage(){
+		System.out.println("stage");
+		this.gameState.next();	
+		this.updateObservers();
+	}
+	public boolean stageFoe(int playerID, List<Card> list){
+		System.out.println("stageFoe");
+		boolean retValue = this.gameState.play(playerID,list);
+		this.updateObservers();
+		return retValue;
+			
+	}
+	public boolean stageTest(int playerID, List<Card> list){
+		System.out.println("stageTest");
+		boolean retValue = this.gameState.play(playerID,list);
+		this.updateObservers();
+		return retValue;
+	}
+	public void testGiveUp(Integer id){
+		System.out.println("testGiveUp");
+		this.gameState.decision(id,true);
+		this.updateObservers();
+	}
+	public void stageEnd(){
+		System.out.println("stageEnd");
+		this.gameState.next();
+		this.updateObservers();
+	}
+	public void endQuest() {
+		System.out.println("endQuest");
+		this.gameState.next();	
+		this.updateObservers();
+	}
 
 	public void beginTournament(){
 		System.out.println("beginTournament");
