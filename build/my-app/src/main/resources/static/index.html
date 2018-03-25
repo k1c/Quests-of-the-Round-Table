@@ -2,36 +2,31 @@
 <head>
     <title>Quests of the Round Table!</title>
     <link rel="stylesheet" href="css/index-stylesheet.css">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
+    <script src="javascript/index-javascript.js"></script>
 </head>
 
 <body>
 <div id="main-container">
+    <button onclick="start()">Start</button>
+    <button onclick="data()">data</button>
     <div id="current-player">
         <div id="rank" class="right-element">
-            <img class="c-img" src="images/R Knight.jpg" />
         </div>
 
         <div id="shield" class="right-element">
-            <img style="height: 80%" src="images/Shield Red.png" />
         </div>
 
         <div id="hand" class="right-element">
-            <img style="transform: translateX(200px);" class="c-img" src="images/A Sir Gawain.jpg" />
-            <img style="transform: translateX(100px);" class="c-img" src="images/A Sir Tristan.jpg" />
-            <img style="transform: translateX(0px);" class="c-img" src="images/A King Arthur.jpg" />
         </div>
 
         <div id="in-play" class="right-element">
-            <img style="transform: translateX(100px);" class="c-img" src="images/W Excalibur.jpg" />
-            <img style="transform: translateX(0px);" class="c-img" src="images/A Sir Galahad.jpg" />
         </div>
 
         <div id="to-be-played" class="right-element">
-            <img style="transform: translateX(0px);" class="c-img" src="images/W Sword.jpg" />
         </div>
 
         <div id="BP" class="right-element">
-            <img style="height: 70%;" class="c-img" src="images/Battle_Points.png" />
         </div>
     </div>
 </div>
