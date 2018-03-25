@@ -16,6 +16,7 @@
 .right-element {
 	margin-left: 10px;
 	float: right;
+	display: inline-block;
 }
 
 .c-img {
