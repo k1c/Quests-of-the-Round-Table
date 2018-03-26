@@ -9,7 +9,7 @@ public class GameStateParticipateTournament extends GameState{
 	public GameStateParticipateTournament(GameState state,int currentPlayer){
 		this.model = state.model;
 		changeState(this,currentPlayer);
-		model.state = GameStates.PARTICIPATE_TOURNAMENT;
+		this.state = GameStates.PARTICIPATE_TOURNAMENT;
 	}
 
 	public void next(){
@@ -22,22 +22,22 @@ public class GameStateParticipateTournament extends GameState{
 		model.log.playerAction(p,"is deciding whether to participate in the Tournament");
 
 		if(playerId == currentPlayer && choice){
-			model.log.gameStateAction(model.state,"Participates",model.board.findPlayer(playerId));
+			model.log.gameStateAction(this,"Participates",model.board.findPlayer(playerId));
 			model.board.addParticipant(model.participants.removeCurrent());
 		}else if(playerId == currentPlayer && !choice){
-			model.log.gameStateAction(model.state,"Does Not Participate",model.board.findPlayer(playerId));
+			model.log.gameStateAction(this,"Does Not Participate",model.board.findPlayer(playerId));
 			model.participants.removeCurrent();
 		}
 
 		if(model.participants.size() <= 0 && model.board.getParticipants().size() > 0){
-			model.log.gameStateAction(model.state,"Beginning Tournament",model.board.findPlayer(playerId));
+			model.log.gameStateAction(this,"Beginning Tournament",model.board.findPlayer(playerId));
 			/*
 			changeState(GameStates.TOURNAMENT_HANDLER,currentPlayer);
 			*/
 			model.gameState = new GameStateTournamentStageStart(this,currentPlayer);
 		}
 		else if(model.participants.size() <= 0 && model.board.getParticipants().size() <= 0){
-			model.log.gameStateAction(model.state,"Not Enough Participants",model.board.findPlayer(playerId));
+			model.log.gameStateAction(this,"Not Enough Participants",model.board.findPlayer(playerId));
 			/*
 			changeState(GameStates.END_TURN,this.storyTurn.current());
 			*/
@@ -46,7 +46,7 @@ public class GameStateParticipateTournament extends GameState{
 			model.gameState = new GameStateEndTurn(this,model.storyTurn.current());
 		}
 		else{
-			model.log.gameStateAction(model.state,"Next Participant",model.board.findPlayer(model.participants.current()));
+			model.log.gameStateAction(this,"Next Participant",model.board.findPlayer(model.participants.current()));
 			this.model.gameState = new GameStateParticipateTournament(this,model.participants.current());
 		}
 

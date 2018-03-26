@@ -9,7 +9,7 @@ public class GameStateQuestStageFoe extends GameState{
 	public  GameStateQuestStageFoe (GameState state,int currentPlayer){
 		this.model = state.model;
 		changeState(this,currentPlayer);
-		model.state = GameStates.STAGE_FOE;
+		this.state = GameStates.STAGE_FOE;
 	}
 
 	public void next(){
@@ -20,7 +20,7 @@ public class GameStateQuestStageFoe extends GameState{
 	public boolean play(int playerID, List<Card> list){
 
 		if(playerID != model.participants.current()){
-			model.log.gameStateAction(model.state,"Invalid Player",model.board.findPlayer(playerID));
+			model.log.gameStateAction(this,"Invalid Player",model.board.findPlayer(playerID));
 			return false;
 		}
 
@@ -28,16 +28,16 @@ public class GameStateQuestStageFoe extends GameState{
 		boolean validSubmit = model.board.submitHand(playerID,list);
 
 		if(validSubmit){
-			model.log.gameStateAction(model.state,"valid Submission",model.board.findPlayer(playerID));
+			model.log.gameStateAction(this,"valid Submission",model.board.findPlayer(playerID));
 			model.participants.removeCurrent();
 		}
 		if(!validSubmit){
-			model.log.gameStateAction(model.state,"invalid Submission",model.board.findPlayer(playerID));
+			model.log.gameStateAction(this,"invalid Submission",model.board.findPlayer(playerID));
 			return false;
 		}
 
 		if(model.participants.size() <= 0 ){
-			model.log.gameStateAction(model.state,"last participant",model.board.findPlayer(playerID));
+			model.log.gameStateAction(this,"last participant",model.board.findPlayer(playerID));
 			//changeState(GameStates.STAGE_END,playerID);
 			model.gameState = new GameStateQuestStageEnd(this,playerID);
 			//this.state = GameStates.STAGE_END;

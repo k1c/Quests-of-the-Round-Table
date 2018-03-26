@@ -10,11 +10,11 @@ public class GameStateQuestEnd extends GameState{
 	public GameStateQuestEnd (GameState state,int currentPlayer){
 		this.model = state.model;
 		changeState(this,currentPlayer);
-		model.state = GameStates.QUEST_END;
+		this.state = GameStates.QUEST_END;
 	}
 
 	public void next(){
-		model.log.gameStateAction(model.state,"Applying Quest Logic","");
+		model.log.gameStateAction(this,"Applying Quest Logic","");
 
 		//apply story logic
 		model.board.applyStoryCardLogic(model.questSponsor.current());

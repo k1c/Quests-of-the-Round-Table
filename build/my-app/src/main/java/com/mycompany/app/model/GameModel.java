@@ -60,7 +60,7 @@ public class GameModel{
 	}
 
 	public int getNumDiscards() {
-	    return discard.size();
+	    	return discard.size();
 	}
 
 	public void initGame(int numHumans,int ai_type1,int ai_type2,String[] humanNames){
@@ -96,7 +96,8 @@ public class GameModel{
 	}
 
 	public GameStates getState() {
-	    return this.state;
+		return gameState.getState();
+	    //return this.state;
     }
 
 	public int getNumParticipants() {

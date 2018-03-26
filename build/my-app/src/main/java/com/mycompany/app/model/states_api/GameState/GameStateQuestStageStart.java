@@ -12,7 +12,7 @@ public class GameStateQuestStageStart extends GameState{
 	public GameStateQuestStageStart (GameState state,int currentPlayer){
 		this.model = state.model;
 		changeState(this,currentPlayer);
-		model.state = GameStates.QUEST_HANDLER;
+		this.state = GameStates.QUEST_HANDLER;
 	}
 
 	public void next(){
@@ -25,13 +25,13 @@ public class GameStateQuestStageStart extends GameState{
 
 		if(model.board.stageType(Card.Types.FOE)){
 			//this.state = GameStates.STAGE_FOE;
-			model.log.gameStateAction(model.state,"Foe Stage Next","");
+			model.log.gameStateAction(this,"Foe Stage Next","");
 			//changeState(GameStates.STAGE_FOE,this.participants.current());
 			model.gameState = new GameStateQuestStageFoe(this,model.participants.current());
 		}
 		if(model.board.stageType(Card.Types.TEST)){
 			//this.state = GameStates.STAGE_TEST;
-			model.log.gameStateAction(model.state,"Test Stage Next","");
+			model.log.gameStateAction(this.state,"Test Stage Next","");
 			//changeState(GameStates.STAGE_TEST,this.participants.current());
 			model.gameState = new GameStateQuestStageTest(this,model.participants.current());
 		}

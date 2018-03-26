@@ -9,7 +9,7 @@ public class GameStateTournamentStage extends GameState{
 	public GameStateTournamentStage (GameState state,int currentPlayer){
 		this.model = state.model;
 		changeState(this,currentPlayer);
-		model.state = GameStates.TOURNAMENT_STAGE;
+		this.state = GameStates.TOURNAMENT_STAGE;
 	}
 
 	public void next(){
@@ -19,13 +19,13 @@ public class GameStateTournamentStage extends GameState{
 	public boolean play(int id, List<Card> hand){
 
 		if(id != model.participants.current()){
-			model.log.gameStateAction(model.state,"Invalid Player",model.board.findPlayer(id));
+			model.log.gameStateAction(this,"Invalid Player",model.board.findPlayer(id));
 			return false;
 		}
 
-		model.log.gameStateAction(model.state,"Participants : ",model.participants.items());
+		model.log.gameStateAction(this,"Participants : ",model.participants.items());
 		if(model.participants.size() <= 0){
-			model.log.gameStateAction(model.state,"All Players Have Played",model.board.findPlayer(id));
+			model.log.gameStateAction(this,"All Players Have Played",model.board.findPlayer(id));
 			return false;
 		}
 
@@ -33,18 +33,18 @@ public class GameStateTournamentStage extends GameState{
 		boolean validSubmit = model.board.submitHand(id,hand);
 
 		if(!validSubmit){
-			model.log.gameStateAction(model.state,"Incorrect Submission",model.board.findPlayer(id));
+			model.log.gameStateAction(this,"Incorrect Submission",model.board.findPlayer(id));
 			return false;
 		}
 
 		if(validSubmit){
-			model.log.gameStateAction(model.state,"Correct Submission",model.board.findPlayer(id));
+			model.log.gameStateAction(this,"Correct Submission",model.board.findPlayer(id));
 			model.participants.removeCurrent();
 		}
 
 		
 		if(model.participants.size() <= 0){
-			model.log.gameStateAction(model.state,"Ending Stage",model.board.findPlayer(id));
+			model.log.gameStateAction(this,"Ending Stage",model.board.findPlayer(id));
 			/*
 			changeState(GameStates.TOURNAMENT_STAGE_END,id);
 			*/

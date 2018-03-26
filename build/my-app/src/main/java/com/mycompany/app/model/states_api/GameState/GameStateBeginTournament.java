@@ -10,11 +10,11 @@ public class GameStateBeginTournament extends GameState{
 	public GameStateBeginTournament(GameState state,int currentPlayer){
 		this.model = state.model;
 		changeState(this,currentPlayer);
-		model.state = GameStates.TOURNAMENT_HANDLER;
+		this.state = GameStates.TOURNAMENT_HANDLER;
 	}
 
 	public void next(){
-		model.log.gameStateAction(model.state,"Begin Tournament","");
+		model.log.gameStateAction(this,"Begin Tournament","");
 
 		// start a cycle which loops through participants
 		model.participants = new Cycle<Integer>(model.players,model.players.indexOf(model.storyTurn.current()));

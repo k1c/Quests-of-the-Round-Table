@@ -9,7 +9,7 @@ public class GameStateTournamentStageEnd extends GameState{
 	public GameStateTournamentStageEnd (GameState state,int currentPlayer){
 		this.model = state.model;
 		changeState(this,currentPlayer);
-		model.state = GameStates.TOURNAMENT_STAGE_END;
+		this.state = GameStates.TOURNAMENT_STAGE_END;
 	}
 
 	public void next(){
@@ -22,14 +22,14 @@ public class GameStateTournamentStageEnd extends GameState{
 		if(anotherRound){
 			//clean up round 1, 
 			//this.state = GameStates.TOURNAMENT_HANDLER;
-			model.log.gameStateAction(model.state,"Tie Breaker","");
+			model.log.gameStateAction(this,"Tie Breaker","");
 			model.gameState = new GameStateTournamentStageStart(this,model.board.getParticipants().get(0));
 			//changeState(GameStates.TOURNAMENT_HANDLER,this.board.getParticipants().get(0));
 		}
 		//TIE round 2 
 		if(!anotherRound){
 			//clean up all	
-			model.log.gameStateAction(model.state,"Winner Found","");
+			model.log.gameStateAction(this,"Winner Found","");
 			model.gameState = new GameStateTournamentEnd(this,model.storyTurn.current());
 			//changeState(GameStates.TOURNAMENT_END,this.storyTurn.current());
 			//this.state = GameStates.TOURNAMENT_END;

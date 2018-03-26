@@ -9,7 +9,7 @@ public class GameStateTurn extends GameState{
 	public GameStateTurn(GameState state,int currentPlayer){
 		this.model = state.model;
 		changeState(this,currentPlayer);
-		model.state = GameStates.BEGIN_TURN;
+		this.state = GameStates.BEGIN_TURN;
 	}
 
 	public void next(){

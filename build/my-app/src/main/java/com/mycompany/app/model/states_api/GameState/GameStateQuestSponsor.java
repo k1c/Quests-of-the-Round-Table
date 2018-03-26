@@ -9,7 +9,7 @@ public class GameStateQuestSponsor extends GameState{
 	public GameStateQuestSponsor (GameState state,int currentPlayer){
 		this.model = state.model;
 		changeState(this,currentPlayer);
-		model.state = GameStates.SPONSOR_QUEST;
+		this.state = GameStates.SPONSOR_QUEST;
 	}
 
 	public void next(){

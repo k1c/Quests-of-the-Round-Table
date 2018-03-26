@@ -5,22 +5,24 @@ import java.util.*;
 import com.mycompany.app.GameLogger;
 import com.mycompany.app.model.Card;
 
-public class GameStateEndTurn extends GameState{
+public class GameStateEventLogic extends GameState{
 
-	public GameStateEndTurn(GameState state,int currentPlayer){
+	public GameStateEventLogic(GameState state,int currentPlayer){
 		this.model = state.model;
 		changeState(this,currentPlayer);
-		model.state = GameStates.END_TURN;
+		this.state = GameStates.EVENT_LOGIC;
 	}
 
 	public void next(){
-		model.log.gameStateAction(model.state,"End Turn","");
-		model.turn++;
-		model.currentPlayer = model.storyTurn.next();
+		/*
+		 * ACTION : Apply events logic to players
+		 */
+		model.log.gameStateAction(state,"Applying Event Logic","");
+		model.board.applyStoryCardLogic(model.storyTurn.current());
 
-		//this.state = GameStates.BEGIN_TURN;
-		//changeState(GameStates.BEGIN_TURN,this.storyTurn.current());
-		model.gameState = new GameStateTurn(this,model.storyTurn.current());
+		//this.state = GameStates.END_TURN;
+		//changeState(GameStates.END_TURN,this.storyTurn.current());
+		model.gameState = new GameStateEndTurn(this,model.storyTurn.current());
 	}
 	public void decision(int playerId,boolean choice){
 

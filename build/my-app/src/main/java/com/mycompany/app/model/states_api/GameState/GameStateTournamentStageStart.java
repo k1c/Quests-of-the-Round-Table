@@ -11,11 +11,11 @@ public class GameStateTournamentStageStart extends GameState{
 		changeState(this,currentPlayer);
 
 		/* this needs to change */
-		model.state = GameStates.TOURNAMENT_HANDLER;
+		this.state = GameStates.TOURNAMENT_HANDLER;
 	}
 
 	public void next(){
-		model.log.gameStateAction(model.state,"Beginning Tournament Stage","");
+		model.log.gameStateAction(this,"Beginning Tournament Stage","");
 		/*
 		 * some kind of quest logic here
 		 */

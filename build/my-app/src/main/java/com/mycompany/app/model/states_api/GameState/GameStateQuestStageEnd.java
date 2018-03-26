@@ -10,34 +10,34 @@ public class GameStateQuestStageEnd extends GameState{
 	public  GameStateQuestStageEnd (GameState state,int currentPlayer){
 		this.model = state.model;
 		changeState(this,currentPlayer);
-		model.state = GameStates.STAGE_END;
+		this.state = GameStates.STAGE_END;
 	}
 
 	public void next(){
 		if(model.board.stageType(Card.Types.FOE)){
-			model.log.gameStateAction(model.state,"Cleaning Up Foe Stage","");
+			model.log.gameStateAction(this,"Cleaning Up Foe Stage","");
 			model.board.completeFoeStage();
 		}
 		if(model.board.stageType(Card.Types.TEST)){
-			model.log.gameStateAction(model.state,"Cleaning Up Test Stage","");
+			model.log.gameStateAction(this,"Cleaning Up Test Stage","");
 			model.board.completeTestStage();
 
 		}
 
 		if(model.board.getParticipants().size() == 0){
-			model.log.gameStateAction(model.state,"No More Participants","");
+			model.log.gameStateAction(this,"No More Participants","");
 			model.gameState = new GameStateQuestEnd(this,model.questSponsor.current());
 			//changeState(GameStates.QUEST_END,this.questSponsor.current());
 		}
 
 		//distribute cards
 		else if(!model.board.nextStage()){
-			model.log.gameStateAction(model.state,"Completed All Stages","");
+			model.log.gameStateAction(this,"Completed All Stages","");
 			//changeState(GameStates.QUEST_END,this.questSponsor.current());
 			model.gameState = new GameStateQuestEnd(this,model.questSponsor.current());
 		}
 		else{
-			model.log.gameStateAction(model.state,"Next Stage","");
+			model.log.gameStateAction(this,"Next Stage","");
 			//changeState(GameStates.QUEST_HANDLER,this.questSponsor.current());
 			model.gameState = new GameStateQuestStageStart(this,model.questSponsor.current());
 		}

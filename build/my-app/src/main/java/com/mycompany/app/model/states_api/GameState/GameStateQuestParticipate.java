@@ -11,7 +11,7 @@ public class GameStateQuestParticipate extends GameState{
 	public GameStateQuestParticipate(GameState state,int currentPlayer){
 		this.model = state.model;
 		changeState(this,currentPlayer);
-		model.state = GameStates.PARTICIPATE_QUEST;
+		this.state = GameStates.PARTICIPATE_QUEST;
 	}
 
 	public void next(){
@@ -36,19 +36,19 @@ public class GameStateQuestParticipate extends GameState{
 		// change state
 		if(model.participants.size() <= 0 && model.board.getParticipants().size()>0){
 			//this.state = GameStates.QUEST_HANDLER;
-			model.log.gameStateAction(model.state,"Starting Quest",model.board.findPlayer(player));
+			model.log.gameStateAction(this,"Starting Quest",model.board.findPlayer(player));
 			//changeState(GameStates.QUEST_HANDLER, currPlayer);
 			model.gameState = new GameStateQuestStageStart(this,currPlayer);
 		}
 		else if(model.participants.size() <= 0 && model.board.getParticipants().size() <= 0){
 			//this.state = GameStates.QUEST_END;	
-			model.log.gameStateAction(model.state,"Not Enough Players",model.board.findPlayer(player));
+			model.log.gameStateAction(this,"Not Enough Players",model.board.findPlayer(player));
 			//changeState(GameStates.QUEST_END, currPlayer);
 			model.gameState = new GameStateQuestEnd(this,currPlayer);
 		}
 		//else if(model.state != GameStates.QUEST_HANDLER) {
 		else{
-			model.log.gameStateAction(model.state,"Next Player",model.board.findPlayer(player));
+			model.log.gameStateAction(this,"Next Player",model.board.findPlayer(player));
 			//changeState(GameStates.PARTICIPATE_QUEST, this.participants.current());
 			model.gameState = new GameStateQuestParticipate(this,model.participants.current());
 		}
