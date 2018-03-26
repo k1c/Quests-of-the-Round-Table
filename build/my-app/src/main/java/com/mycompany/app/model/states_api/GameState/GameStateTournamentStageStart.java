@@ -15,6 +15,9 @@ public class GameStateTournamentStageStart extends GameState{
 	}
 
 	public void next(){
+		if(model.discardState.getState() != GameStates.DISCARD_NONE){
+			return;
+		}
 		model.log.gameStateAction(this,"Beginning Tournament Stage","");
 		/*
 		 * some kind of quest logic here

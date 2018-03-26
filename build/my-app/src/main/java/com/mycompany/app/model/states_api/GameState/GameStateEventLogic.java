@@ -14,6 +14,9 @@ public class GameStateEventLogic extends GameState{
 	}
 
 	public void next(){
+		if(model.discardState.getState() != GameStates.DISCARD_NONE){
+			return;
+		}
 		/*
 		 * ACTION : Apply events logic to players
 		 */

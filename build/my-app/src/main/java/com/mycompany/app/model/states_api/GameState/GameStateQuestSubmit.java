@@ -22,6 +22,9 @@ public class GameStateQuestSubmit extends GameState{
 		return false;
 	}
 	public boolean quest(int player, TwoDimensionalArrayList<Card> quest){
+		if(model.discardState.getState() != GameStates.DISCARD_NONE){
+			return false;
+		}
 		/*
 		 * verify that it is a valid quest
 		 */

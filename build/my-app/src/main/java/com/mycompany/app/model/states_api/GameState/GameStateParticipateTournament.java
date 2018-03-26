@@ -15,6 +15,9 @@ public class GameStateParticipateTournament extends GameState{
 	public void next(){
 	}
 	public void decision(int playerId,boolean choice){
+		if(model.discardState.getState() != GameStates.DISCARD_NONE){
+			return;
+		}
 
 		int currentPlayer = model.participants.current();
 		Player p = model.board.findPlayer(currentPlayer);

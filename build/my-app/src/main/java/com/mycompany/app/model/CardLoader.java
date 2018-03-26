@@ -59,6 +59,7 @@ public class CardLoader{
 
 		List<StoryCard> L = new ArrayList<StoryCard>();
 		
+		/*
 		L.addAll(F.createCardList(StoryCardFactory.Types.SEARCH_FOR_THE_HOLY_GRAIL, 1));
 		L.addAll(F.createCardList(StoryCardFactory.Types.TEST_OF_THE_GREEN_KNIGHT, 1));
 		L.addAll(F.createCardList(StoryCardFactory.Types.SEARCH_FOR_THE_QUESTING_BEAST, 1));
@@ -69,6 +70,7 @@ public class CardLoader{
 		L.addAll(F.createCardList(StoryCardFactory.Types.SLAY_THE_DRAGON, 1));
 		L.addAll(F.createCardList(StoryCardFactory.Types.BOAR_HUNT, 2));
 		L.addAll(F.createCardList(StoryCardFactory.Types.REPEL_THE_SAXON_RAIDERS, 2));
+		*/
 		
 
 		/*
@@ -79,9 +81,10 @@ public class CardLoader{
 		*/
 		
 
-		/*
+		
 		//L.addAll(F.createCardList(StoryCardFactory.Types.KINGS_RECOGNITION, 2));
 		L.addAll(F.createCardList(StoryCardFactory.Types.QUEENS_FAVOR, 2));
+		/*
 		L.addAll(F.createCardList(StoryCardFactory.Types.COURT_CALLED_TO_CAMELOT, 2));
 		L.addAll(F.createCardList(StoryCardFactory.Types.POX, 1));
 		L.addAll(F.createCardList(StoryCardFactory.Types.PLAGUE, 1));

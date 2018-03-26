@@ -13,6 +13,11 @@ public class GameStateTournamentEnd extends GameState{
 	}
 
 	public void next(){
+
+		if(model.discardState.getState() != GameStates.DISCARD_NONE){
+			return;
+		}
+
 		model.log.gameStateAction(this,"Applying Tournament Logic","");
 		model.board.applyStoryCardLogic(-1);
 		model.gameState = new GameStateEndTurn(this,model.storyTurn.current());

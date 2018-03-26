@@ -14,6 +14,9 @@ public class GameStateQuestEnd extends GameState{
 	}
 
 	public void next(){
+		if(model.discardState.getState() != GameStates.DISCARD_NONE){
+			return;
+		}
 		model.log.gameStateAction(this,"Applying Quest Logic","");
 
 		//apply story logic

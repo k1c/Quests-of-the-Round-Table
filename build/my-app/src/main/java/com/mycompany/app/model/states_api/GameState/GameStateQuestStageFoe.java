@@ -19,6 +19,9 @@ public class GameStateQuestStageFoe extends GameState{
 
 	public boolean play(int playerID, List<Card> list){
 
+		if(model.discardState.getState() != GameStates.DISCARD_NONE){
+			return false;
+		}
 		if(playerID != model.participants.current()){
 			model.log.gameStateAction(this,"Invalid Player",model.board.findPlayer(playerID));
 			return false;

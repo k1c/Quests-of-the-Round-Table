@@ -9,11 +9,15 @@ import com.mycompany.app.model.Card;
 public class GameStateBeginTournament extends GameState{
 	public GameStateBeginTournament(GameState state,int currentPlayer){
 		this.model = state.model;
-		changeState(this,currentPlayer);
 		this.state = GameStates.TOURNAMENT_HANDLER;
+		changeState(this,currentPlayer);
 	}
 
 	public void next(){
+		if(model.discardState.getState() != GameStates.DISCARD_NONE){
+			return;
+		}
+
 		model.log.gameStateAction(this,"Begin Tournament","");
 
 		// start a cycle which loops through participants

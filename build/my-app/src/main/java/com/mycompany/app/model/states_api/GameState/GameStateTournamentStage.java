@@ -17,6 +17,9 @@ public class GameStateTournamentStage extends GameState{
 	public void decision(int playerId,boolean choice){
 	}
 	public boolean play(int id, List<Card> hand){
+		if(model.discardState.getState() != GameStates.DISCARD_NONE){
+			return false;
+		}
 
 		if(id != model.participants.current()){
 			model.log.gameStateAction(this,"Invalid Player",model.board.findPlayer(id));

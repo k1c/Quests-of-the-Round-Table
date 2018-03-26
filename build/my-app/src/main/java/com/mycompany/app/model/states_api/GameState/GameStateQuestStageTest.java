@@ -18,6 +18,9 @@ public class GameStateQuestStageTest extends GameState{
 	/* give up */
 	public void decision(int id,boolean giveUp){
 
+		if(model.discardState.getState() != GameStates.DISCARD_NONE){
+			return;
+		}
 
 		if(model.participants.current() != id){
 			model.log.gameStateAction(this,"Invalid Player",model.board.findPlayer(id));
@@ -45,6 +48,9 @@ public class GameStateQuestStageTest extends GameState{
 	}
 
 	public boolean play(int playerID, List<Card> list){
+		if(model.discardState.getState() != GameStates.DISCARD_NONE){
+			return false;
+		}
 
 		if(playerID != model.participants.current()){
 			model.log.gameStateAction(this,"Invalid Player",model.board.findPlayer(playerID));

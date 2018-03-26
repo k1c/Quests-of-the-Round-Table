@@ -17,6 +17,10 @@ public class GameStateQuestParticipate extends GameState{
 	public void next(){
 	}
 	public void decision(int player,boolean participate){
+
+		if(model.discardState.getState() != GameStates.DISCARD_NONE){
+			return;
+		}
 		/*
 		 * ACTION : add player to quest
 		 */

@@ -40,15 +40,16 @@ public class GameModel{
 	protected GameLogger log = GameLogger.getInstanceUsingDoubleLocking();
 
 	protected GameState gameState;
+	protected DiscardState discardState;
 
 
 
-	public boolean discard (int playerId, List<Card> discards) {return true;}
 
 	public GameModel(){
 		observers = new ArrayList<GameObserver>();
 		board = new GameBoard();
 		gameState = new GameStateInit(this);
+		discardState = new DiscardNone(this);
 	}
 
 	public int getStageBp(){
@@ -96,8 +97,11 @@ public class GameModel{
 	}
 
 	public GameStates getState() {
+		if(discardState.getState() != GameStates.DISCARD_NONE){
+			System.out.println("DISCARD");
+			return GameStates.DISCARD;
+		}
 		return gameState.getState();
-	    //return this.state;
     }
 
 	public int getNumParticipants() {
@@ -126,6 +130,11 @@ public class GameModel{
 		return temp;
 	}
 	
+	public boolean discard (int playerId, List<Card> discards) {
+		boolean retValue = discardState.discard(playerId,discards);
+		this.updateObservers();
+		return retValue;
+	}
 
 	public void drawStoryCard(){
 		System.out.println("drawStoryCard");

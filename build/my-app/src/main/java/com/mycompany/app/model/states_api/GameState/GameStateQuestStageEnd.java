@@ -14,6 +14,11 @@ public class GameStateQuestStageEnd extends GameState{
 	}
 
 	public void next(){
+
+		if(model.discardState.getState() != GameStates.DISCARD_NONE){
+			return;
+		}
+
 		if(model.board.stageType(Card.Types.FOE)){
 			model.log.gameStateAction(this,"Cleaning Up Foe Stage","");
 			model.board.completeFoeStage();

@@ -17,6 +17,10 @@ public class GameStateQuestStageStart extends GameState{
 
 	public void next(){
 
+		if(model.discardState.getState() != GameStates.DISCARD_NONE){
+			return;
+		}
+
 		model.participants = new Cycle<Integer>(model.board.getParticipants(),0);
 
 

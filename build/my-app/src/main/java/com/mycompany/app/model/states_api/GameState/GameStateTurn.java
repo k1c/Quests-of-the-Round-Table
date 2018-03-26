@@ -13,6 +13,9 @@ public class GameStateTurn extends GameState{
 	}
 
 	public void next(){
+		if(model.discardState.getState() != GameStates.DISCARD_NONE){
+			return;
+		}
 		/*
 		 * Action : Check if any players have won
 		 */

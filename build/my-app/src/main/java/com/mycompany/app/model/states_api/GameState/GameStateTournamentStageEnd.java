@@ -13,6 +13,9 @@ public class GameStateTournamentStageEnd extends GameState{
 	}
 
 	public void next(){
+		if(model.discardState.getState() != GameStates.DISCARD_NONE){
+			return;
+		}
 		//check for winner
 		model.board.completeTournamentStage();
 

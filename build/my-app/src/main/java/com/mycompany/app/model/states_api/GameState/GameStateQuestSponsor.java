@@ -18,6 +18,9 @@ public class GameStateQuestSponsor extends GameState{
 
 	public void decision(int player,boolean sponsor){
 
+		if(model.discardState.getState() != GameStates.DISCARD_NONE){
+			return;
+		}
 
 		int currPlayer = model.questSponsor.current();
 		Player p = model.board.findPlayer(currPlayer);
