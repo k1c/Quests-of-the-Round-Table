@@ -73,18 +73,18 @@ public class CardLoader{
 		*/
 		
 
-		/*
+		
 		L.addAll(F.createCardList(StoryCardFactory.Types.TOURNAMENT_AT_CAMELOT, 1));
 		L.addAll(F.createCardList(StoryCardFactory.Types.TOURNAMENT_AT_ORKNEY, 1));
 		L.addAll(F.createCardList(StoryCardFactory.Types.TOURNAMENT_AT_TINTAGEL, 1));
 		L.addAll(F.createCardList(StoryCardFactory.Types.TOURNAMENT_AT_YORK, 1));
-		*/
+		
 		
 
 		
+		/*
 		//L.addAll(F.createCardList(StoryCardFactory.Types.KINGS_RECOGNITION, 2));
 		L.addAll(F.createCardList(StoryCardFactory.Types.QUEENS_FAVOR, 2));
-		/*
 		L.addAll(F.createCardList(StoryCardFactory.Types.COURT_CALLED_TO_CAMELOT, 2));
 		L.addAll(F.createCardList(StoryCardFactory.Types.POX, 1));
 		L.addAll(F.createCardList(StoryCardFactory.Types.PLAGUE, 1));

@@ -10,7 +10,7 @@ public class DiscardDefault extends DiscardState{
 	public DiscardDefault(DiscardState state){
 		this.model = state.model;
 		this.state = GameStates.DISCARD;
-		model.currentPlayers = new Cycle(model.discard);
+		model.currentPlayers = new Cycle(model.players,model.players.indexOf(model.discard.current()));
 
 	}
 
