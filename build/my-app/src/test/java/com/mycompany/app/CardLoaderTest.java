@@ -1,6 +1,7 @@
+/*
+
 package com.mycompany.app.model;
 
-import com.mycompany.app.model.AdventureCardFactoryTest;
 import junit.framework.TestCase;
 import java.util.*;
 
@@ -20,7 +21,6 @@ public class CardLoaderTest extends TestCase{
 	}
 
 	public void test1() throws Exception{
-		/*
 		List<Card> cards = new ArrayList();
 		cards.addAll(CardLoader.loadAdventureCards());
 
@@ -136,10 +136,9 @@ public class CardLoaderTest extends TestCase{
 		assertEquals(2,countId(storyDeck,41));
 		// Repel the Saxon Raiders
 		assertEquals(2,countId(storyDeck,42));
-		*/
-
 	}
 
 
 
 }
+*/

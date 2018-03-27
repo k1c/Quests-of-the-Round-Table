@@ -1,6 +1,7 @@
+
 package com.mycompany.app.model;
 
-import com.mycompany.app.model.EventTest;
+//import com.mycompany.app.model.EventTest;
 import junit.framework.TestCase;
 import java.util.*;
 
@@ -209,3 +210,4 @@ public class EventTest extends TestCase {
 
     }
 }
+
