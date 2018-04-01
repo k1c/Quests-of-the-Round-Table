@@ -96,6 +96,7 @@ public class GameModel{
 		return board.getViewCopy();
 	}
 
+	/* LEGACY */
 	public GameStates getState() {
 		if(discardState.getState() != GameStates.DISCARD_NONE){
 			System.out.println(currentPlayers.items());
@@ -103,11 +104,25 @@ public class GameModel{
 			return GameStates.DISCARD;
 		}
 		return gameState.getState();
-    }
+	}
+
+	/* Name : getGameState
+	 * Description : Gets the game state that deals with turns, quests, tournaments, and events
+	 */
+	public GameStates getGameState(){
+		return gameState.getState();
+	}
+
+	/* Name : getDiscardState
+	 * Description : Gets the game state that deals with discard behaviours
+	 */
+	public GameStates getDiscardState(){
+		return discardState.getState();
+	}
 
 	public int getNumParticipants() {
 	    return this.participants.size();
-    }
+	}
 
 	public GenericPlayer getCurrentPlayer(){
 		int p = currentPlayers.current();
@@ -118,6 +133,7 @@ public class GameModel{
 		return board.getCurrentStoryCard();	
 	}
 
+	/* LEGACY */
 	public List<GenericPlayer> getWaitingPlayers(){
 		Cycle<Integer> waitingPlayersCycle = (new Cycle(currentPlayers));
 		waitingPlayersCycle.removeCurrent();
@@ -131,6 +147,84 @@ public class GameModel{
 		return temp;
 	}
 	
+
+	/*
+	 * name :getPlayer
+	 * Description :used to get a player hand of a specific player
+	 */
+	public GenericPlayer getPlayer(int id) {
+		return board.getGenericPlayer(id);
+	}
+
+
+	/*
+	 * name : next
+	 * Description : Used to proceed onto the next state when state appropriate
+	 */
+	public void next(){
+		this.gameState.next();
+		this.updateObservers();
+		checkAITurn();
+	}
+
+	/*
+	 * name : decision
+	 * Description : used to make a decision when state appropriate
+	 */
+	public void decision(int id, boolean choice){
+		this.gameState.decision(id,choice);
+		this.updateObservers();
+		checkAITurn();
+	}
+
+	/*
+	 * name : play
+	 * Description : Used to play cards in hand when state appropriate
+	 */
+	public boolean play(int id, List<Card> cards){
+		boolean retVal = this.gameState.play(id,cards);	
+		this.updateObservers();
+		checkAITurn();
+		return retVal;
+	}
+	
+	/* 
+	 * Name : quest
+	 * Description : Used for submitting quests when state appropriate
+	 */
+	public boolean quest(int id, TwoDimensionalArrayList<Card> quest){
+		boolean retVal = this.gameState.quest(id,quest);
+		this.updateObservers();
+		checkAITurn();
+		return retVal;
+	}
+
+
+	/*
+	 * Description 	: Checks with merlin state to see if merlin can be used
+	 * Return 	: Return necessary information for Merlin
+	 */
+	public void checkMerlin(int pid,int stage){
+		/* WIP */
+		/* Create an individual Merlin State which handles this interaction */
+		return;
+	}
+
+	/*
+	 * Description 	: Checks with Mordred State to eliminate an ally/amour in hand
+	 * Return 	: None
+	 */
+	public void MordredSpecial(int pid, int epid,Card inplay){
+		/* WIP */
+	}
+
+
+
+
+
+
+
+	/* LEGACY */
 	public boolean discard (int playerId, List<Card> discards) {
 		boolean retValue = discardState.discard(playerId,discards);
 		this.updateObservers();
@@ -138,17 +232,20 @@ public class GameModel{
 		return retValue;
 	}
 
+	/* LEGACY */
 	public void drawStoryCard(){
 		System.out.println("drawStoryCard");
 		this.gameState.next();
 		this.updateObservers();
 		checkAITurn();
 	} 	
+	/* LEGACY */
 	public void sponsorQuest(int player,boolean sponsor){
 		System.out.println("sponsorQuest");
 		this.gameState.decision(player,sponsor);	
 		this.updateObservers();
 	}
+	/* LEGACY */
 	public boolean submitQuest(int player,TwoDimensionalArrayList<Card> quest){
 		System.out.println("submitQuest");
 		boolean retValue = this.gameState.quest(player,quest);	
@@ -156,18 +253,21 @@ public class GameModel{
 		checkAITurn();
 		return retValue;
 	}
+	/* LEGACY */
 	public void participateQuest(int player,boolean participate){
 		System.out.println("participateQuest");
 		this.gameState.decision(player,participate);
 		this.updateObservers();
 		checkAITurn();	
 	}
+	/* LEGACY */
 	public void stage(){
 		System.out.println("stage");
 		this.gameState.next();	
 		this.updateObservers();
 		checkAITurn();
 	}
+	/* LEGACY */
 	public boolean stageFoe(int playerID, List<Card> list){
 		System.out.println("stageFoe");
 		boolean retValue = this.gameState.play(playerID,list);
@@ -176,6 +276,7 @@ public class GameModel{
 		return retValue;
 			
 	}
+	/* LEGACY */
 	public boolean stageTest(int playerID, List<Card> list){
 		System.out.println("stageTest");
 		boolean retValue = this.gameState.play(playerID,list);
@@ -183,18 +284,21 @@ public class GameModel{
 		checkAITurn();
 		return retValue;
 	}
+	/* LEGACY */
 	public void testGiveUp(Integer id){
 		System.out.println("testGiveUp");
 		this.gameState.decision(id,true);
 		this.updateObservers();
 		checkAITurn();
 	}
+	/* LEGACY */
 	public void stageEnd(){
 		System.out.println("stageEnd");
 		this.gameState.next();
 		this.updateObservers();
 		checkAITurn();
 	}
+	/* LEGACY */
 	public void endQuest() {
 		System.out.println("endQuest");
 		this.gameState.next();	
@@ -202,47 +306,55 @@ public class GameModel{
 		checkAITurn();
 	}
 
+	/* LEGACY */
 	public void beginTournament(){
 		System.out.println("beginTournament");
 		this.gameState.next();	
 		this.updateObservers();
 		checkAITurn();
 	}
+	/* LEGACY */
 	public void participateTournament(int player, boolean participate){
 		System.out.println("participateTournament");
 		this.gameState.decision(player,participate);	
 		this.updateObservers();
 		checkAITurn();
 	}
+	/* LEGACY */
 	public void tournamentStageStart(){
 		System.out.println("tournamentStageStart");
 		this.gameState.next();
 		this.updateObservers();
 		checkAITurn();
 	}
+	/* LEGACY */
 	public boolean tournamentStage(int id,List<Card> hand){
 		boolean retVal = this.gameState.play(id,hand);	
 		this.updateObservers();
 		checkAITurn();
 		return retVal;
 	}
+	/* LEGACY */
 	public void tournamentStageEnd(){
 		this.gameState.next();
 		this.updateObservers();	
 		checkAITurn();
 	}
+	/* LEGACY */
 	public void tournamentEnd(){
 		this.gameState.next();	
 		this.updateObservers();
 		checkAITurn();
 	}
 
+	/* LEGACY */
 	public void applyEventLogic(){
 		this.gameState.next();
 		this.updateObservers();
 		checkAITurn();
 	}
 
+	/* LEGACY */
 	public void endTurn(){
 		this.gameState.next();	
 		this.updateObservers();
