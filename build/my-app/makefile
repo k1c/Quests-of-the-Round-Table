@@ -5,7 +5,7 @@ b: pack run
 test:
 	mvn test
 pack:
-	mvn package
+	mvn package -DskipTests=true
 
 run:
 	mvn spring-boot:run
