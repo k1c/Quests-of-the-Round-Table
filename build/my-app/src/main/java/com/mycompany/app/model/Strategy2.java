@@ -52,17 +52,42 @@ public class Strategy2 extends AbstractStrategyBehaviour{
 
 		List<Card> temp = new ArrayList();
 
-		int points = Math.max(ai.getTotalBP(board) - 50,0);	
+		int points = Math.max(ai.getTotalBP(board) - 50,0);
 
 
-		/* case where ai can obtain 50 */	
 
-		/* case where ai cannot obtain 50 */
-		temp.addAll(allPossibleCards(board,ai));
+		int totalBP = board.calculateBP(allPossibleCards(board, ai));
+		//get total BP of allPossibleCards
+
+		/* case where ai can obtain 50 */
+		if(totalBP >= Math.abs(points)) {   //see if they have >= 50 BP
+			while (points < 0) {
+				List<AdventureCard> aiInHand = allPossibleCards(board, ai);
+				AdventureCard maxCard = null;
+				int maxBP = 0;
+				for (int i = 0; i < aiInHand.size(); i++) {
+					if (aiInHand.get(i).getBattlePoints(board) > maxBP) {
+						maxBP = aiInHand.get(i).getBattlePoints(board);
+						maxCard = aiInHand.get(i);
+					}
+				}
+				temp.add(maxCard);
+				aiInHand.remove(maxCard);
+				points += maxBP;
+
+				//assumption: assumed at least 50 BP; if its "exactly 50" we'll make a change
+			}
+		}else{
+				/* case where ai cannot obtain 50 */
+				temp.addAll(allPossibleCards(board, ai));
+			}
 
 		
 		return temp;
 	}
+
+
+
 
 	/* Description : Returns whether AI will sponsor a quest or not
 	 * Return Type : TRUE -- I want to participate
