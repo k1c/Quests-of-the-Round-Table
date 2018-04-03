@@ -1,5 +1,8 @@
+
+
 package com.mycompany.app.model;
 
+import com.mycompany.app.model.GameBoard;
 import com.mycompany.app.model.AdventureCardFactoryTest;
 import junit.framework.TestCase;
 import java.util.*;
@@ -365,3 +368,5 @@ public class GameBoardTest extends TestCase{
 
 
 }
+
+

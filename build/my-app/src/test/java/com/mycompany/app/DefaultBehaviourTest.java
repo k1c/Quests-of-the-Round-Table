@@ -1,6 +1,8 @@
 package com.mycompany.app.model;
 
 import com.mycompany.app.model.DefaultBehaviourTest;
+import com.mycompany.app.model.GameBoard;
+import com.mycompany.app.model.AdventureBehaviour;
 import junit.framework.TestCase;
 import java.util.*;
 
@@ -37,4 +39,5 @@ public class DefaultBehaviourTest extends TestCase{
 
 
 }
+
 

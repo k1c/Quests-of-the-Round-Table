@@ -24,6 +24,7 @@ public enum GameStates{
     QUEST_END,
     WINNERS,
     DISCARD,
+    DISCARD_NONE,
     END_TURN
    }
 

@@ -30,10 +30,17 @@ logs/
 *.iml
 *.ipr
 
+#target directory 
+bin/
+build/
+
 ### NetBeans ###
 nbproject/private/
-build/
 nbbuild/
 dist/
 nbdist/
 .nb-gradle/
+
+#settings
+.classpath
+.settings

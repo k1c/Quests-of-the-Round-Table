@@ -25,7 +25,7 @@ public class GameBoard extends AbstractGameBoard{
 
 	protected List<Player>		players;
 	protected List<AbstractAI>	ais;
-	protected List<Player> 		participants;
+protected List<Player> 		participants;
 
 	protected Player		sponsor;
 
@@ -119,9 +119,9 @@ public class GameBoard extends AbstractGameBoard{
 		this.currentQuestIndex = 0;
 		this.currentTournamentStage = 0;
 
-		log.action("initRig","Adding Players","");
 		this.players.addAll(hu);
 		this.players.addAll(ai);
+		log.action("initRig","Adding Players : ",this.players);
 
 		this.ais.addAll(ai);
 
@@ -507,9 +507,10 @@ public class GameBoard extends AbstractGameBoard{
 			 return false;
 		 }
 		
-		 log.action("submitHand","to be played",p.toBePlayed);
 		 p.toBePlayed = submittedCards;		
 		 p.hand = tempPlayerHand;
+
+		 log.action("submitHand","to be played",p.toBePlayed);
 
 		 return true;
 	}
