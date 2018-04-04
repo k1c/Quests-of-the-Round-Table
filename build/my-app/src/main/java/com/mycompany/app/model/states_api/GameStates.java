@@ -25,7 +25,9 @@ public enum GameStates{
     WINNERS,
     DISCARD,
     DISCARD_NONE,
-    END_TURN
+    END_TURN,
+    MORDRED,
+    MERLIN
    }
 
 /*
