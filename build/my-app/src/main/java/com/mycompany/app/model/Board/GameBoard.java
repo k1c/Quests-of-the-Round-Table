@@ -3,6 +3,7 @@ package com.mycompany.app.model;
 import java.lang.Math;
 import java.util.ArrayList;
 import java.util.Iterator;
+import java.util.stream.Collectors;
 
 import com.mycompany.app.GameLogger;
 import com.mycompany.app.model.AbstractPlayer;
@@ -25,7 +26,7 @@ public class GameBoard extends AbstractGameBoard{
 
 	protected List<Player>		players;
 	protected List<AbstractAI>	ais;
-protected List<Player> 		participants;
+	protected List<Player> 		participants;
 
 	protected Player		sponsor;
 
@@ -1007,6 +1008,42 @@ protected List<Player> 		participants;
 			}
 		}
 		return counter;
+	}
+
+
+	public boolean MordredSpecial(int pid,int epid,Card inplay){
+		final int MORDRED_ID = 9;
+
+		Player p = findPlayer(pid);
+		Player e = findPlayer(epid);
+
+		AdventureCard discardTemp;
+
+		List<AdventureCard> mordreds = p.hand.stream().filter(c -> c.id == MORDRED_ID).collect(Collectors.toList());
+		List<AdventureCard> eliminatedCards = e.inPlay.stream().filter(c -> c == inplay).collect(Collectors.toList());
+
+
+		//Does Attacker Have A Mordred
+		if(mordreds.size() > 0){
+			return false;
+		}
+		//Does Victim Have the Correct Card to Discard
+		if(eliminatedCards.size() > 0){
+			return false;
+		}
+
+		//Apply Mordred
+		discardTemp = mordreds.get(0);
+		
+		p.hand.remove(discardTemp);
+		this.adventureDeckDiscard.add(discardTemp);
+
+		discardTemp = eliminatedCards.remove(0);
+
+		e.inPlay.remove(discardTemp);
+		this.adventureDeckDiscard.add(discardTemp);
+
+		return true;	
 	}
 
 	protected List<Card> copyAdventureCards(List<AdventureCard> hand){

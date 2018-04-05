@@ -41,6 +41,8 @@ public class GameModel{
 
 	protected GameState gameState;
 	protected DiscardState discardState;
+	protected StateMerlinDefault merlinState;
+	protected StateMordredDefault mordredState;
 
 
 
@@ -50,6 +52,8 @@ public class GameModel{
 		board = new GameBoard();
 		gameState = new GameStateInit(this);
 		discardState = new DiscardNone(this);
+		mordredState = new StateMordredDefault(this);
+		merlinState = new StateMerlinDefault(this);
 	}
 
 	public int getStageBp(){
