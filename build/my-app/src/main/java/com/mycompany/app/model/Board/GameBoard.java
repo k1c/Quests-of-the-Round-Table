@@ -1011,7 +1011,7 @@ public class GameBoard extends AbstractGameBoard{
 	}
 
 
-	public boolean MordredSpecial(int pid,int epid,Card inplay){
+	public boolean mordredSpecial(int pid,int epid,Card inplay){
 		final int MORDRED_ID = 9;
 
 		Player p = findPlayer(pid);

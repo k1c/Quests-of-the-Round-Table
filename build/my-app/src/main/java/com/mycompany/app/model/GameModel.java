@@ -218,8 +218,10 @@ public class GameModel{
 	 * Description 	: Checks with Mordred State to eliminate an ally/amour in hand
 	 * Return 	: None
 	 */
-	public void MordredSpecial(int pid, int epid,Card inplay){
-		/* WIP */
+	public boolean MordredSpecial(int pid, int epid,Card inplay){
+		boolean retVal = mordredState.play(pid,epid,inplay);
+		this.updateObservers();
+		return retVal;
 	}
 
 
