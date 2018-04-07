@@ -11,16 +11,19 @@ public class StateMerlinDefault extends AbstractState{
 		this.model = model;
 	}
 
-	public boolean check(int player, int stage){
+	public List<Card> check(int player, int stage){
+		//Not in correct State
 		if(model.gameState.getState() != GameStates.QUEST_HANDLER){
-			return false;
+			return new ArrayList<Card>();
+		}
+		//Not at the beginning of the quest
+		if(model.board.getQuestIndex() > 0){
+			return new ArrayList<Card>();
 		}
 
-		/* Check if stage 1 */
 
 		/* Attempt to get Specified Stage Information */
-		
-		return false;
+		return new ArrayList<Card>();
 	}
 
 }

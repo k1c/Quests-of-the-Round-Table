@@ -42,6 +42,8 @@ public class GameModel{
 	protected GameState gameState;
 	protected DiscardState discardState;
 
+	protected StateMerlinDefault merlinState;
+
 
 
 
@@ -50,6 +52,7 @@ public class GameModel{
 		board = new GameBoard();
 		gameState = new GameStateInit(this);
 		discardState = new DiscardNone(this);
+		merlinState = new StateMerlinDefault(this);
 	}
 
 	public int getStageBp(){
@@ -204,10 +207,8 @@ public class GameModel{
 	 * Description 	: Checks with merlin state to see if merlin can be used
 	 * Return 	: Return necessary information for Merlin
 	 */
-	public void checkMerlin(int pid,int stage){
-		/* WIP */
-		/* Create an individual Merlin State which handles this interaction */
-		return;
+	public List<Card> checkMerlin(int pid,int stage){
+		return merlinState.check(pid,stage);
 	}
 
 	/*
