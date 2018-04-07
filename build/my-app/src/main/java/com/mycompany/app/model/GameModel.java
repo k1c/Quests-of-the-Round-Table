@@ -148,6 +148,10 @@ public class GameModel{
 
 		return temp;
 	}
+
+	public void setPlayerName(int id,String name){
+		board.players.stream().filter(p -> p.id() == id).forEach(p ->p.name = name);
+	}
 	
 	public List<GenericPlayer> getHumanPlayers(){
 		List<GenericPlayer> humanIds = this.currentPlayers.items().stream().map(c -> board.getGenericPlayer(0)).filter(c -> c.type == AbstractAI.Type.AI).collect(Collectors.toList());
