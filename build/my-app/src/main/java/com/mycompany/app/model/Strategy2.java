@@ -40,7 +40,9 @@ public class Strategy2 extends AbstractStrategyBehaviour{
 	 * 		 FALSE - I do not participate
 	 */
 	public boolean doIParticipateInTournament(GameBoard board,AbstractAI ai){
-		return true;
+
+	    return true;
+
 	}
 
 
@@ -94,8 +96,27 @@ public class Strategy2 extends AbstractStrategyBehaviour{
 	 * 		 FALSE - I do not participate
 	 */
 	public boolean doISponsorAQuest(GameBoard board, AbstractAI ai){
+
+
+
+	    //if someone else could win/evolve --> check numshields awarded in this quest against if anyone could rank up by getting them
+	    //in that case return false
+
+        //else check if they have enough distinct foes/test to sponsor (this function may already exist)
+        //then return true and
 		return false;
+
+		//clarify what happens if you dont have 40 for the last stage???
+
+        //for setting up the quest
+        //last stage: make BP at least 40 (foe)
+        //second last stage: a test if they have it,
+        //else make stages 1 to n-1 (or n-2 with a test) have the weakest foes possible in that order
 	}
+
+    protected boolean canRankUp(Player p, Rank r){
+        if()
+    }
 
 	/*
 	 * Description : Returns a setup Quest
@@ -111,6 +132,44 @@ public class Strategy2 extends AbstractStrategyBehaviour{
 	 * 		 FALSE - I do not participate
 	 */
 	public boolean doIParticipateInQuest(GameBoard board, AbstractAI ai){
+
+	   int numStages = board.getNumQuestCards();
+	   List<AdventureCard> aiInHand = allPossibleCards(board,ai);
+
+	   //C1
+	   int counter = 0;
+	   int currentBP = 0;
+	   int previousBP = 0;
+
+	   for(int i = 0; i < aiInHand.size(); i++) {
+           if (aiInHand.get(i).getBattlePoints() >= 10) {
+               currentBP = aiInHand.get(i).getBattlePoints();
+               if ((currentBP - previousBP) >= 10) {
+                   counter++;
+                   if (counter >= numStages) {
+                       break;
+                   }
+                   previousBP = currentBP;
+               }
+           }
+       }
+
+        //C2
+        //ai.hand type.FOE, check BP
+
+        int foeCounter = 0;
+
+        for(int i = 0; i < ai.hand.size(); i++){
+	       if (ai.hand.get(i).type == Card.Types.FOE){
+	           if(ai.hand.get(i).getBattlePoints() < 25){
+	               foeCounter++;
+	               if(foeCounter == 2){
+	                   return true;
+                   }
+               }
+           }
+       }
+
 		return false;
 	}
 
@@ -119,6 +178,19 @@ public class Strategy2 extends AbstractStrategyBehaviour{
 	 * Return Type : List<Card>
 	 */
 	public List<Card> playQuest(GameBoard board, AbstractAI ai){
+
+	    //board.quest --> 2D array list
+	    //board.getQuestIndex() --> current stage number
+        if (board.quest.get(board.getQuestIndex()).get(0).type == Card.Types.TEST){
+            nextBid(board, ai);
+        }
+
+
+
+
+
+
+
 		return new ArrayList<>();
 	}
 
@@ -127,6 +199,24 @@ public class Strategy2 extends AbstractStrategyBehaviour{
 	 * Return Type : List<Card>
 	 */
 	public List<Card> nextBid(GameBoard board, AbstractAI ai){
+
+	    //int maxAIBids = ai.hand.size();
+
+
+
+        int foeCounter = 0;
+        List<Card> aiBids = new List<Card>();
+
+        for(int i = 0; i < ai.hand.size(); i++){
+            if (ai.hand.get(i).type == Card.Types.FOE){
+                if(ai.hand.get(i).getBattlePoints() < 25){
+                    foeCounter++;
+                    aiBids.add(ai.hand.get(i));
+                }
+            }
+        }
+
+
 		return new ArrayList<>();
 	}
 
