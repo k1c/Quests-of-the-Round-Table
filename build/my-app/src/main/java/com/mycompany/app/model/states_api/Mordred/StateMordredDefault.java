@@ -12,7 +12,7 @@ public class StateMordredDefault extends AbstractState{
 		this.model = model;
 	}
 
-	public boolean check(int player,int target,Card card){
+	public boolean play(int player,int target,Card card){
 		//Check for correct state
 		switch(model.gameState.getState()){
 			case QUEST_HANDLER : break;
@@ -29,7 +29,7 @@ public class StateMordredDefault extends AbstractState{
 
 		/* Attempt to get Specified Stage Information */
 		
-		return false;
+		return model.board.mordredSpecial(player,target,card);
 	}
 
 }

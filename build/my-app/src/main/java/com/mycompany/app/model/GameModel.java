@@ -41,6 +41,8 @@ public class GameModel{
 
 	protected GameState gameState;
 	protected DiscardState discardState;
+	protected StateMerlinDefault merlinState;
+	protected StateMordredDefault mordredState;
 
 
 
@@ -50,6 +52,8 @@ public class GameModel{
 		board = new GameBoard();
 		gameState = new GameStateInit(this);
 		discardState = new DiscardNone(this);
+		mordredState = new StateMordredDefault(this);
+		merlinState = new StateMerlinDefault(this);
 	}
 
 	public int getStageBp(){
@@ -214,8 +218,10 @@ public class GameModel{
 	 * Description 	: Checks with Mordred State to eliminate an ally/amour in hand
 	 * Return 	: None
 	 */
-	public void MordredSpecial(int pid, int epid,Card inplay){
-		/* WIP */
+	public boolean MordredSpecial(int pid, int epid,Card inplay){
+		boolean retVal = mordredState.play(pid,epid,inplay);
+		this.updateObservers();
+		return retVal;
 	}
 
 

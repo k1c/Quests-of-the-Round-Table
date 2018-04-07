@@ -5,9 +5,8 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
-public class AdventureCardFactory{
+public class AdventureCardFactory extends CardFactory{
 
-    public static enum Types {EXCALIBUR, LANCE, BATTLE_AX, SWORD, HORSE, DAGGER, DRAGON, GIANT, MORDRED, GREEN_KNIGHT, BLACK_KNIGHT, EVIL_KNIGHT, SAXON_KNIGHT, ROBBER_KNIGHT, SAXONS, BOAR, THIEVES, TEST_OF_VALOR, TEST_OF_TEMPTATION, TEST_OF_MORGAN_LE_FAY, TEST_OF_THE_QUESTING_BEAST, SIR_GALAHAD, SIR_LANCELOT, KING_ARTHUR, SIR_TRISTAN, KING_PELLINORE, SIR_GAWAIN, SIR_PERCIVAL, QUEEN_GUINEVERE, QUEEN_ISEULT, MERLIN, AMOUR};
 
     public static AdventureCard createCard(Types type){
         switch (type) {
