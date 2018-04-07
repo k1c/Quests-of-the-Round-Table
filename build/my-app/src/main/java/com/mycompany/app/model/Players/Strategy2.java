@@ -4,7 +4,11 @@ package com.mycompany.app.model;
 import java.lang.*;
 import java.util.*;
 
+
+
 public class Strategy2 extends AbstractStrategyBehaviour{
+
+	private static boolean isFirstRound = true;
 
 	protected List<AdventureCard> allPossibleCards(GameBoard board, AbstractAI ai){
 
@@ -200,24 +204,62 @@ public class Strategy2 extends AbstractStrategyBehaviour{
 	 */
 	public List<Card> nextBid(GameBoard board, AbstractAI ai){
 
-	    //int maxAIBids = ai.hand.size();
+		List<Player> players = board.getParticipantPlayers();
+		int currentMax = 0;
 
+		for(Player p: players){
+			if (board.totalPlayerBids(p) > currentMax){
+				currentMax = board.totalPlayerBids(p);
+			}
+		}
 
+		if(isFirstRound) {
+			List<Card> aiBids = new List<Card>();
 
-        int foeCounter = 0;
-        List<Card> aiBids = new List<Card>();
+			for (int i = 0; i < ai.hand.size(); i++) {
+				if (ai.hand.get(i).type == Card.Types.FOE) {
+					if (ai.hand.get(i).getBattlePoints() < 25) {
+						aiBids.add(ai.hand.get(i));
+					}
+				}
+			}
+			isFirstRound = false;
+		}
 
-        for(int i = 0; i < ai.hand.size(); i++){
-            if (ai.hand.get(i).type == Card.Types.FOE){
-                if(ai.hand.get(i).getBattlePoints() < 25){
-                    foeCounter++;
-                    aiBids.add(ai.hand.get(i));
-                }
-            }
-        }
+		if(isFirstRound == false) {
+			List<Card> aiBids = new List<Card>();
+			List<AdventureCard> tempAIHand = ai.hand;
 
+			for (int i = 0; i < tempAIHand.size(); i++) {
+				if (tempAIHand.get(i).type == Card.Types.FOE) {
+					if (tempAIHand.get(i).getBattlePoints() < 25) {
+						aiBids.add(tempAIHand.get(i));
+						tempAIHand.remove(tempAIHand.get(i));
+					}
+				}
+			}
 
-		return new ArrayList<>();
+			Map<Card, Integer> cardDuplicates = new HashMap<Card, Integer>();
+			for (int i = 0; i < tempAIHand.size(); i++) {
+				if (cardDuplicates.get(tempAIHand.get(i)) != null) {
+					cardDuplicates.put(tempAIHand.get(i), cardDuplicates.get(tempAIHand.get(i)) + 1);
+				} else {
+					cardDuplicates.put(tempAIHand.get(i), 1);
+				}
+			}
+
+			for (Map.Entry<Card, Integer> entry : map.entrySet()) {
+				if (entry.getValue() > 1) {
+					aiBids.add(entry.getKey());
+				}
+			}
+		}
+
+		if (aiBids.size() > currentMax){
+			return aiBids;
+		}
+
+		return new ArrayList<>(); //return null?
 	}
 
 	/*
@@ -225,7 +267,49 @@ public class Strategy2 extends AbstractStrategyBehaviour{
 	 * Return Type : List<Card> to discard or put int play
 	 */
 	public List<Card> discardAfterWinningTest(GameBoard board, AbstractAI ai){
-		return new ArrayList<>();
+
+		if(isFirstRound) {
+			List<Card> aiBids = new List<Card>();
+
+			for (int i = 0; i < ai.hand.size(); i++) {
+				if (ai.hand.get(i).type == Card.Types.FOE) {
+					if (ai.hand.get(i).getBattlePoints() < 25) {
+						aiBids.add(ai.hand.get(i));
+					}
+				}
+			}
+			isFirstRound = false;
+		}
+
+		if(isFirstRound == false) {
+			List<Card> aiBids = new List<Card>();
+			List<AdventureCard> tempAIHand = ai.hand;
+
+			for (int i = 0; i < tempAIHand.size(); i++) {
+				if (tempAIHand.get(i).type == Card.Types.FOE) {
+					if (tempAIHand.get(i).getBattlePoints() < 25) {
+						aiBids.add(tempAIHand.get(i));
+						tempAIHand.remove(tempAIHand.get(i));
+					}
+				}
+			}
+
+			Map<Card, Integer> cardDuplicates = new HashMap<Card, Integer>();
+			for (int i = 0; i < tempAIHand.size(); i++) {
+				if (cardDuplicates.get(tempAIHand.get(i)) != null) {
+					cardDuplicates.put(tempAIHand.get(i), cardDuplicates.get(tempAIHand.get(i)) + 1);
+				} else {
+					cardDuplicates.put(tempAIHand.get(i), 1);
+				}
+			}
+
+			for (Map.Entry<Card, Integer> entry : map.entrySet()) {
+				if (entry.getValue() > 1) {
+					aiBids.add(entry.getKey());
+				}
+			}
+		}
+		return aiBids;
 	}
 
 }
