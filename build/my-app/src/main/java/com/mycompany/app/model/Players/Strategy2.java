@@ -1,6 +1,9 @@
 
 package com.mycompany.app.model;
 
+import com.mycompany.app.model.Card;
+import com.mycompany.app.model.TwoDimensionalArrayList;
+
 import java.lang.*;
 import java.util.*;
 
@@ -99,35 +102,116 @@ public class Strategy2 extends AbstractStrategyBehaviour{
 	 * Return Type : TRUE -- I want to participate
 	 * 		 FALSE - I do not participate
 	 */
-	public boolean doISponsorAQuest(GameBoard board, AbstractAI ai){
+	public boolean doISponsorAQuest(GameBoard board, AbstractAI ai) {
 
+		List<Player> players = board.getParticipantPlayers();
 
+		for (Player p : players) {
+			if (p.id != ai.id){
+				if (p.rank.getShields() + (board.getCurrentQuestStages() - players.size()) >= p.rank.getMaxShields()) {
+					return false;
+				}
+			}
+		}
+		if(canISetup2 == false){
+			return false;
+		}
 
-	    //if someone else could win/evolve --> check numshields awarded in this quest against if anyone could rank up by getting them
-	    //in that case return false
-
-        //else check if they have enough distinct foes/test to sponsor (this function may already exist)
-        //then return true and
+		if (board.playerCanSponsor(ai.id)) {
+			return true;
+		}
 		return false;
-
-		//clarify what happens if you dont have 40 for the last stage???
-
-        //for setting up the quest
-        //last stage: make BP at least 40 (foe)
-        //second last stage: a test if they have it,
-        //else make stages 1 to n-1 (or n-2 with a test) have the weakest foes possible in that order
 	}
 
-    protected boolean canRankUp(Player p, Rank r){
-        if()
-    }
+
+	private boolean canISetup2(GameBoard board, AbstractAI ai){
+
+		ArrayList<Card> foeList = new ArrayList<Card>();
+		ArrayList<Card> weaponList = new ArrayList<Card>();
+
+		for(int i = 0; i < ai.hand.size(); i++){
+			if(ai.hand.get(i).type == Card.Types.FOE){
+				foeList.add(ai.hand.get(i));
+			}
+			if(ai.hand.get(i).type == Card.Types.WEAPON){
+				weaponList.add(ai.hand.get(i));
+			}
+		}
+
+		//set up last stage to be at least 40
+		int questStageBP = 0;
+		questStageBP += foeList.get(foeList.size() - 1).getBattlePoints();
+		if(questStageBP < 40) {
+			for (int j = weaponList.size() - 1; j > 0; j--) {
+				questStageBP += weaponList.get(j).getBattlePoints();
+				if (questStageBP >= 40) {
+					return true;
+				}
+			}
+		}
+		return false;
+	}
+
+
 
 	/*
 	 * Description : Returns a setup Quest
 	 * Return Type : TwoDimensionalArrayList<Card>
 	 */
 	public TwoDimensionalArrayList<Card> sponsorQuest(GameBoard board, AbstractAI ai){
-		return new TwoDimensionalArrayList();
+
+		TwoDimensionalArrayList<Card> aiQuest = new TwoDimensionalArrayList<Card>();
+		ArrayList<Card> foeList = new ArrayList<Card>();
+		ArrayList<Card> testList = new ArrayList<Card>();
+		ArrayList<Card> weaponList = new ArrayList<Card>();
+
+		for(int i = 0; i < ai.hand.size(); i++){
+			if(ai.hand.get(i).type == Card.Types.FOE){
+				foeList.add(ai.hand.get(i));
+			}
+			if(ai.hand.get(i).type == Card.Types.TEST){
+				testList.add(ai.hand.get(i));
+			}
+			if(ai.hand.get(i).type == Card.Types.WEAPON){
+				weaponList.add(ai.hand.get(i));
+			}
+		}
+
+		//set up last stage to be at least 40
+		int questStageBP = 0;
+		ArrayList<Card> stageN = new ArrayList<Card>();
+		questStageBP += foeList.get(foeList.size() - 1).getBattlePoints();
+		stageN.add(foeList.get(foeList.size() - 1));
+		foeList.remove(foeList.get(foeList.size() - 1));
+		if(questStageBP < 40) {
+			for (int j = weaponList.size() - 1; j > 0; j--) {
+				questStageBP += weaponList.get(j).getBattlePoints();
+				stageN.add(weaponList.get(j));
+				if (questStageBP >= 40) {
+					break;
+				}
+			}
+		}
+		aiQuest.add(board.currentStory.getNumStages()-1, stageN);
+
+		if(testList.size() > 0) {
+			ArrayList<Card> testStage = new ArrayList<Card>();
+			testStage.add(testList.get(0));
+			aiQuest.add(currentStory.getNumStages() - 2, testStage);
+			for (int i = 0; i < currentStory.getNumStages() - 2; i++) {
+				ArrayList<Card> temp = new ArrayList<Card>();
+				temp.add(foeList.get(i));
+				aiQuest.add(i, temp);
+			}
+		} else {
+			for (int i = 0; i < currentStory.getNumStages() - 1; i++) {
+				ArrayList<Card> temp = new ArrayList<Card>();
+				temp.add(foeList.get(i));
+				aiQuest.add(i, temp);
+			}
+		}
+
+		return aiQuest;
 	}
 
 
@@ -186,13 +270,8 @@ public class Strategy2 extends AbstractStrategyBehaviour{
 	    //board.quest --> 2D array list
 	    //board.getQuestIndex() --> current stage number
         if (board.quest.get(board.getQuestIndex()).get(0).type == Card.Types.TEST){
-            nextBid(board, ai);
+            return nextBid(board, ai);
         }
-
-
-
-
-
 
 
 		return new ArrayList<>();
