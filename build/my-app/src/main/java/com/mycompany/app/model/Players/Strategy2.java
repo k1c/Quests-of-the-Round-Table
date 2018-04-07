@@ -243,7 +243,6 @@ public class Strategy2 extends AbstractStrategyBehaviour{
        }
 
         //C2
-        //ai.hand type.FOE, check BP
 
         int foeCounter = 0;
 
@@ -271,7 +270,52 @@ public class Strategy2 extends AbstractStrategyBehaviour{
 	    //board.getQuestIndex() --> current stage number
         if (board.quest.get(board.getQuestIndex()).get(0).type == Card.Types.TEST){
             return nextBid(board, ai);
-        }
+        } else if ((board.getQuestIndex() + 1) == board.getCurrentQuestStages()){
+        	return allPossibleCards(board,ai);
+		} else {
+			List<AdventureCard> allPos = allPossibleCards(board,ai);
+
+			ArrayList<AdventureCard> amourList = new ArrayList<AdventureCard>();
+			ArrayList<AdventureCard> allyList = new ArrayList<AdventureCard>();
+			ArrayList<AdventureCard> weaponList = new ArrayList<AdventureCard>();
+
+			for (int i = 0; i < allPos.size(); i++) {
+				if (allPos.get(i).type == Card.Types.AMOUR) {
+					amourList.add(allPos.get(i));
+				}
+				if (allPos.get(i).type == Card.Types.ALLY) {
+					allyList.add(allPos.get(i));
+				}
+				if (allPos.get(i).type == Card.Types.WEAPON) {
+					weaponList.add(allPos.get(i));
+				}
+			}
+
+			int currentBP = 0;
+			int previousBP = 0;
+			ArrayList<AdventureCard> temp = new ArrayList<AdventureCard>();
+			for(int i = 0; i < allPos.size(); i++){
+				if(allPos.get(i).type == Card.Types.AMOUR){
+					currentBP += allPos.get(i).getBattlePoints();
+					if ((currentBP - previousBP) >= 10) {
+						temp.add(allPos.get(i));
+					}
+				}
+				if(allPos.get(i).type == Card.Types.ALLY){
+					currentBP += allPos.get(i).getBattlePoints();
+					if ((currentBP - previousBP) >= 10) {
+						temp.add(allPos.get(i));
+					}
+				}
+				if(allPos.get(i).type == Card.Types.WEAPON){
+					currentBP += allPos.get(i).getBattlePoints();
+					if ((currentBP - previousBP) >= 10) {
+						temp.add(allPos.get(i));
+					}
+				}
+				previousBP = currentBP;
+			}
+		}
 
 
 		return new ArrayList<>();
