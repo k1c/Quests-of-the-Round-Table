@@ -1023,11 +1023,12 @@ public class GameBoard extends AbstractGameBoard{
 		return null;
 	}
 
-	protected List<Card> Stage(int index){
+	protected List<Card> stage(int index){
 		ArrayList<Card> temp = new ArrayList<Card>();
 		if(index >= quest.size() || index < 0){
 			return temp;
 		}
+
 		temp.addAll(quest.get(index));
 		return temp;
 	}
