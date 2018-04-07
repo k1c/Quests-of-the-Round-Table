@@ -7,6 +7,14 @@
     <script src="javascript/index-javascript.js"></script>
 </head>
 <body>
-    <button onclick="create()">Create Game</button>
+    <form action="newgame" method="post">
+        <label for="humans">Humans:</label>
+        <input id="humans" type="number" name="num_humans" />
+        <label for="ai1">AI 1:</label>
+        <input id="ai1" type="number" name="num_ai1" />
+        <label for="ai2">AI 2:</label>
+        <input id="ai2" type="number" name="num_ai2" />
+        <input type="submit" value="Submit" />
+    </form>
 </body>
 </html>
