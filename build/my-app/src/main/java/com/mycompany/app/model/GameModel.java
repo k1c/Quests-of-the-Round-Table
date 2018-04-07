@@ -155,7 +155,7 @@ public class GameModel{
 	
 	public List<GenericPlayer> getHumanPlayers(){
 		System.out.println(board.getPlayerIds());
-		List<GenericPlayer> humanIds = this.board.getPlayerIds().stream().map(c -> board.getGenericPlayer(c)).collect(Collectors.toList());//.filter(c -> c.type == AbstractAI.Type.AI).collect(Collectors.toList());
+		List<GenericPlayer> humanIds = this.board.getPlayerIds().stream().map(c -> board.getGenericPlayer(c)).filter(c -> c.type == AbstractPlayer.Type.Player).collect(Collectors.toList());
 		return  humanIds;
 	}
 
