@@ -42,6 +42,7 @@ public class GameStateQuestParticipate extends GameState{
 			//this.state = GameStates.QUEST_HANDLER;
 			model.log.gameStateAction(this,"Starting Quest",model.board.findPlayer(player));
 			//changeState(GameStates.QUEST_HANDLER, currPlayer);
+			model.merlinState.reset();
 			model.gameState = new GameStateQuestStageStart(this,currPlayer);
 		}
 		else if(model.participants.size() <= 0 && model.board.getParticipants().size() <= 0){

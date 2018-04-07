@@ -25,7 +25,7 @@ public class GameBoard extends AbstractGameBoard{
 
 	protected List<Player>		players;
 	protected List<AbstractAI>	ais;
-protected List<Player> 		participants;
+	protected List<Player> 		participants;
 
 	protected Player		sponsor;
 
@@ -1021,5 +1021,15 @@ protected List<Player> 		participants;
 			if (p.id() == id)
 				return p;
 		return null;
+	}
+
+	protected List<Card> stage(int index){
+		ArrayList<Card> temp = new ArrayList<Card>();
+		if(index >= quest.size() || index < 0){
+			return temp;
+		}
+
+		temp.addAll(quest.get(index));
+		return temp;
 	}
 }
