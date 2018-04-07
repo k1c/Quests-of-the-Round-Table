@@ -2,6 +2,7 @@ package com.mycompany.app.model;
 
 
 import java.util.*;
+import java.util.stream.Collectors;
 
 import com.mycompany.app.GameLogger;
 import com.mycompany.app.model.Card;
@@ -133,6 +134,7 @@ public class GameModel{
 		return board.getCurrentStoryCard();	
 	}
 
+
 	/* LEGACY */
 	public List<GenericPlayer> getWaitingPlayers(){
 		Cycle<Integer> waitingPlayersCycle = (new Cycle(currentPlayers));
@@ -147,6 +149,10 @@ public class GameModel{
 		return temp;
 	}
 	
+	public List<Integer> getHumanPlayers(){
+		List<Integer> humanIds = this.currentPlayers.items().stream().map(c -> board.getGenericPlayer(0)).filter(c -> c.type == AbstractAI.Type.AI).map(c -> c.id()).collect(Collectors.toList());
+		return  humanIds;
+	}
 
 	/*
 	 * name :getPlayer
