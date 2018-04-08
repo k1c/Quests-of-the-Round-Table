@@ -1,5 +1,6 @@
 package com.mycompany.app.controller;
 
+
 import com.mycompany.app.model.GenericPlayer;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;

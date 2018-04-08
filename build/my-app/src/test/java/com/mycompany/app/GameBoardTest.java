@@ -2,6 +2,7 @@
 
 package com.mycompany.app.model;
 
+import com.mycompany.app.model.DataStructures.TwoDimensionalArrayList;
 import com.mycompany.app.model.GameBoard;
 import com.mycompany.app.model.AdventureCardFactoryTest;
 import junit.framework.TestCase;

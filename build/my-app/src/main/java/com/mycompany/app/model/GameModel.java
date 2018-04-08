@@ -1,11 +1,12 @@
 package com.mycompany.app.model;
 
 
-import java.util.*;
+import 	java.util.*;
 
 import com.mycompany.app.GameLogger;
-import com.mycompany.app.model.Card;
-import com.mycompany.app.model.*;
+import com.mycompany.app.model.DataStructures.Cycle;
+import com.mycompany.app.model.DataStructures.TwoDimensionalArrayList;
+import com.mycompany.app.model.Interfaces.GameObserver;
 
 
 public class GameModel{
