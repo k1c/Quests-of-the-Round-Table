@@ -9,13 +9,11 @@
 package com.mycompany.app.view;
 
 import com.mycompany.app.GameLogger;
-import com.mycompany.app.Quests;
 import com.mycompany.app.model.Card;
-import com.mycompany.app.model.GameModel;
+import com.mycompany.app.model.states_api.GameState.GameModel;
 import com.mycompany.app.model.GameObserver;
 import com.mycompany.app.model.TwoDimensionalArrayList;
 import javafx.geometry.Pos;
-import javafx.scene.Node;
 import javafx.scene.control.Label;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
@@ -23,9 +21,7 @@ import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.*;
 import javafx.scene.text.Font;
 
-import java.util.ArrayList;
 import java.util.List;
-import java.util.Stack;
 
 public class QuestsView extends GridPane implements GameObserver, CardStack{
     private final int WIDTH = 146;

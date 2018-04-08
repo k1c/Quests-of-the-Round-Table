@@ -1,7 +1,7 @@
-package com.mycompany.app.model;
+package com.mycompany.app.model.Board;
 
 import java.util.*;
-import com.mycompany.app.model.GenericPlayer;
+import com.mycompany.app.model.Players.GenericPlayer;
 
 public class ViewGameBoard extends AbstractGameBoard{
 

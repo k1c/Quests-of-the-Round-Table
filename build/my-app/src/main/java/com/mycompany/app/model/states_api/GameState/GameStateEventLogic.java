@@ -1,9 +1,10 @@
-package com.mycompany.app.model;
-
+package com.mycompany.app.model.states_api.GameState;
 import java.util.*;
 
 import com.mycompany.app.GameLogger;
-import com.mycompany.app.model.Card;
+import com.mycompany.app.model.Cards.Card;
+import com.mycompany.app.model.DataStructures.TwoDimensionalArrayList;
+import com.mycompany.app.model.states_api.GameStates;
 
 public class GameStateEventLogic extends GameState{
 

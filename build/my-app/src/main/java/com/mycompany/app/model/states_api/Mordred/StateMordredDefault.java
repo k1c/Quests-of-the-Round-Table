@@ -1,4 +1,4 @@
-package com.mycompany.app.model;
+package com.mycompany.app.model.states_api.Mordred;
 
 import java.util.*;
 

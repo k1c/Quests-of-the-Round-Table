@@ -1,4 +1,4 @@
-package com.mycompany.app.model;
+package com.mycompany.app.model.Board;
 
 public abstract class AbstractGameBoard{
 	protected final int MIN_PLAYERS = 2;

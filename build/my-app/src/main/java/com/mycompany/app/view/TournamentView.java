@@ -2,7 +2,7 @@ package com.mycompany.app.view;
 
 import com.mycompany.app.GameLogger;
 import com.mycompany.app.model.Card;
-import com.mycompany.app.model.GameModel;
+import com.mycompany.app.model.states_api.GameState.GameModel;
 import com.mycompany.app.model.GameObserver;
 import com.mycompany.app.model.TwoDimensionalArrayList;
 import javafx.geometry.Pos;

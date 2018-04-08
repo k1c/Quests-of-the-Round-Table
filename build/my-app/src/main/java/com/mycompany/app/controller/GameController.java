@@ -8,11 +8,12 @@
 
 package com.mycompany.app.controller;
 
-import com.mycompany.app.model.*;
 import com.mycompany.app.GameLogger;
-import com.mycompany.app.model.GameModel;
-import com.mycompany.app.model.GameObserver;
-import com.mycompany.app.model.GameStates;
+import com.mycompany.app.model.Cards.Card;
+import com.mycompany.app.model.states_api.GameState.GameModel;
+import com.mycompany.app.model.Interfaces.GameObserver;
+import com.mycompany.app.model.Players.GenericPlayer;
+import com.mycompany.app.model.states_api.GameStates;
 import com.mycompany.app.view.*;
 import javafx.event.EventHandler;
 import javafx.geometry.Insets;
@@ -32,7 +33,7 @@ import java.util.List;
  * 2) Consistent fonts and sizes
  * 3) This can't be a God class - Strip down to minimal
  */
-public class GameController implements GameObserver{
+public class GameController implements GameObserver {
 
 	private static final int MARGIN_OUTER = 10;
 	private final int WIDTH = 1920;

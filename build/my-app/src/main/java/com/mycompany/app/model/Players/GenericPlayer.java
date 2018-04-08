@@ -1,7 +1,8 @@
-package com.mycompany.app.model;
+package com.mycompany.app.model.Players;
 
-import com.mycompany.app.model.AdventureCard;
-import com.mycompany.app.model.Player;
+
+import com.mycompany.app.model.Cards.Card;
+
 import java.util.*;
 
 public class GenericPlayer extends AbstractPlayer{

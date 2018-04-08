@@ -1,10 +1,14 @@
 
-package com.mycompany.app.model;
+package com.mycompany.app.model.states_api.DiscardState;
+
+import com.mycompany.app.model.Cards.Card;
+import com.mycompany.app.model.DataStructures.Cycle;
+import com.mycompany.app.model.states_api.GameState.GameModel;
+import com.mycompany.app.model.states_api.GameStates;
 
 import java.util.*;
 
-import com.mycompany.app.GameLogger;
-import com.mycompany.app.model.Card;
+
 
 public class DiscardNone extends DiscardState{
 	public DiscardNone(DiscardState state){

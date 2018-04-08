@@ -1,4 +1,8 @@
-package com.mycompany.app.model;
+package com.mycompany.app.model.Players;
+
+import com.mycompany.app.model.Board.GameBoard;
+import com.mycompany.app.model.Cards.Card;
+import com.mycompany.app.model.DataStructures.TwoDimensionalArrayList;
 
 import java.util.List;
 
@@ -9,14 +13,14 @@ public abstract class AbstractStrategyBehaviour {
      * Return Type : TRUE -- I want to participate
      * 		 FALSE - I do not participate
      */
-    abstract public boolean doIParticipateInTournament(GameBoard board,AbstractAI ai);
+    abstract public boolean doIParticipateInTournament(GameBoard board, AbstractAI ai);
 
 
     /*
      * Description : Returns a list of cards to play in that tournament round
      * Return Type : List<Card>
      */
-    abstract public List<Card> playInTournament(GameBoard board,AbstractAI ai);
+    abstract public List<Card> playInTournament(GameBoard board, AbstractAI ai);
 
     /* Description : Returns whether AI will sponsor a quest or not
      * Return Type : TRUE -- I want to participate

@@ -12,8 +12,7 @@
  */
 package com.mycompany.app.view;
 
-import com.mycompany.app.model.*;
-import javafx.event.EventType;
+import com.mycompany.app.model.states_api.GameState.GameModel;
 import javafx.geometry.*;
 import javafx.scene.control.Button;
 import javafx.scene.control.CheckBox;

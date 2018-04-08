@@ -1,7 +1,6 @@
-package com.mycompany.app.model;
+package com.mycompany.app.model.Cards;
 
 
-import com.mycompany.app.model.Card;
 
 public class Card implements Comparable<Card>{
 	public static enum Types {FOE,ALLY,WEAPON,AMOUR,TEST, EVENT, QUEST, TOURNAMENT, RANK};

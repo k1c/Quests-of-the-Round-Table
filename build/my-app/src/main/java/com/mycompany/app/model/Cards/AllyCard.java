@@ -1,6 +1,6 @@
-package com.mycompany.app.model;
+package com.mycompany.app.model.Cards;
 
-import com.mycompany.app.model.AdventureCard;
+import com.mycompany.app.model.Cards.Behaviours.AdventureBehaviour;
 
 public class AllyCard extends AdventureCard{
 	public AllyCard(int id, String res, AdventureBehaviour behaviour, String name){

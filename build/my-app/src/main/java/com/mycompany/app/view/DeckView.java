@@ -1,17 +1,13 @@
 package com.mycompany.app.view;
 
-import com.mycompany.app.model.GameModel;
+import com.mycompany.app.model.states_api.GameState.GameModel;
 import com.mycompany.app.model.GameObserver;
 import com.mycompany.app.model.GameStates;
-import javafx.geometry.Insets;
 import javafx.geometry.Pos;
-import javafx.scene.control.Button;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.StackPane;
-
-import java.util.Stack;
 
 /**
  * TODO:

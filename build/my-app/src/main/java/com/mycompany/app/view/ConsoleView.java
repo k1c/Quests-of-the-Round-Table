@@ -6,7 +6,7 @@
 package com.mycompany.app.view;
 
 import com.mycompany.app.controller.GameController;
-import com.mycompany.app.model.GameModel;
+import com.mycompany.app.model.states_api.GameState.GameModel;
 import com.mycompany.app.controller.ConsoleController;
 import com.mycompany.app.model.GameObserver;
 import javafx.event.EventHandler;
@@ -17,7 +17,6 @@ import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
 import javafx.scene.text.Font;
-import javafx.scene.text.TextAlignment;
 
 public class ConsoleView extends HBox{
     private ConsoleController consoleController;

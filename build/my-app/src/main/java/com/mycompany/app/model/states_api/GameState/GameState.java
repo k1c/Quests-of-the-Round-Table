@@ -1,11 +1,12 @@
-package com.mycompany.app.model;
+package com.mycompany.app.model.states_api.GameState;
 
 import java.util.*;
 
-import com.mycompany.app.GameLogger;
-import com.mycompany.app.model.Card;
+import com.mycompany.app.model.Cards.Card;
+import com.mycompany.app.model.DataStructures.Cycle;
+import com.mycompany.app.model.DataStructures.TwoDimensionalArrayList;
 
-public abstract class GameState extends AbstractState{
+public abstract class GameState extends AbstractState {
 	public abstract void next();
 	public abstract void decision(int playerId,boolean choice); 
 	public abstract boolean play(int playerId, List<Card> cards);

@@ -1,18 +1,18 @@
-package com.mycompany.app.model;
+package com.mycompany.app.model.Board;
 
 import java.lang.Math;
 import java.util.ArrayList;
 import java.util.Iterator;
 
 import com.mycompany.app.GameLogger;
-import com.mycompany.app.model.AbstractPlayer;
-import com.mycompany.app.model.AbstractAI;
-import com.mycompany.app.model.AdventureCard;
-import com.mycompany.app.model.Card;
-import com.mycompany.app.model.GameBoard;
-import com.mycompany.app.model.Player;
-import com.mycompany.app.model.GenericPlayer;
-import com.mycompany.app.model.StoryCard;
+
+import com.mycompany.app.model.Cards.AdventureCard;
+import com.mycompany.app.model.Cards.Card;
+
+import com.mycompany.app.model.Players.*;
+import com.mycompany.app.model.Cards.StoryCard;
+import com.mycompany.app.model.DataStructures.TwoDimensionalArrayList;
+
 import java.lang.*;
 import java.util.*;
 

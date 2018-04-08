@@ -1,7 +1,7 @@
 package com.mycompany.app;
 
-import com.mycompany.app.model.GenericPlayer;
-import com.mycompany.app.model.Player;
+import com.mycompany.app.model.Players.GenericPlayer;
+import com.mycompany.app.model.Players.Player;
 import org.apache.log4j.Level;
 import org.apache.log4j.Logger;
 

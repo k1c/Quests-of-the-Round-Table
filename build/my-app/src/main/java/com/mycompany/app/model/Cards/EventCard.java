@@ -1,6 +1,6 @@
-package com.mycompany.app.model;
+package com.mycompany.app.model.Cards;
 
-import com.mycompany.app.model.StoryCard;
+import com.mycompany.app.model.Cards.Behaviours.StoryBehaviour;
 
 public class EventCard extends StoryCard{
     public EventCard(int id, String res, StoryBehaviour behaviour, String name){

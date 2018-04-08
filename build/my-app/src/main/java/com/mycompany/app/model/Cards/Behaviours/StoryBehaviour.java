@@ -1,4 +1,6 @@
-package com.mycompany.app.model;
+package com.mycompany.app.model.Cards.Behaviours;
+
+import com.mycompany.app.model.Board.GameBoard;
 
 import java.util.ArrayList;
 

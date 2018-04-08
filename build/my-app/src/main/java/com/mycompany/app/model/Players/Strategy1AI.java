@@ -1,4 +1,4 @@
-package com.mycompany.app.model;
+package com.mycompany.app.model.Players;
 
 import java.util.ArrayList;
 import java.util.List;

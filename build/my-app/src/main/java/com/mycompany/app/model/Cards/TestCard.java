@@ -1,6 +1,7 @@
-package com.mycompany.app.model;
+package com.mycompany.app.model.Cards;
 
-import com.mycompany.app.model.AdventureCard;
+
+import com.mycompany.app.model.Cards.Behaviours.AdventureBehaviour;
 
 public class TestCard extends AdventureCard{
 

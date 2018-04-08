@@ -1,5 +1,5 @@
 
-package com.mycompany.app.model;
+package com.mycompany.app.model.Players;
 
 
 public class Strategy2AI extends AbstractAI {

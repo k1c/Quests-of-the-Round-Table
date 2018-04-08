@@ -1,4 +1,7 @@
-package com.mycompany.app.model;
+package com.mycompany.app.model.Cards;
+
+import com.mycompany.app.model.Board.GameBoard;
+import com.mycompany.app.model.Cards.Behaviours.StoryBehaviour;
 
 public class StoryCard extends Card{
 

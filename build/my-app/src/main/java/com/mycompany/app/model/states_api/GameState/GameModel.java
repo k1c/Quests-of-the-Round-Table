@@ -1,11 +1,23 @@
-package com.mycompany.app.model;
+package com.mycompany.app.model.states_api.GameState;
 
 
-import java.util.*;
+import 	java.util.*;
 
 import com.mycompany.app.GameLogger;
-import com.mycompany.app.model.Card;
 import com.mycompany.app.model.*;
+import com.mycompany.app.model.Board.GameBoard;
+import com.mycompany.app.model.Board.ViewGameBoard;
+import com.mycompany.app.model.Cards.Card;
+import com.mycompany.app.model.DataStructures.Cycle;
+import com.mycompany.app.model.DataStructures.TwoDimensionalArrayList;
+import com.mycompany.app.model.Interfaces.GameObserver;
+import com.mycompany.app.model.Players.AbstractAI;
+import com.mycompany.app.model.Players.GenericPlayer;
+import com.mycompany.app.model.states_api.DiscardState.DiscardNone;
+import com.mycompany.app.model.states_api.DiscardState.DiscardState;
+import com.mycompany.app.model.states_api.GameState.GameState;
+import com.mycompany.app.model.states_api.GameState.GameStateInit;
+import com.mycompany.app.model.states_api.GameStates;
 
 
 public class GameModel{

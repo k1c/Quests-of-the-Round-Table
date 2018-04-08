@@ -1,4 +1,6 @@
-package com.mycompany.app.model;
+package com.mycompany.app.model.Cards;
+
+import com.mycompany.app.model.Cards.Behaviours.*;
 
 import java.util.ArrayList;
 import java.util.List;

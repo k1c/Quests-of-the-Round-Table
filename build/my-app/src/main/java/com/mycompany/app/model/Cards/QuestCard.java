@@ -1,6 +1,7 @@
-package com.mycompany.app.model;
+package com.mycompany.app.model.Cards;
 
-import com.mycompany.app.model.StoryCard;
+
+import com.mycompany.app.model.Cards.Behaviours.StoryBehaviour;
 
 public class QuestCard extends StoryCard{
 

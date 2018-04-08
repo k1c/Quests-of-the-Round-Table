@@ -1,4 +1,9 @@
-package com.mycompany.app.model;
+package com.mycompany.app.model.Players;
+
+import com.mycompany.app.model.Board.GameBoard;
+import com.mycompany.app.model.Board.ViewGameBoard;
+import com.mycompany.app.model.Cards.Card;
+import com.mycompany.app.model.DataStructures.TwoDimensionalArrayList;
 
 import java.util.ArrayList;
 import java.util.List;

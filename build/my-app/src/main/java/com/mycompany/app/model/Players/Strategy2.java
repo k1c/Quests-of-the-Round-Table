@@ -1,5 +1,10 @@
 
-package com.mycompany.app.model;
+package com.mycompany.app.model.Players;
+
+import com.mycompany.app.model.Board.GameBoard;
+import com.mycompany.app.model.Cards.AdventureCard;
+import com.mycompany.app.model.Cards.Card;
+import com.mycompany.app.model.DataStructures.TwoDimensionalArrayList;
 
 import java.lang.*;
 import java.util.*;
@@ -12,7 +17,7 @@ public class Strategy2 extends AbstractStrategyBehaviour{
 
 		boolean amourInPlay = false;
 
-		amourInPlay = board.cardListHas(ai.inPlay,Card.Types.AMOUR);
+		amourInPlay = board.cardListHas(ai.inPlay, Card.Types.AMOUR);
 
 		for(AdventureCard item : ai.hand){
 			if (item.type == Card.Types.ALLY){

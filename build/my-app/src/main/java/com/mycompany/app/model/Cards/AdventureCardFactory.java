@@ -1,5 +1,8 @@
-package com.mycompany.app.model;
-import com.mycompany.app.model.*;
+package com.mycompany.app.model.Cards;
+
+import com.mycompany.app.model.Cards.Behaviours.DefaultBehaviour;
+import com.mycompany.app.model.Cards.Behaviours.SpecifiedBehaviour;
+import com.mycompany.app.model.Cards.Behaviours.TestBehaviour;
 
 import java.util.ArrayList;
 import java.util.Arrays;
