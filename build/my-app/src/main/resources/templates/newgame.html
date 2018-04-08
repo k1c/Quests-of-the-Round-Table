@@ -3,18 +3,22 @@
 <head>
     <meta charset="UTF-8">
     <title>Quests of the Round Table</title>
+    <link rel="stylesheet" href="css/newgame-stylesheet.css" />
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
     <script src="javascript/index-javascript.js"></script>
 </head>
 <body>
-    <form action="newgame" method="post">
-        <label for="humans">Humans:</label>
-        <input id="humans" type="number" name="num_humans" />
-        <label for="ai1">AI 1:</label>
-        <input id="ai1" type="number" name="num_ai1" />
-        <label for="ai2">AI 2:</label>
-        <input id="ai2" type="number" name="num_ai2" />
-        <input type="submit" value="Submit" />
-    </form>
+    <h1> GAME SETTINGS </h1>
+    <div id="form-entry">
+        <form action="newgame" method="post" class="vbox">
+            <label for="humans">Humans:</label>
+            <input id="humans" type="number" name="num_humans" value="2" max="4"/>
+            <label for="ai1">AI 1:</label>
+            <input id="ai1" type="number" name="num_ai1" value="0" max="3"/>
+            <label for="ai2">AI:</label>
+            <input id="ai2" type="number" name="num_ai2" value="0" max="3"/>
+            <input type="submit" value="Submit" />
+        </form>
+    </div>
 </body>
 </html>

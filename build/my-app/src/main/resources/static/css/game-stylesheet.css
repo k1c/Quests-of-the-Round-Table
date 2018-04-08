@@ -1,0 +1,24 @@
+#menu-buttons {
+    height: 100%;
+    width: 100%;
+}
+
+#current-player {
+    height: 25%;
+    width:auto;
+    display: inline-block;
+    position: absolute;
+    overflow: hidden;
+    bottom: 5px;
+    right: 5px;
+}
+
+.right-element {
+    margin-left: 10px;
+    float: right;
+    display: inline-block;
+}
+
+.c-img {
+    height: 100%;
+}

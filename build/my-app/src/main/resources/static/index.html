@@ -1,3 +1,4 @@
+<!DOCTYPE html>
 <html>
 <head>
     <title>Quests of the Round Table!</title>
@@ -7,14 +8,24 @@
 </head>
 
 <body>
-<div id="main-container">
+<!-- Page 1 - Create a new game, or join an existing game -->
+<!-- TODO:
+Make it nice
+Proper game lobby
+Disable create if only 1 game at a time?
+-->
+<h1>QUESTS OF THE ROUND TABLE</h1>
+<div id="menu-buttons" class="vbox">
+    <!-- Easy workaround for disabling - create new games! -->
     <a href="newgame">
-        <button>Create Game</button>
+        <button id="create">Create Game</button>
     </a>
-    <a href="joingame">
-        <button>Join Game</button>
+    <a href="lobby">
+        <button id="join">Join Game</button>
     </a>
-
+    <a>
+        <button id="rules">Rules</button>
+    </a>
 </div>
 </body>
 </html>
