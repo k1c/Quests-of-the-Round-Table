@@ -1,11 +1,11 @@
 package com.mycompany.app.model.Rigging;
 
-import com.mycompany.app.model.Board.GameBoard;
+import com.mycompany.app.model.GameBoard;
 import com.mycompany.app.model.Cards.AdventureCardFactory;
 import com.mycompany.app.model.Cards.CardLoader;
-import com.mycompany.app.model.Players.AbstractAI;
-import com.mycompany.app.model.Players.HumanPlayer;
-import com.mycompany.app.model.Players.Strategy1AI;
+import com.mycompany.app.model.AbstractAI;
+import com.mycompany.app.model.HumanPlayer;
+import com.mycompany.app.model.Strategy1AI;
 
 import java.util.ArrayList;
 import java.util.List;

@@ -1,7 +1,7 @@
 package com.mycompany.app;
 
 import com.mycompany.app.view.GameView;
-import com.mycompany.app.model.states_api.GameState.GameModel;
+import com.mycompany.app.model.GameModel;
 import javafx.application.Application;
 import javafx.geometry.Pos;
 import javafx.scene.Scene;

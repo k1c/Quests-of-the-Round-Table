@@ -1,7 +1,7 @@
 package com.mycompany.app.model.Cards.Behaviours;
 
-import com.mycompany.app.model.Board.GameBoard;
-import com.mycompany.app.model.Players.Player;
+import com.mycompany.app.model.GameBoard;
+import com.mycompany.app.model.Player;
 
 public class QuestBehaviour extends StoryBehaviour{
 

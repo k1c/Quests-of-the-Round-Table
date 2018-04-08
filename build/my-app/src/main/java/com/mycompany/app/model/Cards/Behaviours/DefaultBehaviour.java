@@ -1,7 +1,6 @@
 package com.mycompany.app.model.Cards.Behaviours;
 
-import com.mycompany.app.model.Board.GameBoard;
-import com.mycompany.app.model.Cards.Behaviours.DefaultBehaviour;
+import com.mycompany.app.model.GameBoard;
 
 public class DefaultBehaviour extends AdventureBehaviour {
 

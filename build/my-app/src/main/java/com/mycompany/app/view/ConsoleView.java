@@ -6,9 +6,8 @@
 package com.mycompany.app.view;
 
 import com.mycompany.app.controller.GameController;
-import com.mycompany.app.model.states_api.GameState.GameModel;
+import com.mycompany.app.model.GameModel;
 import com.mycompany.app.controller.ConsoleController;
-import com.mycompany.app.model.GameObserver;
 import javafx.event.EventHandler;
 import javafx.geometry.Pos;
 import javafx.scene.control.Button;

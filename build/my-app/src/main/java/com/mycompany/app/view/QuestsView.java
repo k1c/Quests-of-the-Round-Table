@@ -9,10 +9,10 @@
 package com.mycompany.app.view;
 
 import com.mycompany.app.GameLogger;
-import com.mycompany.app.model.Card;
-import com.mycompany.app.model.states_api.GameState.GameModel;
-import com.mycompany.app.model.GameObserver;
-import com.mycompany.app.model.TwoDimensionalArrayList;
+import com.mycompany.app.model.Cards.Card;
+import com.mycompany.app.model.DataStructures.TwoDimensionalArrayList;
+import com.mycompany.app.model.Interfaces.GameObserver;
+import com.mycompany.app.model.GameModel;
 import javafx.geometry.Pos;
 import javafx.scene.control.Label;
 import javafx.scene.image.Image;

@@ -1,11 +1,11 @@
 package com.mycompany.app.controller;
 
 
-import com.mycompany.app.model.Players.GenericPlayer;
+import com.mycompany.app.model.GenericPlayer;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
-import com.mycompany.app.model.states_api.GameState.GameModel;
+import com.mycompany.app.model.GameModel;
 
 @Controller
 public class GreetingController {

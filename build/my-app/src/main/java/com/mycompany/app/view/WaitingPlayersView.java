@@ -6,7 +6,10 @@
  */
 package com.mycompany.app.view;
 
-import com.mycompany.app.model.states_api.GameState.GameModel;
+import com.mycompany.app.model.Cards.Card;
+import com.mycompany.app.model.Interfaces.GameObserver;
+import com.mycompany.app.model.GenericPlayer;
+import com.mycompany.app.model.GameModel;
 import javafx.geometry.*;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;

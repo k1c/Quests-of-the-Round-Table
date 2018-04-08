@@ -1,8 +1,5 @@
 package com.mycompany.app.model.Cards.Behaviours;
-import com.mycompany.app.model.Board.GameBoard;
-
-import java.util.Comparator;
-import java.util.Collections;
+import com.mycompany.app.model.GameBoard;
 
 public class CourtCalledToCamelotEvent extends StoryBehaviour{
 

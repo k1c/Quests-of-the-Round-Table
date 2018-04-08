@@ -1,0 +1,37 @@
+package com.mycompany.app.model;
+
+public enum GameStates{
+    LOAD, 
+    SETUP_INIT, 
+    BEGIN_TURN, 
+    DRAW_TOURNAMENT, 
+    DRAW_QUEST, 
+    EVENT_LOGIC,
+    SPONSOR_QUEST,
+    SETUP_QUEST,
+    PARTICIPATE_QUEST,
+    PARTICIPATE_TOURNAMENT,
+    TOURNAMENT_HANDLER,
+    TOURNAMENT_STAGE,
+    TOURNAMENT_STAGE_END,
+    TOURNAMENT_END,
+    QUEST_HANDLER,
+    APPLY_EVENT,
+    SPONSOR_SUBMIT,
+    STAGE_FOE,
+    STAGE_TEST,
+    STAGE_END,
+    QUEST_END,
+    WINNERS,
+    DISCARD,
+    DISCARD_NONE,
+    END_TURN,
+    MORDRED,
+    MERLIN
+   }
+
+/*
+END_TURN,
+    CHECK_RANK_WIN
+    */
+
