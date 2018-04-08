@@ -1,24 +1,27 @@
-#menu-buttons {
-    height: 100%;
-    width: 100%;
+body {
+    background-image: url("../images/bgtest.gif");
+    background-repeat: no-repeat;
+    background-size: cover;
+    background-position: center center;
+    background-attachment: fixed;
 }
 
 #current-player {
-    height: 25%;
-    width:auto;
-    display: inline-block;
     position: absolute;
-    overflow: hidden;
     bottom: 5px;
     right: 5px;
 }
 
-.right-element {
-    margin-left: 10px;
-    float: right;
-    display: inline-block;
+table, th, td {
+    border: 1px solid white;
 }
 
-.c-img {
+img {
     height: 100%;
+    position: absolute;
+    bottom: 0;
+}
+td{
+    height: 200px;
+    width: 146px;
 }
