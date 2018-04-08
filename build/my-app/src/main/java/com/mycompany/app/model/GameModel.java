@@ -2,6 +2,8 @@ package com.mycompany.app.model;
 
 
 import 	java.util.*;
+import java.util.*;
+import java.util.stream.Collectors;
 
 import com.mycompany.app.GameLogger;
 import com.mycompany.app.model.DataStructures.Cycle;
@@ -134,6 +136,7 @@ public class GameModel{
 		return board.getCurrentStoryCard();	
 	}
 
+
 	/* LEGACY */
 	public List<GenericPlayer> getWaitingPlayers(){
 		Cycle<Integer> waitingPlayersCycle = (new Cycle(currentPlayers));
@@ -147,7 +150,28 @@ public class GameModel{
 
 		return temp;
 	}
-	
+
+	/*
+	 * name : setPlayerName
+	 * Description : Sets all the players with the same id
+	 */
+	public void setPlayerName(int id,String name){
+		board.players.stream()
+			.filter(p -> p.id() == id)
+			.forEach(p ->p.name = name);
+	}
+
+	/*
+	 * name : getHumanPlayers
+	 * Description : gets all human players in game
+	 */
+	public List<GenericPlayer> getHumanPlayers(){
+	List<GenericPlayer> humanIds = this.board.getPlayerIds()
+		.stream().map(c -> board.getGenericPlayer(c))
+		.filter(c -> c.type == AbstractPlayer.Type.Player)
+		.collect(Collectors.toList());
+		return  humanIds;
+	}
 
 	/*
 	 * name :getPlayer

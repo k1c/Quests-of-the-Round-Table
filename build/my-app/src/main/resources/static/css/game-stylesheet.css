@@ -1,0 +1,27 @@
+body {
+    background-image: url("../images/bgtest.gif");
+    background-repeat: no-repeat;
+    background-size: cover;
+    background-position: center center;
+    background-attachment: fixed;
+}
+
+#current-player {
+    position: absolute;
+    bottom: 5px;
+    right: 5px;
+}
+
+table, th, td {
+    border: 1px solid white;
+}
+
+img {
+    height: 100%;
+    position: absolute;
+    bottom: 0;
+}
+td{
+    height: 200px;
+    width: 146px;
+}
