@@ -2,6 +2,7 @@ package com.mycompany.app.model;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Set;
 
 public class Strategy1 extends AbstractStrategyBehaviour{
     /*
@@ -9,6 +10,8 @@ public class Strategy1 extends AbstractStrategyBehaviour{
      * Return Type : TRUE -- I want to participate
      * 		 FALSE - I do not participate
      */
+
+    private static boolean isFirstRound = true;
 
     protected List<AdventureCard> allPossibleCards(GameBoard board, AbstractAI ai){
 
@@ -47,7 +50,7 @@ public class Strategy1 extends AbstractStrategyBehaviour{
         ViewGameBoard b = board.getViewCopy();
 
         for (Player p : players ) {
-            if (p.rank.getShields() + (board.getCurrentQuestStages() - players.size()) >= p.rank.getMaxShields()) {
+            if (p.rank.getShields() + (board.getCurrentQuestStages() + players.size()) >= p.rank.getMaxShields()) { //getCurrentQuestStages() gets the number of bonus shields
                 return true;
             }
         }
@@ -84,6 +87,7 @@ public class Strategy1 extends AbstractStrategyBehaviour{
             }
         }
 
+        //TODO: override equalsTo
         Map<Card, Integer> cardDuplicates = new HashMap<Card, Integer>();
         for (int i = 0; i < tempWeapons.size(); i++) {
             if (cardDuplicates.get(tempWeapons.get(i)) != null) {
@@ -100,6 +104,10 @@ public class Strategy1 extends AbstractStrategyBehaviour{
         }
 
         return aiTournament;
+
+       // Set weapons = aiTournament.keySet(); //returning one of each duplicate weapon
+
+        //return weapons;
     }
 
     /* Description : Returns whether AI will sponsor a quest or not
@@ -113,12 +121,12 @@ public class Strategy1 extends AbstractStrategyBehaviour{
 
         for (Player p : players) {
             if (p.id != ai.id){
-                if (p.rank.getShields() + (board.getCurrentQuestStages() - players.size()) >= p.rank.getMaxShields()) {
+                if (p.rank.getShields() + (board.getCurrentQuestStages() + players.size()) >= p.rank.getMaxShields()) {
                     return false;
                 }
             }
         }
-        if(canISetup1 == false){
+        if(canISetup1(board,ai) == false){
             return false;
         }
 
@@ -143,7 +151,7 @@ public class Strategy1 extends AbstractStrategyBehaviour{
             }
         }
 
-        //set up last stage to be at least 40
+        //set up last stage to be at least 50
         int questStageBP = 0;
         questStageBP += foeList.get(foeList.size() - 1).getBattlePoints();
         if(questStageBP < 50) {
@@ -201,17 +209,49 @@ public class Strategy1 extends AbstractStrategyBehaviour{
             ArrayList<Card> testStage = new ArrayList<Card>();
             testStage.add(testList.get(0));
             aiQuest.add(currentStory.getNumStages() - 2, testStage);
-            for (int i = 0; i < currentStory.getNumStages() - 2; i++) {
+
+
+            List<Card> weapons = new List<Card>();
+            Map<Card, Integer> cardDuplicates = new HashMap<Card, Integer>();
+            for (int i = 0; i < weaponList.size(); i++) {
+                if (cardDuplicates.get(weaponList.get(i)) != null) {
+                    cardDuplicates.put(weaponList.get(i), cardDuplicates.get(weaponList.get(i)) + 1);
+                } else {
+                    cardDuplicates.put(weaponList.get(i), 1);
+                }
+            }
+
+            //TODO: add duplicated cards
+
+            for (Map.Entry<Card, Integer> entry : map.entrySet()) {
+                if (entry.getValue() > 1) {
+                    weapons.add(entry.getKey());
+                }
+            }
+
+            int foeSize = foeList.size()-1;
+            int weaponSize = weapons.size()-1;
+            for (int i = currentStory.getNumStages() - 2; i > 0; i--) {
                 ArrayList<Card> temp = new ArrayList<Card>();
-                temp.add(foeList.get(i));
+                temp.add(foeList.get(foeSize));
+                foeSize--;
+                temp.add(weapons.get(weaponSize));
+                weaponSize--;
+                //check for increasing BPs
                 aiQuest.add(i, temp);
             }
+
         } else {
-            //TODO: change this
-            /*for (int i = 0; i < currentStory.getNumStages() - 1; i++) {
+            int foeSize = foeList.size()-1;
+            int weaponSize = weapons.size()-1;
+            for (int i = currentStory.getNumStages() - 1; i > 0; i--) {
                 ArrayList<Card> temp = new ArrayList<Card>();
-                temp.add(foeList.get(i));
-                aiQuest.add(i, temp);*/
+                temp.add(foeList.get(foeSize));
+                foeSize--;
+                temp.add(weapons.get(weaponSize));
+                weaponSize--;
+                //check for increasing BPs
+                aiQuest.add(i, temp);
             }
         }
 
@@ -263,7 +303,34 @@ public class Strategy1 extends AbstractStrategyBehaviour{
      * Return Type : List<Card>
      */
     public List<Card> playQuest(GameBoard board, AbstractAI ai){
-        return new ArrayList<>();
+
+        int numCardsPlayed = 0;
+        List<AdventureCard> playableCards = allPossibleCards(board,ai);
+        List<Card> questCards = new List<Card>();
+
+        if(board.currentQuestIndex + 1== board.getCurrentQuestStages()){
+            questCards = allPossibleCards(board,ai);
+        }else{
+            for(AdventureCard c : playableCards){
+                if((c.type == Card.Types.ALLY) || (c.type == Card.Types.AMOUR)){
+                    questCards.add(c);
+                    numCardsPlayed++;
+                    if(numCardsPlayed == 2){
+                        return questCards;
+                    }
+                }
+            }
+            for(AdventureCard c : playableCards){
+                if(c.type == Card.Types.WEAPON){
+                    questCards.add(c);
+                    numCardsPlayed++;
+                    if(numCardsPlayed == 2){
+                        return questCards;
+                    }
+                }
+            }
+        }
+        return questCards;
     }
 
     /*
@@ -271,7 +338,31 @@ public class Strategy1 extends AbstractStrategyBehaviour{
      * Return Type : List<Card>
      */
     public List<Card> nextBid(GameBoard board, AbstractAI ai){
-        return new ArrayList<>();
+
+        List<Player> players = board.getParticipantPlayers();
+        int currentMax = 0;
+
+        for(Player p: players){
+            if (board.totalPlayerBids(p) > currentMax){
+                currentMax = board.totalPlayerBids(p);
+            }
+        }
+
+        if(isFirstRound) {
+            List<Card> aiBids = new List<Card>();
+
+            for (int i = 0; i < ai.hand.size(); i++) {
+                if (ai.hand.get(i).type == Card.Types.FOE) {
+                    if (ai.hand.get(i).getBattlePoints() < 20) {
+                        aiBids.add(ai.hand.get(i));
+                    }
+                }
+            }
+            isFirstRound = false;
+            return aiBids;
+        }
+
+        return new ArrayList<>(); //return null
     }
 
     /*
@@ -279,7 +370,31 @@ public class Strategy1 extends AbstractStrategyBehaviour{
      * Return Type : List<Card> to discard or put int play
      */
     public List<Card> discardAfterWinningTest(GameBoard board, AbstractAI ai){
-        return new ArrayList<>();
+
+        List<Player> players = board.getParticipantPlayers();
+        int currentMax = 0;
+
+        for(Player p: players){
+            if (board.totalPlayerBids(p) > currentMax){
+                currentMax = board.totalPlayerBids(p);
+            }
+        }
+
+        if(isFirstRound) {
+            List<Card> aiBids = new List<Card>();
+
+            for (int i = 0; i < ai.hand.size(); i++) {
+                if (ai.hand.get(i).type == Card.Types.FOE) {
+                    if (ai.hand.get(i).getBattlePoints() < 20) {
+                        aiBids.add(ai.hand.get(i));
+                    }
+                }
+            }
+            isFirstRound = false;
+            return aiBids;
+        }
+
+        return new ArrayList<>(); // return null
     }
 
 }
