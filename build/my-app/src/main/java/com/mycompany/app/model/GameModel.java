@@ -1,12 +1,14 @@
 package com.mycompany.app.model;
 
 
+import 	java.util.*;
 import java.util.*;
 import java.util.stream.Collectors;
 
 import com.mycompany.app.GameLogger;
-import com.mycompany.app.model.Card;
-import com.mycompany.app.model.*;
+import com.mycompany.app.model.DataStructures.Cycle;
+import com.mycompany.app.model.DataStructures.TwoDimensionalArrayList;
+import com.mycompany.app.model.Interfaces.GameObserver;
 
 
 public class GameModel{
@@ -158,7 +160,7 @@ public class GameModel{
 			.filter(p -> p.id() == id)
 			.forEach(p ->p.name = name);
 	}
-	
+
 	/*
 	 * name : getHumanPlayers
 	 * Description : gets all human players in game

@@ -2,11 +2,11 @@ package com.mycompany.app.controller;
 
 import com.mycompany.app.GameLogger;
 import com.mycompany.app.model.GameModel;
-import com.mycompany.app.model.GameObserver;
+import com.mycompany.app.model.Interfaces.GameObserver;
 import com.mycompany.app.model.GameStates;
 import com.mycompany.app.view.ConsoleView;
 
-public class ConsoleController implements GameObserver{
+public class ConsoleController implements GameObserver {
     private GameModel gameModel;
     private ConsoleView consoleView;
     private GameController gameController;
