@@ -20,15 +20,24 @@ $(document).ready(function() {
                 $("tr", "#current-player").append("<td data-id='" + i +"'></td>")
             }
 
+            $('[data-id="0"]').append('<img src="images/' + player.rank.path +'" />');
+            $('[data-id="1"]').append('<img style="height: 80%; top:0;" src="images/' + player.shieldImage +'" />');
             var cell = $('[data-id="2"]');
             cell.attr("colspan", handSpan);
 
             for (i = 0; i < hand.length; i++) {
-            //    cell.append('<img style="transform: translateX(' + i*50 + 'px);" src="images/R Champion Knight.jpg" />')
+               cell.append('<img data-id="' + i + '" onmouseover="focusCard(this)" style="transform: translateX(' + -i*50 + 'px);" src="images/' + hand[i].res +'" />');
             }
         }
     });
 });
+
+var x = 666;
+
+function focusCard(c) {
+    console.log(c);
+    $(c).css('z-index', x++);
+}
 
 /*
 
