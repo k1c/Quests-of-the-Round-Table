@@ -1,8 +1,6 @@
 package com.mycompany.app.model;
 
 
-import com.mycompany.app.model.Cards.Card;
-
 public class StateMordredDefault extends AbstractState{
 	public StateMordredDefault(GameModel model){
 		this.state = GameStates.MORDRED;

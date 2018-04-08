@@ -3,6 +3,7 @@ package com.mycompany.app.model;
 import java.util.*;
 
 import com.mycompany.app.model.Card;
+import com.mycompany.app.model.DataStructures.TwoDimensionalArrayList;
 
 public class GameStateQuestEnd extends GameState{
 	public GameStateQuestEnd (GameState state,int currentPlayer){

@@ -9,7 +9,7 @@
 package com.mycompany.app.controller;
 
 import com.mycompany.app.GameLogger;
-import com.mycompany.app.model.Cards.Card;
+import com.mycompany.app.model.Card;
 import com.mycompany.app.model.GameModel;
 import com.mycompany.app.model.Interfaces.GameObserver;
 import com.mycompany.app.model.GenericPlayer;

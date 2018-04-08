@@ -5,6 +5,8 @@ package com.mycompany.app.model;
 import java.util.*;
 
 import com.mycompany.app.model.Card;
+import com.mycompany.app.model.DataStructures.Cycle;
+import com.mycompany.app.model.DataStructures.TwoDimensionalArrayList;
 
 public class GameStateQuestStageStart extends GameState{
 	public GameStateQuestStageStart (GameState state,int currentPlayer){

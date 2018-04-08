@@ -4,6 +4,7 @@ package com.mycompany.app.model;
 import java.util.*;
 
 import com.mycompany.app.model.Card;
+import com.mycompany.app.model.DataStructures.TwoDimensionalArrayList;
 
 public class GameStateQuestParticipate extends GameState{
 	public GameStateQuestParticipate(GameState state,int currentPlayer){

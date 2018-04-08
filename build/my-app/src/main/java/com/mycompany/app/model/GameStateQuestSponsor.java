@@ -2,6 +2,7 @@ package com.mycompany.app.model;
 import java.util.*;
 
 import com.mycompany.app.model.Card;
+import com.mycompany.app.model.DataStructures.TwoDimensionalArrayList;
 
 public class GameStateQuestSponsor extends GameState{
 	public GameStateQuestSponsor (GameState state,int currentPlayer){

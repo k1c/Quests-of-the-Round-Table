@@ -3,6 +3,7 @@ package com.mycompany.app.model;
 import java.util.*;
 
 import com.mycompany.app.model.Card;
+import com.mycompany.app.model.DataStructures.TwoDimensionalArrayList;
 
 public class GameStateQuestStageTest extends GameState{
 	public  GameStateQuestStageTest (GameState state,int currentPlayer){

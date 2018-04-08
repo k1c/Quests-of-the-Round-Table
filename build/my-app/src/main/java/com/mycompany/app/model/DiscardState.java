@@ -4,7 +4,6 @@ package com.mycompany.app.model;
 import java.util.*;
 
 
-import com.mycompany.app.model.Cards.Card;
 import com.mycompany.app.model.DataStructures.Cycle;
 
 public abstract class DiscardState extends AbstractState {

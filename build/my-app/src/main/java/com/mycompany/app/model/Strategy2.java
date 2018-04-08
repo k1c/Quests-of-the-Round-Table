@@ -1,8 +1,6 @@
 
 package com.mycompany.app.model;
 
-import com.mycompany.app.model.Cards.AdventureCard;
-import com.mycompany.app.model.Cards.Card;
 import com.mycompany.app.model.DataStructures.TwoDimensionalArrayList;
 
 import java.lang.*;

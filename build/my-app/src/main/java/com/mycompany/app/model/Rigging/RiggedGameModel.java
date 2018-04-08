@@ -1,8 +1,8 @@
 package com.mycompany.app.model.Rigging;
 
 import com.mycompany.app.model.GameBoard;
-import com.mycompany.app.model.Cards.AdventureCardFactory;
-import com.mycompany.app.model.Cards.CardLoader;
+import com.mycompany.app.model.AdventureCardFactory;
+import com.mycompany.app.model.CardLoader;
 import com.mycompany.app.model.AbstractAI;
 import com.mycompany.app.model.HumanPlayer;
 import com.mycompany.app.model.Strategy1AI;

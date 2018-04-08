@@ -1,8 +1,7 @@
 package com.mycompany.app.view;
 
-import com.mycompany.app.model.Cards.Card;
+import com.mycompany.app.model.Card;
 import javafx.event.EventHandler;
-import javafx.event.EventTarget;
 import javafx.geometry.Pos;
 import javafx.scene.Node;
 import javafx.scene.control.Button;

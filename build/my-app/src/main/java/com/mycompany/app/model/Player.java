@@ -1,8 +1,6 @@
 package com.mycompany.app.model;
 
 
-import com.mycompany.app.model.Cards.AdventureCard;
-
 import java.util.*;
 
 public abstract class Player extends AbstractPlayer{
