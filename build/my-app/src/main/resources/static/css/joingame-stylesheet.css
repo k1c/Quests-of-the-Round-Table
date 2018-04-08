@@ -1,0 +1,78 @@
+#game-list {
+    height: 500px;
+    width: 350px;
+    background:rgba(255,255,255,0.5);
+    overflow: auto;
+}
+
+#container {
+    align-content: center;
+    height:500px;
+    width: 350px;
+    position: absolute;
+    top:0;
+    bottom:0;
+    left:0;
+    right:0;
+    margin:auto;
+}
+
+@font-face {
+    font-family:'kingarthur';
+    font-style: normal;
+    font-weight: normal;
+    src: url('fonts/KingArthur.ttf');
+}
+
+h1 {
+    font-family: 'kingarthur', sans-serif;
+    color: forestgreen;
+    font-size: 52pt;
+    text-align: center;
+}
+body {
+    background-image: url("../images/main-menu-bg.jpg");
+    background-repeat: no-repeat;
+    background-size: cover;
+    background-position: center center;
+    background-attachment: fixed;
+}
+
+#game-list div{
+    left: 50%;
+    width: 98%;
+    height: 25%;
+    background-color: forestgreen;
+    border: 1px solid black;
+    margin:auto;
+    margin-top: 1px;
+}
+
+#game-list div:hover{
+    box-shadow: inset 0px 0px 5px;
+}
+
+button {
+    width: 100%;
+    background-color:forestgreen;
+    border:1px solid #18ab29;
+    display:inline-block;
+    cursor:pointer;
+    color:#ffffff;
+    font-family: Arial, sans-serif;
+    font-size:21px;
+    padding:16px 30px;
+    text-decoration:none;
+    text-shadow:0px 1px 0px #2f6627;
+    margin-top: 10px;
+}
+
+button:hover {
+    box-shadow: inset black 0 0 3px;
+    background-color:#5cbf2a;
+}
+
+button:active {
+    position:relative;
+    top:1px;
+}

@@ -12,12 +12,13 @@
     <h1>JOIN CURRENT GAME</h1>
     <div id="form-entry">
         <input id="name" placeholder="Enter your name!" type="text" name="name" value=""/>
-        <input id="submit" onclick="submit()" type="submit" value="Submit" />
-        <a id="ready" href="game"><button style="display: none;">Ready!</button></a>
-        <p id="waiting"></p>
+        <a id="submit-href"><button id="submit">Submit</button></a>
+        <p id="waiting-text" style="display: none;">Waiting for other players...</p>
     </div>
     <div id="current-game">
         <h5>Game Information</h5>
+
+        <h5>Current Players:</h5>
         <ul id="information">
         </ul>
     </div>

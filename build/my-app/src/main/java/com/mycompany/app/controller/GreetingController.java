@@ -29,7 +29,7 @@ public class GreetingController {
 
     @PostMapping("/newgame")
     public String newgame(@RequestParam(name="num_humans") int num_humans, @RequestParam(name="num_ai1") int num_ai1, @RequestParam(name="num_ai2") int num_ai2) {
-        System.out.println(num_ai1 + " " + num_ai2 + " " + num_humans);
+        System.out.println("newgame: " +  num_ai1 + " " + num_ai2 + " " + num_humans);
         String[] s = {"", "", "", ""};
         gameModel.initGame(num_humans, num_ai1, num_ai2, s);
         player_counter = 0;
@@ -64,7 +64,7 @@ public class GreetingController {
         return gameModel.getPlayer(id);
     }
 
-    @GetMapping("game")
+    @GetMapping("/game")
     public String game() {
         return "game";
     }
