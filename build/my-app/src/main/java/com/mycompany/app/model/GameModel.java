@@ -149,13 +149,25 @@ public class GameModel{
 		return temp;
 	}
 
+	/*
+	 * name : setPlayerName
+	 * Description : Sets all the players with the same id
+	 */
 	public void setPlayerName(int id,String name){
-		board.players.stream().filter(p -> p.id() == id).forEach(p ->p.name = name);
+		board.players.stream()
+			.filter(p -> p.id() == id)
+			.forEach(p ->p.name = name);
 	}
 	
+	/*
+	 * name : getHumanPlayers
+	 * Description : gets all human players in game
+	 */
 	public List<GenericPlayer> getHumanPlayers(){
-		System.out.println(board.getPlayerIds());
-		List<GenericPlayer> humanIds = this.board.getPlayerIds().stream().map(c -> board.getGenericPlayer(c)).filter(c -> c.type == AbstractPlayer.Type.Player).collect(Collectors.toList());
+	List<GenericPlayer> humanIds = this.board.getPlayerIds()
+		.stream().map(c -> board.getGenericPlayer(c))
+		.filter(c -> c.type == AbstractPlayer.Type.Player)
+		.collect(Collectors.toList());
 		return  humanIds;
 	}
 
