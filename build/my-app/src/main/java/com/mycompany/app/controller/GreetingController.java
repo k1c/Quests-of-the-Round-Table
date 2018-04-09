@@ -15,7 +15,7 @@ import java.util.List;
 @Controller
 public class GreetingController {
 
-    private static GameModel gameModel = new GameModel();
+    private static GameModel gameModel;
     private int player_counter = 0;
     @GetMapping("/greeting")
     public String greeting(@RequestParam(name="name", required=false, defaultValue="World") String name, Model model) {
@@ -30,6 +30,7 @@ public class GreetingController {
 
     @PostMapping("/newgame")
     public String newgame(@RequestParam(name="num_humans") int num_humans, @RequestParam(name="num_ai1") int num_ai1, @RequestParam(name="num_ai2") int num_ai2) {
+         gameModel = new GameModel();
         System.out.println("newgame: " +  num_ai1 + " " + num_ai2 + " " + num_humans);
         String[] s = {"", "", "", ""};
         gameModel.initGame(num_humans, num_ai1, num_ai2, s);
@@ -68,6 +69,12 @@ public class GreetingController {
     @GetMapping("/currentplayer")
     public GenericPlayer currentPlayer(@RequestParam(name="id") int id){
         return gameModel.getPlayer(id);
+    }
+
+    @ResponseBody
+    @GetMapping("/waitingplayers")
+    public List<GenericPlayer> waitingplayers(){
+        return gameModel.getWaitingPlayers();
     }
 
     @GetMapping("/game")

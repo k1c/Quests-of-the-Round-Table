@@ -29,8 +29,17 @@ body {
     left: 5px;
 }
 
-table, th, td {
-    border: 1px solid white;
+#console{
+    height: 210px;
+    width: 440px;
+    background:rgba(255,255,255,0.5);
+    position: absolute;
+    top :5px;
+    right: 325px;
+}
+
+td {
+    border: 2px solid white;
 }
 
 img {

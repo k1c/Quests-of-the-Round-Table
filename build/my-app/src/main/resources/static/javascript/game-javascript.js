@@ -11,6 +11,8 @@ $(document).ready(function() {
         url: "/currentplayer",
         data: {id: parseInt(document.cookie.split("=")[1])},
         success: function(player) {
+            $("tr", '#decks').append('<td><img src="images/A King Arthur.jpg"/></td>')
+            $("tr", '#decks').append('<td><img src="images/S Back.jpg"/></td>')
             var WIDTH = 200;
             var X_OFFSET = WIDTH/3;
 
@@ -34,6 +36,8 @@ $(document).ready(function() {
             for (i = 0; i < hand.length; i++) {
                cell.append('<img data-type="hand" data-id="' + i + '" onmouseover="focusCard(this)" onmouseleave="unfocusCard(this)" style="transform: translateX(' + -i*50 + 'px);" src="images/' + hand[i].res +'" />');
             }
+
+            waiting_players();
         }
     });
 });
@@ -69,3 +73,44 @@ function focusCard(c) {
 function unfocusCard(c) {
     $(c).css('border', "none");
 }
+
+function getState() {
+
+}
+/* ---------- */
+/* COMPONENTS */
+/* ---------- */
+
+/* Current Player */
+
+/* Other Players */
+function waiting_players() {
+    console.log("worked");
+    $.ajax({
+        method:"GET",
+        url: "/waitingplayers",
+        success: function(players) {
+            console.log(players);
+            var numCol = 1 + 1 + 1 + 1 + 1;
+
+            for (var j = 0; j < players.length; j++) {
+                $('#waiting-players').append('<tr data-id="' + j + '"></tr>')
+            }
+            for (var i = numCol - 1; i >= 0; i--) {
+                $("tr", "#waiting-players").append("<td data-id='" + i +"'></td>");
+            }
+
+            /* ranks */
+            for (i = 0; i < numCol; i++) {
+
+            }
+        }
+    });
+}
+/* Decks */
+
+/* Tournament */
+
+/* Quest */
+
+/* Console */
