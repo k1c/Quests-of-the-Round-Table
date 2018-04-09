@@ -8,7 +8,7 @@ $(document).ready(function() {
             success: function(data) {
                 var info = $('#information');
                 info.empty();
-                for(var datum in data){
+                for(var datum = 0; datum < data.length; datum++){
                     if (data[datum].name)
                         info.append("<li>" + data[datum].name + "</li>")
                 }
