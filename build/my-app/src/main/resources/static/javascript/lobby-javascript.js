@@ -6,11 +6,13 @@ $(document).ready(function() {
             method: "GET",
             url: "/waiting",
             success: function(data) {
-                var info = $('#information');
-                info.empty();
-                for(var datum = 0; datum < data.length; datum++){
-                    if (data[datum].name)
-                        info.append("<li>" + data[datum].name + "</li>")
+                if (data !== null) {
+                    var info = $('#information');
+                    info.empty();
+                    for (var datum = 0; datum < data.length; datum++) {
+                        if (data[datum].name)
+                            info.append("<li>" + data[datum].name + "</li>")
+                    }
                 }
             }
         });
@@ -33,7 +35,6 @@ function wait_to_start() {
             method: "GET",
             url: "/checkready",
             success: function(res) {
-                console.log("interval running");
                 if (res) {
                     $('#waiting-text').hide();
                     $('#submit').removeAttr('onclick');

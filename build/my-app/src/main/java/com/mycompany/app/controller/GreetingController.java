@@ -56,7 +56,12 @@ public class GreetingController {
     @ResponseBody
     @GetMapping("/waiting")
     public List<GenericPlayer> waiting() {
-        return gameModel.getHumanPlayers();
+        List<GenericPlayer> p = gameModel.getHumanPlayers();
+
+        if (p != null)
+            return p;
+
+        return null;
     }
 
     @ResponseBody

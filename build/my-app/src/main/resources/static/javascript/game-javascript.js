@@ -1,3 +1,10 @@
+/*
+On game load, display:
+1) hand
+2) others
+3) decks
+4) console
+ */
 $(document).ready(function() {
     $.ajax({
         method:"GET",
@@ -7,7 +14,6 @@ $(document).ready(function() {
             var WIDTH = 200;
             var X_OFFSET = WIDTH/3;
 
-            console.log(player);
             var hand = player.hand;
             var inplay = player.inPlay;
             var cardsPerCol = WIDTH / X_OFFSET;
@@ -17,7 +23,7 @@ $(document).ready(function() {
             var numCol = 1 + 1 + handSpan + 1 + inplaySpan + 1 + 1 + 1;
 
             for (var i = numCol - 1; i >= 0; i--) {
-                $("tr", "#current-player").append("<td data-id='" + i +"'></td>")
+                $("tr", "#current-player").append("<td data-id='" + i +"'></td>");
             }
 
             $('[data-id="0"]').append('<img src="images/' + player.rank.path +'" />');
@@ -26,19 +32,40 @@ $(document).ready(function() {
             cell.attr("colspan", handSpan);
 
             for (i = 0; i < hand.length; i++) {
-               cell.append('<img data-id="' + i + '" onmouseover="focusCard(this)" style="transform: translateX(' + -i*50 + 'px);" src="images/' + hand[i].res +'" />');
+               cell.append('<img data-type="hand" data-id="' + i + '" onmouseover="focusCard(this)" onmouseleave="unfocusCard(this)" style="transform: translateX(' + -i*50 + 'px);" src="images/' + hand[i].res +'" />');
             }
         }
     });
 });
 
-var x = 666;
+var x = 99;
 
 function focusCard(c) {
-    console.log(c);
     $(c).css('z-index', x++);
+    // Get cards
+    var cards = $('[data-type="hand"]');
+
+    // Rearrage
+    var index = parseInt($(c).attr('data-id'));
+    var right = 0;
+    var left = cards.length - 1;
+
+    while (right !== left) {
+        if($(cards[right]).attr('data-id') !== $(c).attr('data-id')) {
+            $(cards[right]).css('z-index', x++);
+            right += 1;
+        }
+
+        if($(cards[left]).attr('data-id') !== $(c).attr('data-id')) {
+            $(cards[left]).css('z-index', x++);
+            left -= 1;
+        }
+    }
+
+    $(c).css('z-index', x++);
+    $(c).css('border', 'solid 2px gold');
 }
 
-/*
-
- */
+function unfocusCard(c) {
+    $(c).css('border', "none");
+}
