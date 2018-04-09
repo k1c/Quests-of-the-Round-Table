@@ -9,6 +9,26 @@ body {
     right: 5px;
 }
 
+#decks {
+    position: absolute;
+    top: 5px;
+    right: 5px;
+}
+
+#waiting-players {
+    position: absolute;
+    top: 0;
+    bottom:0;
+    right: 5px;
+    margin: auto;
+}
+
+#quest, #tournament {
+    position: absolute;
+    top: 5px;
+    left: 5px;
+}
+
 table, th, td {
     border: 1px solid white;
 }
