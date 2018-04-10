@@ -5,7 +5,7 @@ b: pack run
 test:
 	mvn test
 pack:
-	mvn package -DskipTests=true
+	mvn package -DskipTests=false
 
 run:
 	mvn spring-boot:run
@@ -13,3 +13,6 @@ run:
 
 build-debug:
 	mvn -X compile
+
+clean:
+	mvn clean install

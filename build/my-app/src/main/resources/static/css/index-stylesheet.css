@@ -1,24 +1,71 @@
-#main-container {
-	height: 100%;
-	width: 100%;
+@font-face {
+    font-family:'kingarthur';
+    font-style: normal;
+    font-weight: normal;
+    src: url('fonts/KingArthur.ttf');
 }
 
-#current-player {
-	height: 25%;
-	width:auto;
-	display: inline-block;
-	position: absolute;
-	overflow: hidden;
-	bottom: 5px;
-	right: 5px;
+h1 {
+    font-family: 'kingarthur', sans-serif;
+    color: forestgreen;
+    font-size: 52pt;
+    text-align: center;
+}
+body {
+    background-size: cover;
+    background: url("../images/main-menu-bg.jpg") no-repeat fixed center center;
 }
 
-.right-element {
-	margin-left: 10px;
-	float: right;
-	display: inline-block;
+/* SOURCE: https://gist.github.com/Munawwar/7926618 */
+/*Stack child items vertically*/
+.vbox {
+    display: -webkit-flex;
+    display: -ms-flexbox;
+    display: flex;
+
+    /*Align children vetically*/
+    -webkit-flex-direction: column;
+    -ms-flex-direction: column;
+    flex-direction: column;
+
+    -webkit-align-content: flex-start;
+    -ms-flex-line-pack: start;
+    align-content: flex-start;
+}
+/*Stack child items horizontally*/
+
+a {
+    margin-bottom: 8px;
+}
+#menu-buttons {
+    width: 200px;
+    height: 200px;
+    position: absolute;
+    margin: auto;
+    top:0;
+    bottom: 0;
+    left: 0;
+    right: 0;
 }
 
-.c-img {
-	height: 100%;
+
+button {
+    width: 100%;
+    background-color:#44c767;
+    border:1px solid #18ab29;
+    display:inline-block;
+    cursor:pointer;
+    color:#ffffff;
+    font-family: Arial, sans-serif;
+    font-size:21px;
+    padding:16px 30px;
+    text-decoration:none;
+    text-shadow:0 1px 0 #2f6627;
+}
+button:hover {
+    background-color:#5cbf2a;
+}
+button:active {
+    position:relative;
+    top:1px;
 }

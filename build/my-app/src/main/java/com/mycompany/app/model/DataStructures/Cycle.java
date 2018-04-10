@@ -1,4 +1,4 @@
-package com.mycompany.app.model;
+package com.mycompany.app.model.DataStructures;
 import java.util.*;
 
 public class Cycle<T>{
