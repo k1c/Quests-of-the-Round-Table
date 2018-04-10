@@ -13,35 +13,6 @@ public class Strategy1 extends AbstractStrategyBehaviour{
 
     private static boolean isFirstRound = true;
 
-    protected List<Card> allPossibleCards(GameBoard board, AbstractAI ai){
-
-        Set<Card> set = new TreeSet();
-        List<Card> temp = new ArrayList();
-
-        boolean amourInPlay = false;
-
-        amourInPlay = board.cardListHas(ai.inPlay,Card.Types.AMOUR);
-
-        for(Card item : ai.hand){
-            if (item.type == Card.Types.ALLY){
-                set.add(item);
-            }
-            if (item.type == Card.Types.WEAPON){
-                set.add(item);
-            }
-            if(item.type == Card.Types.AMOUR && !amourInPlay){
-                set.add(item);
-                amourInPlay = true;
-            }
-
-            continue;
-        }
-
-        temp.addAll(set);
-        return temp;
-    }
-
-
     public boolean doIParticipateInTournament(GameBoard board, AbstractAI ai){
 
         List<Player> players = board.players;
@@ -74,7 +45,7 @@ public class Strategy1 extends AbstractStrategyBehaviour{
 
         for (Player p : players ) {
             if (p.rank.getShields() + (board.getCurrentQuestStages() - players.size()) >= p.rank.getMaxShields()) {
-                return allPossibleCards(board,ai);
+                return toCards(allPossibleCards(board,ai));
             }
         }
 
@@ -276,7 +247,7 @@ public class Strategy1 extends AbstractStrategyBehaviour{
         List<AdventureCard> allyList = new ArrayList<AdventureCard>();
         List<AdventureCard> weaponList = new ArrayList<AdventureCard>();
 
-        List<Card> allPos = allPossibleCards(board,ai);
+        List<AdventureCard> allPos = allPossibleCards(board,ai);
 
         //C1
         for (int i = 0; i < ai.hand.size(); i++) {
@@ -315,32 +286,32 @@ public class Strategy1 extends AbstractStrategyBehaviour{
     public List<Card> playQuest(GameBoard board, AbstractAI ai){
 
         int numCardsPlayed = 0;
-        List<Card> playableCards = allPossibleCards(board,ai);
-        List<Card> questCards = new ArrayList<>();
+        List<AdventureCard> playableCards = allPossibleCards(board,ai);
+        List<AdventureCard> questCards = new ArrayList<>();
 
         if(board.currentQuestIndex + 1== board.getCurrentQuestStages()){
             questCards = allPossibleCards(board,ai);
         }else{
-            for(Card c : playableCards){
+            for(AdventureCard c : playableCards){
                 if((c.type == Card.Types.ALLY) || (c.type == Card.Types.AMOUR)){
                     questCards.add(c);
                     numCardsPlayed++;
                     if(numCardsPlayed == 2){
-                        return questCards;
+                        return toCards(questCards);
                     }
                 }
             }
-            for(Card c : playableCards){
+            for(AdventureCard c : playableCards){
                 if(c.type == Card.Types.WEAPON){
                     questCards.add(c);
                     numCardsPlayed++;
                     if(numCardsPlayed == 2){
-                        return questCards;
+                        return toCards(questCards);
                     }
                 }
             }
         }
-        return questCards;
+        return toCards(questCards);
     }
 
     /*
