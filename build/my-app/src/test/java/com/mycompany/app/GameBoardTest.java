@@ -322,7 +322,7 @@ public class GameBoardTest extends TestCase{
 
 		//Player 3's Excalibur is in "to be played"
 		assertEquals(1, board.players.get(2).toBePlayed.size());
-		assertEquals(5, board.players.get(2).toBePlayed.get(0).id);
+		assertEquals(AdventureCardFactory.Types.HORSE.ordinal(), board.players.get(2).toBePlayed.get(0).id);
 		assertEquals(11, board.players.get(2).hand.size());
 
 	}
