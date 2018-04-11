@@ -3,16 +3,8 @@ package com.mycompany.app.model;
 import java.util.ArrayList;
 import java.util.List;
 
-public class StoryCardFactory{
+public class StoryCardFactory extends CardFactory{
 
-    public static enum Types {SEARCH_FOR_THE_HOLY_GRAIL, TEST_OF_THE_GREEN_KNIGHT, SEARCH_FOR_THE_QUESTING_BEAST, DEFEND_THE_QUEENS_HONOR,
-                                RESCUE_THE_FAIR_MAIDEN, JOURNEY_THROUGH_THE_ENCHANTED_FOREST, VANQUISH_KING_ARTHURS_ENEMIES,
-                                SLAY_THE_DRAGON, BOAR_HUNT, REPEL_THE_SAXON_RAIDERS,
-                                TOURNAMENT_AT_CAMELOT, TOURNAMENT_AT_ORKNEY, TOURNAMENT_AT_TINTAGEL, TOURNAMENT_AT_YORK,
-                                KINGS_RECOGNITION, QUEENS_FAVOR, COURT_CALLED_TO_CAMELOT, POX, PLAGUE, CHIVALROUS_DEED,
-                                PROSPERITY_THROUGHOUT_THE_REALM, KINGS_CALL_TO_ARMS};
-
-    Types type;
 
     public static StoryCard createCard(Types type){
         switch (type){
