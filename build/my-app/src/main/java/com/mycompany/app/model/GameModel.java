@@ -151,6 +151,22 @@ public class GameModel{
 		return temp;
 	}
 
+
+	
+	/*
+	 * name : otherPlayers
+	 * Description : gets all the players except the one specified
+	 */
+	public List<GenericPlayer> otherPlayers(int id){
+		List<GenericPlayer> temp = this.board.getPlayerIds()
+			.stream()
+			.filter(c -> c != id)
+			.map(c -> board.getGenericPlayer(c))
+			.collect(Collectors.toList());
+		return temp;
+	}
+
+
 	/*
 	 * name : setPlayerName
 	 * Description : Sets all the players with the same id
