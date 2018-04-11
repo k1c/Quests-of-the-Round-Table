@@ -1,13 +1,8 @@
 package com.mycompany.app.model;
 
-import java.lang.Math;
-import java.util.ArrayList;
-
 import com.mycompany.app.GameLogger;
-
 import com.mycompany.app.model.DataStructures.TwoDimensionalArrayList;
 
-import java.lang.*;
 import java.util.*;
 
 public class GameBoard extends AbstractGameBoard{
@@ -932,7 +927,11 @@ protected List<Player> 		participants;
 		return temp;
 	}
 	public Card getCurrentStoryCard(){
-		return ((Card)currentStory).instance();
+		// TODO: Change back to just return if this broke something
+		if (currentStory != null)
+			return ((Card)currentStory).instance();
+
+		return null;
 	}
 
 	public List<Integer> getPlayerIds(){

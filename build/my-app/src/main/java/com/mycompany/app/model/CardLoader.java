@@ -73,16 +73,16 @@ public class CardLoader{
 		*/
 		
 
-		
+		/*
 		L.addAll(F.createCardList(StoryCardFactory.Types.TOURNAMENT_AT_CAMELOT, 1));
 		L.addAll(F.createCardList(StoryCardFactory.Types.TOURNAMENT_AT_ORKNEY, 1));
 		L.addAll(F.createCardList(StoryCardFactory.Types.TOURNAMENT_AT_TINTAGEL, 1));
-		L.addAll(F.createCardList(StoryCardFactory.Types.TOURNAMENT_AT_YORK, 1));
+		L.addAll(F.createCardList(StoryCardFactory.Types.TOURNAMENT_AT_YORK, 1));*/
 		
 		
 
 		
-		/*
+
 		//L.addAll(F.createCardList(StoryCardFactory.Types.KINGS_RECOGNITION, 2));
 		L.addAll(F.createCardList(StoryCardFactory.Types.QUEENS_FAVOR, 2));
 		L.addAll(F.createCardList(StoryCardFactory.Types.COURT_CALLED_TO_CAMELOT, 2));
@@ -91,7 +91,7 @@ public class CardLoader{
 		L.addAll(F.createCardList(StoryCardFactory.Types.CHIVALROUS_DEED, 1));
 		L.addAll(F.createCardList(StoryCardFactory.Types.PROSPERITY_THROUGHOUT_THE_REALM, 1));
 		//L.addAll(F.createCardList(StoryCardFactory.Types.KINGS_CALL_TO_ARMS, 1));
-		*/
+
 
 		return L;
 

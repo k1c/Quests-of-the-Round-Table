@@ -1,13 +1,17 @@
 package com.mycompany.app.controller;
 
 
+import com.mycompany.app.model.Card;
+import com.mycompany.app.model.GameModel;
+import com.mycompany.app.model.GameStates;
 import com.mycompany.app.model.GenericPlayer;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.*;
-import com.mycompany.app.model.GameModel;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseBody;
 
-import javax.annotation.Generated;
 import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletResponse;
 import java.util.List;
@@ -87,4 +91,23 @@ public class GreetingController {
     public boolean checkready() {
         return player_counter == gameModel.getHumanPlayers().size();
     }
+
+    @ResponseBody
+    @GetMapping("/state")
+    public GameStates state() {
+        return gameModel.getState();
+    }
+
+    @ResponseBody
+    @GetMapping("/storyCard")
+    public Card storyCard() {
+        return gameModel.getCurrentStory();
+    }
+
+    @ResponseBody
+    @GetMapping("/drawCard")
+    public void drawCard(){
+        gameModel.drawStoryCard();
+    }
+
 }
