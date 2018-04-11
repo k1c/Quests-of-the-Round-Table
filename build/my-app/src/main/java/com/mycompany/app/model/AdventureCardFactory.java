@@ -10,91 +10,91 @@ public class AdventureCardFactory extends CardFactory{
         switch (type) {
             //WEAPONS
             case EXCALIBUR:
-                return defaultWeapon(1, "/W Excalibur.jpg", "Excalibur", 30);
+                return defaultWeapon(Types.EXCALIBUR.ordinal(), "/W Excalibur.jpg", "Excalibur", 30);
             case LANCE:
-                return defaultWeapon(2, "/W Lance.jpg", "Lance", 20);
+                return defaultWeapon(Types.LANCE.ordinal(), "/W Lance.jpg", "Lance", 20);
             case BATTLE_AX:
-                return defaultWeapon(3, "/W Battle-ax.jpg", "Battle-ax", 15);
+                return defaultWeapon(Types.BATTLE_AX.ordinal(), "/W Battle-ax.jpg", "Battle-ax", 15);
             case SWORD:
-                return defaultWeapon(4, "/W Sword.jpg", "Sword", 10);
+                return defaultWeapon(Types.SWORD.ordinal(), "/W Sword.jpg", "Sword", 10);
             case HORSE:
-                return defaultWeapon(5, "/W Horse.jpg", "Horse", 10);
+                return defaultWeapon(Types.HORSE.ordinal(), "/W Horse.jpg", "Horse", 10);
             case DAGGER:
-                return defaultWeapon(6, "/W Dagger.jpg", "Dagger", 5);
+                return defaultWeapon(Types.DAGGER.ordinal(), "/W Dagger.jpg", "Dagger", 5);
 
             //FOES
             case DRAGON: {
-                List<Integer> specifiers = new ArrayList<Integer>(Arrays.asList(33, 36, 40));
-                return specifiedFoe(7, "/F Dragon.jpg", "Dragon", 50, 70, specifiers); }
+                List<Integer> specifiers = new ArrayList<Integer>(Arrays.asList(Types.SEARCH_FOR_THE_HOLY_GRAIL.ordinal(), Types.DEFEND_THE_QUEENS_HONOR.ordinal(), Types.SLAY_THE_DRAGON.ordinal()));
+                return specifiedFoe(Types.DRAGON.ordinal(), "/F Dragon.jpg", "Dragon", 50, 70, specifiers); }
             case GIANT:
-                return defaultFoe(8, "/F Giant.jpg", "Giant", 40);
+                return defaultFoe(Types.GIANT.ordinal(), "/F Giant.jpg", "Giant", 40);
             case MORDRED:
-                return defaultFoe(9, "/F Mordred.jpg", "Mordred", 30);
+                return defaultFoe(Types.MORDRED.ordinal(), "/F Mordred.jpg", "Mordred", 30);
             case GREEN_KNIGHT: {
-                List<Integer> specifiers = new ArrayList<Integer>(Arrays.asList(33, 34, 36));
-                return specifiedFoe(10, "/F Green Knight.jpg", "Green Knight", 25, 40, specifiers); }
+                List<Integer> specifiers = new ArrayList<Integer>(Arrays.asList(Types.SEARCH_FOR_THE_HOLY_GRAIL.ordinal(), Types.TEST_OF_THE_GREEN_KNIGHT.ordinal(), Types.DEFEND_THE_QUEENS_HONOR.ordinal()));
+                return specifiedFoe(Types.GREEN_KNIGHT.ordinal(), "/F Green Knight.jpg", "Green Knight", 25, 40, specifiers); }
             case BLACK_KNIGHT: {
-                List<Integer> specifiers = new ArrayList<Integer>(Arrays.asList(33, 36, 37));
-                return specifiedFoe(11, "/F Black Knight.jpg", "Black Knight", 25, 35, specifiers); }
+                List<Integer> specifiers = new ArrayList<Integer>(Arrays.asList(Types.SEARCH_FOR_THE_HOLY_GRAIL.ordinal(), Types.DEFEND_THE_QUEENS_HONOR.ordinal(), Types.RESCUE_THE_FAIR_MAIDEN.ordinal()));
+                return specifiedFoe(Types.BLACK_KNIGHT.ordinal(), "/F Black Knight.jpg", "Black Knight", 25, 35, specifiers); }
             case EVIL_KNIGHT: {
-                List<Integer> specifiers = new ArrayList<Integer>(Arrays.asList(33, 36, 38));
-                return specifiedFoe(12, "/F Evil Knight.jpg", "Evil Knight", 20, 30, specifiers); }
+                List<Integer> specifiers = new ArrayList<Integer>(Arrays.asList(Types.SEARCH_FOR_THE_HOLY_GRAIL.ordinal(), Types.DEFEND_THE_QUEENS_HONOR.ordinal(), Types.JOURNEY_THROUGH_THE_ENCHANTED_FOREST.ordinal()));
+                return specifiedFoe(Types.EVIL_KNIGHT.ordinal(), "/F Evil Knight.jpg", "Evil Knight", 20, 30, specifiers); }
             case SAXON_KNIGHT: {
-                List<Integer> specifiers = new ArrayList<Integer>(Arrays.asList(33, 36, 42));
-                return specifiedFoe(13, "/F Saxon Knight.jpg", "Saxon Knight", 15, 25, specifiers); }
+                List<Integer> specifiers = new ArrayList<Integer>(Arrays.asList(Types.SEARCH_FOR_THE_HOLY_GRAIL.ordinal(), Types.DEFEND_THE_QUEENS_HONOR.ordinal(), Types.REPEL_THE_SAXON_RAIDERS.ordinal()));
+                return specifiedFoe(Types.SAXON_KNIGHT.ordinal(), "/F Saxon Knight.jpg", "Saxon Knight", 15, 25, specifiers); }
             case ROBBER_KNIGHT:
-                return defaultFoe(14, "/F Robber Knight.jpg", "Robber Knight", 15);
+                return defaultFoe(Types.ROBBER_KNIGHT.ordinal(), "/F Robber Knight.jpg", "Robber Knight", 15);
             case SAXONS: {
-                List<Integer> specifiers = new ArrayList<Integer>(Arrays.asList(33, 36, 42));
-                return specifiedFoe(15, "/F Saxons.jpg", "Saxons", 10, 20, specifiers); }
+                List<Integer> specifiers = new ArrayList<Integer>(Arrays.asList(Types.SEARCH_FOR_THE_HOLY_GRAIL.ordinal(), Types.DEFEND_THE_QUEENS_HONOR.ordinal(), Types.REPEL_THE_SAXON_RAIDERS.ordinal()));
+                return specifiedFoe(Types.SAXONS.ordinal(), "/F Saxons.jpg", "Saxons", 10, 20, specifiers); }
             case BOAR: {
-                List<Integer> specifiers = new ArrayList<Integer>(Arrays.asList(33, 36, 41));
-                return specifiedFoe(16, "/F Boar.jpg", "Boar", 5, 15, specifiers); }
+                List<Integer> specifiers = new ArrayList<Integer>(Arrays.asList(Types.SEARCH_FOR_THE_HOLY_GRAIL.ordinal(), Types.DEFEND_THE_QUEENS_HONOR.ordinal(), Types.BOAR_HUNT.ordinal()));
+                return specifiedFoe(Types.BOAR.ordinal(), "/F Boar.jpg", "Boar", 5, 15, specifiers); }
             case THIEVES:
-                return defaultFoe(17, "/F Thieves.jpg", "Thieves", 5);
+                return defaultFoe(Types.THIEVES.ordinal(), "/F Thieves.jpg", "Thieves", 5);
 
             //TESTS
             case TEST_OF_VALOR:
-                return defaultTest(18, "/T Test of Valor.jpg", "Test of Valor", 1);
+                return defaultTest(Types.TEST_OF_VALOR.ordinal(), "/T Test of Valor.jpg", "Test of Valor", 1);
             case TEST_OF_TEMPTATION:
-                return defaultTest(19, "/T Test of Temptation.jpg", "Test of Temptation", 1);
+                return defaultTest(Types.TEST_OF_TEMPTATION.ordinal(), "/T Test of Temptation.jpg", "Test of Temptation", 1);
             case TEST_OF_MORGAN_LE_FAY:
-                return defaultTest(20, "/T Test of Morgan Le Fey.jpg", "Test of Morgan Le Fey", 3);
+                return defaultTest(Types.TEST_OF_MORGAN_LE_FAY.ordinal(), "/T Test of Morgan Le Fey.jpg", "Test of Morgan Le Fey", 3);
             case TEST_OF_THE_QUESTING_BEAST: {
-                List<Integer> specifiers = new ArrayList<Integer>(Arrays.asList(35));
-                return specifiedTest(21, "/T Test of the Questing Beast.jpg", "Test of the Questing Beast", 1, 4, specifiers); }
+                List<Integer> specifiers = new ArrayList<Integer>(Arrays.asList(Types.SEARCH_FOR_THE_QUESTING_BEAST.ordinal()));
+                return specifiedTest(Types.TEST_OF_THE_QUESTING_BEAST.ordinal(), "/T Test of the Questing Beast.jpg", "Test of the Questing Beast", 1, 4, specifiers); }
 
             //ALLIES
             case SIR_GALAHAD:
-                return defaultAlly(22, "/A Sir Galahad.jpg", "Sir Galahad", 15, 1, true);
+                return defaultAlly(Types.SIR_GALAHAD.ordinal(), "/A Sir Galahad.jpg", "Sir Galahad", 15, 1, true);
             case SIR_LANCELOT: {
-                List<Integer> specifiers = new ArrayList<Integer>(Arrays.asList(36));
-                return specifiedAlly(23, "/A Sir Lancelot.jpg", "Sir Lancelot", 15, 1, 25, 1, false, false, specifiers); }
+                List<Integer> specifiers = new ArrayList<Integer>(Arrays.asList(Types.DEFEND_THE_QUEENS_HONOR.ordinal()));
+                return specifiedAlly(Types.SIR_LANCELOT.ordinal(), "/A Sir Lancelot.jpg", "Sir Lancelot", 15, 1, 25, 1, false, false, specifiers); }
             case KING_ARTHUR:
-                return defaultAlly(24, "/A King Arthur.jpg", "King Arthur", 10, 2, true);
+                return defaultAlly(Types.KING_ARTHUR.ordinal(), "/A King Arthur.jpg", "King Arthur", 10, 2, true);
             case SIR_TRISTAN: {
-                List<Integer> specifiers = new ArrayList<Integer>(Arrays.asList(30));
-                return specifiedAlly(25, "/A Sir Tristan.jpg", "Sir Tristan", 10, 1, 20, 1, false, false, specifiers); }
+                List<Integer> specifiers = new ArrayList<Integer>(Arrays.asList(Types.QUEEN_ISEULT.ordinal()));
+                return specifiedAlly(Types.SIR_TRISTAN.ordinal(), "/A Sir Tristan.jpg", "Sir Tristan", 10, 1, 20, 1, false, false, specifiers); }
             case KING_PELLINORE: {
-                List<Integer> specifiers = new ArrayList<Integer>(Arrays.asList(35));
-                return specifiedAlly(26, "/A King Pellinore.jpg", "King Pellinore", 10, 1, 10, 4, false, true, specifiers); }
+                List<Integer> specifiers = new ArrayList<Integer>(Arrays.asList(Types.SEARCH_FOR_THE_QUESTING_BEAST.ordinal()));
+                return specifiedAlly(Types.KING_PELLINORE.ordinal(), "/A King Pellinore.jpg", "King Pellinore", 10, 1, 10, 4, false, true, specifiers); }
             case SIR_GAWAIN: {
-                List<Integer> specifiers = new ArrayList<Integer>(Arrays.asList(34));
-                return specifiedAlly(27, "/A Sir Gawain.jpg", "Sir Gawain", 10, 1, 20, 1, false, false, specifiers); }
+                List<Integer> specifiers = new ArrayList<Integer>(Arrays.asList(Types.TEST_OF_THE_GREEN_KNIGHT.ordinal()));
+                return specifiedAlly(Types.SIR_GAWAIN.ordinal(), "/A Sir Gawain.jpg", "Sir Gawain", 10, 1, 20, 1, false, false, specifiers); }
             case SIR_PERCIVAL: {
-                List<Integer> specifiers = new ArrayList<Integer>(Arrays.asList(33));
-                return specifiedAlly(28, "/A Sir Percival.jpg", "Sir Percival", 5, 1, 20, 1, false, false, specifiers); }
+                List<Integer> specifiers = new ArrayList<Integer>(Arrays.asList(Types.SEARCH_FOR_THE_HOLY_GRAIL.ordinal()));
+                return specifiedAlly(Types.SIR_PERCIVAL.ordinal(), "/A Sir Percival.jpg", "Sir Percival", 5, 1, 20, 1, false, false, specifiers); }
             case QUEEN_GUINEVERE:
-                return defaultAlly(29, "/A Queen Guinevere.jpg", "Queen Guinevere", 0, 3, true);
+                return defaultAlly(Types.QUEEN_GUINEVERE.ordinal(), "/A Queen Guinevere.jpg", "Queen Guinevere", 0, 3, true);
             case QUEEN_ISEULT: {
-                List<Integer> specifiers = new ArrayList<Integer>(Arrays.asList(25));
-                return specifiedAlly(30, "/A Queen Iseult.jpg", "Queen Iseult", 0, 2, 0, 4, true, true, specifiers); }
+                List<Integer> specifiers = new ArrayList<Integer>(Arrays.asList(Types.SIR_TRISTAN.ordinal()));
+                return specifiedAlly(Types.QUEEN_ISEULT.ordinal(), "/A Queen Iseult.jpg", "Queen Iseult", 0, 2, 0, 4, true, true, specifiers); }
             case MERLIN:
-                return defaultAlly(31, "/A Merlin.jpg", "Merlin", 0, 1, false);
+                return defaultAlly(Types.MERLIN.ordinal(), "/A Merlin.jpg", "Merlin", 0, 1, false);
 
             //AMOURS
             case AMOUR:
-                return defaultAmour(32, "/Amour.jpg", "Amour");
+                return defaultAmour(Types.AMOUR.ordinal(), "/Amour.jpg", "Amour");
         }
         return null;
 
@@ -108,6 +108,13 @@ public class AdventureCardFactory extends CardFactory{
         }
 
         return temp;
+    }
+
+    public Card getCard(int id){
+	if(id >=0 && id < types.length){
+		return createCard(types[id]);
+	}
+	return null;
     }
 
 

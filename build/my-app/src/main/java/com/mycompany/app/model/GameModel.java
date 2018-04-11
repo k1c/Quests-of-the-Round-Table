@@ -173,6 +173,16 @@ public class GameModel{
 		return  humanIds;
 	}
 
+	public List<Card> convertAdventureIds(List<Integer> ids){
+		CardFactory fac = new AdventureCardFactory();
+		List<Card> temp = ids
+			.stream()
+			.map(i -> fac.getCard(i))
+			.filter(c -> c != null)
+			.collect(Collectors.toList());
+		return temp;
+	}
+
 	/*
 	 * name :getPlayer
 	 * Description :used to get a player hand of a specific player
