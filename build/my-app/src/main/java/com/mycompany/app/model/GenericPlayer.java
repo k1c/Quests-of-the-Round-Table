@@ -12,8 +12,8 @@ public class GenericPlayer extends AbstractPlayer{
 	public int totalBattlePoints;
 
 	public GenericPlayer(int id, String name, String shieldImage){
-		super(name, shieldImage);
-		this.id = id;
+		super(name, shieldImage,id);
+		//this.id = id;
 
 		this.hand = new ArrayList<Card>();
 		this.toBePlayed = new ArrayList<Card>();
