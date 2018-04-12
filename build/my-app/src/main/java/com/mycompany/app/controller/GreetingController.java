@@ -139,8 +139,6 @@ public class GreetingController {
     public int checkUpdate() {
 	    synchronized(gameModel){
 		    int temp = gameModel.getStateCounter();
-		    System.out.print("Getting counter : ");
-		    System.out.println(temp);
 		    return gameModel.getStateCounter();
 	    }
     }
