@@ -9,7 +9,6 @@ $(document).ready(function() {
     // TODO: Periodically check for changes (flicker?).
     // ^ update everyone instead of just one
     // WebSockets/SSE could solve this?
-
     $("#current-player").attr("data-playerid", document.cookie.split("=")[1]);
 
     var previous = -1;
@@ -23,13 +22,11 @@ $(document).ready(function() {
                     story_card();
                     current_player();
                     waiting_players();
+                    getState();
                 }
             }
         });
     }, 1500);
-
-
-    getState();
 });
 
 function selectCard(c) {
@@ -100,11 +97,14 @@ function getState() {
 
 
 function updateState(data) {
+    console.log("update state");
     console.log(data);
 
-    var state = data['state']
+
+    var state = data['state'];
     var turn = data['turn'];
 
+    console.log();
     highlight_player(turn);
 
     var msg = $("#message");
@@ -113,7 +113,7 @@ function updateState(data) {
     btn.empty();
     switch (state) {
         case "BEGIN_TURN":
-            msg.append("<h2>Waiting for: " + $("[data-playerid=" + turn +"]").attr("data-playername") + "</h2>");
+            msg.append("<h2>Waiting for: " + $("[data-playerid='" + turn + "']").attr("data-playername") + "</h2>");
 
             break;
         case "EVENT_LOGIC":
@@ -165,7 +165,7 @@ function updateState(data) {
 function executeState(data) {
     console.log(data);
 
-    var state = data['state']
+    var state = data['state'];
     var turn = data['turn'];
 
     highlight_player(turn);
@@ -239,12 +239,16 @@ function nextState() {
 }
 
 function discardSelected() {
-    var selected = $('img[data-selected="1"]').map(function(){
-        return $(this).attr("data-id");
-    }).get();
+    var selected = getSelected();
 
     console.log(selected);
 
+}
+
+function getSelected() {
+    return $('img[data-selected="1"]').map(function(){
+        return parseInt($(this).attr("data-cardid"));
+    }).get();
 }
 
 function highlight_player(id) {
@@ -310,6 +314,7 @@ function current_player() {
                 cell.append('<img ' +
                     'data-type="hand" ' +
                     'data-id="' + i + '" ' +
+                    'data-cardid="' + hand[i].id + '" ' +
                     'data-selected="0" ' +
                     'onmouseover="focusCard(this)" ' +
                     'onmouseleave="unfocusCard(this)" ' +
