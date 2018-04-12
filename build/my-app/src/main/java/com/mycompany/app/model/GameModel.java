@@ -105,8 +105,6 @@ public class GameModel{
 	/* LEGACY */
 	public GameStates getState() {
 		if(discardState.getState() != GameStates.DISCARD_NONE){
-			System.out.println(currentPlayers.items());
-			System.out.println("DISCARD");
 			return GameStates.DISCARD;
 		}
 		return gameState.getState();
@@ -288,20 +286,17 @@ public class GameModel{
 
 	/* LEGACY */
 	public void drawStoryCard(){
-		System.out.println("drawStoryCard");
 		this.gameState.next();
 		this.updateObservers();
 		checkAITurn();
 	} 	
 	/* LEGACY */
 	public void sponsorQuest(int player,boolean sponsor){
-		System.out.println("sponsorQuest");
 		this.gameState.decision(player,sponsor);	
 		this.updateObservers();
 	}
 	/* LEGACY */
 	public boolean submitQuest(int player,TwoDimensionalArrayList<Card> quest){
-		System.out.println("submitQuest");
 		boolean retValue = this.gameState.quest(player,quest);	
 		this.updateObservers();
 		checkAITurn();
@@ -309,21 +304,18 @@ public class GameModel{
 	}
 	/* LEGACY */
 	public void participateQuest(int player,boolean participate){
-		System.out.println("participateQuest");
 		this.gameState.decision(player,participate);
 		this.updateObservers();
 		checkAITurn();	
 	}
 	/* LEGACY */
 	public void stage(){
-		System.out.println("stage");
 		this.gameState.next();	
 		this.updateObservers();
 		checkAITurn();
 	}
 	/* LEGACY */
 	public boolean stageFoe(int playerID, List<Card> list){
-		System.out.println("stageFoe");
 		boolean retValue = this.gameState.play(playerID,list);
 		this.updateObservers();
 		checkAITurn();
@@ -332,7 +324,6 @@ public class GameModel{
 	}
 	/* LEGACY */
 	public boolean stageTest(int playerID, List<Card> list){
-		System.out.println("stageTest");
 		boolean retValue = this.gameState.play(playerID,list);
 		this.updateObservers();
 		checkAITurn();
@@ -340,21 +331,18 @@ public class GameModel{
 	}
 	/* LEGACY */
 	public void testGiveUp(Integer id){
-		System.out.println("testGiveUp");
 		this.gameState.decision(id,true);
 		this.updateObservers();
 		checkAITurn();
 	}
 	/* LEGACY */
 	public void stageEnd(){
-		System.out.println("stageEnd");
 		this.gameState.next();
 		this.updateObservers();
 		checkAITurn();
 	}
 	/* LEGACY */
 	public void endQuest() {
-		System.out.println("endQuest");
 		this.gameState.next();	
 		this.updateObservers();
 		checkAITurn();
@@ -362,21 +350,18 @@ public class GameModel{
 
 	/* LEGACY */
 	public void beginTournament(){
-		System.out.println("beginTournament");
 		this.gameState.next();	
 		this.updateObservers();
 		checkAITurn();
 	}
 	/* LEGACY */
 	public void participateTournament(int player, boolean participate){
-		System.out.println("participateTournament");
 		this.gameState.decision(player,participate);	
 		this.updateObservers();
 		checkAITurn();
 	}
 	/* LEGACY */
 	public void tournamentStageStart(){
-		System.out.println("tournamentStageStart");
 		this.gameState.next();
 		this.updateObservers();
 		checkAITurn();

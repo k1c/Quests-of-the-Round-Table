@@ -7,13 +7,11 @@ import com.mycompany.app.model.GameStates;
 import com.mycompany.app.model.GenericPlayer;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletResponse;
+import java.util.ArrayList;
 import java.util.List;
 
 @Controller
@@ -36,7 +34,6 @@ public class GreetingController {
     @PostMapping("/newgame")
     public String newgame(@RequestParam(name="num_humans") int num_humans, @RequestParam(name="num_ai1") int num_ai1, @RequestParam(name="num_ai2") int num_ai2) {
          gameModel = new GameModel();
-        System.out.println("newgame: " +  num_ai1 + " " + num_ai2 + " " + num_humans);
         String[] s = {"", "", "", ""};
         gameModel.initGame(num_humans, num_ai1, num_ai2, s);
         player_counter = 0;
@@ -52,7 +49,6 @@ public class GreetingController {
     @PostMapping("/namesubmit")
     public void namesubmit(@RequestParam(name="name") String name, HttpServletResponse res){
         List<GenericPlayer> ps = gameModel.getHumanPlayers();
-        System.out.println(ps.size());
         GenericPlayer p = gameModel.getHumanPlayers().get(player_counter);
         gameModel.setPlayerName(p.id(), name);
         player_counter++;
@@ -117,9 +113,20 @@ public class GreetingController {
     }
 
     @ResponseBody
+    @PostMapping("/discardCards")
+    public void discardCards(@RequestBody int[] cards, @RequestParam(name="id") int id) {
+        List<Integer> ids = new ArrayList<>();
+        for (int i : cards) {
+            ids.add(i);
+        }
+        List<Card> converted = gameModel.convertAdventureIds(ids);
+
+        gameModel.discard(id, converted);
+    }
+
+    @ResponseBody
     @GetMapping("/checkUpdate")
     public int checkUpdate() {
         return gameModel.getStateCounter();
     }
-
 }

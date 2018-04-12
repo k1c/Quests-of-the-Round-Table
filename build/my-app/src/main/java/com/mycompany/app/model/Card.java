@@ -27,14 +27,16 @@ public class Card implements Comparable<Card>{
 	@Override
 	public int compareTo(Card card) {
 
-		//System.out.println("Hello" + card.type);
-
 		if(this.type.ordinal() - card.type.ordinal() != 0){
 			return this.type.ordinal() - card.type.ordinal();
 		}
 		else{
 			return this.id - card.id;
 		}
+	}
+
+	public boolean isSame(Card card) {
+		return this.id == card.id;
 	}
 
 	public String toString() {

@@ -397,8 +397,7 @@ protected List<Player> 		participants;
 
 	public boolean discardHand(int player, List<Card> hand){
 
-		Player p = findPlayer(player);	
-
+		Player p = findPlayer(player);
 		log.action("discardHand","",p);
 
 		boolean validHand   = true;
@@ -412,7 +411,6 @@ protected List<Player> 		participants;
 		for(Card item: hand){
 			AdventureCard temp = findCard(p.hand,item);
 			if(temp == null) {
-				System.out.println("Discard false 1");
 				return false;
 			}
 			submittedCards.add(temp);
@@ -908,7 +906,7 @@ protected List<Player> 		participants;
 	protected AdventureCard findCard(List<AdventureCard> list, Card card){
 		for(AdventureCard item : list){
 			Card temp = item;
-			if(card.equals(temp)){
+			if(card.isSame(temp)){
 				return item;		
 			}
 		}

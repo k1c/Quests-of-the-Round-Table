@@ -240,9 +240,14 @@ function nextState() {
 
 function discardSelected() {
     var selected = getSelected();
-
     console.log(selected);
-
+    $.ajax({
+        method: "POST",
+        contentType: "application/json",
+        url: "/discardCards?id=" + parseInt(document.cookie.split("=")[1]),
+        data: JSON.stringify(selected),
+        success: update_game
+    });
 }
 
 function getSelected() {
