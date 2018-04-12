@@ -391,32 +391,6 @@ public class Strategy1 extends AbstractStrategyBehaviour{
 
         log.playerAction(ai, "Getting cards to discard after winning test");
 
-        List<Player> players = board.getParticipantPlayers();
-        List<Card> aiBids = new ArrayList<Card>();
-        int currentMax = 0;
-
-        for(Player p: players){
-            if (board.totalPlayerBids(p) > currentMax){
-                currentMax = board.totalPlayerBids(p);
-            }
-        }
-
-        if(isFirstRound) {
-
-            for (int i = 0; i < ai.hand.size(); i++) {
-                if (ai.hand.get(i).type == Card.Types.FOE) {
-                    if (ai.hand.get(i).getBattlePoints(board) < 20) {
-                        aiBids.add(ai.hand.get(i));
-                    }
-                }
-            }
-
-            isFirstRound = false;
-            log.playerBid(ai,aiBids);
-            return aiBids;
-        }
-        log.playerBid(ai,aiBids);
-        log.playerAction(ai,"no cards to bid");
-        return aiBids;
+        return nextBid(board,ai);
     }
 }
