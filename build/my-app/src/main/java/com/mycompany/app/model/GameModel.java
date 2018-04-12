@@ -63,6 +63,10 @@ public class GameModel{
 		return board.getQuestIndex();
 	}
 
+	public List<Card> questStage(int index){
+		return board.getStage(index);
+	}
+
 	public int getNumDiscards() {
 	    	return discard.size();
 	}
