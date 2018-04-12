@@ -84,7 +84,7 @@ public class Strategy1 extends AbstractStrategyBehaviour{
 
         log.playerAction(ai, "Deciding whether to sponsor a quest");
 
-        List<Player> players = board.getParticipantPlayers();   //change to all players
+        List<Player> players = board.getParticipantPlayers();
 
         for (Player p : players) {
             if (p.id != ai.id){
