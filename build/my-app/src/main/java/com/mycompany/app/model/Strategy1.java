@@ -19,27 +19,16 @@ public class Strategy1 extends AbstractStrategyBehaviour{
         log.playerAction(ai, "Deciding whether to participate in tournament");
 
         List<Player> players = board.players;
-        int currentRank = 0;
-        boolean win = false;
-
-        //ViewGameBoard b = board.getViewCopy();
-
-
         for (Player p : players ) {
-            log.playerAction(p,"can participate in tournament");
-            log.count("shields", p.rank.getShields() );
-            log.count("stages",  board.currentStory.getNumStages());
-            log.count(" num players", players.size());
-            log.count("shields + stages + num players, ", p.rank.getShields() + (board.currentStory.getNumStages() + players.size()));
+            log.count("shields + stages + num players must be >= to ", p.rank.getShields() + (board.currentStory.getNumStages() + players.size()));
             log.count("rank max shields, ", p.rank.getMaxShields());
-            if (p.rank.getShields() + (board.currentStory.getNumStages() + players.size()) >= p.rank.getMaxShields()) { //getCurrentQuestStages() gets the number of bonus shields
+            if (p.rank.getShields() + (board.currentStory.getNumStages() + players.size()) >= p.rank.getMaxShields()) {
+                log.playerAction(p,"can participate in tournament");
                 return true;
             }
         }
-
         return false;
     }
-
 
     /*
      * Description : Returns a list of cards to play in that tournament round
@@ -50,11 +39,6 @@ public class Strategy1 extends AbstractStrategyBehaviour{
         log.playerAction(ai, "Getting cards to play in tournament");
 
         List<Player> players = board.getParticipantPlayers();
-        int currentRank = 0;
-        boolean win = false;
-
-        //ViewGameBoard b = board.getViewCopy();
-
         for (Player p : players ) {
             if (p.rank.getShields() + (board.getCurrentQuestStages() - players.size()) >= p.rank.getMaxShields()) {
                 log.playerCards(ai, toCards(allPossibleCards(board,ai)), "Adventure deck");
@@ -63,8 +47,8 @@ public class Strategy1 extends AbstractStrategyBehaviour{
         }
 
         List<Card> aiTournament = new ArrayList<Card>();
-        List<AdventureCard> tempAIHand = ai.hand;
         List<Card> tempWeapons = new ArrayList<Card>();
+        List<AdventureCard> tempAIHand = ai.hand;
 
         for(int i = 0; i < tempAIHand.size(); i++){
             if (tempAIHand.get(i).type == Card.Types.WEAPON){
@@ -72,7 +56,6 @@ public class Strategy1 extends AbstractStrategyBehaviour{
             }
         }
 
-        //TODO: override equalsTo
         Map<Card, Integer> cardDuplicates = new HashMap<Card, Integer>();
         for (int i = 0; i < tempWeapons.size(); i++) {
             if (cardDuplicates.get(tempWeapons.get(i)) != null) {
@@ -87,12 +70,9 @@ public class Strategy1 extends AbstractStrategyBehaviour{
                 aiTournament.add(entry.getKey());
             }
         }
+
         log.playerTournament(ai,aiTournament);
         return aiTournament;
-
-        // Set weapons = aiTournament.keySet(); //returning one of each duplicate weapon
-
-        //return weapons;
     }
 
     /* Description : Returns whether AI will sponsor a quest or not
@@ -108,10 +88,10 @@ public class Strategy1 extends AbstractStrategyBehaviour{
 
         for (Player p : players) {
             if (p.id != ai.id){
+                log.count("shields + stages + num players must be >= to ", p.rank.getShields() + (board.currentStory.getNumStages() + players.size()));
+                log.count("rank max shields, ", p.rank.getMaxShields());
                 if (p.rank.getShields() + (board.getCurrentQuestStages() + players.size()) >= p.rank.getMaxShields()) {
-                    log.playerAction(p,"can win the quest");
-                    log.count("shields + stages + num players, ", p.rank.getShields() + (board.getCurrentQuestStages() + players.size()));
-                    log.count("rank max shields, ", p.rank.getMaxShields());
+                    log.playerAction(p,"can sponsor the quest");
                     return false;
                 }
             }
@@ -150,17 +130,16 @@ public class Strategy1 extends AbstractStrategyBehaviour{
         //set up last stage to be at least 50
         int questStageBP = 0;
         questStageBP += foeList.get(foeList.size() - 1).getBattlePoints(board);
-        // TODO: change to 50
         if(questStageBP < 50) {
             for (int j = weaponList.size() - 1; j > 0; j--) {
                 questStageBP += weaponList.get(j).getBattlePoints(board);
                 if (questStageBP >= 50) {
-                    log.count("can setup quest 1", questStageBP);
+                    log.count("can setup quest for AI1", questStageBP);
                     return true;
                 }
             }
         }
-        log.count("cannot setup quest 1", questStageBP);
+        log.count("cannot setup quest for AI1", questStageBP);
         return false;
     }
 
@@ -173,14 +152,11 @@ public class Strategy1 extends AbstractStrategyBehaviour{
         log.playerAction(ai, "Getting the cards to sponsor a quest");
 
         TwoDimensionalArrayList<Card> aiQuest = new TwoDimensionalArrayList<Card>();
-
-        /*for(int i = 0; i < board.getCurrentQuestStages(); i++) {
-            aiQuest.add(i, null);
-        }*/
-
         ArrayList<AdventureCard> foeList = new ArrayList<AdventureCard>();
         ArrayList<AdventureCard> testList = new ArrayList<AdventureCard>();
         ArrayList<AdventureCard> weaponList = new ArrayList<AdventureCard>();
+        ArrayList<Card> stageN = new ArrayList<Card>();
+        int questStageBP = 0;
 
         for(int i = 0; i < ai.hand.size(); i++){
             if(ai.hand.get(i).type == Card.Types.FOE){
@@ -199,13 +175,12 @@ public class Strategy1 extends AbstractStrategyBehaviour{
 
         ArrayList<AdventureCard> uw2 = new ArrayList<AdventureCard>();
         uw2.addAll(uniqueWeapons);
+
         //set up last stage to be at least 50
-        int questStageBP = 0;
-        ArrayList<Card> stageN = new ArrayList<Card>();
         questStageBP += foeList.get(foeList.size() - 1).getBattlePoints(board);
         stageN.add(foeList.get(foeList.size() - 1));
         foeList.remove(foeList.get(foeList.size() - 1));
-        // TODO: change to 50
+
         if(questStageBP < 50) {
             for (int j = uw2.size() - 1; j > 0; j--) {
                 questStageBP += uw2.get(j).getBattlePoints(board);
@@ -217,73 +192,57 @@ public class Strategy1 extends AbstractStrategyBehaviour{
         }
 
         log.count("AI Quest Size", aiQuest.size());
-
         log.count("Quest Stages - 1 (for indexing)",board.currentStory.getNumStages() -  1);
 
         for (Card c : stageN) {
             aiQuest.addToInnerArray(board.currentStory.getNumStages() - 1, c);
         }
-        //aiQuest.add(board.currentStory.getNumStages()-1, stageN);
 
         if(testList.size() > 0) {
             log.playerAction(ai, "Adding the test");
+
+            List<Card> weapons = getWeapons(weaponList);
+            int foeSize = foeList.size()-1;
+            int weaponSize = weapons.size()-1;
             ArrayList<Card> testStage = new ArrayList<Card>();
+
             testStage.add(testList.get(0));
 
             aiQuest.addToInnerArray(board.currentStory.getNumStages() - 2, testList.get(0));
-            //aiQuest.add(board.currentStory.getNumStages() - 2, testStage);
 
-            List<Card> weapons = getWeapons(weaponList);
-
-            int foeSize = foeList.size()-1;
-            int weaponSize = weapons.size()-1;
             for (int i = board.currentStory.getNumStages() - 3; i >= 0; i--) {
-                ArrayList<Card> temp = new ArrayList<Card>();
-                //temp.add(foeList.get(foeSize));
-
                 aiQuest.addToInnerArray(i, foeList.get(foeSize));
                 log.cardPlayed(ai,foeList.get(foeSize),"to sponsor quest");
                 foeSize--;
-
                 if (weaponSize >= 0) {
-                    //temp.add(weapons.get(weaponSize));
                     aiQuest.addToInnerArray(i, weapons.get(weaponSize));
                     weaponSize--;
                 }
-                //check for increasing BPs
-                //aiQuest.add(i, temp);
             }
-
         } else {
             List<Card> weapons = getWeapons(weaponList);
             int foeSize = foeList.size()-1;
             int weaponSize = weapons.size()-1;
+
             for (int i = board.currentStory.getNumStages() - 2; i >= 0; i--) {
-                ArrayList<Card> temp = new ArrayList<Card>();
-                //temp.add(foeList.get(foeSize));
+                log.playerQuest(ai,foeList.get(foeSize));
+
                 aiQuest.addToInnerArray(i, foeList.get(foeSize));
-                log.cardPlayed(ai,Card.Types.FOE,"adding foe to sponsor quest");
                 foeSize--;
                 if (weaponSize >= 0) {
-                    //temp.add(weapons.get(weaponSize));
                     aiQuest.addToInnerArray(i, weapons.get(weaponSize));
                     weaponSize--;
                 }
-                //check for increasing BPs
-                //aiQuest.add(i, temp);
             }
-        }/*
-        log.debug("aiQuest size: " + aiQuest.toList().size());
-        List<Card> test = aiQuest.toList();
-
-        log.playerCards(ai, test, "Adventure Deck");*/
-
+        }
+        log.playerQuest(ai,aiQuest);
         return aiQuest;
     }
 
     private List<Card> getWeapons(ArrayList<AdventureCard> weaponList){
         List<Card> weapons = new ArrayList<Card>();
         Map<Card, Integer> cardDuplicates = new HashMap<Card, Integer>();
+
         for (int i = 0; i < weaponList.size(); i++) {
             if (cardDuplicates.get(weaponList.get(i)) != null) {
                 cardDuplicates.put(weaponList.get(i), cardDuplicates.get(weaponList.get(i)) + 1);
@@ -291,8 +250,6 @@ public class Strategy1 extends AbstractStrategyBehaviour{
                 cardDuplicates.put(weaponList.get(i), 1);
             }
         }
-
-        //TODO: add duplicated cards
 
         for (Map.Entry<Card, Integer> entry : cardDuplicates.entrySet()) {
             if (entry.getValue() > 1) {
@@ -324,11 +281,10 @@ public class Strategy1 extends AbstractStrategyBehaviour{
             }
         }
 
-
         if((allyList.size() + weaponList.size()) >= 2 * board.getCurrentQuestStages()) {
             log.playerAction(ai,"has at least 2 weapons/allies per stage");
-            //C2
 
+            //C2
             int foeCounter = 0;
 
             for(int i = 0; i < ai.hand.size(); i++){
@@ -368,7 +324,7 @@ public class Strategy1 extends AbstractStrategyBehaviour{
                     questCards.add(c);
                     numCardsPlayed++;
                     if(numCardsPlayed == 2){
-                        log.playerCards(ai,toCards(questCards),"Adventure deck");
+                        log.playerQuest(ai,questCards);
                         return toCards(questCards);
                     }
                 }
@@ -378,7 +334,7 @@ public class Strategy1 extends AbstractStrategyBehaviour{
                     questCards.add(c);
                     numCardsPlayed++;
                     if(numCardsPlayed == 2){
-                        log.playerCards(ai,toCards(questCards),"Adventure deck");
+                        log.playerQuest(ai,questCards);
                         return toCards(questCards);
                     }
                 }
@@ -397,6 +353,7 @@ public class Strategy1 extends AbstractStrategyBehaviour{
         log.playerAction(ai, "Getting cards to bid in test");
 
         List<Player> players = board.getParticipantPlayers();
+        List<Card> aiBids = new ArrayList<Card>();
         int currentMax = 0;
 
         for(Player p: players){
@@ -406,7 +363,6 @@ public class Strategy1 extends AbstractStrategyBehaviour{
         }
 
         if(isFirstRound) {
-            List<Card> aiBids = new ArrayList<Card>();
 
             for (int i = 0; i < ai.hand.size(); i++) {
                 if (ai.hand.get(i).type == Card.Types.FOE) {
@@ -419,12 +375,14 @@ public class Strategy1 extends AbstractStrategyBehaviour{
             log.playerBid(ai,aiBids);
             return aiBids;
         }
+
+        log.playerBid(ai,aiBids);
         log.playerAction(ai,"no bids");
-        return new ArrayList<>(); //return null
+        return aiBids;
     }
 
     /*
-     * ??? Discard Functionality I guess
+     * Discard Functionality
      * Return Type : List<Card> to discard or put int play
      */
     public List<Card> discardAfterWinningTest(GameBoard board, AbstractAI ai){
@@ -432,6 +390,7 @@ public class Strategy1 extends AbstractStrategyBehaviour{
         log.playerAction(ai, "Getting cards to discard after winning test");
 
         List<Player> players = board.getParticipantPlayers();
+        List<Card> aiBids = new ArrayList<Card>();
         int currentMax = 0;
 
         for(Player p: players){
@@ -441,7 +400,6 @@ public class Strategy1 extends AbstractStrategyBehaviour{
         }
 
         if(isFirstRound) {
-            List<Card> aiBids = new ArrayList<Card>();
 
             for (int i = 0; i < ai.hand.size(); i++) {
                 if (ai.hand.get(i).type == Card.Types.FOE) {
@@ -451,11 +409,11 @@ public class Strategy1 extends AbstractStrategyBehaviour{
                 }
             }
             isFirstRound = false;
-            log.playerCards(ai,aiBids,"Adventure deck");
+            log.playerBid(ai,aiBids);
             return aiBids;
         }
+        log.playerBid(ai,aiBids);
         log.playerAction(ai,"no cards to bid");
-        return new ArrayList<>(); // return null
+        return aiBids;
     }
-
 }
