@@ -86,10 +86,10 @@ public class CardLoader{
 		//L.addAll(F.createCardList(StoryCardFactory.Types.KINGS_RECOGNITION, 2));
 		//L.addAll(F.createCardList(StoryCardFactory.Types.QUEENS_FAVOR, 2));
 		//L.addAll(F.createCardList(StoryCardFactory.Types.COURT_CALLED_TO_CAMELOT, 2));
-		//L.addAll(F.createCardList(StoryCardFactory.Types.POX, 1));
-		//L.addAll(F.createCardList(StoryCardFactory.Types.PLAGUE, 1));
+		L.addAll(F.createCardList(StoryCardFactory.Types.POX, 1));
+		L.addAll(F.createCardList(StoryCardFactory.Types.PLAGUE, 1));
 		//L.addAll(F.createCardList(StoryCardFactory.Types.CHIVALROUS_DEED, 1));
-		L.addAll(F.createCardList(StoryCardFactory.Types.PROSPERITY_THROUGHOUT_THE_REALM, 1));
+		//L.addAll(F.createCardList(StoryCardFactory.Types.PROSPERITY_THROUGHOUT_THE_REALM, 1));
 		//L.addAll(F.createCardList(StoryCardFactory.Types.KINGS_CALL_TO_ARMS, 1));
 
 

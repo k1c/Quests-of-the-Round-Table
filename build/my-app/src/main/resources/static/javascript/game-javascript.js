@@ -257,6 +257,9 @@ function highlight_player(id) {
 }
 
 function update_game() {
+    story_card();
+    current_player();
+    waiting_players();
     getState();
 }
 /* ---------- */
