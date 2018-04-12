@@ -1,23 +1,25 @@
 package com.mycompany.app;
 
+import com.mycompany.app.model.Card;
 import com.mycompany.app.model.GenericPlayer;
 import com.mycompany.app.model.Player;
 import org.apache.log4j.Level;
 import org.apache.log4j.Logger;
+import java.util.*;
 
 public class GameLogger  {
 
-	private static int id = 0;
+    private static int id = 0;
 
-public static final String ANSI_RESET = "";
-public static final String ANSI_BLACK = "";
-public static final String ANSI_RED = "";
-public static final String ANSI_GREEN = "";
-public static final String ANSI_YELLOW = "\u001B[33m";
-public static final String ANSI_BLUE = "\u001B[34m";
-public static final String ANSI_PURPLE = "";
-public static final String ANSI_CYAN = "\u001B[36m";
-public static final String ANSI_WHITE = "\u001B[37m";
+    public static final String ANSI_RESET = "";
+    public static final String ANSI_BLACK = "";
+    public static final String ANSI_RED = "";
+    public static final String ANSI_GREEN = "";
+    public static final String ANSI_YELLOW = "\u001B[33m";
+    public static final String ANSI_BLUE = "\u001B[34m";
+    public static final String ANSI_PURPLE = "";
+    public static final String ANSI_CYAN = "\u001B[36m";
+    public static final String ANSI_WHITE = "\u001B[37m";
 
 
     private static GameLogger ourInstance = new GameLogger ();
@@ -38,10 +40,10 @@ public static final String ANSI_WHITE = "\u001B[37m";
     private GameLogger() { }
 
     private String id(){
-	synchronized(this){
-		this.id++;
-		return String.format(" log#%d ",this.id);
-	}
+        synchronized(this){
+            this.id++;
+            return String.format(" log#%d ",this.id);
+        }
     }
     public void playerAction(Player player, String action) {
         String str = String.format(this.id() +"%sUser Action:  %s :%s %s",ANSI_PURPLE,player.toString(),ANSI_RESET,action);
@@ -56,6 +58,32 @@ public static final String ANSI_WHITE = "\u001B[37m";
     public void playerCard(Player player, Object cardType, String deckType) {
         String str = this.id() +"Card Drawn:  " + player.name + " draws " + cardType + " from the " + deckType;
         logger.log(GameLogger.class.getCanonicalName(), Level.INFO, str,null);
+
+    }
+
+    public void playerBid(Player player, Object cardType) {
+        String str = this.id() +"Card Bid:  " + player.name + " bids " + cardType;
+        logger.log(GameLogger.class.getCanonicalName(), Level.INFO, str,null);
+
+    }
+
+    public void playerQuest(Player player, Object cardType) {
+        String str = this.id() +"Card in Quest:  " + player.name + " plays " + cardType;
+        logger.log(GameLogger.class.getCanonicalName(), Level.INFO, str,null);
+
+    }
+
+    public void playerTournament(Player player, Object cardType) {
+        String str = this.id() +"Card in Tournament:  " + player.name + " plays " + cardType;
+        logger.log(GameLogger.class.getCanonicalName(), Level.INFO, str,null);
+
+    }
+
+    public void playerCards(Player player, List<Card> cardType, String deckType) {
+        for(int i = 0; i < cardType.size(); i++) {
+            String str = this.id() + "Card Drawn:  " + player.name + " draws " + cardType.get(i) + " from the " + deckType;
+            logger.log(GameLogger.class.getCanonicalName(), Level.INFO, str, null);
+        }
 
     }
 
@@ -76,7 +104,7 @@ public static final String ANSI_WHITE = "\u001B[37m";
     }
 
     public void gameState(String state){
-        state = String.format(this.id() + "%sGame State: %s%s",ANSI_RED,ANSI_RESET,state); 
+        state = String.format(this.id() + "%sGame State: %s%s",ANSI_RED,ANSI_RESET,state);
         logger.log(GameLogger.class.getCanonicalName(), Level.INFO, state,null);
     }
 
