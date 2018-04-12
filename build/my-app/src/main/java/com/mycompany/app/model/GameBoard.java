@@ -19,7 +19,7 @@ public class GameBoard extends AbstractGameBoard{
 
 	protected List<Player>		players;
 	protected List<AbstractAI>	ais;
-protected List<Player> 		participants;
+	protected List<Player> 		participants;
 
 	protected Player		sponsor;
 
@@ -227,7 +227,6 @@ protected List<Player> 		participants;
 		p.hand.add(ac);
 		log.playerCard(p,ac,"Adventure Deck");
 
-		//if (p.hand.size > 12) discardAdventureCards()
 	}
 
 	protected void drawFromStoryDeck(Player p){
@@ -333,26 +332,9 @@ protected List<Player> 		participants;
 			participant.toBePlayed.clear();
 			maxBP = Math.max(participant.getTotalBP(this),maxBP);
 		}
-		
-		//get number of players that passed
-		for(Player participant :this.participants){
-			if(participant.getTotalBP(this) >= maxBP){
-				tempParticipants.add(participant);
-			}
-			else {
-				droppedPlayers.add(participant);
-			}
-		}
 
-		// clean up the cards
-		for(Player participant : tempParticipants){
-			resetTypeInPlay(participant,Card.Types.WEAPON);	
-		}
-
-		for(Player participant : droppedPlayers){
-			resetTypeInPlay(participant,Card.Types.WEAPON);	
-			resetTypeInPlay(participant,Card.Types.AMOUR);	
-		}
+		simulateBattle(tempParticipants, droppedPlayers, maxBP,"Tournament");
+		cleanUpCards(tempParticipants,droppedPlayers,"Tournament");
 
 		this.participants = tempParticipants;
 		log.action("completeTournamentStage","remaining participants",this.participants);
@@ -659,30 +641,9 @@ protected List<Player> 		participants;
 			participant.inPlay.addAll(participant.toBePlayed);
 			participant.toBePlayed.clear();
 		}
-		
-		// simulate the battle
-		for(Player participant : this.participants){
-			if(participant.getTotalBP(this) >= questBP){
-				tempParticipants.add(participant);
-				log.action("completeFoeStage","player continues",participant);
-			}
-			else{
-				droppedPlayers.add(participant);
-				log.action("completeFoeStage","player dropped",participant);
-			}
-		}
 
-		// clean up the cards
-		for(Player participant : tempParticipants){
-			log.action("completeFoeStage","clearing weapons",participant);
-			resetTypeInPlay(participant,Card.Types.WEAPON);	
-		}
-
-		for(Player participant : droppedPlayers){
-			log.action("completeFoeStage","clearing dropped weapons and amour",participant);
-			resetTypeInPlay(participant,Card.Types.WEAPON);	
-			resetTypeInPlay(participant,Card.Types.AMOUR);	
-		}
+		simulateBattle(tempParticipants, droppedPlayers, questBP,"Foe");
+		cleanUpCards(tempParticipants,droppedPlayers, "Foe");
 
 		this.participants = tempParticipants;
 
@@ -1015,5 +976,34 @@ protected List<Player> 		participants;
 			if (p.id() == id)
 				return p;
 		return null;
+	}
+
+	//helper functions
+
+	private void cleanUpCards(List<Player> tempParticipants, List<Player> droppedPlayers, String location){
+		// clean up the cards
+		for(Player participant : tempParticipants){
+			log.action("complete" + location + "Stage","clearing weapons",participant);
+			resetTypeInPlay(participant,Card.Types.WEAPON);
+		}
+
+		for(Player participant : droppedPlayers){
+			log.action("complete" + location + "Stage","clearing dropped weapons and amour",participant);
+			resetTypeInPlay(participant,Card.Types.WEAPON);
+			resetTypeInPlay(participant,Card.Types.AMOUR);
+		}
+	}
+
+	private void simulateBattle(List<Player> tempParticipants, List<Player> droppedPlayers, int bpToBeat, String location){
+		// simulate the battle
+		for (Player participant : this.participants) {
+			if (participant.getTotalBP(this) >= bpToBeat) {
+				tempParticipants.add(participant);
+				log.action("complete" + location + "Stage", "player continues", participant);
+			} else {
+				droppedPlayers.add(participant);
+				log.action("complete" + location + "Stage", "player dropped", participant);
+			}
+		}
 	}
 }
