@@ -227,7 +227,6 @@ public class GameBoard extends AbstractGameBoard{
 		p.hand.add(ac);
 		log.playerCard(p,ac,"Adventure Deck");
 
-		//if (p.hand.size > 12) discardAdventureCards()
 	}
 
 	protected void drawFromStoryDeck(Player p){
