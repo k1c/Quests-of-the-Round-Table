@@ -1,14 +1,14 @@
 package com.mycompany.app.model;
 
 
-import 	java.util.*;
-import java.util.*;
-import java.util.stream.Collectors;
-
 import com.mycompany.app.GameLogger;
 import com.mycompany.app.model.DataStructures.Cycle;
 import com.mycompany.app.model.DataStructures.TwoDimensionalArrayList;
 import com.mycompany.app.model.Interfaces.GameObserver;
+
+import java.util.ArrayList;
+import java.util.List;
+import java.util.stream.Collectors;
 
 
 public class GameModel{
@@ -45,7 +45,7 @@ public class GameModel{
 	protected GameState gameState;
 	protected DiscardState discardState;
 
-
+	private int state_counter = 0;
 
 
 	public GameModel(){
@@ -86,10 +86,13 @@ public class GameModel{
 	}
 
 	public void updateObservers(){
+		state_counter++;
 		for(GameObserver observer : observers){
 			observer.update();
 		}
 	}
+
+	public int getStateCounter() { return state_counter; }
 
 	public int getNumberOfStages(){
 		return board.getCurrentQuestStages();

@@ -39,7 +39,7 @@ body {
 }
 
 td {
-    border: 2px solid white;
+    //border: 2px solid white;
 }
 
 img {
@@ -50,4 +50,22 @@ img {
 td{
     height: 200px;
     width: 146px;
+}
+
+table {
+    border-collapse: collapse;
+}
+.others-table {
+    vertical-align: top;
+}
+
+.other-players {
+    bottom: initial;
+}
+
+.other-players {
+    height: 100%;
+    bottom: initial;
+    margin: initial;
+    position: relative;
 }

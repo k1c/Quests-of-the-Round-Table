@@ -10,13 +10,39 @@ $(document).ready(function() {
     // ^ update everyone instead of just one
     // WebSockets/SSE could solve this?
 
-    $("tr", '#decks').append('<td><img src="images/A Back.jpg"/></td>');
-    $("tr", '#decks').append('<td><img src="images/S Back.jpg"/></td>');
+    $("#current-player").attr("data-playerid", document.cookie.split("=")[1]);
 
-    current_player();
-    waiting_players();
+    var previous = -1;
+    setInterval(function() {
+        $.ajax({
+            method: "GET",
+            url: "/checkUpdate",
+            success: function(counter) {
+                if (counter !== previous) {
+                    previous = counter;
+                    story_card();
+                    current_player();
+                    waiting_players();
+                }
+            }
+        });
+    }, 1500);
+
+
     getState();
 });
+
+function selectCard(c) {
+    c = $(c);
+    var old = c.css("transform");
+    if (c.attr("data-selected") === "0") {
+        c.css("transform", old + ' translateY(-100px)');
+        c.attr("data-selected", "1");
+    } else {
+        c.css("transform", old + ' translateY(100px)');
+        c.attr("data-selected", "0");
+    }
+}
 
 var x = 99;
 
@@ -51,61 +77,83 @@ function unfocusCard(c) {
 }
 
 function getState() {
+    var data = {};
     $.ajax({
         method: "GET",
         url: "/state",
-        success: executeState
+        success: function (state) {
+            data['state'] = state;
+            $.ajax({
+                method: "GET",
+                url: "/currentturn",
+                success: function (turn) {
+                    data['turn'] = turn;
+                    if (parseInt($("#current-player").attr('data-playerid')) === turn)
+                        executeState(data);
+                    else
+                        updateState(data);
+                }
+            });
+        }
     });
 }
 
-function executeState(data) {
+
+function updateState(data) {
     console.log(data);
+
+    var state = data['state']
+    var turn = data['turn'];
+
+    highlight_player(turn);
 
     var msg = $("#message");
     var btn = $("#buttons");
-    switch (data) {
+    msg.empty();
+    btn.empty();
+    switch (state) {
         case "BEGIN_TURN":
-            msg.append("<h2>" + data + "</h2>");
-            btn.append("<button onclick='drawStoryCard()'>Start</button>");
+            msg.append("<h2>Waiting for: " + $("[data-playerid=" + turn +"]").attr("data-playername") + "</h2>");
+
             break;
         case "EVENT_LOGIC":
-            msg.append("<h2>" + data + "</h2>");
+            msg.append("<h2>Event: " + $("[data-cardname]").attr("data-cardname") + "</h2>");
             break;
         case "END_TURN":
-            msg.append("<h2>" + data + "</h2>");
+            msg.append("<h2>" + state + "</h2>");
             break;
         case "SPONSOR_QUEST":
-            msg.append("<h2>" + data + "</h2>");
+            msg.append("<h2>" + state + "</h2>");
             break;
         case "SPONSOR_SUBMIT":
-            msg.append("<h2>" + data + "</h2>");
+            msg.append("<h2>" + state + "</h2>");
             break;
         case "TOURNAMENT_STAGE":
-            msg.append("<h2>" + data + "</h2>");
+            msg.append("<h2>" + state + "</h2>");
             break;
         case "PARTICIPATE_QUEST":
-            msg.append("<h2>" + data + "</h2>");
+            msg.append("<h2>" + state + "</h2>");
             break;
         case "PARTICIPATE_TOURNAMENT":
-            msg.append("<h2>" + data + "</h2>");
+            msg.append("<h2>" + state + "</h2>");
             break;
         case "QUEST_HANDLER":
-            msg.append("<h2>" + data + "</h2>");
+            msg.append("<h2>" + state + "</h2>");
             break;
         case "TOURNAMENT_HANDLER":
-            msg.append("<h2>" + data + "</h2>");
+            msg.append("<h2>" + state + "</h2>");
             break;
         case "DISCARD":
-            msg.append("<h2>" + data + "</h2>");
+            msg.append("<h2>Someone needs to discard!</h2>");
             break;
         case "STAGE_FOE":
-            msg.append("<h2>" + data + "</h2>");
+            msg.append("<h2>" + state + "</h2>");
             break;
         case "STAGE_TEST":
-            msg.append("<h2>" + data + "</h2>");
+            msg.append("<h2>" + state + "</h2>");
             break;
         case "STAGE_END":
-            msg.append("<h2>" + data + "</h2>");
+            msg.append("<h2>" + state + "</h2>");
             break;
 
     }
@@ -114,14 +162,99 @@ function executeState(data) {
     /* very very very not secure at all. RIP js h4x0rs */
 }
 
-function drawStoryCard() {
+function executeState(data) {
+    console.log(data);
+
+    var state = data['state']
+    var turn = data['turn'];
+
+    highlight_player(turn);
+
+    var msg = $("#message");
+    var btn = $("#buttons");
+    msg.empty();
+    btn.empty();
+    switch (state) {
+        case "BEGIN_TURN":
+            msg.append("<h2>" + state + "</h2>");
+            btn.append("<button onclick='nextState()'>Start Turn</button>");
+            break;
+        case "EVENT_LOGIC":
+            msg.append("<h2>Event: " + $("[data-cardname]").attr("data-cardname") + "</h2>");
+            btn.append("<button onclick='nextState()'>Run Event</button>");
+            break;
+        case "END_TURN":
+            msg.append("<h2>End Turn</h2>");
+            btn.append("<button onclick='nextState()'>End Turn</button>");
+            break;
+        case "SPONSOR_QUEST":
+            msg.append("<h2>" + state + "</h2>");
+            break;
+        case "SPONSOR_SUBMIT":
+            msg.append("<h2>" + state + "</h2>");
+            break;
+        case "TOURNAMENT_STAGE":
+            msg.append("<h2>" + state + "</h2>");
+            break;
+        case "PARTICIPATE_QUEST":
+            msg.append("<h2>" + state + "</h2>");
+            break;
+        case "PARTICIPATE_TOURNAMENT":
+            msg.append("<h2>" + state + "</h2>");
+            break;
+        case "QUEST_HANDLER":
+            msg.append("<h2>" + state + "</h2>");
+            break;
+        case "TOURNAMENT_HANDLER":
+            msg.append("<h2>" + state + "</h2>");
+            break;
+        case "DISCARD":
+            msg.append("<h2>Please select cards to discard!</h2>");
+            btn.append("<button onclick='discardSelected()'>Discard!</button>");
+            break;
+        case "STAGE_FOE":
+            msg.append("<h2>" + state + "</h2>");
+            break;
+        case "STAGE_TEST":
+            msg.append("<h2>" + state + "</h2>");
+            break;
+        case "STAGE_END":
+            msg.append("<h2>" + state + "</h2>");
+            break;
+        default:
+            msg.append("<h2> HOW DID YOU GET HERE? </h2>");
+
+    }
+    /* Update console - like ConsoleView */
+    /* if-else: if relevant to you, update personal, else update general */
+    /* very very very not secure at all. RIP js h4x0rs */
+}
+
+function nextState() {
     $.ajax({
         method: "GET",
-        url: "/drawCard",
-        success: story_card
+        url: "/nextState",
+        success: update_game
     });
 }
 
+function discardSelected() {
+    var selected = $('img[data-selected="1"]').map(function(){
+        return $(this).attr("data-id");
+    }).get();
+
+    console.log(selected);
+
+}
+
+function highlight_player(id) {
+    $("body").find("[data-playerid]").css('border', 'none');
+    $("body").find("[data-playerid=" + id +"]").css('border', 'solid 5px orange');
+}
+
+function update_game() {
+    getState();
+}
 /* ---------- */
 /* COMPONENTS */
 /* ---------- */
@@ -134,8 +267,8 @@ function story_card() {
         method: "GET",
         url: "/storyCard",
         success: function(card) {
-            if (card !== null) {
-                $("tr", '#decks').html('<td><img src="images/' + card.res +'"/></td>');
+            if (card !== "") {
+                $("tr", '#decks').append('<td><img data-cardname="' + card.name + '" src="images/' + card.res +'"/></td>');
             } else {
                 $("tr", '#decks').append('<td><img src="images/S Back.jpg"/></td>');
             }
@@ -151,6 +284,7 @@ function current_player() {
         url: "/currentplayer",
         data: {id: parseInt(document.cookie.split("=")[1])},
         success: function(player) {
+            $("#current-player").attr("data-playername", player.name);
             var WIDTH = 200;
             var X_OFFSET = WIDTH/3;
 
@@ -176,8 +310,10 @@ function current_player() {
                 cell.append('<img ' +
                     'data-type="hand" ' +
                     'data-id="' + i + '" ' +
+                    'data-selected="0" ' +
                     'onmouseover="focusCard(this)" ' +
                     'onmouseleave="unfocusCard(this)" ' +
+                    'onclick="selectCard(this)" ' +
                     'style="transform: translateX(' + -i*50 + 'px);" ' +
                     'src="images/' + hand[i].res +'" />');
             }
@@ -190,25 +326,63 @@ function waiting_players() {
     $('#waiting-players').empty();
     $.ajax({
         method:"GET",
+        data: {id: parseInt(document.cookie.split("=")[1])},
         url: "/waitingplayers",
         success: function(players) {
             console.log(players);
-            var numCol = 1 + 1 + 1 + 1 + 1;
+
+            var WIDTH = 200;
+            var X_OFFSET = WIDTH/3;
+
+
+            var max = 0;
 
             for (var j = 0; j < players.length; j++) {
-                $('#waiting-players').append('<tr data-id="' + j + '"></tr>')
+
+                $('#waiting-players').append('<tr class="others-table" data-playername="' + players[j].name +'"data-playerid="' + players[j].id + '"></tr>')
+                if (players[j].inPlay.length >= max) {
+                    max = players[j].inPlay.length;
+                }
             }
+
+            var cardsPerCol = WIDTH / X_OFFSET;
+            var inplaySpan = Math.ceil(max/cardsPerCol + 1);
+
+            var numCol = 1 + 1 + 1 + inplaySpan + 1;
+
             for (var i = numCol - 1; i >= 0; i--) {
                 $("tr", "#waiting-players").append("<td data-id='" + i +"'></td>");
             }
 
             /* ranks */
-            for (i = 0; i < numCol; i++) {
+            var playerRow;
+            for (i = 0; i < players.length; i++) {
+                playerRow = $('[data-id="0"]', '[data-playerid=' + players[i].id + ']', "#waiting-players");
+                playerRow.append('<img class="other-players" src="images/' + players[i].rank.path + '"/>');
+            }
 
+            for (i = 0; i < players.length; i++) {
+                playerRow = $('[data-id="1"]', '[data-playerid=' + players[i].id + ']', "#waiting-players");
+                playerRow.append('<img class="other-players" style="height: 80%;" src="images/' + players[i].shieldImage + '"/>');
+            }
+
+            for (i = 0; i < players.length; i++) {
+                playerRow = $('[data-id="2"]', '[data-playerid=' + players[i].id + ']', "#waiting-players");
+                playerRow.append('<img class="other-players" src="images/A Back.jpg"/>');
+            }
+
+            if(max > 0) {
+                // do inPlay
+            }
+
+            for (i = 0; i < players.length; i++) {
+                playerRow = $('[data-id="' + (max + 1 + 3) + '"]', '[data-playerid=' + players[i].id + ']', "#waiting-players");
+                playerRow.append('<img class="other-players" style="height: 80%;" src="images/Battle_Points.png"/>');
             }
         }
     });
 }
+
 /* Decks */
 
 /* Tournament */

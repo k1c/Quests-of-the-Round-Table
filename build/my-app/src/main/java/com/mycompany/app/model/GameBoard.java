@@ -927,11 +927,9 @@ protected List<Player> 		participants;
 		return temp;
 	}
 	public Card getCurrentStoryCard(){
-		// TODO: Change back to just return if this broke something
-		if (currentStory != null)
-			return ((Card)currentStory).instance();
-
-		return null;
+		if (currentStory == null)
+			return null;
+		return ((Card)currentStory).instance();
 	}
 
 	public List<Integer> getPlayerIds(){

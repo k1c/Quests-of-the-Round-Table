@@ -21,6 +21,7 @@ public class GreetingController {
 
     private static GameModel gameModel;
     private int player_counter = 0;
+
     @GetMapping("/greeting")
     public String greeting(@RequestParam(name="name", required=false, defaultValue="World") String name, Model model) {
         model.addAttribute("name", name);
@@ -77,8 +78,8 @@ public class GreetingController {
 
     @ResponseBody
     @GetMapping("/waitingplayers")
-    public List<GenericPlayer> waitingplayers(){
-        return gameModel.getWaitingPlayers();
+    public List<GenericPlayer> waitingplayers(@RequestParam(name="id") int id){
+        return gameModel.otherPlayers(id);
     }
 
     @GetMapping("/game")
@@ -93,6 +94,11 @@ public class GreetingController {
     }
 
     @ResponseBody
+    @GetMapping("/currentturn")
+    public int currentturn() {
+        return gameModel.getCurrentPlayer().id();
+    }
+    @ResponseBody
     @GetMapping("/state")
     public GameStates state() {
         return gameModel.getState();
@@ -105,9 +111,15 @@ public class GreetingController {
     }
 
     @ResponseBody
-    @GetMapping("/drawCard")
-    public void drawCard(){
-        gameModel.drawStoryCard();
+    @GetMapping("/nextState")
+    public void nextState(){
+        gameModel.next();
+    }
+
+    @ResponseBody
+    @GetMapping("/checkUpdate")
+    public int checkUpdate() {
+        return gameModel.getStateCounter();
     }
 
 }
