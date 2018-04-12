@@ -97,12 +97,12 @@ public class Strategy1 extends AbstractStrategyBehaviour{
             }
         }
 
-        if(canISetup1(board,ai) == false){
+        if(!canISetup1(board,ai)){
             return false;
         }
 
         if (board.playerCanSponsor(ai.id)) {
-            return true;
+            return board.playerCanSponsor(ai.id);
         }
 
         return false;
