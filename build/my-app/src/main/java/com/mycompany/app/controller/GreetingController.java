@@ -133,13 +133,15 @@ public class GreetingController {
     @ResponseBody
     @PostMapping("/discardCards")
     public void discardCards(@RequestBody int[] cards, @RequestParam(name="id") int id) {
-        List<Integer> ids = new ArrayList<>();
-        for (int i : cards) {
-            ids.add(i);
-        }
-        List<Card> converted = gameModel.convertAdventureIds(ids);
+        synchronized (gameModel) {
+            List<Integer> ids = new ArrayList<>();
+            for (int i : cards) {
+                ids.add(i);
+            }
+            List<Card> converted = gameModel.convertAdventureIds(ids);
 
-        gameModel.discard(id, converted);
+            gameModel.discard(id, converted);
+        }
     }
 
     @ResponseBody
@@ -149,5 +151,13 @@ public class GreetingController {
 		    int temp = gameModel.getStateCounter();
 		    return gameModel.getStateCounter();
 	    }
+    }
+
+    @ResponseBody
+    @PostMapping("/decide")
+    public void decide(@RequestParam(name="id") int id, @RequestParam(name="choice") boolean choice) {
+        synchronized (gameModel) {
+            gameModel.decision(id, choice);
+        }
     }
 }
