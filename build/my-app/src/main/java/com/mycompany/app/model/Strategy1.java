@@ -87,8 +87,7 @@ public class Strategy1 extends AbstractStrategyBehaviour{
                 aiTournament.add(entry.getKey());
             }
         }
-
-        log.playerCards(ai, aiTournament, "Adventure deck");
+        log.playerTournament(ai,aiTournament);
         return aiTournament;
 
         // Set weapons = aiTournament.keySet(); //returning one of each duplicate weapon

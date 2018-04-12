@@ -73,6 +73,12 @@ public class GameLogger  {
 
     }
 
+    public void playerTournament(Player player, Object cardType) {
+        String str = this.id() +"Card in Tournament:  " + player.name + " plays " + cardType;
+        logger.log(GameLogger.class.getCanonicalName(), Level.INFO, str,null);
+
+    }
+
     public void playerCards(Player player, List<Card> cardType, String deckType) {
         for(int i = 0; i < cardType.size(); i++) {
             String str = this.id() + "Card Drawn:  " + player.name + " draws " + cardType.get(i) + " from the " + deckType;
