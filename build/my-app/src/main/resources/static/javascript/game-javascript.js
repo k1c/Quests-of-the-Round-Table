@@ -114,19 +114,18 @@ function updateState(data) {
     switch (state) {
         case "BEGIN_TURN":
             msg.append("<h2>Waiting for: " + $("[data-playerid='" + turn + "']").attr("data-playername") + "</h2>");
-
             break;
         case "EVENT_LOGIC":
             msg.append("<h2>Event: " + $("[data-cardname]").attr("data-cardname") + "</h2>");
             break;
         case "END_TURN":
-            msg.append("<h2>" + state + "</h2>");
+            msg.append("<h2>Waiting for: " + $("[data-playerid='" + turn + "']").attr("data-playername") + "</h2>");
             break;
         case "SPONSOR_QUEST":
-            msg.append("<h2>" + state + "</h2>");
+            msg.append("<h2>Waiting for: " + $("[data-playerid='" + turn + "']").attr("data-playername") + "</h2>");
             break;
         case "SPONSOR_SUBMIT":
-            msg.append("<h2>" + state + "</h2>");
+            msg.append("<h2>Sponsoring Quest: " + $("[data-playerid='" + turn + "']").attr("data-playername") + "</h2>");
             break;
         case "TOURNAMENT_STAGE":
             msg.append("<h2>" + state + "</h2>");
@@ -188,10 +187,12 @@ function executeState(data) {
             btn.append("<button onclick='nextState()'>End Turn</button>");
             break;
         case "SPONSOR_QUEST":
-            msg.append("<h2>" + state + "</h2>");
+            msg.append("<h2>Quest: " + $("[data-cardname]").attr("data-cardname") + "</h2>");
+            btn.append("<button onclick='decide(true)'>Sponsor?</button>");
+            btn.append("<button onclick='decide(false)'>Decline?</button>");
             break;
         case "SPONSOR_SUBMIT":
-            msg.append("<h2>" + state + "</h2>");
+            msg.append("<h2>Successfully Sponsored Quest! Build it now (not done yet).</h2>");
             break;
         case "TOURNAMENT_STAGE":
             msg.append("<h2>" + state + "</h2>");
@@ -246,6 +247,15 @@ function discardSelected() {
         contentType: "application/json",
         url: "/discardCards?id=" + parseInt(document.cookie.split("=")[1]),
         data: JSON.stringify(selected),
+        success: update_game
+    });
+}
+
+function decide(choice) {
+    $.ajax({
+        method:"POST",
+        url:"/decide",
+        data: {id: parseInt(document.cookie.split("=")[1]), choice: choice},
         success: update_game
     });
 }
