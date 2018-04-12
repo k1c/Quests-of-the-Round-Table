@@ -268,6 +268,8 @@ public class Strategy1 extends AbstractStrategyBehaviour{
 
         log.playerAction(ai, "Deciding whether to participate in quest");
 
+        isFirstRound = true;
+
         List<AdventureCard> allyList = new ArrayList<AdventureCard>();
         List<AdventureCard> weaponList = new ArrayList<AdventureCard>();
 
@@ -408,6 +410,7 @@ public class Strategy1 extends AbstractStrategyBehaviour{
                     }
                 }
             }
+
             isFirstRound = false;
             log.playerBid(ai,aiBids);
             return aiBids;
