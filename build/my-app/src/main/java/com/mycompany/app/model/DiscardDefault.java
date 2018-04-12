@@ -1,10 +1,9 @@
 
 package com.mycompany.app.model;
 
-import java.util.*;
-
-
 import com.mycompany.app.model.DataStructures.Cycle;
+
+import java.util.List;
 
 public class DiscardDefault extends DiscardState{
 	public DiscardDefault(DiscardState state){
@@ -16,14 +15,13 @@ public class DiscardDefault extends DiscardState{
 
 	public boolean discard(int playerId, List<Card> discards){
 		if (model.discard.current() != playerId) {
-			model.log.gameStateAction(model.state, "Incorrect Player", model.board.findPlayer(playerId));
+			model.log.gameStateAction(this.state, "Incorrect Player", model.board.findPlayer(playerId));
 			return false;
 		}
 
 		boolean valid = model.board.discardHand(playerId, discards);
-
 		if (!valid) {
-			model.log.gameStateAction(model.state, "Invalid Discard", model.board.findPlayer(playerId));
+			model.log.gameStateAction(this.state, "Invalid Discard", model.board.findPlayer(playerId));
 			return false;
 		}
 

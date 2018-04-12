@@ -12,11 +12,8 @@ h1 {
     text-align: center;
 }
 body {
-    background-image: url("../images/main-menu-bg.jpg");
-    background-repeat: no-repeat;
     background-size: cover;
-    background-position: center center;
-    background-attachment: fixed;
+    background: url("../images/main-menu-bg.jpg") no-repeat fixed center center;
 }
 
 /* SOURCE: https://gist.github.com/Munawwar/7926618 */
@@ -36,20 +33,6 @@ body {
     align-content: flex-start;
 }
 /*Stack child items horizontally*/
-.hbox {
-    display: -webkit-flex;
-    display: -ms-flexbox;
-    display: flex;
-
-    /*Align children horizontally*/
-    -webkit-flex-direction: row;
-    -ms-flex-direction: row;
-    flex-direction: row;
-
-    -webkit-align-content: flex-start;
-    -ms-flex-line-pack: start;
-    align-content: flex-start;
-}
 
 a {
     margin-bottom: 8px;
@@ -77,7 +60,7 @@ button {
     font-size:21px;
     padding:16px 30px;
     text-decoration:none;
-    text-shadow:0px 1px 0px #2f6627;
+    text-shadow:0 1px 0 #2f6627;
 }
 button:hover {
     background-color:#5cbf2a;

@@ -1,9 +1,6 @@
 body {
-    background-image: url("../images/bgtest.gif");
-    background-repeat: no-repeat;
     background-size: cover;
-    background-position: center center;
-    background-attachment: fixed;
+    background: url("../images/bgtest.gif") no-repeat fixed center center;
 }
 
 #current-player {
@@ -12,8 +9,37 @@ body {
     right: 5px;
 }
 
-table, th, td {
-    border: 1px solid white;
+#decks {
+    position: absolute;
+    top: 5px;
+    right: 5px;
+}
+
+#waiting-players {
+    position: absolute;
+    top: 0;
+    bottom:0;
+    right: 5px;
+    margin: auto;
+}
+
+#quest, #tournament {
+    position: absolute;
+    top: 5px;
+    left: 5px;
+}
+
+#console{
+    height: 210px;
+    width: 440px;
+    background:rgba(255,255,255,0.5);
+    position: absolute;
+    top :5px;
+    right: 325px;
+}
+
+td {
+    //border: 2px solid white;
 }
 
 img {
@@ -24,4 +50,22 @@ img {
 td{
     height: 200px;
     width: 146px;
+}
+
+table {
+    border-collapse: collapse;
+}
+.others-table {
+    vertical-align: top;
+}
+
+.other-players {
+    bottom: initial;
+}
+
+.other-players {
+    height: 100%;
+    bottom: initial;
+    margin: initial;
+    position: relative;
 }
