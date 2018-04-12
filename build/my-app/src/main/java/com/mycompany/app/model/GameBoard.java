@@ -1,13 +1,8 @@
 package com.mycompany.app.model;
 
-import java.lang.Math;
-import java.util.ArrayList;
-
 import com.mycompany.app.GameLogger;
-
 import com.mycompany.app.model.DataStructures.TwoDimensionalArrayList;
 
-import java.lang.*;
 import java.util.*;
 
 public class GameBoard extends AbstractGameBoard{
@@ -384,8 +379,7 @@ public class GameBoard extends AbstractGameBoard{
 
 	public boolean discardHand(int player, List<Card> hand){
 
-		Player p = findPlayer(player);	
-
+		Player p = findPlayer(player);
 		log.action("discardHand","",p);
 
 		boolean validHand   = true;
@@ -399,7 +393,6 @@ public class GameBoard extends AbstractGameBoard{
 		for(Card item: hand){
 			AdventureCard temp = findCard(p.hand,item);
 			if(temp == null) {
-				System.out.println("Discard false 1");
 				return false;
 			}
 			submittedCards.add(temp);
@@ -874,7 +867,7 @@ public class GameBoard extends AbstractGameBoard{
 	protected AdventureCard findCard(List<AdventureCard> list, Card card){
 		for(AdventureCard item : list){
 			Card temp = item;
-			if(card.equals(temp)){
+			if(card.isSame(temp)){
 				return item;		
 			}
 		}
@@ -893,6 +886,8 @@ public class GameBoard extends AbstractGameBoard{
 		return temp;
 	}
 	public Card getCurrentStoryCard(){
+		if (currentStory == null)
+			return null;
 		return ((Card)currentStory).instance();
 	}
 
