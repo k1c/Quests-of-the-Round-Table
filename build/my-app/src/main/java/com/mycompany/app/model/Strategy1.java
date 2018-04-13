@@ -123,6 +123,8 @@ public class Strategy1 extends AbstractStrategyBehaviour{
             }
         }
 
+        Collections.sort(foeList);
+
         if (foeList.size() == 0) {
             return false;
         }
@@ -169,6 +171,8 @@ public class Strategy1 extends AbstractStrategyBehaviour{
                 weaponList.add(ai.hand.get(i));
             }
         }
+
+        Collections.sort(foeList);
 
         Set<AdventureCard> uniqueWeapons = new TreeSet<AdventureCard>();
         uniqueWeapons.addAll(weaponList);
