@@ -39,7 +39,7 @@ public class GameStateQuestStageTest extends GameState{
 			model.log.gameStateAction(this,"Someone Has Won",model.board.findPlayer(id));
 			//this.state = GameStates.STAGE_END;
 			//changeState(GameStates.STAGE_END,this.participants.current());
-			model.gameState = new GameStateQuestStageEnd(this,model.participants.current());
+			model.gameState = new GameStateQuestStageEnd(this,model.questSponsor.current());
 		} else {
 			//changeState(GameStates.STAGE_TEST, this.participants.current());
 			model.gameState = new GameStateQuestStageTest(this,model.participants.current());
