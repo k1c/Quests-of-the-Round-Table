@@ -55,6 +55,9 @@ public class GameModel{
 		discardState = new DiscardNone(this);
 	}
 
+	public int getMaxBid(){
+		return board.maxBid();
+	}
 	public int getStageBp(){
 		return board.getCurrentQuestBP();
 	}
