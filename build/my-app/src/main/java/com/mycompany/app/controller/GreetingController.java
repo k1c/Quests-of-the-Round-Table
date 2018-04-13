@@ -1,13 +1,13 @@
 package com.mycompany.app.controller;
 
 
+import com.mycompany.app.GameLogger;
 import com.mycompany.app.model.Card;
 import com.mycompany.app.model.DataStructures.TwoDimensionalArrayList;
 import com.mycompany.app.model.GameModel;
 import com.mycompany.app.model.GameStates;
 import com.mycompany.app.model.GenericPlayer;
 import org.springframework.stereotype.Controller;
-import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.Cookie;
@@ -17,15 +17,9 @@ import java.util.List;
 
 @Controller
 public class GreetingController {
-
+    GameLogger log = GameLogger.getInstanceUsingDoubleLocking();
     private static GameModel gameModel;
     private int player_counter = 0;
-
-    @GetMapping("/greeting")
-    public String greeting(@RequestParam(name="name", required=false, defaultValue="World") String name, Model model) {
-        model.addAttribute("name", name);
-        return "greeting";
-    }
 
     @GetMapping("/newgame")
     public String newgame() {
@@ -34,6 +28,7 @@ public class GreetingController {
 
     @PostMapping("/newgame")
     public String newgame(@RequestParam(name="num_humans") int num_humans, @RequestParam(name="num_ai1") int num_ai1, @RequestParam(name="num_ai2") int num_ai2) {
+        log.debug("Creating new game");
         gameModel = new GameModel();
         String[] s = {"", "", "", ""};
         gameModel.initGame(num_humans, num_ai1, num_ai2, s);
@@ -69,6 +64,7 @@ public class GreetingController {
         List<GenericPlayer> ps = gameModel.getHumanPlayers();
         GenericPlayer p = gameModel.getHumanPlayers().get(player_counter);
         gameModel.setPlayerName(p.id(), name);
+        log.playerAction(p, "joined the game.");
         player_counter++;
         res.addCookie(new Cookie("id", p.id() + ""));
 	}
@@ -105,6 +101,7 @@ public class GreetingController {
 
     @GetMapping("/game")
     public String game() {
+        log.debug("Starting game for players.");
         return "game";
     }
 
