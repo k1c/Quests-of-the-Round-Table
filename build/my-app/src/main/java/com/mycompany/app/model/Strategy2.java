@@ -89,12 +89,12 @@ public class Strategy2 extends AbstractStrategyBehaviour{
 			}
 		}
 
-		if(canISetup2(board,ai) == false){
+		if (!canISetup2(board,ai)){
 			return false;
 		}
 
 		if (board.playerCanSponsor(ai.id)) {
-			return true;
+			return board.playerCanSponsor(ai.id);
 		}
 
 		return false;
@@ -118,6 +118,8 @@ public class Strategy2 extends AbstractStrategyBehaviour{
 		if (foeList.size() == 0) {
 			return false;
 		}
+
+		Collections.sort(foeList);
 
 		//set up last stage to be at least 50
 		int questStageBP = 0;
@@ -160,6 +162,8 @@ public class Strategy2 extends AbstractStrategyBehaviour{
 			}
 		}
 
+		Collections.sort(foeList);
+
 		Set<AdventureCard> uniqueWeapons = new TreeSet<AdventureCard>();
 		uniqueWeapons.addAll(weaponList);
 
@@ -171,7 +175,6 @@ public class Strategy2 extends AbstractStrategyBehaviour{
 		questStageBP += foeList.get(foeList.size() - 1).getBattlePoints(board);
 		stageN.add(foeList.get(foeList.size() - 1));
 		foeList.remove(foeList.get(foeList.size() - 1));
-		// TODO: change to 50
 		if(questStageBP < 40) {
 			for (int j = uw2.size() - 1; j > 0; j--) {
 				questStageBP += uw2.get(j).getBattlePoints(board);
@@ -231,11 +234,27 @@ public class Strategy2 extends AbstractStrategyBehaviour{
 		int numStages = board.getNumQuestCards();
 		List<AdventureCard> aiInHand = allPossibleCards(board,ai);
 
-		//C1
+
 		int counter = 0;
 		int currentBP = 0;
 		int previousBP = 0;
 
+		//C2
+		int foeCounter = 0;
+
+		for(int i = 0; i < ai.hand.size(); i++){
+			if (ai.hand.get(i).type == Card.Types.FOE){
+				if(ai.hand.get(i).getBattlePoints(board) < 25){
+					foeCounter++;
+					if(foeCounter == 2){
+						log.playerAction(ai,"has at least 2 foes of < 25 points");
+						return true;
+					}
+				}
+			}
+		}
+
+		//C1
 		for(int i = 0; i < aiInHand.size(); i++) {
 			if (aiInHand.get(i).getBattlePoints(board) >= 10) {
 				currentBP = aiInHand.get(i).getBattlePoints(board);
@@ -250,21 +269,6 @@ public class Strategy2 extends AbstractStrategyBehaviour{
 			}
 		}
 
-		//C2
-
-		int foeCounter = 0;
-
-		for(int i = 0; i < ai.hand.size(); i++){
-			if (ai.hand.get(i).type == Card.Types.FOE){
-				if(ai.hand.get(i).getBattlePoints(board) < 25){
-					foeCounter++;
-					if(foeCounter == 2){
-						log.playerAction(ai,"has at least 2 foes of < 25 points");
-						return true;
-					}
-				}
-			}
-		}
 		log.playerAction(ai, "cannot increment by 10 at each stage OR does not have at least 2 foes of < 25 points");
 		log.playerAction(ai, "cannot participate in quest");
 		return false;
@@ -282,7 +286,7 @@ public class Strategy2 extends AbstractStrategyBehaviour{
 		if (board.quest.get(board.getQuestIndex()).get(0).type == Card.Types.TEST){
 			return nextBid(board, ai);
 		} else if ((board.getQuestIndex() + 1) == board.getCurrentQuestStages()){
-			log.playerQuest(ai,allPossibleCards(board,ai)),"Adventure deck");
+			log.playerQuest(ai,toCards(allPossibleCards(board,ai)));
 			return toCards(allPossibleCards(board,ai));
 		} else {
 			List<AdventureCard> allPos = allPossibleCards(board,ai);
@@ -405,7 +409,7 @@ public class Strategy2 extends AbstractStrategyBehaviour{
 	 * ??? Discard Functionality I guess
 	 * Return Type : List<Card> to discard or put int play
 	 */
-/*	public List<Card> discardAfterWinningTest(GameBoard board, AbstractAI ai){
+	public List<Card> discardAfterWinningTest(GameBoard board, AbstractAI ai){
 
 		log.playerAction(ai, "Getting cards to discard after winning test");
 
@@ -453,6 +457,6 @@ public class Strategy2 extends AbstractStrategyBehaviour{
 		}
 		log.cardPlayed(ai,aiBids,"Adventure deck");
 		return aiBids;
-	}*/
+	}
 
 }
