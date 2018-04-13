@@ -50,13 +50,7 @@ function selectCard(c) {
 var x = 99;
 
 function focusCard(c) {
-
-
-
-
     $(c).css('z-index', x++);
-    // Get cards
-    //var cards = $('[data-type="hand"]');
 
     var parent = $(c).parent().children();
     var index = parent.index(c);
@@ -69,37 +63,6 @@ function focusCard(c) {
     }
     $(parent[index]).css('z-index',x++);
     $(c).css('border', 'solid 2px gold');
-
-
-
-
-
-
-	/*
-    $(c).css('z-index', x++);
-    // Get cards
-    var cards = $('[data-type="hand"]');
-
-    // Rearrage
-    var index = parseInt($(c).attr('data-id'));
-    var right = 0;
-    var left = cards.length - 1;
-
-    while (right !== left) {
-        if($(cards[right]).attr('data-id') !== $(c).attr('data-id')) {
-            $(cards[right]).css('z-index', x++);
-            right += 1;
-        }
-
-        if($(cards[left]).attr('data-id') !== $(c).attr('data-id')) {
-            $(cards[left]).css('z-index', x++);
-            left -= 1;
-        }
-    }
-
-    $(c).css('z-index', x++);
-    $(c).css('border', 'solid 2px gold');
-    */
 }
 
 function unfocusCard(c) {
