@@ -4,6 +4,7 @@ package com.mycompany.app.model;
 import com.mycompany.app.model.DataStructures.Cycle;
 
 import java.util.List;
+import java.util.stream.Collectors;
 
 public class DiscardDefault extends DiscardState{
 	public DiscardDefault(DiscardState state){
@@ -25,7 +26,14 @@ public class DiscardDefault extends DiscardState{
 			return false;
 		}
 
-		model.discard.removeCurrent();
+		int size = model.board.playersToDiscard()
+			.stream()
+			.filter(id -> id == playerId)
+			.collect(Collectors.toList()).size();
+
+		if(size <= 0){
+			model.discard.removeCurrent();
+		}
 
 		if (model.discard.size() <= 0){
 			model.discardState = new DiscardNone(this);
