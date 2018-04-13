@@ -50,6 +50,32 @@ function selectCard(c) {
 var x = 99;
 
 function focusCard(c) {
+
+
+
+
+    $(c).css('z-index', x++);
+    // Get cards
+    //var cards = $('[data-type="hand"]');
+
+    var parent = $(c).parent().children();
+    var index = parent.index(c);
+
+    for(var i = 0; i <= index; i++){
+		$(parent[i]).css('z-index',x++);
+    }
+    for(var i = parent.length;i>=index;i--){
+		$(parent[i]).css('z-index',x++);
+    }
+    $(parent[index]).css('z-index',x++);
+    $(c).css('border', 'solid 2px gold');
+
+
+
+
+
+
+	/*
     $(c).css('z-index', x++);
     // Get cards
     var cards = $('[data-type="hand"]');
@@ -73,6 +99,7 @@ function focusCard(c) {
 
     $(c).css('z-index', x++);
     $(c).css('border', 'solid 2px gold');
+    */
 }
 
 function unfocusCard(c) {
