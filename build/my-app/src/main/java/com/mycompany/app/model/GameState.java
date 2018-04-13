@@ -15,9 +15,9 @@ public abstract class GameState extends AbstractState {
 	public void newGame(GameBoard b){
 		model.board = b;
 		model.turn = 0;
+		model.players = model.board.getPlayerIds();
 		model.storyTurn = new Cycle<Integer>(model.players,0);
 		model.gameState = new GameStateTurn(this,model.storyTurn.current());
-		return;
 	}
 
 	public void newGame(int numHumans,int ai_type1,int ai_type2,String[] humanNames){

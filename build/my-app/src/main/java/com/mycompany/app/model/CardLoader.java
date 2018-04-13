@@ -113,6 +113,9 @@ public class CardLoader{
 		L.addAll(F.createCardList(StoryCardFactory.Types.CHIVALROUS_DEED, 1));
 		L.addAll(F.createCardList(StoryCardFactory.Types.BOAR_HUNT, 1));
 
+		System.out.println("RIG 1");
+		System.out.println(L);
+
 		return L;
 	}
 
