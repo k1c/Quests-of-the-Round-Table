@@ -5,7 +5,7 @@ public abstract class AbstractPlayer{
 	private static int idCount = 0;
 	public static enum Type  {Player,AI};
 
-	protected int id;
+	public final int id;
 	public Rank rank;
 	public String name;
 	public String shieldImage;
@@ -19,6 +19,13 @@ public abstract class AbstractPlayer{
 		idCount++;
 	}
 
+	protected AbstractPlayer(String name, String shieldImage, int id){
+		this.name = name;
+		this.shieldImage = shieldImage;
+		this.id = id;
+		this.rank = new Rank();
+
+	}
 
 	public int id(){
 		return this.id;
