@@ -41,6 +41,22 @@ public class GreetingController {
         return "lobby";
     }
 
+    @PostMapping("/scenarioOne")
+    public String scenarioOne() {
+        gameModel = new GameModel();
+        gameModel.rigGame1();
+        player_counter = 0;
+        return "lobby";
+    }
+
+    @PostMapping("/scenarioTwo")
+    public String scenarioTwo() {
+        gameModel = new GameModel();
+        gameModel.rigGame2();
+        player_counter = 0;
+        return "lobby";
+    }
+
     @GetMapping("/lobby")
     public String lobby(){
         return "lobby";
@@ -203,5 +219,17 @@ public class GreetingController {
         }
 
         return gameModel.quest(id, quest_setup);
+    }
+
+    @ResponseBody
+    @GetMapping("/getStageIndex")
+    public int getStageIndex() {
+        return gameModel.getStageIndex();
+    }
+
+    @ResponseBody
+    @GetMapping("/getStageCards")
+    public List<Card> getStageCards(@RequestParam(name="index") int index) {
+        return gameModel.questStage(index);
     }
 }

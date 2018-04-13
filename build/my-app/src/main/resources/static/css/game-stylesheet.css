@@ -8,7 +8,11 @@ body {
     bottom: 5px;
     right: 5px;
 }
-
+h2 {
+    z-index: 999999;
+    position: relative;
+    text-align: center;
+}
 #decks {
     position: absolute;
     top: 5px;
@@ -29,7 +33,7 @@ body {
 
 #waiting-players td img{
     position: absolute;
-    vertical-align: top;
+    top: 0;
 }
 
 #quest {

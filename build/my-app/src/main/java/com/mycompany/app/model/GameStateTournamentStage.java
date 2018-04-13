@@ -49,7 +49,7 @@ public class GameStateTournamentStage extends GameState{
 			/*
 			changeState(GameStates.TOURNAMENT_STAGE_END,id);
 			*/
-			model.gameState = new GameStateTournamentStageEnd(this,id);
+			model.gameState = new GameStateTournamentStageEnd(this,model.board.getParticipants().get(0));
 		} else {
 			//changeState(GameStates.TOURNAMENT_STAGE, this.participants.current());
 			model.gameState = new GameStateTournamentStage(this,model.participants.current());

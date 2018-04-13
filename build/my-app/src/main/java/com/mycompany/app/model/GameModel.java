@@ -75,7 +75,10 @@ public class GameModel{
 		gameState.newGame(numHumans,ai_type1,ai_type2,humanNames);	
 	}
 
-	public void rigGame1(){}
+	public void rigGame1(){
+		String[] names = {"P1","P2","P3","P4"};
+		gameState.newGame(4,0,0,names);	
+	}
 
 	public void rigGame2(){}
 

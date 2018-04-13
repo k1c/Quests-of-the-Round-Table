@@ -47,7 +47,7 @@ public class GameStateQuestParticipate extends GameState{
 			//this.state = GameStates.QUEST_END;	
 			model.log.gameStateAction(this,"Not Enough Players",model.board.findPlayer(player));
 			//changeState(GameStates.QUEST_END, currPlayer);
-			model.gameState = new GameStateQuestEnd(this,currPlayer);
+			model.gameState = new GameStateQuestEnd(this,model.questSponsor.current());
 		}
 		//else if(model.state != GameStates.QUEST_HANDLER) {
 		else{
