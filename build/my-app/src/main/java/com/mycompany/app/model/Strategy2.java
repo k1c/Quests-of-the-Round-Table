@@ -121,6 +121,9 @@ public class Strategy2 extends AbstractStrategyBehaviour{
 
 		Collections.sort(foeList);
 
+		removeDuplicates(foeList);
+		removeDuplicates(weaponList);
+
 		//set up last stage to be at least 50
 		int questStageBP = 0;
 		questStageBP += foeList.get(foeList.size() - 1).getBattlePoints(board);
@@ -164,11 +167,9 @@ public class Strategy2 extends AbstractStrategyBehaviour{
 
 		Collections.sort(foeList);
 
-		Set<AdventureCard> uniqueWeapons = new TreeSet<AdventureCard>();
-		uniqueWeapons.addAll(weaponList);
+		removeDuplicates(foeList);
+		removeDuplicates(weaponList);
 
-		ArrayList<AdventureCard> uw2 = new ArrayList<AdventureCard>();
-		uw2.addAll(uniqueWeapons);
 		//set up last stage to be at least 40
 		int questStageBP = 0;
 		ArrayList<Card> stageN = new ArrayList<Card>();
@@ -176,9 +177,9 @@ public class Strategy2 extends AbstractStrategyBehaviour{
 		stageN.add(foeList.get(foeList.size() - 1));
 		foeList.remove(foeList.get(foeList.size() - 1));
 		if(questStageBP < 40) {
-			for (int j = uw2.size() - 1; j > 0; j--) {
-				questStageBP += uw2.get(j).getBattlePoints(board);
-				stageN.add(uw2.get(j));
+			for (int j = weaponList.size() - 1; j > 0; j--) {
+				questStageBP += weaponList.get(j).getBattlePoints(board);
+				stageN.add(weaponList.get(j));
 				if (questStageBP >= 40) {
 					break;
 				}

@@ -64,23 +64,23 @@ public abstract class AbstractStrategyBehaviour {
     HELPERS
      */
 
-    protected List<AdventureCard> allPossibleCards(GameBoard board, AbstractAI ai){
+    protected List<AdventureCard> allPossibleCards(GameBoard board, AbstractAI ai) {
 
         Set<AdventureCard> set = new TreeSet();
         List<AdventureCard> temp = new ArrayList();
 
         boolean amourInPlay = false;
 
-        amourInPlay = board.cardListHas(ai.inPlay,Card.Types.AMOUR);
+        amourInPlay = board.cardListHas(ai.inPlay, Card.Types.AMOUR);
 
-        for(AdventureCard item : ai.hand){
-            if (item.type == Card.Types.ALLY){
+        for (AdventureCard item : ai.hand) {
+            if (item.type == Card.Types.ALLY) {
                 set.add(item);
             }
-            if (item.type == Card.Types.WEAPON){
+            if (item.type == Card.Types.WEAPON) {
                 set.add(item);
             }
-            if(item.type == Card.Types.AMOUR && !amourInPlay){
+            if (item.type == Card.Types.AMOUR && !amourInPlay) {
                 set.add(item);
                 amourInPlay = true;
             }
@@ -92,11 +92,20 @@ public abstract class AbstractStrategyBehaviour {
         return temp;
     }
 
-    protected List<Card> toCards(List<AdventureCard> adventureCards){
+    protected List<Card> toCards(List<AdventureCard> adventureCards) {
         List<Card> cards = new ArrayList<Card>();
         cards.addAll(adventureCards);
         return cards;
     }
 
+    protected ArrayList<AdventureCard> removeDuplicates(ArrayList<AdventureCard> ac) {
+
+        Set<AdventureCard> uniqueElements = new TreeSet<AdventureCard>();
+        uniqueElements.addAll(ac);
+
+        ArrayList<AdventureCard> ue2 = new ArrayList<AdventureCard>();
+        ue2.addAll(uniqueElements);
+        return ue2;
+    }
 
 }
