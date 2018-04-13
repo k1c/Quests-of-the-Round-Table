@@ -101,8 +101,16 @@ public class CardLoader{
 		StoryCardFactory F = new StoryCardFactory();
 		List<StoryCard> L = new ArrayList<StoryCard>();
 
-		L.addAll(F.createCardList(StoryCardFactory.Types.CHIVALROUS_DEED, 1));
+
+
+		L.addAll(F.createCardList(StoryCardFactory.Types.COURT_CALLED_TO_CAMELOT, 1));
+		L.addAll(F.createCardList(StoryCardFactory.Types.QUEENS_FAVOR, 1));
+		L.addAll(F.createCardList(StoryCardFactory.Types.PLAGUE, 1));
+		L.addAll(F.createCardList(StoryCardFactory.Types.POX, 1));
+		L.addAll(F.createCardList(StoryCardFactory.Types.BOAR_HUNT, 1));
+		L.addAll(F.createCardList(StoryCardFactory.Types.KINGS_RECOGNITION, 1));
 		L.addAll(F.createCardList(StoryCardFactory.Types.PROSPERITY_THROUGHOUT_THE_REALM, 1));
+		L.addAll(F.createCardList(StoryCardFactory.Types.CHIVALROUS_DEED, 1));
 		L.addAll(F.createCardList(StoryCardFactory.Types.BOAR_HUNT, 1));
 
 		return L;

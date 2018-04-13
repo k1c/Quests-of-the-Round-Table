@@ -22,19 +22,33 @@ public class RiggedGameModel{
 		p1.hand.add(F.createCard(AdventureCardFactory.Types.BOAR));
 		p1.hand.add(F.createCard(AdventureCardFactory.Types.DAGGER));
 		p1.hand.add(F.createCard(AdventureCardFactory.Types.SWORD));
+		p1.hand.add(F.createCard(AdventureCardFactory.Types.TEST_OF_THE_QUESTING_BEAST));
+		p1.hand.add(F.createCard(AdventureCardFactory.Types.SIR_GALAHAD));
+		p1.hand.add(F.createCard(AdventureCardFactory.Types.SIR_LANCELOT));
+		p1.hand.add(F.createCard(AdventureCardFactory.Types.QUEEN_ISEULT));
 
 		HumanPlayer p2 = new HumanPlayer("Player 2", "Shield Green.png");
 		p2.hand.add(F.createCard(AdventureCardFactory.Types.DAGGER));
+		p2.hand.add(F.createCard(AdventureCardFactory.Types.ROBBER_KNIGHT));
+		p2.hand.add(F.createCard(AdventureCardFactory.Types.THIEVES));
+		p2.hand.add(F.createCard(AdventureCardFactory.Types.TEST_OF_MORGAN_LE_FAY));
+		p2.hand.add(F.createCard(AdventureCardFactory.Types.KING_ARTHUR));
+		p2.hand.add(F.createCard(AdventureCardFactory.Types.SIR_TRISTAN));
+		p2.hand.add(F.createCard(AdventureCardFactory.Types.MERLIN));
 
 		HumanPlayer p3 = new HumanPlayer("Player 3", "Shield Red.png");
 		p3.hand.add(F.createCard(AdventureCardFactory.Types.HORSE));
 		p3.hand.add(F.createCard(AdventureCardFactory.Types.EXCALIBUR));
 		p3.hand.add(F.createCard(AdventureCardFactory.Types.AMOUR));
+		p3.hand.add(F.createCard(AdventureCardFactory.Types.KING_PELLINORE));
+		p3.hand.add(F.createCard(AdventureCardFactory.Types.SIR_GAWAIN));
 
 		HumanPlayer p4 = new HumanPlayer("Player 4", "Shield Purple.png");
 		p4.hand.add(F.createCard(AdventureCardFactory.Types.BATTLE_AX));
 		p4.hand.add(F.createCard(AdventureCardFactory.Types.LANCE));
 		p4.hand.add(F.createCard(AdventureCardFactory.Types.THIEVES));
+		p4.hand.add(F.createCard(AdventureCardFactory.Types.SIR_PERCIVAL));
+		p4.hand.add(F.createCard(AdventureCardFactory.Types.QUEEN_GUINEVERE));
 
 		humans.add(p1);
 		humans.add(p2);
