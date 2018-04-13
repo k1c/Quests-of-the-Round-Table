@@ -127,7 +127,7 @@ public class Strategy1 extends AbstractStrategyBehaviour{
 
         removeDuplicates(foeList);
 
-        removeDuplicate(weaponList);
+        removeDuplicates(weaponList);
 
         if (foeList.size() == 0) {
             return false;
@@ -180,7 +180,7 @@ public class Strategy1 extends AbstractStrategyBehaviour{
 
         removeDuplicates(foeList);
 
-        removeDuplicate(weaponList);
+        removeDuplicates(weaponList);
 
         //set up last stage to be at least 50
         questStageBP += foeList.get(foeList.size() - 1).getBattlePoints(board);
