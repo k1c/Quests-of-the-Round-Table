@@ -204,4 +204,16 @@ public class GreetingController {
 
         return gameModel.quest(id, quest_setup);
     }
+
+    @ResponseBody
+    @GetMapping("/getStageIndex")
+    public int getStageIndex() {
+        return gameModel.getStageIndex();
+    }
+
+    @ResponseBody
+    @GetMapping("/getStageCards")
+    public List<Card> getStageCards(@RequestParam(name="index") int index) {
+        return gameModel.questStage(index);
+    }
 }
