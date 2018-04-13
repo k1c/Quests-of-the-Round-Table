@@ -35,6 +35,16 @@ public class Card implements Comparable<Card>{
 		}
 	}
 
+	@Override
+	public boolean equals(Object o){
+		return this.id == ((Card)o).id;
+	}
+
+	@Override
+	public int hashCode(){
+		return this.id;
+	}
+
 	public boolean isSame(Card card) {
 		return this.id == card.id;
 	}

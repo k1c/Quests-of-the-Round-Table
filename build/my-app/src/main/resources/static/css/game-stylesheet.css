@@ -23,10 +23,28 @@ body {
     margin: auto;
 }
 
-#quest, #tournament {
+#waiting-players td {
+    position: relative;
+}
+
+#waiting-players td img{
     position: absolute;
+    vertical-align: top;
+}
+
+#quest {
+    visibility: hidden;
     top: 5px;
     left: 5px;
+}
+
+#quest td {
+    position: relative;
+    vertical-align: top;
+}
+
+#quest td img {
+    position: absolute;
 }
 
 #console{
@@ -39,7 +57,7 @@ body {
 }
 
 td {
-    //border: 2px solid white;
+    border: 2px solid white;
 }
 
 img {
@@ -54,18 +72,4 @@ td{
 
 table {
     border-collapse: collapse;
-}
-.others-table {
-    vertical-align: top;
-}
-
-.other-players {
-    bottom: initial;
-}
-
-.other-players {
-    height: 100%;
-    bottom: initial;
-    margin: initial;
-    position: relative;
 }
