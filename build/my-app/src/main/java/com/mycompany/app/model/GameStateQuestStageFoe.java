@@ -1,7 +1,7 @@
 package com.mycompany.app.model;
-import java.util.*;
-
 import com.mycompany.app.model.DataStructures.TwoDimensionalArrayList;
+
+import java.util.List;
 
 public class GameStateQuestStageFoe extends GameState{
 	public  GameStateQuestStageFoe (GameState state,int currentPlayer){
@@ -44,7 +44,7 @@ public class GameStateQuestStageFoe extends GameState{
 			//this.state = GameStates.STAGE_END;
 		} else {
 		    //changeState(GameStates.STAGE_FOE, this.participants.current());
-		    model.gameState = new GameStateQuestStageFoe(this,playerID);
+		    model.gameState = new GameStateQuestStageFoe(this,model.participants.current());
 		}
 
 		return true;
