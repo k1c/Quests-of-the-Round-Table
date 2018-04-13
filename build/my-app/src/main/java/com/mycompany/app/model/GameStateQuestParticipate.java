@@ -41,7 +41,7 @@ public class GameStateQuestParticipate extends GameState{
 			//this.state = GameStates.QUEST_HANDLER;
 			model.log.gameStateAction(this,"Starting Quest",model.board.findPlayer(player));
 			//changeState(GameStates.QUEST_HANDLER, currPlayer);
-			model.gameState = new GameStateQuestStageStart(this,currPlayer);
+			model.gameState = new GameStateQuestStageStart(this,model.questSponsor.current());
 		}
 		else if(model.participants.size() <= 0 && model.board.getParticipants().size() <= 0){
 			//this.state = GameStates.QUEST_END;	

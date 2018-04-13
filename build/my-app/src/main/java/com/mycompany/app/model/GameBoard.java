@@ -412,7 +412,10 @@ public class GameBoard extends AbstractGameBoard{
 		}
 
 		for(AdventureCard card : submittedCards){
+			log.action("discardHand","Removing : ", card);
+			log.action("discardHand","TEMP B    : ", tempPlayerHand);
 			validHand = validHand && tempPlayerHand.remove(card);
+			log.action("discardHand","TEMP A   : ", tempPlayerHand);
 			if(card.type == Card.Types.ALLY){
 				allies.add(card);
 			}
@@ -425,6 +428,7 @@ public class GameBoard extends AbstractGameBoard{
 
 		 if(!validHand) {
 			log.action("discardHand","Invalid Submitted Hand",p);
+			log.action("discardHand","Invalid Submitted Hand",hand);
 			 return false;
 		 }
 		
