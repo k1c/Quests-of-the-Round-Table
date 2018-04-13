@@ -733,6 +733,16 @@ public class GameBoard extends AbstractGameBoard{
 		return sum;
 	}
 
+	public int maxBid(){
+
+		int max = 0;
+		for(Player participant : participants){
+			max = Math.max(max,totalPlayerBids(participant));
+		}
+		return max;
+	}
+
+
 	protected boolean maxBidder(Player p){
 		int max = 0;
 		for(Player player : players){
