@@ -8,6 +8,7 @@ import com.mycompany.app.model.GameModel;
 import com.mycompany.app.model.GameStates;
 import com.mycompany.app.model.GenericPlayer;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.Cookie;
@@ -20,6 +21,12 @@ public class GreetingController {
     GameLogger log = GameLogger.getInstanceUsingDoubleLocking();
     private static GameModel gameModel;
     private int player_counter = 0;
+
+    @GetMapping("/greeting")
+    public String greeting(@RequestParam(name="name", required=false, defaultValue="World") String name, Model model) {
+        model.addAttribute("name", name);
+        return "greeting";
+    }
 
     @GetMapping("/newgame")
     public String newgame() {

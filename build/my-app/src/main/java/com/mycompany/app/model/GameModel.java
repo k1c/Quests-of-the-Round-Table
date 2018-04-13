@@ -5,6 +5,7 @@ import com.mycompany.app.GameLogger;
 import com.mycompany.app.model.DataStructures.Cycle;
 import com.mycompany.app.model.DataStructures.TwoDimensionalArrayList;
 import com.mycompany.app.model.Interfaces.GameObserver;
+import com.mycompany.app.model.Rigging.*;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -79,8 +80,7 @@ public class GameModel{
 	}
 
 	public void rigGame1(){
-		String[] names = {"P1","P2","P3","P4"};
-		gameState.newGame(4,0,0,names);	
+		gameState.newGame(RiggedGameModel.rig1());	
 	}
 
 	public void rigGame2(){}
