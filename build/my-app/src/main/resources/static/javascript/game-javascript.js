@@ -366,6 +366,7 @@ function current_player() {
         url: "/currentplayer",
         data: {id: parseInt(document.cookie.split("=")[1])},
         success: function(player) {
+            console.log(player);
             $("#current-player").attr("data-playername", player.name);
 
             var hand = player.hand;
@@ -382,6 +383,7 @@ function current_player() {
 
             $('[data-id="0"]').append('<img src="images/' + player.rank.path +'" />');
             $('[data-id="1"]').append('<img style="height: 80%; top:0;" src="images/' + player.shieldImage +'" />');
+            $('[data-id="1"]').append('<h2 style="color: white;">Shields: ' + player.rank.shields + '</h2>')
             var cell = $('[data-id="2"]');
 
             cell.attr("colspan", handSpan);
@@ -398,6 +400,25 @@ function current_player() {
                     'style="transform: translateX(' + -i*X_OFFSET + 'px);" ' +
                     'src="images/' + hand[i].res +'" />');
             }
+
+            cell = $('[data-id=' + (4+handSpan) + ']');
+
+            cell.attr("colspan", inplaySpan);
+
+            for (i = 0; i < inplay.length; i++) {
+                cell.append('<img ' +
+                    'data-type="inplay" ' +
+                    'data-id="' + i + '" ' +
+                    'data-cardid="' + inplay[i].id + '" ' +
+                    'onmouseover="focusCard(this)" ' +
+                    'onmouseleave="unfocusCard(this)" ' +
+                    'style="transform: translateX(' + -i*X_OFFSET + 'px);" ' +
+                    'src="images/' + inplay[i].res +'" />');
+            }
+
+            cell = $('[data-id=' + (numCol - 1) + ']');
+            cell.append("<h2 style='color: white'>Battle Points: " + player.totalBattlePoints + "</h2>");
+
         }
     });
 }
@@ -439,20 +460,36 @@ function waiting_players() {
             for (i = 0; i < players.length; i++) {
                 playerRow = $('[data-id="1"]', '[data-playerid=' + players[i].id + ']', "#waiting-players");
                 playerRow.append('<img style="height: 80%;" src="images/' + players[i].shieldImage + '"/>');
+                playerRow.append('<h2 style="color: white">Shields: ' + players[i].rank.shields + '</h2>')
             }
 
             for (i = 0; i < players.length; i++) {
                 playerRow = $('[data-id="2"]', '[data-playerid=' + players[i].id + ']', "#waiting-players");
                 playerRow.append('<img src="images/A Back.jpg"/>');
+                playerRow.append('<h2 style="color: white">Count: ' + players[i].hand.length + '</h2>');
             }
 
             if(max > 0) {
-                // do inPlay
+                for (i = 0; i < players.length; i++) {
+                    playerRow = $('[data-id="3"]', '[data-playerid=' + players[i].id + ']', "#waiting-players");
+                    playerRow.attr("colspan", inplaySpan);
+                    var inplay = players[i].inPlay;
+                    for (var j = 0; j < inplay.length; j++) {
+                        playerRow.append('<img ' +
+                            'data-type="inplay" ' +
+                            'data-id="' + j + '" ' +
+                            'data-cardid="' + inplay[j].id + '" ' +
+                            'onmouseover="focusCard(this)" ' +
+                            'onmouseleave="unfocusCard(this)" ' +
+                            'style="transform: translateX(' + -j*X_OFFSET + 'px);" ' +
+                            'src="images/' + inplay[j].res +'" />');
+                    }
+                }
             }
 
             for (i = 0; i < players.length; i++) {
-                playerRow = $('[data-id="' + (max + 1 + 3) + '"]', '[data-playerid=' + players[i].id + ']', "#waiting-players");
-                playerRow.append('<img style="height: 60%;" src="images/Battle_Points.png"/>');
+                playerRow = $('[data-id="' + (numCol - 1) + '"]', '[data-playerid=' + players[i].id + ']', "#waiting-players");
+                playerRow.append('<h2 style="color: white">Battle Points: ' + players[i].totalBattlePoints + '</h2>');
             }
         }
     });
