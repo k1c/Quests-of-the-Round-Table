@@ -282,7 +282,7 @@ public class Strategy2 extends AbstractStrategyBehaviour{
 		if (board.quest.get(board.getQuestIndex()).get(0).type == Card.Types.TEST){
 			return nextBid(board, ai);
 		} else if ((board.getQuestIndex() + 1) == board.getCurrentQuestStages()){
-			log.playerCard(ai,toCards(allPossibleCards(board,ai)),"Adventure deck");
+			log.playerQuest(ai,allPossibleCards(board,ai)),"Adventure deck");
 			return toCards(allPossibleCards(board,ai));
 		} else {
 			List<AdventureCard> allPos = allPossibleCards(board,ai);
@@ -341,14 +341,14 @@ public class Strategy2 extends AbstractStrategyBehaviour{
 		log.playerAction(ai, "Getting cards to bid in test");
 
 
-		List<Player> players = board.getParticipantPlayers();
+		List<Player> players = board.getParticipantPlayers();   //make this a helper function for both AI strategies
 		int currentMax = 0;
 
 		for(Player p: players){
 			if (board.totalPlayerBids(p) > currentMax){
 				currentMax = board.totalPlayerBids(p);
 			}
-		}
+		}														//end max helper function
 
 		List<Card> aiBids = new ArrayList<Card>();
 		if(counter%2==0) {
@@ -375,7 +375,7 @@ public class Strategy2 extends AbstractStrategyBehaviour{
 				}
 			}
 
-			Map<Card, Integer> cardDuplicates = new HashMap<Card, Integer>();
+			Map<Card, Integer> cardDuplicates = new HashMap<Card, Integer>(); //make this a helper function for both AI strategies
 			for (int i = 0; i < tempAIHand.size(); i++) {
 				if (cardDuplicates.get(tempAIHand.get(i)) != null) {
 					cardDuplicates.put(tempAIHand.get(i), cardDuplicates.get(tempAIHand.get(i)) + 1);
@@ -388,7 +388,7 @@ public class Strategy2 extends AbstractStrategyBehaviour{
 				if (entry.getValue() > 1) {
 					aiBids.add(entry.getKey());
 				}
-			}
+			}  //end cardDuplicates helper function
 			counter++;
 			//isFirstRound = true;
 		}
@@ -405,7 +405,7 @@ public class Strategy2 extends AbstractStrategyBehaviour{
 	 * ??? Discard Functionality I guess
 	 * Return Type : List<Card> to discard or put int play
 	 */
-	public List<Card> discardAfterWinningTest(GameBoard board, AbstractAI ai){
+/*	public List<Card> discardAfterWinningTest(GameBoard board, AbstractAI ai){
 
 		log.playerAction(ai, "Getting cards to discard after winning test");
 
@@ -453,6 +453,6 @@ public class Strategy2 extends AbstractStrategyBehaviour{
 		}
 		log.cardPlayed(ai,aiBids,"Adventure deck");
 		return aiBids;
-	}
+	}*/
 
 }
