@@ -1,6 +1,7 @@
 package com.mycompany.app.controller;
 
 
+import com.mycompany.app.GameLogger;
 import com.mycompany.app.model.Card;
 import com.mycompany.app.model.DataStructures.TwoDimensionalArrayList;
 import com.mycompany.app.model.GameModel;
@@ -17,26 +18,24 @@ import java.util.List;
 
 @Controller
 public class GreetingController {
-
+    GameLogger log = GameLogger.getInstanceUsingDoubleLocking();
     private static GameModel gameModel;
     private int player_counter = 0;
 
-    //done
     @GetMapping("/greeting")
     public String greeting(@RequestParam(name="name", required=false, defaultValue="World") String name, Model model) {
         model.addAttribute("name", name);
         return "greeting";
     }
 
-    //done
     @GetMapping("/newgame")
     public String newgame() {
         return "newgame";
     }
 
-    //done
     @PostMapping("/newgame")
     public String newgame(@RequestParam(name="num_humans") int num_humans, @RequestParam(name="num_ai1") int num_ai1, @RequestParam(name="num_ai2") int num_ai2) {
+        log.debug("Creating new game");
         gameModel = new GameModel();
         String[] s = {"", "", "", ""};
         gameModel.initGame(num_humans, num_ai1, num_ai2, s);
@@ -44,7 +43,6 @@ public class GreetingController {
         return "lobby";
     }
 
-    //need
     @PostMapping("/scenarioOne")
     public String scenarioOne() {
         gameModel = new GameModel();
@@ -53,7 +51,6 @@ public class GreetingController {
         return "lobby";
     }
 
-    //need
     @PostMapping("/scenarioTwo")
     public String scenarioTwo() {
         gameModel = new GameModel();
@@ -62,13 +59,11 @@ public class GreetingController {
         return "lobby";
     }
 
-    //done
     @GetMapping("/lobby")
     public String lobby(){
         return "lobby";
     }
 
-    //done
     @ResponseBody
     @PostMapping("/namesubmit")
     public void namesubmit(@RequestParam(name="name") String name, HttpServletResponse res){
@@ -76,12 +71,12 @@ public class GreetingController {
         List<GenericPlayer> ps = gameModel.getHumanPlayers();
         GenericPlayer p = gameModel.getHumanPlayers().get(player_counter);
         gameModel.setPlayerName(p.id(), name);
+        log.playerAction(p, "joined the game.");
         player_counter++;
         res.addCookie(new Cookie("id", p.id() + ""));
 	}
     }
 
-    //done
     @ResponseBody
     @GetMapping("/waiting")
     public List<GenericPlayer> waiting() {
@@ -95,7 +90,6 @@ public class GreetingController {
 	}
     }
 
-    //done
     @ResponseBody
     @GetMapping("/currentplayer")
     public GenericPlayer currentPlayer(@RequestParam(name="id") int id){
@@ -104,7 +98,6 @@ public class GreetingController {
 	}
     }
 
-    //done
     @ResponseBody
     @GetMapping("/waitingplayers")
     public List<GenericPlayer> waitingplayers(@RequestParam(name="id") int id){
@@ -115,10 +108,10 @@ public class GreetingController {
 
     @GetMapping("/game")
     public String game() {
+        log.debug("Starting game for players.");
         return "game";
     }
-    
-    //need to do
+
     @ResponseBody
     @GetMapping("/checkready")
     public boolean checkready() {
@@ -127,7 +120,6 @@ public class GreetingController {
 	}
     }
 
-    //need to do
     @ResponseBody
     @GetMapping("/currentturn")
     public int currentturn() {
@@ -135,8 +127,6 @@ public class GreetingController {
         return gameModel.getCurrentPlayer().id();
 	    }
     }
-
-    //done
     @ResponseBody
     @GetMapping("/state")
     public GameStates state() {
@@ -145,7 +135,6 @@ public class GreetingController {
 	    }
     }
 
-    //done
     @ResponseBody
     @GetMapping("/storyCard")
     public Card storyCard() {
@@ -154,7 +143,6 @@ public class GreetingController {
 	    }
     }
 
-    //done
     @ResponseBody
     @GetMapping("/nextState")
     public void nextState(){
@@ -163,7 +151,6 @@ public class GreetingController {
 	    }
     }
 
-    //done
     @ResponseBody
     @PostMapping("/discardCards")
     public void discardCards(@RequestBody int[] cards, @RequestParam(name="id") int id) {
@@ -178,7 +165,6 @@ public class GreetingController {
         }
     }
 
-    //need to do
     @ResponseBody
     @PostMapping("/playCards")
     public void playCards(@RequestBody int[] cards, @RequestParam(name="id") int id) {
@@ -193,7 +179,6 @@ public class GreetingController {
         }
     }
 
-    //need to do
     @ResponseBody
     @GetMapping("/checkUpdate")
     public int checkUpdate() {
@@ -203,7 +188,6 @@ public class GreetingController {
 	    }
     }
 
-    //need to do
     @ResponseBody
     @PostMapping("/decide")
     public void decide(@RequestParam(name="id") int id, @RequestParam(name="choice") boolean choice) {
@@ -212,7 +196,6 @@ public class GreetingController {
         }
     }
 
-    //need to do
     @ResponseBody
     @GetMapping("/questInfo")
     public int questInfo() {
@@ -221,7 +204,6 @@ public class GreetingController {
         }
     }
 
-    //need to do
     @ResponseBody
     @PostMapping("/submitQuest")
     public boolean submitQuest(@RequestBody int[][] cards, @RequestParam(name="id") int id) {
@@ -243,14 +225,12 @@ public class GreetingController {
         return gameModel.quest(id, quest_setup);
     }
 
-    //need to do
     @ResponseBody
     @GetMapping("/getStageIndex")
     public int getStageIndex() {
         return gameModel.getStageIndex();
     }
 
-    //need to do
     @ResponseBody
     @GetMapping("/getStageCards")
     public List<Card> getStageCards(@RequestParam(name="index") int index) {

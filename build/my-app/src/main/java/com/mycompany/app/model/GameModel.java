@@ -468,7 +468,7 @@ public class GameModel{
 				case STAGE_TEST:
 					log.gameStateAction(state,"Bidding",ai);
 
-					// if the AI cannot id more, then give up
+					// if the AI cannot bid more, then give up
 					/*
 					if(!stageTest(ai.id(),ai.nextBid(this.board))){
 						testGiveUp(ai.id());
