@@ -36,7 +36,7 @@ public class GameStateParticipateTournament extends GameState{
 			/*
 			changeState(GameStates.TOURNAMENT_HANDLER,currentPlayer);
 			*/
-			model.gameState = new GameStateTournamentStageStart(this,currentPlayer);
+			model.gameState = new GameStateTournamentStageStart(this,model.board.getParticipants().get(0));
 		}
 		else if(model.participants.size() <= 0 && model.board.getParticipants().size() <= 0){
 			model.log.gameStateAction(this,"Not Enough Participants",model.board.findPlayer(playerId));
