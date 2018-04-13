@@ -425,6 +425,7 @@ public class GameBoard extends AbstractGameBoard{
 
 		 if(!validHand) {
 			log.action("discardHand","Invalid Submitted Hand",p);
+			log.action("discardHand","Invalid Submitted Hand",hand);
 			 return false;
 		 }
 		

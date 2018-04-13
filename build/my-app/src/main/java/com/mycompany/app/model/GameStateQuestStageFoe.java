@@ -40,7 +40,7 @@ public class GameStateQuestStageFoe extends GameState{
 		if(model.participants.size() <= 0 ){
 			model.log.gameStateAction(this,"last participant",model.board.findPlayer(playerID));
 			//changeState(GameStates.STAGE_END,playerID);
-			model.gameState = new GameStateQuestStageEnd(this,playerID);
+			model.gameState = new GameStateQuestStageEnd(this,model.questSponsor.current());
 			//this.state = GameStates.STAGE_END;
 		} else {
 		    //changeState(GameStates.STAGE_FOE, this.participants.current());
