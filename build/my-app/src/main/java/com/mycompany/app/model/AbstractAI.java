@@ -2,6 +2,7 @@ package com.mycompany.app.model;
 import com.mycompany.app.model.DataStructures.TwoDimensionalArrayList;
 
 import java.util.List;
+import java.util.ArrayList;
 
 public abstract class AbstractAI extends Player{
 
@@ -80,5 +81,13 @@ public abstract class AbstractAI extends Player{
 	 */
 	public List<Card> discardAfterWinningTest(GameBoard board){
 		return behaviour.discardAfterWinningTest(board,this);
+	}
+
+	public List<Card> discard(GameBoard board){
+		List<Card> temp = new ArrayList<Card>();
+		for(int i = 0; i <this.hand.size()-12; i++){
+			temp.add(this.hand.get(i));	
+		}
+		return temp;
 	}
 }

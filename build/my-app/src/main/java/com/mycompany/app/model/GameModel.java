@@ -539,6 +539,9 @@ public class GameModel{
 					//endTurn();
 					this.gameState.next();
 					break;
+				case DISCARD:
+					log.gameStateAction(state,"Discard",ai);
+					this.discardState.discard(ai.id(),ai.discard(this.board));
 			}
 			this.updateObservers();
 		}
