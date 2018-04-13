@@ -2,6 +2,7 @@ package com.mycompany.app.controller;
 
 
 import com.mycompany.app.model.Card;
+import com.mycompany.app.model.DataStructures.TwoDimensionalArrayList;
 import com.mycompany.app.model.GameModel;
 import com.mycompany.app.model.GameStates;
 import com.mycompany.app.model.GenericPlayer;
@@ -145,6 +146,20 @@ public class GreetingController {
     }
 
     @ResponseBody
+    @PostMapping("/playCards")
+    public void playCards(@RequestBody int[] cards, @RequestParam(name="id") int id) {
+        synchronized (gameModel) {
+            List<Integer> ids = new ArrayList<>();
+            for (int i : cards) {
+                ids.add(i);
+            }
+            List<Card> converted = gameModel.convertAdventureIds(ids);
+
+            gameModel.play(id, converted);
+        }
+    }
+
+    @ResponseBody
     @GetMapping("/checkUpdate")
     public int checkUpdate() {
 	    synchronized(gameModel){
@@ -159,5 +174,34 @@ public class GreetingController {
         synchronized (gameModel) {
             gameModel.decision(id, choice);
         }
+    }
+
+    @ResponseBody
+    @GetMapping("/questInfo")
+    public int questInfo() {
+        synchronized (gameModel){
+            return gameModel.getNumberOfStages();
+        }
+    }
+
+    @ResponseBody
+    @PostMapping("/submitQuest")
+    public boolean submitQuest(@RequestBody int[][] cards, @RequestParam(name="id") int id) {
+        TwoDimensionalArrayList<Card> quest_setup = new TwoDimensionalArrayList<>();
+
+        for (int i = 0; i < cards.length; i++) {
+            List<Integer> ids = new ArrayList<>();
+            for (int c : cards[i]) {
+                ids.add(c);
+            }
+
+            List<Card> converted = gameModel.convertAdventureIds(ids);
+
+            for (Card c : converted) {
+                quest_setup.addToInnerArray(i, c);
+            }
+        }
+
+        return gameModel.quest(id, quest_setup);
     }
 }

@@ -5,6 +5,12 @@ On game load, display:
 3) decks
 4) console
  */
+
+var WIDTH = 200;
+var X_OFFSET = WIDTH/3;
+var questStages = -1;
+var isQuest = false;
+
 $(document).ready(function() {
     // TODO: Periodically check for changes (flicker?).
     // ^ update everyone instead of just one
@@ -45,27 +51,17 @@ var x = 99;
 
 function focusCard(c) {
     $(c).css('z-index', x++);
-    // Get cards
-    var cards = $('[data-type="hand"]');
 
-    // Rearrage
-    var index = parseInt($(c).attr('data-id'));
-    var right = 0;
-    var left = cards.length - 1;
+    var parent = $(c).parent().children();
+    var index = parent.index(c);
 
-    while (right !== left) {
-        if($(cards[right]).attr('data-id') !== $(c).attr('data-id')) {
-            $(cards[right]).css('z-index', x++);
-            right += 1;
-        }
-
-        if($(cards[left]).attr('data-id') !== $(c).attr('data-id')) {
-            $(cards[left]).css('z-index', x++);
-            left -= 1;
-        }
+    for(var i = 0; i <= index; i++){
+		$(parent[i]).css('z-index',x++);
     }
-
-    $(c).css('z-index', x++);
+    for(i = parent.length;i>=index;i--){
+		$(parent[i]).css('z-index',x++);
+    }
+    $(parent[index]).css('z-index',x++);
     $(c).css('border', 'solid 2px gold');
 }
 
@@ -125,34 +121,38 @@ function updateState(data) {
             msg.append("<h2>Waiting for: " + $("[data-playerid='" + turn + "']").attr("data-playername") + "</h2>");
             break;
         case "SPONSOR_SUBMIT":
-            msg.append("<h2>Sponsoring Quest: " + $("[data-playerid='" + turn + "']").attr("data-playername") + "</h2>");
+            msg.append("<h2>Currently Sponsoring Quest: " + $("[data-playerid='" + turn + "']").attr("data-playername") + "</h2>");
             break;
         case "TOURNAMENT_STAGE":
             msg.append("<h2>" + state + "</h2>");
             break;
         case "PARTICIPATE_QUEST":
-            msg.append("<h2>" + state + "</h2>");
+            msg.append("<h2>Asking " +  $("[data-playerid='" + turn + "']").attr("data-playername") + " for participation.</h2>");
             break;
         case "PARTICIPATE_TOURNAMENT":
-            msg.append("<h2>" + state + "</h2>");
+            msg.append("<h2>Waiting for: " + $("[data-playerid='" + turn + "']").attr("data-playername") + "</h2>");
             break;
         case "QUEST_HANDLER":
-            msg.append("<h2>" + state + "</h2>");
+            msg.append("<h2>Waiting for: " + $("[data-playerid='" + turn + "']").attr("data-playername") + "</h2>");
             break;
         case "TOURNAMENT_HANDLER":
-            msg.append("<h2>" + state + "</h2>");
+            msg.append("<h2>Waiting for: " + $("[data-playerid='" + turn + "']").attr("data-playername") + "</h2>");
             break;
         case "DISCARD":
             msg.append("<h2>Someone needs to discard!</h2>");
+            msg.append("<h2>Waiting for: " + $("[data-playerid='" + turn + "']").attr("data-playername") + "</h2>");
             break;
         case "STAGE_FOE":
-            msg.append("<h2>" + state + "</h2>");
+            msg.append("<h2>Waiting for: " + $("[data-playerid='" + turn + "']").attr("data-playername") + "</h2>");
             break;
         case "STAGE_TEST":
-            msg.append("<h2>" + state + "</h2>");
+            msg.append("<h2>Waiting for: " + $("[data-playerid='" + turn + "']").attr("data-playername") + "</h2>");
             break;
         case "STAGE_END":
-            msg.append("<h2>" + state + "</h2>");
+            msg.append("<h2>Waiting for: " + $("[data-playerid='" + turn + "']").attr("data-playername") + "</h2>");
+            break;
+        case "QUEST_END":
+            msg.append("<h2>Waiting for: " + $("[data-playerid='" + turn + "']").attr("data-playername") + "</h2>");
             break;
 
     }
@@ -188,42 +188,59 @@ function executeState(data) {
             break;
         case "SPONSOR_QUEST":
             msg.append("<h2>Quest: " + $("[data-cardname]").attr("data-cardname") + "</h2>");
-            btn.append("<button onclick='decide(true)'>Sponsor?</button>");
-            btn.append("<button onclick='decide(false)'>Decline?</button>");
+            btn.append("<button onclick='decide(true)'>Sponsor</button>");
+            btn.append("<button onclick='decide(false)'>Decline</button>");
             break;
         case "SPONSOR_SUBMIT":
-            msg.append("<h2>Successfully Sponsored Quest! Build it now (not done yet).</h2>");
+            isQuest = true;
+            msg.append("<h2>Successfully Sponsored Quest! Click below to begin setting up.</h2>");
+            btn.append("<button onclick='buildQuest()'>Setup Quest</button>")
             break;
         case "TOURNAMENT_STAGE":
             msg.append("<h2>" + state + "</h2>");
             break;
         case "PARTICIPATE_QUEST":
-            msg.append("<h2>" + state + "</h2>");
+            msg.append("<h2>Participate in quest?</h2>");
+            btn.append("<button onclick='decide(true)'>Participate</button>");
+            btn.append("<button onclick='decide(false)'>Decline</button>");
             break;
         case "PARTICIPATE_TOURNAMENT":
-            msg.append("<h2>" + state + "</h2>");
+            msg.append("<h2>Participate in Tournament?</h2>");
+            btn.append("<button onclick='decide(true)'>Participate</button>");
+            btn.append("<button onclick='decide(false)'>Decline</button>");
             break;
         case "QUEST_HANDLER":
-            msg.append("<h2>" + state + "</h2>");
+            msg.append("<h2>Begin/Continue on Quest (next stage)?</h2>");
+            btn.append("<button onclick='nextState()'>Begin</button>");
             break;
         case "TOURNAMENT_HANDLER":
-            msg.append("<h2>" + state + "</h2>");
+            msg.append("<h2>Begin Tournament?</h2>");
+            btn.append("<button onclick='nextState()'>Begin</button>")
             break;
         case "DISCARD":
             msg.append("<h2>Please select cards to discard!</h2>");
             btn.append("<button onclick='discardSelected()'>Discard!</button>");
             break;
         case "STAGE_FOE":
-            msg.append("<h2>" + state + "</h2>");
+            msg.append("<h2>Next stage is a foe! Choose your cards.</h2>");
+            btn.append("<button onclick='playSelected()'>Play!</button>")
             break;
         case "STAGE_TEST":
-            msg.append("<h2>" + state + "</h2>");
+            msg.append("<h2>Next stage is a test! Choose your cards.</h2>");
+            btn.append("<button onclick='playSelected()'>Bid!</button>")
+            btn.append("<button onclick='decide(true)'>Give up!</button>")
             break;
         case "STAGE_END":
-            msg.append("<h2>" + state + "</h2>");
+            msg.append("<h2>Run the stage?</h2>");
+            btn.append("<button onclick='nextState()'>End Stage</button>");
+            break;
+        case "QUEST_END":
+            msg.append("<h2>End the quest?</h2>");
+            btn.append("<button onclick='nextState()'>End Quest</button>");
             break;
         default:
             msg.append("<h2> HOW DID YOU GET HERE? </h2>");
+            break;
 
     }
     /* Update console - like ConsoleView */
@@ -235,6 +252,16 @@ function nextState() {
     $.ajax({
         method: "GET",
         url: "/nextState",
+        success: update_game
+    });
+}
+function playSelected() {
+    var selected = getSelected();
+    $.ajax({
+        method: "POST",
+        contentType: "application/json",
+        url: "/playCards?id=" + parseInt(document.cookie.split("=")[1]),
+        data: JSON.stringify(selected),
         success: update_game
     });
 }
@@ -290,7 +317,7 @@ function story_card() {
         url: "/storyCard",
         success: function(card) {
             if (card !== "") {
-                $("tr", '#decks').append('<td><img data-cardname="' + card.name + '" src="images/' + card.res +'"/></td>');
+                $("tr", '#decks').append('<td><img data-cardtype="current" data-cardname="' + card.name + '" src="images/' + card.res +'"/></td>');
             } else {
                 $("tr", '#decks').append('<td><img src="images/S Back.jpg"/></td>');
             }
@@ -307,8 +334,6 @@ function current_player() {
         data: {id: parseInt(document.cookie.split("=")[1])},
         success: function(player) {
             $("#current-player").attr("data-playername", player.name);
-            var WIDTH = 200;
-            var X_OFFSET = WIDTH/3;
 
             var hand = player.hand;
             var inplay = player.inPlay;
@@ -334,10 +359,11 @@ function current_player() {
                     'data-id="' + i + '" ' +
                     'data-cardid="' + hand[i].id + '" ' +
                     'data-selected="0" ' +
+                    'ondrag="removeStuff(this)" ' +
                     'onmouseover="focusCard(this)" ' +
                     'onmouseleave="unfocusCard(this)" ' +
                     'onclick="selectCard(this)" ' +
-                    'style="transform: translateX(' + -i*50 + 'px);" ' +
+                    'style="transform: translateX(' + -i*X_OFFSET + 'px);" ' +
                     'src="images/' + hand[i].res +'" />');
             }
         }
@@ -354,15 +380,11 @@ function waiting_players() {
         success: function(players) {
             console.log(players);
 
-            var WIDTH = 200;
-            var X_OFFSET = WIDTH/3;
-
-
             var max = 0;
 
             for (var j = 0; j < players.length; j++) {
 
-                $('#waiting-players').append('<tr class="others-table" data-playername="' + players[j].name +'"data-playerid="' + players[j].id + '"></tr>')
+                $('#waiting-players').append('<tr data-playername="' + players[j].name +'"data-playerid="' + players[j].id + '"></tr>')
                 if (players[j].inPlay.length >= max) {
                     max = players[j].inPlay.length;
                 }
@@ -381,17 +403,17 @@ function waiting_players() {
             var playerRow;
             for (i = 0; i < players.length; i++) {
                 playerRow = $('[data-id="0"]', '[data-playerid=' + players[i].id + ']', "#waiting-players");
-                playerRow.append('<img class="other-players" src="images/' + players[i].rank.path + '"/>');
+                playerRow.append('<img src="images/' + players[i].rank.path + '"/>');
             }
 
             for (i = 0; i < players.length; i++) {
                 playerRow = $('[data-id="1"]', '[data-playerid=' + players[i].id + ']', "#waiting-players");
-                playerRow.append('<img class="other-players" style="height: 80%;" src="images/' + players[i].shieldImage + '"/>');
+                playerRow.append('<img style="height: 80%;" src="images/' + players[i].shieldImage + '"/>');
             }
 
             for (i = 0; i < players.length; i++) {
                 playerRow = $('[data-id="2"]', '[data-playerid=' + players[i].id + ']', "#waiting-players");
-                playerRow.append('<img class="other-players" src="images/A Back.jpg"/>');
+                playerRow.append('<img src="images/A Back.jpg"/>');
             }
 
             if(max > 0) {
@@ -400,7 +422,7 @@ function waiting_players() {
 
             for (i = 0; i < players.length; i++) {
                 playerRow = $('[data-id="' + (max + 1 + 3) + '"]', '[data-playerid=' + players[i].id + ']', "#waiting-players");
-                playerRow.append('<img class="other-players" style="height: 80%;" src="images/Battle_Points.png"/>');
+                playerRow.append('<img style="height: 60%;" src="images/Battle_Points.png"/>');
             }
         }
     });
@@ -408,8 +430,91 @@ function waiting_players() {
 
 /* Decks */
 
+
 /* Tournament */
 
 /* Quest */
+function buildQuest() {
 
+    $("#quest-weapons").empty();
+    $("#quest-weapons").append("<td></td>");
+    $("#quest-foes").empty();
+
+    var msg = $("#message");
+    var btn = $("#buttons");
+
+    msg.empty();
+    btn.empty();
+
+    msg.append("<h2>Add foes/test to the first row, weapons to the second row (Drag n Drop).");
+    btn.append("<button onclick='submitQuest()'>Submit Setup</button>");
+
+    $.ajax({
+        method: "GET",
+        url: "/questInfo",
+        success: function(info) {
+            questStages = info;
+            for (var i = 0; i < info; i++) {
+                $("#quest-foes").append('<td data-id="foe-stage-' + (i+1) + '" class="droppable-foe"></td>');
+                $("#quest-weapons").append('<td data-id="weapons-stage-' + (i+1) +'" class="droppable-weapons"></td>');
+            }
+
+            $("#quest-foes").prepend('<td><img src="' + $("[data-cardtype='current']").attr("src") +'"/></td>')
+            $('#quest').css("visibility", "visible");
+
+            $("img[data-type='hand']").prop("onclick", null).draggable({revert: "invalid"});
+
+            $(".droppable-foe").droppable({
+                drop: function (event, ui) {
+                    $(ui.draggable).detach().prop("onmouseover", null).css({top: 0,left: 0}).appendTo(this);
+                }
+            });
+
+            $(".droppable-weapons").droppable({
+                drop: function (event, ui) {
+                    console.log(ui.draggable);
+                    var num = $(this).find("img").length * 60;
+
+                    $(ui.draggable).detach().css({top: 0,left: 0, transform: "translateY("+ num +"px)", "z-index": 0}).appendTo(this);
+
+                }
+            });
+        }
+    });
+}
+
+function removeStuff(c) {
+    $(c).css("transform", "none");
+}
+
+function submitQuest(){
+
+    var selected = [];
+    
+    for (var i = 1; i < questStages+1; i++) {
+        var stagefoes = $("img", "[data-id='foe-stage-" + i + "']").map(function(){
+            return parseInt($(this).attr("data-cardid"));
+        }).get();
+
+        var stageweapons = $("img", "[data-id='weapons-stage-" + i + "']").map(function(){
+            return parseInt($(this).attr("data-cardid"));
+        }).get();
+
+        selected.push(stagefoes.concat(stageweapons));
+    }
+
+    console.log(selected);
+
+    $.ajax({
+        method: "POST",
+        contentType: "application/json",
+        url: "/submitQuest?id=" + parseInt(document.cookie.split("=")[1]),
+        data: JSON.stringify(selected),
+        success: function(data) {
+            if (data) {
+                update_game();
+            }
+        }
+    });
+}
 /* Console */

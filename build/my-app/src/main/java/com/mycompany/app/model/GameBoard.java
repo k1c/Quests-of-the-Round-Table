@@ -154,6 +154,19 @@ public class GameBoard extends AbstractGameBoard{
 		
 	}
 
+	public List<Card> getStage(int index){
+		if(index < 0 || index >= quest.size()){
+			return null;
+		}
+		if(quest == null){
+			return null;
+		}
+
+		List<Card> temp = new ArrayList();
+		temp.addAll(quest.get(index));
+		return temp;
+	}
+
 
 	public AbstractAI getAI(int id){
 		log.action("getAI","Getting Ai","");
@@ -412,6 +425,7 @@ public class GameBoard extends AbstractGameBoard{
 
 		 if(!validHand) {
 			log.action("discardHand","Invalid Submitted Hand",p);
+			log.action("discardHand","Invalid Submitted Hand",hand);
 			 return false;
 		 }
 		
